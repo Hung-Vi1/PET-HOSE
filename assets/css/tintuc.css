@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: url(../images/banner-page-phu.png) no-repeat center center;
+    background-size: cover;
+    height: 300px; /* Tăng chiều cao header để có đủ không gian cho logo và title */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 50px;
+    padding: 10px 20px;
+    height: 94px;
+    background-color: #006d76;
+    color: #fff;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0;
+    position: relative;
+    height: 150px;  /* Tăng chiều cao container chứa logo */
+}
+
+.logo {
+    height: 150px;  /* Tăng kích thước logo */
+    width: 150px;   /* Tăng kích thước logo */
+    border-radius: 50%;
+    border: 6px solid red;  /* Tăng độ dày viền */
+}
+
+.nav-link {
+    color: #fff;
+    padding: 0 15px;  
+    font-size: 1.2rem; /* Giữ kích thước menu */
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link i {
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    color: #f8b400;
+}
+
+/* Thêm CSS cho title-page */
+.title-page {
+    font-size: 1.5rem;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px; /* Khoảng cách giữa logo và title */
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Tạo khoảng cách giữa logo và title-page */
+header .title-page {
+    margin-top: 50px; /* Điều chỉnh khoảng cách giữa logo và tiêu đề */
+    font-size: 18px;
+}
+
+
+/* Bài viết*/
+.right{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.news{
+    margin: 50px 0px;
+}
+
+.news-main{
+    display: flex;
+    gap: 20px;
+}
+
+.container-news{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.box-news{
+    display: flex;
+    gap: 20px;
+    width: 900px;
+}
+
+.hot-news{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.box-news-container-right{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.box-news-rigt{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/*footer*/
+.footer{
+    background-color: #F4B915;
+}
+
+.container{
+    display: flex;
+    gap: 100px;
+}
+
+.footer-left ul li{
+    list-style: none;
+}
+
+.footer-left ul li a{
+    text-decoration: none;
+}
+
+.right-footer{
+    display: flex;
+    gap: 50px ;
+}
+
+.list-icon{
+    display: flex;
+    gap: 10px;
+}
