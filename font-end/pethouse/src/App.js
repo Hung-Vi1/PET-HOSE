@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Header from "./header";
+import Slider from "./slider";
+import Product from "./product";
+import Product_hot from "./product-hot";
+import Big_sale from "./big_sale";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div class="boxed">
+      {/* header */}
+      <div id="site-header-wrap">
+        <Header />
+      </div>
+      {/* header */}
+      <Slider />
+      <section class="flat-row row-image-box">
+        <div class="container">
+          <Product />
+        </div>
+      </section>
+      <section class="flat-row row-product-new">
+        <div class="container">
+          <Product_hot/>
+        </div>
+      </section>
+      <section class="flat-row row-animation-box bg-section row-1">
+        <div class="container">
+          <Big_sale/>
+        </div>
+      </section>
     </div>
   );
 }
