@@ -5,16 +5,16 @@ function Footer() {
                 <div className="widget widget-link">
                     <ul>
                         <li>
-                            <a href="#">About Us</a>
+                            <a href="#">Về chúng tôi</a>
                         </li>
                         <li>
-                            <a href="#">Online Store</a>
+                            <a href="#">Sản phẩm cho chó</a>
                         </li>
                         <li>
-                            <a href="blog-list.html">Blog</a>
+                            <a href="blog-list.html">Sản phẩm cho mèo</a>
                         </li>
                         <li>
-                            <a href="contact.html">Contact Us</a>
+                            <a href="contact.html">Dịch vụ chăm sóc</a>
                         </li>
                     </ul>
                 </div>
@@ -25,7 +25,7 @@ function Footer() {
                 <div className="widget widget-link link-login">
                     <ul>
                         <li>
-                            <a href="#">Login/ Register</a>
+                            <a href="#">Đăng nhập/ Đăng ký</a>
                         </li>
                         <li>
                             <a href="#">Your Cart</a>
@@ -65,13 +65,13 @@ function Footer() {
                 <div className="widget widget-brand">
                     <div className="logo logo-footer">
                         <a href="index.html">
-                            <img src="images/logo@2x.png" alt="image" width={107} height={24} />
+                            <img src="image/logo-ngang.png" alt="image" width={107} height={24} />
                         </a>
                     </div>
                     <ul className="flat-contact">
-                        <li className="address">112 Kingdom, NA 12, New York</li>
-                        <li className="phone">+12 345 678 910</li>
-                        <li className="email">infor.deercreative@gmail.com</li>
+                        <li className="address">Tô ký, phường Trung Mỹ Tây, quận 12, TP.HCM</li>
+                        <li className="phone">0962491715</li>
+                        <li className="email">pethose@gmail.com</li>
                     </ul>
                     {/* /.flat-contact */}
                 </div>
