@@ -1,8 +1,9 @@
+import { Link, NavLink } from "react-router-dom";
 function Header() {
     return (
         <>
   <div id="logo" className="logo float-left">
-    <a href="index.html" title="logo">
+    <Link to="/" title="logo">
       <img
         src="logo-ngang.png"
         alt="image"
@@ -12,7 +13,7 @@ function Header() {
         data-width={107}
         data-height={24}
       />
-    </a>
+    </Link>
   </div>
   {/* /.logo */}
   <div className="mobile-button">
@@ -66,7 +67,7 @@ function Header() {
     <nav id="mainnav" className="mainnav">
       <ul className="menu">
         <li className="active">
-          <a href="index.html">Trang chủ</a>
+          <Link to="/">Trang chủ</Link>
           <ul className="submenu">
             <li className="active">
               <a href="index.html">Homepage Style 1</a>
@@ -163,7 +164,7 @@ function Header() {
           </ul>
         </li>
         <li>
-          <a href="blog-list.html">Tin thú cưng</a>
+          <Link to="/tintuc" > Tin thú cưng </Link>
           <ul className="submenu">
             <li>
               <a href="blog-list.html">Blog List Full</a>
@@ -187,7 +188,7 @@ function Header() {
           {/* /.submenu */}
         </li>
         <li>
-          <a href="contact.html">Liên hệ</a>
+          <Link to="/lienhe">Liên hệ</Link>
           <ul className="submenu right-submenu">
             <li>
               <a href="contact.html">Contact Style 1</a>
