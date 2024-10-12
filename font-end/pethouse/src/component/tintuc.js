@@ -43,7 +43,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         Grenfell Remembered, Six Months On
                                                     </a>
                                                 </h2>
@@ -56,7 +56,7 @@ function TinTuc() {
                                                     lost...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">The Design Museum Honours...</a>
+                                                    <a href="chitiettintuc">The Design Museum Honours...</a>
                                                 </h2>
                                             </div>
                                             {/* /.title-post */}
@@ -80,7 +80,7 @@ function TinTuc() {
                                                     in Paris on November 18, tributes began pouring in...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +94,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         Is Adriana Lima Hanging Up Her Wings?
                                                     </a>
                                                 </h2>
@@ -107,7 +107,7 @@ function TinTuc() {
                                                     its layout...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +121,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         Looking For A New Statement Piece?
                                                     </a>
                                                 </h2>
@@ -134,7 +134,7 @@ function TinTuc() {
                                                     of most clothes...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -148,7 +148,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         Anya Hindmarch Changes Strategy
                                                     </a>
                                                 </h2>
@@ -161,7 +161,7 @@ function TinTuc() {
                                                     team...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -175,7 +175,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         This Week In Pictures - 11/12/2018
                                                     </a>
                                                 </h2>
@@ -188,7 +188,7 @@ function TinTuc() {
                                                     first...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         Five Festive Obsessions That Make...
                                                     </a>
                                                 </h2>
@@ -215,7 +215,7 @@ function TinTuc() {
                                                     ingredients of each family...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,7 +229,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         The Sustainable New Denim Line
                                                     </a>
                                                 </h2>
@@ -242,7 +242,7 @@ function TinTuc() {
                                                     hessian sacking,..
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@ function TinTuc() {
                                         <div className="content-post">
                                             <div className="title-post">
                                                 <h2>
-                                                    <a href="blog-detail.html">
+                                                    <a href="chitiettintuc">
                                                         How Saint Laurent’s Crystal Boots...
                                                     </a>
                                                 </h2>
@@ -269,7 +269,7 @@ function TinTuc() {
                                                     Sir...
                                                 </p>
                                                 <div className="more-link">
-                                                    <a href="blog-detail.html">Read More</a>
+                                                    <a href="chitiettintuc">Read More</a>
                                                 </div>
                                             </div>
                                         </div>

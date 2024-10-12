@@ -4,6 +4,7 @@ import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TinTuc from "./component/tintuc";
 import LienHe from "./component/lienhe";
+import ChiTietTinTuc from "./component/chitiettintuc";
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ function App() {
           <Route path='/' exact element={<Index />} />
           <Route path='/tintuc' exact element={<TinTuc/>} />
           <Route path='/lienhe' exact element={<LienHe/>} />
+          <Route path='/chitiettintuc' exact element={<ChiTietTinTuc/>} />
         </Routes>
 
         {/* Footer */}
