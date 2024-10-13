@@ -102,7 +102,7 @@ function Header() {
           </ul>
         </li>
         <li>
-          <a href="shop-3col.html">Sản phẩm</a>
+          <Link to="/sanpham">Sản phẩm</Link>
           <ul className="submenu">
             <li>
               <a href="shop-3col.html">Shop Layouts</a>

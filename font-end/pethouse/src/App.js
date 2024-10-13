@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TinTuc from "./component/tintuc";
 import LienHe from "./component/lienhe";
 import ChiTietTinTuc from "./component/chitiettintuc";
+import SanPham from "./component/sanpham";
+import ChiTietSanPham from "./component/chitietsanpham";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +24,8 @@ function App() {
           <Route path='/' exact element={<Index />} />
           <Route path='/tintuc' exact element={<TinTuc/>} />
           <Route path='/lienhe' exact element={<LienHe/>} />
+          <Route path='/sanpham' exact element={<SanPham/>} />
+          <Route path='/chitietsanpham' exact element={<ChiTietSanPham/>} />
           <Route path='/chitiettintuc' exact element={<ChiTietTinTuc/>} />
         </Routes>
 
