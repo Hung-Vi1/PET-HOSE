@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SanPham extends Model
 {
     use HasFactory;
-
+    protected $table = 'san_pham'; 
     protected $primaryKey = 'MaSP'; // Chỉ định khóa chính
 
     /**

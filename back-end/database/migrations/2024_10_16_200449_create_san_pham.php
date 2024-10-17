@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('MaSP'); // Khóa chính
             $table->unsignedBigInteger('MaDanhMuc'); // Khóa ngoại đến bảng DanhMuc
             $table->string('TenSanPham');
-            $table->decimal('GiaSP', 10, 2); // Ví dụ: 1000000.00
-            $table->decimal('GiamGia', 10, 2)->nullable(); // Cho phép null
+            $table->integer('GiaSP'); // Giá sản phẩm kiểu số nguyên
+            $table->integer('GiamGia')->nullable(); // Giảm giá, cho phép null
             $table->text('MoTa');
             $table->integer('SoLuong');
             $table->string('HinhAnh');

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('danh_muc', function (Blueprint $table) {
             $table->id('MaDanhMuc');// Khóa chính
             $table->string('TenDM');
-            $table->integer('CapBac'); 
+            $table->integer('parent_id')->nullable(); // Cho phép null nếu không có danh mục cha
+            $table->enum('loai', ['0', '1']); // Kiểu dữ liệu enum với giá trị 0 hoặc 1
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
         });
     }

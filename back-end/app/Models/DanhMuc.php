@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DanhMuc extends Model
 {
     use HasFactory;
-
+    protected $table = 'danh_muc'; 
     protected $primaryKey = 'MaDanhMuc'; // Chỉ định khóa chính
 
     /**
@@ -18,7 +18,8 @@ class DanhMuc extends Model
      */
     protected $fillable = [
         'TenDM',
-        'CapBac',
+        'parent_id',
+        'loai',
     ];
 
     /**
