@@ -165,7 +165,8 @@ function Header() {
                     </ul>
                   </li>
                   <li>
-                    <a href="coming-soon.html">Đặt lịch</a>
+                  <Link to="/datlich">Đặt lịch</Link>
+                    {/* <a href="coming-soon.html">Đặt lịch</a> */}
                     <ul className="submenu">
                       <li>
                         <a href="coming-soon.html">Coming Soon</a>

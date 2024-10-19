@@ -17,6 +17,7 @@ import Admin_TaiKhoanThem from "./Admin_TaiKhoanThem";
 import Admin_TaiKhoanSua from "./Admin_TaiKhoanSua";
 import Admin_SanPham from "./Admin_SanPham";
 import Admin_SanPhamChiTiet from "./Admin_SanPhamChiTiet";
+import DatLich from "./component/datlich";
 
 function App() {
   return (
@@ -63,6 +64,17 @@ function App() {
             <div>
               <Header />
               <SanPham />
+              <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/datlich"
+          exact
+          element={
+            <div>
+              <Header />
+              <DatLich />
               <Footer />
             </div>
           }
