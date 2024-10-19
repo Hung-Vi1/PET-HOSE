@@ -4,7 +4,6 @@ import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TinTuc from "./component/tintuc";
 import LienHe from "./component/lienhe";
-<<<<<<< HEAD
 import ChiTietTinTuc from "./component/chitiettintuc";
 import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
