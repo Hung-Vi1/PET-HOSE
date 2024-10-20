@@ -1,85 +1,93 @@
 function Footer() {
-    return (
+  return (
+    <footer class="footer">
+      <div class="container">
         <div className="row">
-            <div className="col-sm-6 col-md-3">
-                <div className="widget widget-link">
-                    <ul>
-                        <li>
-                            <a href="#">Về chúng tôi</a>
-                        </li>
-                        <li>
-                            <a href="#">Sản phẩm cho chó</a>
-                        </li>
-                        <li>
-                            <a href="blog-list.html">Sản phẩm cho mèo</a>
-                        </li>
-                        <li>
-                            <a href="contact.html">Dịch vụ chăm sóc</a>
-                        </li>
-                    </ul>
-                </div>
-                {/* /.widget */}
+          <div className="col-sm-6 col-md-3">
+            <div className="widget widget-link">
+              <ul>
+                <li>
+                  <a href="#">About Us</a>
+                </li>
+                <li>
+                  <a href="#">Online Store</a>
+                </li>
+                <li>
+                  <a href="blog-list.html">Blog</a>
+                </li>
+                <li>
+                  <a href="contact.html">Contact Us</a>
+                </li>
+              </ul>
             </div>
-            {/* /.col-md-3 */}
-            <div className="col-sm-6 col-md-3">
-                <div className="widget widget-link link-login">
-                    <ul>
-                        <li>
-                            <a href="#">Đăng nhập/ Đăng ký</a>
-                        </li>
-                        <li>
-                            <a href="#">Your Cart</a>
-                        </li>
-                        <li>
-                            <a href="#">Wishlist items</a>
-                        </li>
-                        <li>
-                            <a href="#">Your checkout</a>
-                        </li>
-                    </ul>
-                </div>
-                {/* /.widget */}
+            {/* /.widget */}
+          </div>
+          {/* /.col-md-3 */}
+          <div className="col-sm-6 col-md-3">
+            <div className="widget widget-link link-login">
+              <ul>
+                <li>
+                  <a href="#">Login/ Register</a>
+                </li>
+                <li>
+                  <a href="#">Your Cart</a>
+                </li>
+                <li>
+                  <a href="#">Wishlist items</a>
+                </li>
+                <li>
+                  <a href="#">Your checkout</a>
+                </li>
+              </ul>
             </div>
-            {/* /.col-md-3 */}
-            <div className="col-sm-6 col-md-3">
-                <div className="widget widget-link link-faq">
-                    <ul>
-                        <li>
-                            <a href="faqs.html">FAQs</a>
-                        </li>
-                        <li>
-                            <a href="#">Term of service</a>
-                        </li>
-                        <li>
-                            <a href="#">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="#">Returns</a>
-                        </li>
-                    </ul>
-                </div>
-                {/* /.widget */}
+            {/* /.widget */}
+          </div>
+          {/* /.col-md-3 */}
+          <div className="col-sm-6 col-md-3">
+            <div className="widget widget-link link-faq">
+              <ul>
+                <li>
+                  <a href="faqs.html">FAQs</a>
+                </li>
+                <li>
+                  <a href="#">Term of service</a>
+                </li>
+                <li>
+                  <a href="#">Privacy Policy</a>
+                </li>
+                <li>
+                  <a href="#">Returns</a>
+                </li>
+              </ul>
             </div>
-            {/* /.col-md-3 */}
-            <div className="col-sm-6 col-md-3">
-                <div className="widget widget-brand">
-                    <div className="logo logo-footer">
-                        <a href="index.html">
-                            <img src="image/logo-ngang.png" alt="image" width={107} height={24} />
-                        </a>
-                    </div>
-                    <ul className="flat-contact">
-                        <li className="address">Tô ký, phường Trung Mỹ Tây, quận 12, TP.HCM</li>
-                        <li className="phone">0962491715</li>
-                        <li className="email">pethose@gmail.com</li>
-                    </ul>
-                    {/* /.flat-contact */}
-                </div>
-                {/* /.widget */}
+            {/* /.widget */}
+          </div>
+          {/* /.col-md-3 */}
+          <div className="col-sm-6 col-md-3">
+            <div className="widget widget-brand">
+              <div className="logo logo-footer">
+                <a href="index.html">
+                  <img
+                    src="images/logo@2x.png"
+                    alt="image"
+                    width={107}
+                    height={24}
+                  />
+                </a>
+              </div>
+              <ul className="flat-contact">
+                <li className="address">112 Kingdom, NA 12, New York</li>
+                <li className="phone">+12 345 678 910</li>
+                <li className="email">infor.deercreative@gmail.com</li>
+              </ul>
+              {/* /.flat-contact */}
             </div>
-            {/* /.col-md-3 */}
+            {/* /.widget */}
+          </div>
+          {/* /.col-md-3 */}
         </div>
-
-    )
+      </div>
+    </footer>
+  );
 }
-export default Footer
+export default Footer;
