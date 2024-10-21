@@ -32,7 +32,25 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+/* CSS Admin */
+.menu-header-top:hover,
+.menu-header-bottom:hover {
+  background-color: #fff;
+  color: #111;
+}
+
+.menu-header-top:hover {
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #0d6efd;
+}
+
+.menu-header-bottom:hover {
+  border-radius: 0 0 5px 5px;
+  border: 1px solid #0d6efd;
 }
