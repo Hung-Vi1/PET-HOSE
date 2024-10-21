@@ -18,13 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'TenTK', 
+        'Hovaten', 
         'SDT',
-        'email',
+        'Email',
         'ThuCung',
-        'DiaChi',
+        'Diachi',
         'Quyen',
-        'password',
+        'Matkhau',
     ];
 
     // ... (Các thuộc tính và phương thức khác) ...
@@ -67,7 +67,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'Matkhau',
         'remember_token',
     ];
 
@@ -78,6 +78,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'Matkhau' => 'hashed',
     ];
+    
+    public function setPasswordAttribute($value)
+{
+    $this->attributes['password'] = bcrypt($value);
+}
+
 }
