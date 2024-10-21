@@ -15,5 +15,19 @@ use App\Http\Controllers\CategoryApiController;
 |
 */
 
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+use App\Http\Controllers\UserController;
+
+Route::post('/dangnhap', [UserController::class, 'dangnhap']);
+
+Route::post('/dangki', [UserController::class, 'dangki']); 
+
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+Route::put('/users/{id}', [UserController::class, 'update']); 
 
 Route::resource('/category', CategoryApiController::class);
