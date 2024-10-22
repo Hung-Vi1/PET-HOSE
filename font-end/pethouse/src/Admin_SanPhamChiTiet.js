@@ -128,8 +128,11 @@ function Admin_SanPhamChiTiet() {
                 </button>
               </div>
             </div>
+
             <hr className="mt-0" />
+
             <h1>Balo vận chuyển chó mèo Phi hành</h1>
+
             <button type="button" class="btn btn-outline-dark">
               <i className="bi bi-copy me-2"></i>
               Sao chép
@@ -148,7 +151,7 @@ function Admin_SanPhamChiTiet() {
 
               <div className="row">
                 <div className="col-md-4">
-                  <table className="table table-borderless">
+                  <table className="table table-borderless mb-0">
                     <tbody>
                       <tr>
                         <td>Mã SKU</td>
@@ -179,7 +182,7 @@ function Admin_SanPhamChiTiet() {
                   </table>
                 </div>
                 <div className="col-md-4">
-                  <table className="table table-borderless">
+                  <table className="table table-borderless mb-0">
                     <tbody>
                       <tr>
                         <td>Nhãn hiệu</td>
@@ -218,8 +221,50 @@ function Admin_SanPhamChiTiet() {
                 </div>
               </div>
             </div>
-            <span class="badge bg-dark">Sao chép</span>
-            <div></div>
+
+            <div className="d-flex">
+              <div className="col-md-9 border border-dark rounded-3 mb-3 p-2 me-1">
+                <h5 className="m-0 py-1">Giá sản phẩm</h5>
+
+                <hr className="my-2" />
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <table className="table table-borderless mb-0">
+                      <tbody>
+                        <tr>
+                          <td>Giá nhập</td>
+                          <td>:</td>
+                          <td>300.000 đ</td>
+                        </tr>
+                        <tr>
+                          <td>Giá sale</td>
+                          <td>:</td>
+                          <td>400.000 đ</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="col-md-6">
+                    <table className="table table-borderless mb-0">
+                      <tbody>
+                        <tr>
+                          <td>Giá nhập</td>
+                          <td>:</td>
+                          <td>300.000 đ</td>
+                        </tr>
+                        <tr>
+                          <td>Giá sale</td>
+                          <td>:</td>
+                          <td>400.000 đ</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md border border-dark rounded-3 mb-3 p-2 ms-1"></div>
+            </div>
           </div>
         </div>
       </div>
