@@ -218,6 +218,8 @@ function Admin_SanPhamChiTiet() {
                 </div>
               </div>
             </div>
+            <span class="badge bg-dark">Sao chép</span>
+            <div></div>
           </div>
         </div>
       </div>
