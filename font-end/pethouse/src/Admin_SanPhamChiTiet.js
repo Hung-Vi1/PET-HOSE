@@ -14,25 +14,24 @@ function Admin_SanPhamChiTiet() {
           <img
             src="image/Nen_trong_suot.png"
             className="d-block w-75 mx-auto"
-            alt="image/Nen_trong_suot.png"
+            alt="Background"
           />
-
           <div className="list-group list-group-item-primary m-3">
             <Link
-              to={"/admin"}
+              to="/admin"
               className="list-group-item list-group-item-action"
               aria-current="true"
             >
               Tổng quan
             </Link>
             <Link
-              to={"/adminsanpham"}
+              to="/adminsanpham"
               className="list-group-item list-group-item-action active"
             >
               Sản phẩm
             </Link>
             <Link
-              to={"/admintaikhoan"}
+              to="/admintaikhoan"
               className="list-group-item list-group-item-action"
             >
               Tài khoản
@@ -106,23 +105,29 @@ function Admin_SanPhamChiTiet() {
               </div>
             </div>
           </nav>
+
           <div className="container">
             <div className="d-flex">
               <i className="bi bi-chevron-double-left py-1 my-2"></i>
               <strong className="py-1 my-2 ms-2">
                 Quay lại danh sách sản phẩm
               </strong>
-
               <div className="d-flex ms-auto">
-                <button type="button" class="btn btn-outline-warning p-1 m-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-warning p-1 m-2"
+                >
                   Thoát
                 </button>
-                <button type="button" class="btn btn-danger p-1 m-2 text-white">
+                <button
+                  type="button"
+                  className="btn btn-danger p-1 m-2 text-white"
+                >
                   Xóa
                 </button>
                 <button
                   type="button"
-                  class="btn btn-warning p-1 m-2 text-white"
+                  className="btn btn-warning p-1 m-2 text-white"
                 >
                   Sửa
                 </button>
@@ -133,12 +138,10 @@ function Admin_SanPhamChiTiet() {
 
             <h1>Balo vận chuyển chó mèo Phi hành</h1>
 
-            <button type="button" class="btn btn-outline-dark">
-              <i className="bi bi-copy me-2"></i>
-              Sao chép
+            <button type="button" className="btn btn-outline-dark">
+              <i className="bi bi-copy me-2"></i>Sao chép
             </button>
 
-            {/* Thông tin chi tiết sản phẩm */}
             <div className="border border-dark rounded-3 my-3 p-2">
               <div className="d-flex">
                 <h5 className="m-0 py-1">Thông tin sản phẩm</h5>
@@ -181,6 +184,7 @@ function Admin_SanPhamChiTiet() {
                     </tbody>
                   </table>
                 </div>
+
                 <div className="col-md-4">
                   <table className="table table-borderless mb-0">
                     <tbody>
@@ -212,11 +216,12 @@ function Admin_SanPhamChiTiet() {
                     </tbody>
                   </table>
                 </div>
+
                 <div className="text-center col-md-4">
                   <img
                     className="w-50"
                     src="image/san_pham_1.webp"
-                    alt="image/san_pham_1.webp"
+                    alt="Sản phẩm"
                   />
                 </div>
               </div>
@@ -225,9 +230,7 @@ function Admin_SanPhamChiTiet() {
             <div className="d-flex">
               <div className="col-md-9 border border-dark rounded-3 mb-3 p-2 me-1">
                 <h5 className="m-0 py-1">Giá sản phẩm</h5>
-
                 <hr className="my-2" />
-
                 <div className="row">
                   <div className="col-md-6">
                     <table className="table table-borderless mb-0">
@@ -263,7 +266,63 @@ function Admin_SanPhamChiTiet() {
                   </div>
                 </div>
               </div>
-              <div className="col-md border border-dark rounded-3 mb-3 p-2 ms-1"></div>
+
+              <div className="col-md border border-dark rounded-3 mb-3 p-2 ms-1">
+                <h5 className="m-0 py-1">Thông tin thêm</h5>
+                <hr className="my-2" />
+                <div className="form-check m-0">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="ChoPhepBan"
+                  />
+                  <label className="form-check-label" htmlFor="ChoPhepBan">
+                    Cho phép bán
+                  </label>
+                </div>
+                <div className="form-check m-0">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="ApDungThue"
+                  />
+                  <label className="form-check-label" htmlFor="ApDungThue">
+                    Áp dụng thuế
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p className="d-inline-flex gap-1">
+                <a
+                  className="btn btn-primary"
+                  data-bs-toggle="collapse"
+                  href="#collapseExample"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Link with href
+                </a>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+                >
+                  Button with data-bs-target
+                </button>
+              </p>
+              <div className="collapse show" id="collapseExample">
+                <div className="card card-body">
+                  Some placeholder content for the collapse component. This
+                  panel is hidden by default but revealed when the user
+                  activates the relevant trigger.
+                </div>
+              </div>
             </div>
           </div>
         </div>
