@@ -130,8 +130,94 @@ function Admin_SanPhamChiTiet() {
             </div>
             <hr className="mt-0" />
             <h1>Balo vận chuyển chó mèo Phi hành</h1>
-            <span class="badge bg-dark">Sao chép</span>
-            <div></div>
+            <button type="button" class="btn btn-outline-dark">
+              <i className="bi bi-copy me-2"></i>
+              Sao chép
+            </button>
+
+            {/* Thông tin chi tiết sản phẩm */}
+            <div className="border border-dark rounded-3 my-3 p-2">
+              <div className="d-flex">
+                <h5 className="m-0 py-1">Thông tin sản phẩm</h5>
+                <div className="border border-warning rounded-5 bg-warning text-white ms-3">
+                  <p className="m-0 p-1">Đang giao dịch</p>
+                </div>
+              </div>
+
+              <hr className="my-2" />
+
+              <div className="row">
+                <div className="col-md-4">
+                  <table className="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>Mã SKU</td>
+                        <td>:</td>
+                        <td>SP001</td>
+                      </tr>
+                      <tr>
+                        <td>Mã barcode</td>
+                        <td>:</td>
+                        <td>9319740000531</td>
+                      </tr>
+                      <tr>
+                        <td>Khối lượng</td>
+                        <td>:</td>
+                        <td>2kg</td>
+                      </tr>
+                      <tr>
+                        <td>Đơn vị tính</td>
+                        <td>:</td>
+                        <td>Chai</td>
+                      </tr>
+                      <tr>
+                        <td>Phân loại</td>
+                        <td>:</td>
+                        <td>Sản phẩm thường</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="col-md-4">
+                  <table className="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td>Nhãn hiệu</td>
+                        <td>:</td>
+                        <td>___</td>
+                      </tr>
+                      <tr>
+                        <td>Tags</td>
+                        <td>:</td>
+                        <td>___</td>
+                      </tr>
+                      <tr>
+                        <td>Ngày tạo</td>
+                        <td>:</td>
+                        <td>27/09/2024 17:09</td>
+                      </tr>
+                      <tr>
+                        <td>Ngày cập nhật</td>
+                        <td>:</td>
+                        <td>27/09/2024 17:09</td>
+                      </tr>
+                      <tr>
+                        <td>Loại sản phẩm</td>
+                        <td>:</td>
+                        <td>Phụ kiện chó / mèo</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="text-center col-md-4">
+                  <img
+                    className="w-50"
+                    src="image/san_pham_1.webp"
+                    alt="image/san_pham_1.webp"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
