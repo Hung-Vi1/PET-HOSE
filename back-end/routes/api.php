@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +20,18 @@ use App\Http\Controllers\CategoryApiController;
 
 
 use App\Http\Controllers\UserController;
-
 Route::post('/dangnhap', [UserController::class, 'dangnhap']);
-
 Route::post('/dangki', [UserController::class, 'dangki']); 
-
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-
 Route::put('/users/{id}', [UserController::class, 'update']); 
 
-Route::resource('/category', CategoryApiController::class);
+use App\Http\Controllers\CategoryApiController;
+Route::get('/category', [CategoryApiController::class, 'index']);
+Route::get('/category/{MaDanhMuc}', [CategoryApiController::class, 'show']);
+Route::post('/category/store', [CategoryApiController::class, 'store']);
+Route::put('/category/update/{MaDanhMuc}', [CategoryApiController::class, 'update']);
+Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'destroy']);
+
+
+use App\Http\Controllers\ProductApiController;
+Route::get('/products', [ProductApiController::class, 'index']);
