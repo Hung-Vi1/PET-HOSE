@@ -35,3 +35,7 @@ Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'd
 
 use App\Http\Controllers\ProductApiController;
 Route::get('/products', [ProductApiController::class, 'index']);
+Route::post('/products/store', [ProductApiController::class, 'store']);
+Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
+Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
