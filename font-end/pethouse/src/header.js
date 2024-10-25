@@ -26,7 +26,7 @@ function Header() {
                 <Link to="/" title="logo">
                     <img
                         src="logo-ngang.png"
-                        alt="image"
+                        alt="anh"
                         width={107}
                         height={24}
                         data-retina="logo-ngang.png"
@@ -42,17 +42,17 @@ function Header() {
 
             <ul className="menu-extra">
                 <li className="box-search">
-                    <a className="icon_search header-search-icon" href="#" />
+                    <a className="icon_search header-search-icon" href="/#" />
                     <form role="search" method="get" className="header-search-form" action="#">
                         <input type="text" name="s" className="header-search-field" placeholder="Search..." />
                         <button type="submit" className="header-search-submit" title="Search">Search</button>
                     </form>
                 </li>
                 <li className="box-login">
-                    <a className="icon_login" href="#" />
+                    <a className="icon_login" href="/#" />
                 </li>
                 <li className="box-cart nav-top-cart-wrapper">
-                    <a className="icon_cart nav-cart-trigger active" href="#">
+                    <a className="icon_cart nav-cart-trigger active" href="/#">
                         <span>3</span>
                     </a>
                     <div className="nav-shop-cart">
