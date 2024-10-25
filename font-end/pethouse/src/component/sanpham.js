@@ -1,5 +1,30 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 function SanPham() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/products"); // Thay đổi URL cho phù hợp
+        setProducts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Hiển thị thông báo loading
+  }
+
   return (
     <>
       <div className="page-title parallax parallax1">
@@ -203,40 +228,6 @@ function SanPham() {
                   <li className="product-item">
                     <div className="product-thumb clearfix">
                       <a href="#">
-                        <img src="images/shop/sh-4/1.jpg" alt="image" />
-                      </a>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$19.00</span>
-                        </ins>
-                      </div>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="#" className="red" />
-                        </li>
-                        <li>
-                          <a href="#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="#" className="black" />
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#">
                         <img src="images/shop/sh-4/2.jpg" alt="image" />
                       </a>
                       <span className="new">New</span>
@@ -248,29 +239,6 @@ function SanPham() {
                       <div className="price">
                         <ins>
                           <span className="amount">$10.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/3.jpg" alt="image" />
-                      </a>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$20.00</span>
                         </ins>
                       </div>
                     </div>
@@ -322,68 +290,6 @@ function SanPham() {
                   <li className="product-item">
                     <div className="product-thumb clearfix">
                       <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/5.jpg" alt="image" />
-                      </a>
-                      <span className="new">New</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$139.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/6.jpg" alt="image" />
-                      </a>
-                      <span className="new sale">Sale</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <del>
-                          <span className="regular">$150.00</span>
-                        </del>
-                        <ins>
-                          <span className="amount">$120.00</span>
-                        </ins>
-                      </div>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="#" className="red" />
-                        </li>
-                        <li>
-                          <a href="#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="#" className="black" />
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
                         <img src="images/shop/sh-4/7.jpg" alt="image" />
                       </a>
                     </div>
@@ -394,139 +300,6 @@ function SanPham() {
                       <div className="price">
                         <ins>
                           <span className="amount">$110.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/8.jpg" alt="image" />
-                      </a>
-                      <span className="new">New</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$90.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/9.jpg" alt="image" />
-                      </a>
-                      <span className="new">New</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$79.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/10.jpg" alt="image" />
-                      </a>
-                      <span className="new sale">Sale</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <del>
-                          <span className="regular">$150.00</span>
-                        </del>
-                        <ins>
-                          <span className="amount">$120.00</span>
-                        </ins>
-                      </div>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="#" className="red" />
-                        </li>
-                        <li>
-                          <a href="#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="#" className="black" />
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/11.jpg" alt="image" />
-                      </a>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$66.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/12.jpg" alt="image" />
-                      </a>
-                      <span className="new">New</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$20.00</span>
                         </ins>
                       </div>
                     </div>
