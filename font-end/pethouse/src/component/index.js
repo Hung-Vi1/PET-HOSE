@@ -163,7 +163,7 @@ function Index() {
                                         <li className="product-item" key={i}>
                                             <div className="product-thumb clearfix">
                                                 <a href="/" className="product-link">
-                                                    <img src={`http://127.0.0.1:8000/${p.hinh_anh}`} alt={p.ten_san_pham} />
+                                                    <img src={p.hinh_anh} alt={p.ten_san_pham} />
                                                     {/* <img src="image/product/thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg" alt="product" /> */}
                                                 </a>
                                                 <span className="new">New</span>
