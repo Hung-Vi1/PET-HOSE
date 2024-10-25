@@ -131,7 +131,7 @@ function App() {
           }
         />
         <Route
-          path="/chitietsanpham"
+          path="/chitietsanpham/:id"
           exact
           element={
             <div>

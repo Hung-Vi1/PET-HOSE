@@ -1,5 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 function ChiTietSanPham() {
+  let { id } = useParams();
+
+  const [sp, ganSP] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        if (data.status === "success") {
+          ganSP(data.data); // Gán dữ liệu sản phẩm
+        } else {
+          console.error("Lỗi khi lấy dữ liệu:", data.message);
+          ganSP(null); // Khởi tạo giá trị mặc định
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+      });
+  }, [id]);
+
   return (
     <>
       <div className="page-title parallax parallax1">
@@ -36,78 +59,19 @@ function ChiTietSanPham() {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <div className="wrap-flexslider">
-                <div className="inner">
-                  <div className="flexslider style-1 has-relative">
-                    <ul className="slides">
-                      <li data-thumb="images/shop/sh-detail/thumb-detail-01.jpg">
-                        <img
-                          src="images/shop/sh-detail/detail-01.jpg"
-                          alt="Image"
-                        />
-                        <div className="flat-icon style-1">
-                          <a
-                            href="images/shop/sh-detail/detail-01.jpg"
-                            className="zoom-popup"
-                          >
-                            <span className="fa fa-search-plus" />
-                          </a>
-                        </div>
-                      </li>
-                      <li data-thumb="images/shop/sh-detail/thumb-detail-02.jpg">
-                        <img
-                          src="images/shop/sh-detail/detail-01.jpg"
-                          alt="Image"
-                        />
-                        <div className="flat-icon style-1">
-                          <a
-                            href="images/shop/sh-detail/detail-01.jpg"
-                            className="zoom-popup"
-                          >
-                            <span className="fa fa-search-plus" />
-                          </a>
-                        </div>
-                      </li>
-                      <li data-thumb="images/shop/sh-detail/thumb-detail-03.jpg">
-                        <img
-                          src="images/shop/sh-detail/detail-01.jpg"
-                          alt="Image"
-                        />
-                        <div className="flat-icon style-1">
-                          <a
-                            href="images/shop/sh-detail/detail-01.jpg"
-                            className="zoom-popup"
-                          >
-                            <span className="fa fa-search-plus" />
-                          </a>
-                        </div>
-                      </li>
-                      <li data-thumb="images/shop/sh-detail/thumb-detail-04.jpg">
-                        <img
-                          src="images/shop/sh-detail/detail-01.jpg"
-                          alt="Image"
-                        />
-                        <div className="flat-icon style-1">
-                          <a
-                            href="images/shop/sh-detail/detail-01.jpg"
-                            className="zoom-popup"
-                          >
-                            <span className="fa fa-search-plus" />
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  {/* /.flexslider */}
-                </div>
-              </div>
+              <img
+                src={`image/product/${sp.hinh_anh}`}
+                className="card-img-top mx-auto"
+                alt={sp.ten_san_pham}
+                style={{ width: "75%" }}
+              />
             </div>
             {/* /.col-md-6 */}
             <div className="col-md-6">
               <div className="product-detail">
                 <div className="inner">
                   <div className="content-detail">
-                    <h2 className="product-title">Best Woolen T-Shirt</h2>
+                    <h2 className="product-title">{sp.ten_san_pham}</h2>
                     <div className="flat-star style-1">
                       <i className="fa fa-star" />
                       <i className="fa fa-star" />
@@ -116,79 +80,20 @@ function ChiTietSanPham() {
                       <i className="fa fa-star-half-o" />
                       <span>(1)</span>
                     </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.{" "}
-                    </p>
+                    <p>{sp.mo_ta}</p>
                     <div className="price">
-                      <del>
+                      {/* <del>
                         <span className="regular">$90.00</span>
-                      </del>
+                      </del> */}
                       <ins>
-                        <span className="amount">$24.00</span>
+                        <span className="amount">
+                          {parseInt(sp.gia).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
                       </ins>
                     </div>
-                    <div className="size">
-                      <span>Size:</span>
-                      <ul>
-                        <li>
-                          <a href="#">L</a>
-                        </li>
-                        <li>
-                          <a href="#">M</a>
-                        </li>
-                        <li>
-                          <a href="#">S</a>
-                        </li>
-                        <li>
-                          <a href="#">XL</a>
-                        </li>
-                        <li>
-                          <a href="#">XXL</a>
-                        </li>
-                        <li>
-                          <a href="#">Over Size</a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="product-color">
-                      <span>Colors:</span>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="#" className="yellow" />
-                        </li>
-                        <li>
-                          <a href="#" className="pink">
-                            {" "}
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#" className="red" />
-                        </li>
-                        <li>
-                          <a href="#" className="black" />
-                        </li>
-                        <li>
-                          <a href="#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="#" className="khaki" />
-                        </li>
-                      </ul>
-                    </div>
-                    <ul className="product-infor style-1">
-                      <li>
-                        <span>100% cotton</span>
-                      </li>
-                      <li>
-                        <span>6 months warranty</span>
-                      </li>
-                      <li>
-                        <span>High Quality</span>
-                      </li>
-                    </ul>
                     <div className="product-quantity">
                       <div className="quantity">
                         <input
@@ -201,7 +106,7 @@ function ChiTietSanPham() {
                         <span className="dec quantity-button">-</span>
                       </div>
                       <div className="add-to-cart">
-                        <a href="#">ADD TO CART</a>
+                        <a href="#">Thêm vào giỏ hàng</a>
                       </div>
                       <div className="box-like">
                         <a href="#" className="like">
@@ -210,13 +115,8 @@ function ChiTietSanPham() {
                       </div>
                     </div>
                     <div className="product-categories">
-                      <span>Categories: </span>
-                      <a href="#">Men,</a> <a href="#">Shoes</a>
-                    </div>
-                    <div className="product-tags">
-                      <span>Tags: </span>
-                      <a href="#">Dress,</a> <a href="#">Fashion,</a>{" "}
-                      <a href="#">Furniture,</a> <a href="#">Lookbok</a>
+                      <span>Danh mục: </span>
+                      <a href="/#">{sp.ma_danh_muc}</a>
                     </div>
                     <ul className="flat-socials">
                       <li>

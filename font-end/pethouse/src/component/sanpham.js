@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "../App.css"
+import "../App.css";
 
 function SanPham() {
-  const [listsp, ganListSP] = useState([]);
+  const [sp, ganSP] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
@@ -12,10 +12,10 @@ function SanPham() {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganListSP(data.data); // Nếu có mảng sản phẩm trong data
+          ganSP(data.data); // Nếu có mảng sản phẩm trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganListSP([]); // Khởi tạo giá trị mặc định
+          ganSP([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
@@ -215,24 +215,34 @@ function SanPham() {
           </div>
           {/* /.top-serach */}
           <div className="d-flex flex-wrap">
-            {listsp.map((sp, i) => (
+            {sp.map((sp, i) => (
               <div className="card col-md-3 text-center p-2 mb-2" key={i}>
-                <img
-                  src={`image/product/${sp.hinh_anh}`}
-                  className="card-img-top mx-auto"
-                  alt={sp.ten_san_pham}
-                  style={{ width: "75%" }}
-                />
+                <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                  <img
+                    src={`image/product/${sp.hinh_anh}`}
+                    className="card-img-top mx-auto"
+                    alt={sp.ten_san_pham}
+                    style={{ width: "75%" }}
+                  />
+                </Link>
+
                 <div className="card-body">
-                  <h5 className="card-title" style={{ height: "100px" }}>
-                    {sp.ten_san_pham}
+                  <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                    <h5 className="card-title" style={{ height: "100px" }}>
+                      {sp.ten_san_pham}
+                    </h5>
+                  </Link>
+                  <h5 className="card-text">
+                    {parseInt(sp.gia).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </h5>
-                  <p className="card-text">{sp.mo_ta}</p>
                   <div>
-                    <a href="#" className="btn btn-danger me-3">
+                    <a href="/#" className="btn btn-danger me-3">
                       Mua ngay
                     </a>
-                    <a href="#" className="btn btn-warning">
+                    <a href="/#" className="btn btn-warning">
                       Thêm vào giỏ hàng
                     </a>
                   </div>
