@@ -38,6 +38,19 @@
   }
 }
 
+.card-text {
+  display: -webkit-box;
+  /* Thiết lập chế độ hiển thị */
+  -webkit-box-orient: vertical;
+  /* Định hướng chiều dọc */
+  -webkit-line-clamp: 3;
+  /* Giới hạn số dòng hiển thị */
+  overflow: hidden;
+  /* Ẩn nội dung vượt quá */
+  text-overflow: ellipsis;
+  /* Hiển thị dấu ba chấm */
+}
+
 /* CSS Admin */
 .menu-header-top:hover,
 .menu-header-bottom:hover {

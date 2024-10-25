@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import "../App.css"
 
 function SanPham() {
   const [listsp, ganListSP] = useState([]);
@@ -213,9 +214,9 @@ function SanPham() {
             </form>
           </div>
           {/* /.top-serach */}
-          <div className="row">
+          <div className="d-flex flex-wrap">
             {listsp.map((sp, i) => (
-              <div className="card col-sm-3 text-center p-2" key={i}>
+              <div className="card col-md-3 text-center p-2 mb-2" key={i}>
                 <img
                   src={`image/product/${sp.hinh_anh}`}
                   className="card-img-top mx-auto"
