@@ -1377,59 +1377,69 @@ h6 { font-size: 14px; line-height: 48px; font-weight: 400;}
 	content: "\f106";
 }
 
- /* Main nav mobile */
- #mainnav-mobi {
- 	margin: 0 auto;
+ /* Ẩn menu mặc định trên mobile */
+ @media (max-width: 991px) {
+    #mainnav {
+        display: none;
+    }
+}
+
+#mainnav.open {
+    display: block;
+}
+
+/* Mobile button để mở menu */
+.mobile-button {
+    cursor: pointer;
+}
+
+/* Các styles cho mobile menu */
+#mainnav-mobi {
+    margin: 0 auto;
     width: 100%;
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 9999;
     background-color: #222;
- }
+}
 
- #mainnav-mobi ul {
-  	margin: 0px;
-  	padding: 0px;
-  	display: block;
- }
+#mainnav-mobi ul {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
 
- #mainnav-mobi ul li {
- 	margin: 0;
+#mainnav-mobi ul li {
+    margin: 0;
     text-align: left;
     cursor: pointer;
     padding: 0;
     position: relative;
     border-top: 1px solid #333;
- }
-
-#mainnav-mobi ul li.active > a {
- 	color: #f63440;
 }
 
 #mainnav-mobi ul li a {
-  	display: inline-block;
-  	text-transform: uppercase;
-  	font-weight: 400;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 400;
     line-height: 48px;
     color: #fff;
+    padding: 0 20px;
 }
 
 #mainnav-mobi ul li a:hover {
- 	color: #f63440;
-}
-
-#mainnav-mobi > ul > li > a {
-  	padding: 0px 20px;
+    color: #f63440;
 }
 
 #mainnav-mobi ul.submenu > li > a {
-	padding: 0px 40px;
+    padding-left: 40px;
 }
 
 #mainnav-mobi ul.submenu li ul.submenu > li > a {
-	padding: 0px 60px;
+    padding-left: 60px;
 }
+
 
 /* Page title
 ---------------------------------------------------------------*/

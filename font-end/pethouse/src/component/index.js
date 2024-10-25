@@ -1,4 +1,12 @@
+import { useState, useEffect } from "react";
+import axios from "axios"
 function Index() {
+    const [NewProduct, ListNewProduct] = useState([]);
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/api/products")
+            .then(response => ListNewProduct(response.data.data || []));
+    }, []);
+
     return (
         <>
             <div id="carouselExampleIndicators" className="carousel slide">
@@ -150,7 +158,35 @@ function Index() {
                             </div>
                             <div className="product-content product-fourcolumn clearfix">
                                 <ul className="product style2 clearfix">
-                                    <li className="product-item">
+
+                                    {NewProduct.slice(0, 4).map((p, i) => (
+                                        <li className="product-item" key={i}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`http://127.0.0.1:8000/${p.hinh_anh}`} alt={p.ten_san_pham} />
+                                                    {/* <img src="image/product/thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg" alt="product" /> */}
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title">
+                                                    {p.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{p.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </li>
+                                    ))}
+                                    {/* <li className="product-item">
                                         <div className="product-thumb clearfix">
                                             <a href="/" className="product-link">
                                                 <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="product" />
@@ -166,17 +202,6 @@ function Index() {
                                                     <span className="amount">10.000 đ</span>
                                                 </ins>
                                             </div>
-                                            {/* <ul className="flat-color-list width-14">
-                                                <li>
-                                                    <a href="/" className="red" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="blue" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="black" />
-                                                </li>
-                                            </ul> */}
                                         </div>
                                         <div className="add-to-cart text-center">
                                             <a href="/">ADD TO CART</a>
@@ -184,8 +209,8 @@ function Index() {
                                         <a href="/" className="like">
                                             <i className="fa fa-heart-o" />
                                         </a>
-                                    </li>
-                                    <li className="product-item">
+                                    </li> */}
+                                    {/* <li className="product-item">
                                         <div className="product-thumb clearfix">
                                             <a href="/" className="product-link">
                                                 <img src="image/product/thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg" alt="product" />
@@ -201,17 +226,6 @@ function Index() {
                                                     <span className="amount">$100.00</span>
                                                 </ins>
                                             </div>
-                                            {/* <ul className="flat-color-list width-14">
-                                                <li>
-                                                    <a href="/" className="red" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="blue" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="black" />
-                                                </li>
-                                            </ul> */}
                                         </div>
                                         <div className="add-to-cart text-center">
                                             <a href="/">ADD TO CART</a>
@@ -262,17 +276,6 @@ function Index() {
                                                     <span className="amount">$100.00</span>
                                                 </ins>
                                             </div>
-                                            {/* <ul className="flat-color-list width-14">
-                                                <li>
-                                                    <a href="/" className="red" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="blue" />
-                                                </li>
-                                                <li>
-                                                    <a href="/" className="black" />
-                                                </li>
-                                            </ul> */}
                                         </div>
                                         <div className="add-to-cart text-center">
                                             <a href="/">ADD TO CART</a>
@@ -280,7 +283,7 @@ function Index() {
                                         <a href="/" className="like">
                                             <i className="fa fa-heart-o" />
                                         </a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -305,7 +308,7 @@ function Index() {
                                     </div>
                                 </div>
                                 <div className="elm-btn text-center">
-                                    <a href="#" className="themesflat-button bg-accent has-padding-36">
+                                    <a href="/" className="themesflat-button bg-accent has-padding-36">
                                         Shop Now
                                     </a>
                                 </div>
@@ -345,7 +348,7 @@ function Index() {
                             <ul className="product style2 isotope-product clearfix">
                                 <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
-                                        <a href="#">
+                                        <a href="/">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
                                         </a>
                                     </div>
@@ -358,7 +361,7 @@ function Index() {
                                                 <span className="amount">$100.00</span>
                                             </ins>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="add-to-cart text-center">
                                         <a href="#">ADD TO CART</a>
@@ -433,7 +436,7 @@ function Index() {
                                                 <span className="amount">$100.00</span>
                                             </ins>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="add-to-cart text-center">
                                         <a href="#">ADD TO CART</a>
@@ -485,7 +488,7 @@ function Index() {
                                                 <span className="amount">$100.00</span>
                                             </ins>
                                         </div>
-                                        
+
                                     </div>
                                     <div className="add-to-cart text-center">
                                         <a href="#">ADD TO CART</a>
@@ -545,7 +548,7 @@ function Index() {
                         </div>
                     </div>
                     <div className="tab-pane container fade" id="menu1">
-                    <div className="divider h54" />
+                        <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
                                 <li className="product-item kid woman">
@@ -666,12 +669,12 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
-                                </li>         
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div className="tab-pane container fade" id="menu2">
-                    <div className="divider h54" />
+                        <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
                                 <li className="product-item kid woman">
@@ -792,7 +795,7 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
-                                </li>         
+                                </li>
                             </ul>
                         </div>
                     </div>
