@@ -1173,6 +1173,15 @@
 	font-size: 16px;
 }
 
+.box-title{
+	height: 40px; /* Chiều cao cố định cho tên sản phẩm */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+	text-align: center;
+}
+
 .product.style2 .product-item .product-info {
 	margin-top: -11px;
 }
