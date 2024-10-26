@@ -60,7 +60,7 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-6">
               <img
-                src={`image/product/${sp.hinh_anh}`}
+                src={`../image/product/${sp.hinh_anh}`}
                 className="card-img-top mx-auto"
                 alt={sp.ten_san_pham}
                 style={{ width: "75%" }}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios"
 function Index() {
     const [NewProduct, ListNewProduct] = useState([]);
@@ -159,22 +160,23 @@ function Index() {
                             <div className="product-content product-fourcolumn clearfix">
                                 <ul className="product style2 clearfix">
 
-                                    {NewProduct.slice(0, 4).map((p, i) => (
+                                    {NewProduct.slice(0, 4).map((sp, i) => (
+                                    
                                         <li className="product-item" key={i}>
+                                             <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
                                             <div className="product-thumb clearfix">
                                                 <a href="/" className="product-link">
-                                                    <img src={p.hinh_anh} alt={p.ten_san_pham} />
-                                                    {/* <img src="image/product/thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg" alt="product" /> */}
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
                                                 </a>
                                                 <span className="new">New</span>
                                             </div>
                                             <div className="product-info text-center clearfix">
                                                 <span className="product-title">
-                                                    {p.ten_san_pham}
+                                                    {sp.ten_san_pham}
                                                 </span>
                                                 <div className="price">
                                                     <ins>
-                                                        <span className="amount">{p.gia} đ</span>
+                                                        <span className="amount">{sp.gia} đ</span>
                                                     </ins>
                                                 </div>
                                             </div>
@@ -184,6 +186,7 @@ function Index() {
                                             <a href="/" className="like">
                                                 <i className="fa fa-heart-o" />
                                             </a>
+                                            </Link>
                                         </li>
                                     ))}
                                     {/* <li className="product-item">
