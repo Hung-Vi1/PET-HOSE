@@ -1,78 +1,10 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.card-text {
-  display: -webkit-box;
-  /* Thiết lập chế độ hiển thị */
-  -webkit-box-orient: vertical;
-  /* Định hướng chiều dọc */
-  -webkit-line-clamp: 3;
-  /* Giới hạn số dòng hiển thị */
-  overflow: hidden;
-  /* Ẩn nội dung vượt quá */
-  text-overflow: ellipsis;
-  /* Hiển thị dấu ba chấm */
-}
-
-/* CSS Admin */
-.menu-header-top:hover,
-.menu-header-bottom:hover {
-  background-color: #fff;
-  color: #111;
-}
-
-.menu-header-top:hover {
-  border-radius: 5px 5px 0 0;
-  border: 1px solid #0d6efd;
-}
-
-.menu-header-bottom:hover {
-  border-radius: 0 0 5px 5px;
-  border: 1px solid #0d6efd;
-}
-
-/* CSS LoginSignupForm */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
+* {
+    box-sizing: border-box;
+}
 
-.lg {
+body {
     background: #f6f5f7;
     display: flex;
     justify-content: center;
@@ -81,6 +13,15 @@
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     margin: -20px 0 50px;
+}
+
+h1 {
+    font-weight: bold;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
 }
 
 p {
@@ -147,7 +88,7 @@ input {
     width: 100%;
 }
 
-.login {
+.container {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
@@ -159,31 +100,31 @@ input {
     min-height: 480px;
 }
 
-.form-login {
+.form-container {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
 }
 
-.sign-in-login {
+.sign-in-container {
     left: 0;
     width: 50%;
     z-index: 2;
 }
 
-.login.right-panel-active .sign-in-login {
+.container.right-panel-active .sign-in-container {
     transform: translateX(100%);
 }
 
-.sign-up-login {
+.sign-up-container {
     left: 0;
     width: 50%;
     opacity: 0;
     z-index: 1;
 }
 
-.login.right-panel-active .sign-up-login {
+.container.right-panel-active .sign-up-container {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -205,7 +146,7 @@ input {
     }
 }
 
-.overlay-login {
+.overlay-container {
     position: absolute;
     top: 0;
     left: 50%;
@@ -216,7 +157,7 @@ input {
     z-index: 100;
 }
 
-.login.right-panel-active .overlay-login {
+.container.right-panel-active .overlay-container {
     transform: translateX(-100%);
 }
 
@@ -236,7 +177,7 @@ input {
     transition: transform 0.6s ease-in-out;
 }
 
-.login.right-panel-active .overlay {
+.container.right-panel-active .overlay {
     transform: translateX(50%);
 }
 
@@ -259,7 +200,7 @@ input {
     transform: translateX(-20%);
 }
 
-.login.right-panel-active .overlay-left {
+.container.right-panel-active .overlay-left {
     transform: translateX(0);
 }
 
@@ -268,15 +209,15 @@ input {
     transform: translateX(0);
 }
 
-.login.right-panel-active .overlay-right {
+.container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
 
-.social-login {
+.social-container {
     margin: 20px 0;
 }
 
-.social-login a {
+.social-container a {
     border: 1px solid #DDDDDD;
     border-radius: 50%;
     display: inline-flex;
@@ -285,4 +226,29 @@ input {
     margin: 0 5px;
     height: 40px;
     width: 40px;
+}
+
+footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+footer i {
+    color: red;
+}
+
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
 }
