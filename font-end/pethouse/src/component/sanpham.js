@@ -52,9 +52,9 @@ function SanPham() {
         {/* /.container */}
       </div>
 
-      <section className="flat-row main-shop shop-4col">
+      <section className="flat-row main-shop shop-4col pt-2">
         <div className="container">
-          <div className="filter-shop bottom_68 clearfix">
+          {/* <div className="filter-shop bottom_68 clearfix">
             <p className="showing-product">Showing 1–12 of 56 Products</p>
             <ul className="flat-filter-search">
               <li>
@@ -66,9 +66,9 @@ function SanPham() {
                 <a href="#">Search</a>
               </li>
             </ul>
-          </div>
+          </div> */}
           {/* /.filte-shop */}
-          <div className="box-filter slidebar-shop clearfix">
+          {/* <div className="box-filter slidebar-shop clearfix">
             <div className="btn-close">
               <a href="#">
                 <i className="fa fa-times" />
@@ -99,7 +99,7 @@ function SanPham() {
                 </li>
               </ul>
             </div>
-            {/* /.widget-sort-by */}
+
             <div className="widget widget-price">
               <h5 className="widget-title">Price</h5>
               <ul>
@@ -125,7 +125,7 @@ function SanPham() {
                 </li>
               </ul>
             </div>
-            {/* /.widget */}
+
             <div className="widget widget-color">
               <h5 className="widget-title">Colors</h5>
               <ul className="flat-color-list icon-left">
@@ -157,7 +157,7 @@ function SanPham() {
                 </li>
               </ul>
             </div>
-            {/* /.widget-color */}
+            
             <div className="widget widget-size">
               <h5 className="widget-title">Size</h5>
               <ul>
@@ -181,7 +181,7 @@ function SanPham() {
                 </li>
               </ul>
             </div>
-            {/* /.widget */}
+            
             <div className="widget widget_tag">
               <h5 className="widget-title">Tags</h5>
               <div className="tag-list">
@@ -197,10 +197,9 @@ function SanPham() {
                 <a href="#">Accesories</a>
               </div>
             </div>
-            {/* /.widget */}
-          </div>
+          </div> */}
           {/* /.box-filter */}
-          <div className="shop-search clearfix">
+          <div className="shop-search clearfix mb-5">
             <form role="search" method="get" className="search-form" action="#">
               <label>
                 <input
