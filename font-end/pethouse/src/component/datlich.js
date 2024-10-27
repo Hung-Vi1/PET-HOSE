@@ -1,5 +1,26 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "../App.css";
 function DatLich() {
+    const [sp, ganSP] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        // Kiểm tra xem data có thuộc tính data không
+        if (Array.isArray(data.data)) {
+          ganSP(data.data); // Nếu có mảng sản phẩm trong data
+        } else {
+          console.error("Dữ liệu không phải là mảng:", data);
+          ganSP([]); // Khởi tạo giá trị mặc định
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+      });
+  }, []);
     return (
         <>
             <div className="page-title parallax parallax1">

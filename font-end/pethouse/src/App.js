@@ -3,14 +3,19 @@ import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
 /* User */
+
+
 import TinTuc from "./component/tintuc";
 import LienHe from "./component/lienhe";
 import ChiTietTinTuc from "./component/chitiettintuc";
 import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
 
+
 /* Admin */
+
 import Admin_TrangChu from "./Admin_TrangChu";
 import Admin_TaiKhoan from "./Admin_TaiKhoan";
 import Admin_TaiKhoanThem from "./Admin_TaiKhoanThem";
@@ -253,6 +258,75 @@ function App() {
               <Header />
               <ChiTietSanPham />
               <Footer />
+            </div>
+          }
+        />
+        <Route
+          path="/sanpham"
+          exact
+          element={
+            <div class="boxed">
+              {/* header */}
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+              <SanPham />
+              {/* Footer */}
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
+        <Route
+          path="/chitiettintuc"
+          exact
+          element={
+            <div class="boxed">
+              {/* header */}
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+              <ChiTietTinTuc />
+              {/* Footer */}
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
+        <Route
+          path="/chitietsanpham"
+          exact
+          element={
+            <div class="boxed">
+              {/* header */}
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+              <ChiTietSanPham />
+              {/* Footer */}
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
             </div>
           }
         />
