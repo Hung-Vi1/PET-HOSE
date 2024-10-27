@@ -1,0 +1,1005 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "API documentation for the application",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/category": {
+            "get": {
+                "tags": [
+                    "DanhMuc"
+                ],
+                "summary": "Lấy danh sách danh mục",
+                "description": "Trả về danh sách tất cả các danh mục.",
+                "operationId": "6487e4e434b97f0c62e28136f91b2acb",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CategoryResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/category/store": {
+            "post": {
+                "tags": [
+                    "DanhMuc"
+                ],
+                "summary": "Thêm mới một danh mục",
+                "description": "Tạo một danh mục mới với các thông tin đã được cung cấp",
+                "operationId": "db04f2e1b2e22ec0f38154fa00de5304",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "TenDM"
+                                ],
+                                "properties": {
+                                    "TenDM": {
+                                        "type": "string",
+                                        "example": "Tên danh mục"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    },
+                                    "loai": {
+                                        "type": "string",
+                                        "example": "0",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "TenDM": {
+                                                    "type": "string",
+                                                    "example": "Tên danh mục"
+                                                },
+                                                "parent_id": {
+                                                    "type": "integer",
+                                                    "example": 1,
+                                                    "nullable": true
+                                                },
+                                                "loai": {
+                                                    "type": "string",
+                                                    "example": "loại sản phẩm",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc lỗi khác",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/category/{MaDanhMuc}": {
+            "get": {
+                "tags": [
+                    "DanhMuc"
+                ],
+                "summary": "Lấy thông tin danh mục",
+                "description": "Trả về thông tin chi tiết của một danh mục cụ thể.",
+                "operationId": "a9db5e6d82c11dfd7684f6bf4c279e7d",
+                "parameters": [
+                    {
+                        "name": "MaDanhMuc",
+                        "in": "path",
+                        "description": "ID của danh mục cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/category/update/{MaDanhMuc}": {
+            "put": {
+                "tags": [
+                    "DanhMuc"
+                ],
+                "summary": "Cập nhật danh mục",
+                "description": "Cập nhật thông tin của một danh mục cụ thể.",
+                "operationId": "b557a62f16fa2c2943e87582f274c402",
+                "parameters": [
+                    {
+                        "name": "MaDanhMuc",
+                        "in": "path",
+                        "description": "ID của danh mục cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "TenDM": {
+                                        "type": "string",
+                                        "example": "Danh mục mới"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": null
+                                    },
+                                    "loai": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/category/destroy/{MaDanhMuc}": {
+            "delete": {
+                "tags": [
+                    "DanhMuc"
+                ],
+                "summary": "Xóa danh mục",
+                "description": "Xóa một danh mục theo ID.",
+                "operationId": "acc836c5808c8e33f500d287b207b67a",
+                "parameters": [
+                    {
+                        "name": "MaDanhMuc",
+                        "in": "path",
+                        "description": "ID của danh mục cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Lấy danh sách sản phẩm",
+                "description": "Trả về danh sách tất cả các sản phẩm.",
+                "operationId": "816847c99722b76c6ac4993a8f0c580c",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/products/store": {
+            "post": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Thêm sản phẩm mới",
+                "description": "Thêm sản phẩm vào danh sách.",
+                "operationId": "493715514a9cf71c15fa7c7ec1b91bce",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "MaDanhMuc",
+                                    "TenSanPham",
+                                    "GiaSP",
+                                    "HinhAnh",
+                                    "MoTa"
+                                ],
+                                "properties": {
+                                    "MaDanhMuc": {
+                                        "description": "Mã danh mục sản phẩm",
+                                        "type": "integer"
+                                    },
+                                    "TenSanPham": {
+                                        "description": "Tên sản phẩm",
+                                        "type": "string"
+                                    },
+                                    "GiaSP": {
+                                        "description": "Giá sản phẩm",
+                                        "type": "number"
+                                    },
+                                    "GiamGia": {
+                                        "description": "Giảm giá sản phẩm",
+                                        "type": "number"
+                                    },
+                                    "MoTa": {
+                                        "description": "Mô tả chi tiết sản phẩm",
+                                        "type": "string"
+                                    },
+                                    "HinhAnh": {
+                                        "description": "URL của hình ảnh sản phẩm",
+                                        "type": "string",
+                                        "format": "url"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm sản phẩm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi thêm sản phẩm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi mô tả chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{MaSP}": {
+            "get": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Lấy thông tin chi tiết sản phẩm",
+                "description": "Trả về thông tin chi tiết của sản phẩm dựa trên mã sản phẩm.",
+                "operationId": "368797411e7b2674021f243264de6b9f",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã sản phẩm cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Sản phẩm không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/products/update/{MaSP}": {
+            "put": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Cập nhật thông tin sản phẩm",
+                "description": "Cập nhật thông tin sản phẩm dựa trên mã sản phẩm.",
+                "operationId": "42174d153dfc1d4688401444ce04a79c",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã sản phẩm cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "MaDanhMuc": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "TenSanPham": {
+                                        "type": "string",
+                                        "example": "Sản phẩm A"
+                                    },
+                                    "GiaSP": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100000
+                                    },
+                                    "GiamGia": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 0
+                                    },
+                                    "MoTa": {
+                                        "type": "string",
+                                        "example": "Mô tả sản phẩm A"
+                                    },
+                                    "SoLuong": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "HinhAnh": {
+                                        "type": "string",
+                                        "example": "hinh_anh_a.jpg"
+                                    },
+                                    "LuotXem": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "LuotBan": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "ThoiGian": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-10-24 12:00:00"
+                                    },
+                                    "TrangThai": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi cập nhật dữ liệu"
+                    },
+                    "404": {
+                        "description": "Sản phẩm không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/products/destroy/{MaSP}": {
+            "delete": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Xóa sản phẩm",
+                "description": "Xóa sản phẩm theo mã sản phẩm (MaSP).",
+                "operationId": "f5d80567bd65dda03107639c9ddf255f",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã sản phẩm cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa thành công"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/dangnhap": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Đăng nhập tài khoản",
+                "operationId": "32ec4ae4caf2da34eef6cb998a613204",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Email",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "truongminhthien222004@gmail.com"
+                                    },
+                                    "Matkhau": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "thien123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "1|abc123456"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/dangki": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Đăng kí tài khoản",
+                "description": "Thêm mới một người dùng",
+                "operationId": "d470b0e0102d39da4757c6cac26d996f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Hovaten",
+                                    "Email",
+                                    "Diachi",
+                                    "SDT",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "Hovaten": {
+                                        "type": "string",
+                                        "example": "Trương Minh Thiện"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "truongminhthien222004@gmail.com"
+                                    },
+                                    "Matkhau": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "thien123"
+                                    },
+                                    "SDT": {
+                                        "type": "string",
+                                        "example": "0354895845"
+                                    },
+                                    "Diachi": {
+                                        "type": "string",
+                                        "example": "294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Người dùng đã đăng kí thành công tài khoản",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cập nhật thông tin người dùng",
+                "description": "Cập nhật thông tin người dùng",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jane Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "jane@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã được cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Xóa người dùng",
+                "description": "Xóa một người dùng",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã bị xóa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CategoryResource": {
+                "properties": {
+                    "MaDanhMuc": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TenDM": {
+                        "type": "string",
+                        "example": "Danh mục 1"
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "example": null
+                    },
+                    "loai": {
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResource": {
+                "title": "Product Resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Product Name"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 99.99
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "This is a product description."
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "DanhMuc",
+            "description": "DanhMuc"
+        },
+        {
+            "name": "SanPham",
+            "description": "SanPham"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}

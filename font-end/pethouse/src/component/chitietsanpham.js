@@ -1,5 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 function ChiTietSanPham() {
+<<<<<<< HEAD
+=======
+  let { id } = useParams();
+
+  const [sp, ganSP] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        if (data.status === "success") {
+          ganSP(data.data); // Gán dữ liệu sản phẩm
+        } else {
+          console.error("Lỗi khi lấy dữ liệu:", data.message);
+          ganSP(null); // Khởi tạo giá trị mặc định
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+      });
+  }, [id]);
+
+>>>>>>> master
   return (
     <>
       <div className="page-title parallax parallax1">
@@ -36,6 +62,7 @@ function ChiTietSanPham() {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
+<<<<<<< HEAD
               <div className="wrap-flexslider">
                 <div className="inner">
                   <div className="flexslider style-1 has-relative">
@@ -101,13 +128,25 @@ function ChiTietSanPham() {
                   {/* /.flexslider */}
                 </div>
               </div>
+=======
+              <img
+                src={`../image/product/${sp.hinh_anh}`}
+                className="card-img-top mx-auto"
+                alt={sp.ten_san_pham}
+                style={{ width: "75%" }}
+              />
+>>>>>>> master
             </div>
             {/* /.col-md-6 */}
             <div className="col-md-6">
               <div className="product-detail">
                 <div className="inner">
                   <div className="content-detail">
+<<<<<<< HEAD
                     <h2 className="product-title">Best Woolen T-Shirt</h2>
+=======
+                    <h2 className="product-title">{sp.ten_san_pham}</h2>
+>>>>>>> master
                     <div className="flat-star style-1">
                       <i className="fa fa-star" />
                       <i className="fa fa-star" />
@@ -115,6 +154,7 @@ function ChiTietSanPham() {
                       <i className="fa fa-star-half-o" />
                       <i className="fa fa-star-half-o" />
                       <span>(1)</span>
+<<<<<<< HEAD
                     </div>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit,
@@ -218,6 +258,47 @@ function ChiTietSanPham() {
                       <a href="#">Dress,</a> <a href="#">Fashion,</a>{" "}
                       <a href="#">Furniture,</a> <a href="#">Lookbok</a>
                     </div>
+=======
+                    </div>
+                    <p>{sp.mo_ta}</p>
+                    <div className="price">
+                      {/* <del>
+                        <span className="regular">$90.00</span>
+                      </del> */}
+                      <ins>
+                        <span className="amount">
+                          {parseInt(sp.gia).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      </ins>
+                    </div>
+                    <div className="product-quantity">
+                      <div className="quantity">
+                        <input
+                          type="text"
+                          defaultValue={1}
+                          name="quantity-number"
+                          className="quantity-number"
+                        />
+                        <span className="inc quantity-button">+</span>
+                        <span className="dec quantity-button">-</span>
+                      </div>
+                      <div className="add-to-cart">
+                        <a href="#">Thêm vào giỏ hàng</a>
+                      </div>
+                      <div className="box-like">
+                        <a href="#" className="like">
+                          <i className="fa fa-heart-o" />
+                        </a>
+                      </div>
+                    </div>
+                    <div className="product-categories">
+                      <span>Danh mục: </span>
+                      <a href="/#">{sp.ma_danh_muc}</a>
+                    </div>
+>>>>>>> master
                     <ul className="flat-socials">
                       <li>
                         <a href="#">
