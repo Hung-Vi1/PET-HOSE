@@ -314,6 +314,198 @@
                 }
             }
         },
+        "/api/orders": {
+            "get": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Lấy danh sách đơn hàng",
+                "description": "Trả về danh sách tất cả các đơn hàng.",
+                "operationId": "0562d64e20d7a6152f549ff76f262d02",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/OrderResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Tạo đơn hàng mới",
+                "description": "Tạo một đơn hàng mới cùng với chi tiết đơn hàng.",
+                "operationId": "5aebb45699cd3e5b660408942334e00d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "MaTaiKhoan",
+                                    "Ten",
+                                    "SDT",
+                                    "DiaChi",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "MaTaiKhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "Ten": {
+                                        "description": "Tên người đặt hàng",
+                                        "type": "string",
+                                        "example": "Nguyễn Văn A"
+                                    },
+                                    "SDT": {
+                                        "description": "Số điện thoại người đặt hàng",
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "DiaChi": {
+                                        "description": "Địa chỉ giao hàng",
+                                        "type": "string",
+                                        "example": "123 Đường ABC, Quận 1, TP.HCM"
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Chuyển khoản"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Ghi chú đơn hàng"
+                                    },
+                                    "chi_tiet": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "DonGia": {
+                                                    "description": "Đơn giá sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 250000
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [
@@ -963,6 +1155,71 @@
                 },
                 "type": "object"
             },
+            "OrderResource": {
+                "properties": {
+                    "MaDonHang": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "MaTaiKhoan": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TongTien": {
+                        "type": "integer",
+                        "example": 500000
+                    },
+                    "SoLuong": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "Ten": {
+                        "type": "string",
+                        "example": "Nguyễn Văn A"
+                    },
+                    "SDT": {
+                        "type": "string",
+                        "example": "0123456789"
+                    },
+                    "DiaChi": {
+                        "type": "string",
+                        "example": "123 Đường ABC, Quận 1, TP.HCM"
+                    },
+                    "PTTT": {
+                        "type": "string",
+                        "example": "Chuyển khoản"
+                    },
+                    "GhiChu": {
+                        "type": "string",
+                        "example": "Ghi chú đơn hàng 1"
+                    },
+                    "NgayDat": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    },
+                    "NgayGiao": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-11-01T17:09:04Z"
+                    },
+                    "TrangThai": {
+                        "type": "string",
+                        "example": "Đang xử lý"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    }
+                },
+                "type": "object"
+            },
             "ProductResource": {
                 "title": "Product Resource",
                 "properties": {
@@ -992,6 +1249,10 @@
         {
             "name": "DanhMuc",
             "description": "DanhMuc"
+        },
+        {
+            "name": "DonHang",
+            "description": "DonHang"
         },
         {
             "name": "SanPham",
