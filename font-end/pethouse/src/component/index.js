@@ -161,31 +161,31 @@ function Index() {
                                 <ul className="product style2 clearfix">
 
                                     {NewProduct.slice(0, 4).map((sp, i) => (
-                                    
+
                                         <li className="product-item" key={i}>
-                                             <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                                            <div className="product-thumb clearfix">
-                                                <a href="/" className="product-link">
-                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
-                                                </a>
-                                                <span className="new">New</span>
-                                            </div>
-                                            <div className="product-info text-center clearfix">
-                                                <span className="product-title">
-                                                    {sp.ten_san_pham}
-                                                </span>
-                                                <div className="price">
-                                                    <ins>
-                                                        <span className="amount">{sp.gia} đ</span>
-                                                    </ins>
+                                            <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                                <div className="product-thumb clearfix">
+                                                    <a href="/" className="product-link">
+                                                        <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                    </a>
+                                                    <span className="new">New</span>
                                                 </div>
-                                            </div>
-                                            <div className="add-to-cart text-center">
-                                                <a href="/">ADD TO CART</a>
-                                            </div>
-                                            <a href="/" className="like">
-                                                <i className="fa fa-heart-o" />
-                                            </a>
+                                                <div className="product-info text-center clearfix">
+                                                    <span className="product-title box-title">
+                                                        {sp.ten_san_pham}
+                                                    </span>
+                                                    <div className="price">
+                                                        <ins>
+                                                            <span className="amount">{sp.gia} đ</span>
+                                                        </ins>
+                                                    </div>
+                                                </div>
+                                                <div className="add-to-cart text-center">
+                                                    <a href="/">ADD TO CART</a>
+                                                </div>
+                                                <a href="/" className="like">
+                                                    <i className="fa fa-heart-o" />
+                                                </a>
                                             </Link>
                                         </li>
                                     ))}
@@ -203,80 +203,6 @@ function Index() {
                                             <div className="price">
                                                 <ins>
                                                     <span className="amount">10.000 đ</span>
-                                                </ins>
-                                            </div>
-                                        </div>
-                                        <div className="add-to-cart text-center">
-                                            <a href="/">ADD TO CART</a>
-                                        </div>
-                                        <a href="/" className="like">
-                                            <i className="fa fa-heart-o" />
-                                        </a>
-                                    </li> */}
-                                    {/* <li className="product-item">
-                                        <div className="product-thumb clearfix">
-                                            <a href="/" className="product-link">
-                                                <img src="image/product/thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg" alt="product" />
-                                            </a>
-                                            <span className="new">New</span>
-                                        </div>
-                                        <div className="product-info text-center clearfix">
-                                            <span className="product-title">
-                                                Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy
-                                            </span>
-                                            <div className="price">
-                                                <ins>
-                                                    <span className="amount">$100.00</span>
-                                                </ins>
-                                            </div>
-                                        </div>
-                                        <div className="add-to-cart text-center">
-                                            <a href="/">ADD TO CART</a>
-                                        </div>
-                                        <a href="/" className="like">
-                                            <i className="fa fa-heart-o" />
-                                        </a>
-                                    </li>
-                                    <li className="product-item">
-                                        <div className="product-thumb clearfix">
-                                            <a href="/" className="product-link">
-                                                <img src="image/product/banh-thuong-cho-cho-vi-thit-bo-vegebrand-orgo-freshening-biscuit-bacon-beef-400x400.jpg" alt="product" />
-                                            </a>
-                                            <span className="new sale">Sale</span>
-                                        </div>
-                                        <div className="product-info text-center clearfix">
-                                            <span className="product-title">
-                                                Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef
-                                            </span>
-                                            <div className="price">
-                                                <del>
-                                                    <span className="regular">$150.00</span>
-                                                </del>
-                                                <ins>
-                                                    <span className="amount">$100.00</span>
-                                                </ins>
-                                            </div>
-                                        </div>
-                                        <div className="add-to-cart text-center">
-                                            <a href="/">ADD TO CART</a>
-                                        </div>
-                                        <a href="/" className="like">
-                                            <i className="fa fa-heart-o" />
-                                        </a>
-                                    </li>
-                                    <li className="product-item">
-                                        <div className="product-thumb clearfix">
-                                            <a href="/" className="product-link">
-                                                <img src="image/product/pate-cho-cho-vi-thit-bo-iris-one-care-beef100g-400x400.jpg" alt="product" />
-                                            </a>
-                                        </div>
-                                        <div className="product-info text-center clearfix">
-                                            <span className="product-title">
-                                                Pate cho chó vị thịt bò IRIS OHYAMA One Care Beef
-                                            </span>
-                                            <div className="price">
-                                                <ins>
-                                                    <span className="amount">$100.00</span>
                                                 </ins>
                                             </div>
                                         </div>
@@ -349,7 +275,7 @@ function Index() {
                         <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
+                                {/* <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
                                         <a href="/">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -372,181 +298,37 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new">New</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new sale">Sale</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <del>
-                                                <span className="regular">$120.00</span>
-                                            </del>
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
 
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new">New</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new sale">Sale</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <del>
-                                                <span className="regular">$150.00</span>
-                                            </del>
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
 
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new">New</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -554,41 +336,7 @@ function Index() {
                         <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#">
-                                            <img src="images/shop/sh-4/1.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                        <ul className="flat-color-list width-14">
-                                            <li>
-                                                <a href="#" className="red" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="blue" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="black" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
+                                {/* <li className="product-item man accessories">
                                     <div className="product-thumb clearfix">
                                         <a href="#">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -611,68 +359,36 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
-                                </li>
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="images/shop/sh-4/3.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="images/shop/sh-4/4.jpg" alt="image" />
-                                        </a>
-                                        <span className="new sale">Sale</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <del>
-                                                <span className="regular">$120.00</span>
-                                            </del>
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                        <ul className="flat-color-list width-14">
-                                            <li>
-                                                <a href="#" className="red" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="blue" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="black" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
+
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -680,7 +396,7 @@ function Index() {
                         <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
+                                {/* <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
                                         <a href="#">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -713,92 +429,36 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#">
-                                            <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
-                                        </a>
-                                        <span className="new">New</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="images/shop/sh-4/3.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#" className="product-thumb">
-                                            <img src="images/shop/sh-4/4.jpg" alt="image" />
-                                        </a>
-                                        <span className="new sale">Sale</span>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <del>
-                                                <span className="regular">$120.00</span>
-                                            </del>
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                        <ul className="flat-color-list width-14">
-                                            <li>
-                                                <a href="#" className="red" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="blue" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="black" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
+
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
