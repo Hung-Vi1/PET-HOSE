@@ -1,8 +1,57 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
-
+import { useState, useEffect } from "react";
 function Admin_SanPham() {
+  const [sp, ganSP] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8000/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        // Kiểm tra xem data có thuộc tính data không
+        if (Array.isArray(data.data)) {
+          ganSP(data.data); // Nếu có mảng sản phẩm trong data
+        } else {
+          console.error("Dữ liệu không phải là mảng:", data);
+          ganSP([]); // Khởi tạo giá trị mặc định
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+      });
+  }, []);
+
+  const xoaSanPham = (maSP) => {
+    // Hiển thị thông báo xác nhận
+    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.ok) {
+            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
+            fetch("http://localhost:8000/api/products")
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Dữ liệu trả về:", data);
+                if (Array.isArray(data.data)) {
+                  ganSP(data.data);
+                } else {
+                  console.error("Dữ liệu không phải là mảng:", data);
+                  ganSP([]); // Khởi tạo giá trị mặc định
+                }
+              })
+              .catch((error) => {
+                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi xóa sản phẩm:", error);
+        });
+    }
+  };
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -115,259 +164,76 @@ function Admin_SanPham() {
             </Link>
 
             <h2 className="my-3">Sản phẩm</h2>
-
             <table className="table align-middle">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
                   <th className="fw-bold text-center">Ảnh</th>
                   <th className="fw-bold">Tên sản phẩm</th>
-                  <th className="fw-bold text-center">Loại</th>
+                  <th className="fw-bold text-center">Danh mục</th>
                   <th className="fw-bold text-center">Ngày tạo</th>
                   <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>9</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>10</td>
-                  <td className="text-center">
-                    <img
-                      src="image/san_pham_1.webp"
-                      alt="image/san_pham_1.webp"
-                      style={{ width: "100px" }}
-                    />
-                  </td>
-                  <td>Balo vận chuyển chó mèo Phi hành</td>
-                  <td className="text-center">Phụ kiện chó / mèo</td>
-                  <td className="text-center">25/05/2024</td>
-                  <td className="text-center">
-                    <Link
-                      to={"/adminsanphamchitiet"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
+                {sp.map((sp, i) => (
+                  <tr>
+                    <td className="text-center">{i + 1}</td>
+                    <td className="text-center">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt="image/san_pham_1.webp"
+                        style={{ width: "100px" }}
+                      />
+                    </td>
+                    <td>{sp.ten_san_pham}</td>
+                    <td className="text-center">{sp.ma_danh_muc}</td>
+                    <td className="text-center">{sp.ngay_tao}</td>
+                    <td className="text-center">
+                      <Link
+                        to={"/adminsanphamchitiet"}
+                        className="btn btn-outline-warning m-1"
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </Link>
+                      {/* <Link href="/#" className="btn btn-outline-danger m-1">
+                          <i className="bi bi-trash"></i>xóa
+                        </Link> */}
+                      {/* <button onClick={() => xoaSanPham(sp.maSP)}><i className="bi bi-trash"></i></button> */}
+                      <button
+                        onClick={() => xoaSanPham(sp.ma_san_pham)}
+                        className="btn btn-danger btn-sm"
+                      >
+                        Xóa
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+
+                {/* <tr>
+                    <td className="text-center">1</td>
+                    <td className="text-center">
+                      <img
+                        src="image/san_pham_1.webp"
+                        alt="image/san_pham_1.webp"
+                        style={{ width: "100px" }}
+                      />
+                    </td>
+                    <td>Balo vận chuyển chó mèo Phi hành</td>
+                    <td className="text-center">Phụ kiện chó / mèo</td>
+                    <td className="text-center">25/05/2024</td>
+                    <td className="text-center">
+                      <Link
+                        to={"/adminsanphamchitiet"}
+                        className="btn btn-outline-warning m-1"
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </Link>
+                      <a href="/#" className="btn btn-outline-danger m-1">
+<i className="bi bi-trash"></i>
+                      </a>
+                    </td>
+                  </tr> */}
               </tbody>
             </table>
 
