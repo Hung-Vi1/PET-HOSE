@@ -29,15 +29,26 @@ class DonHang extends Model
         'MaTaiKhoan',
         'TongTien',
         'SoLuong',
+        'Ten',
+        'SDT',
+        'DiaChi',
+        'PTTT',
+        'GhiChu',
         'TrangThai',
+        'NgayDat',
+        'NgayGiao',
     ];
-
+    public function orderDetails()
+    {
+        return $this->hasMany(ChiTietDonHang::class, 'MaDH', 'MaDH'); // Điều chỉnh tên cột cho đúng với tên bảng
+    }
     /**
      * Định nghĩa quan hệ với model User (belongsTo)
      * Một đơn hàng thuộc về một người dùng
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+
     public function user()
     {
         return $this->belongsTo(User::class, 'MaTaiKhoan', 'MaTaiKhoan');

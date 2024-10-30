@@ -15,13 +15,8 @@ return new class extends Migration
             $table->id('MaCTDH'); // Khóa chính
             $table->unsignedBigInteger('MaDH'); // Khóa ngoại đến bảng DonHang
             $table->unsignedBigInteger('MaSP'); // Khóa ngoại đến bảng SanPham
-            $table->decimal('TongTien', 10, 2);
+            $table->integer('DonGia');
             $table->integer('SoLuong');
-            $table->string('Ten'); // Có thể là tên người nhận
-            $table->string('SDT');
-            $table->string('DiaChi');
-            $table->string('PTTT'); // Phương thức thanh toán
-            $table->string('TrangThai');
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại

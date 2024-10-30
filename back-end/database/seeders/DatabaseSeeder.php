@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\DanhMuc;
 use App\Models\SanPham;
+use App\Models\DonHang;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,487 +17,487 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Tạo dữ liệu mẫu cho danh mục
-        // $danhMucs = [
+        $danhMucs = [
 
-        //     // danh mục chính
-        //     ['MaDanhMuc' => '1', 'TenDM' => 'Chó cảnh', 'parent_id' => null, 'loai' => '0'],
-        //     ['MaDanhMuc' => '2', 'TenDM' => 'Mèo cảnh', 'parent_id' => null, 'loai' => '0'],
+            // danh mục chính
+            ['MaDanhMuc' => '1', 'TenDM' => 'Chó cảnh', 'parent_id' => null, 'loai' => '0'],
+            ['MaDanhMuc' => '2', 'TenDM' => 'Mèo cảnh', 'parent_id' => null, 'loai' => '0'],
 
-        //     // danh mục con của chó
-        //     ['MaDanhMuc' => '3', 'TenDM' => 'Thức ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '4', 'TenDM' => 'Phụ kiện cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '5', 'TenDM' => 'Khay vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '6', 'TenDM' => 'Tã cho chó, Bỉm cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '7', 'TenDM' => 'Miếng lót vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '8', 'TenDM' => 'Lồng chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '9', 'TenDM' => 'Nhà cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '10', 'TenDM' => 'Chuồng chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '11', 'TenDM' => 'Quây chó, Hàng rào chắn chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '12', 'TenDM' => 'Nệm cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '13', 'TenDM' => 'Bình nước, Bát ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '14', 'TenDM' => 'Đồ chơi cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '15', 'TenDM' => 'Vật dụng chăm sóc chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '16', 'TenDM' => 'Sữa tắm cho chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '17', 'TenDM' => 'Lược chải lông chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '18', 'TenDM' => 'Kềm cắt móng chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '19', 'TenDM' => 'Máy sấy lông chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '20', 'TenDM' => 'Tông đơ cắt lông chó', 'parent_id' => 1, 'loai' => '0'],
-        //     ['MaDanhMuc' => '21', 'TenDM' => 'Thuốc thú y cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // danh mục con của chó
+            ['MaDanhMuc' => '3', 'TenDM' => 'Thức ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '4', 'TenDM' => 'Phụ kiện cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '5', 'TenDM' => 'Khay vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '6', 'TenDM' => 'Tã cho chó, Bỉm cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '7', 'TenDM' => 'Miếng lót vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '8', 'TenDM' => 'Lồng chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '9', 'TenDM' => 'Nhà cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '10', 'TenDM' => 'Chuồng chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '11', 'TenDM' => 'Quây chó, Hàng rào chắn chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '12', 'TenDM' => 'Nệm cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '13', 'TenDM' => 'Bình nước, Bát ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '14', 'TenDM' => 'Đồ chơi cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '15', 'TenDM' => 'Vật dụng chăm sóc chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '16', 'TenDM' => 'Sữa tắm cho chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '17', 'TenDM' => 'Lược chải lông chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '18', 'TenDM' => 'Kềm cắt móng chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '19', 'TenDM' => 'Máy sấy lông chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '20', 'TenDM' => 'Tông đơ cắt lông chó', 'parent_id' => 1, 'loai' => '0'],
+            ['MaDanhMuc' => '21', 'TenDM' => 'Thuốc thú y cho chó', 'parent_id' => 1, 'loai' => '0'],
 
 
-        //     // danh mục con của mèo
-        //     ['MaDanhMuc' => '22', 'TenDM' => 'Thức ăn cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '23', 'TenDM' => 'Lồng mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '24', 'TenDM' => 'Phụ kiện cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '25', 'TenDM' => 'Khay vệ sinh, Nhà vệ sinh cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '26', 'TenDM' => 'Cát mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '27', 'TenDM' => 'Máy lọc nước cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '28', 'TenDM' => 'Bát ăn cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '29', 'TenDM' => 'Đệm cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '30', 'TenDM' => 'Đồ chơi cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '31', 'TenDM' => 'Vật dụng chăm sóc mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '32', 'TenDM' => 'Sữa tắm cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '33', 'TenDM' => 'Lược chải lông mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '34', 'TenDM' => 'Kìm cắt móng mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '35', 'TenDM' => 'Nhà cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '36', 'TenDM' => 'Chuồng mèo', 'parent_id' => 2, 'loai' => '0'],
-        //     ['MaDanhMuc' => '37', 'TenDM' => 'Thuốc thú y cho mèo', 'parent_id' => 2, 'loai' => '0'],
-        // ];
+            // danh mục con của mèo
+            ['MaDanhMuc' => '22', 'TenDM' => 'Thức ăn cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '23', 'TenDM' => 'Lồng mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '24', 'TenDM' => 'Phụ kiện cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '25', 'TenDM' => 'Khay vệ sinh, Nhà vệ sinh cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '26', 'TenDM' => 'Cát mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '27', 'TenDM' => 'Máy lọc nước cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '28', 'TenDM' => 'Bát ăn cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '29', 'TenDM' => 'Đệm cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '30', 'TenDM' => 'Đồ chơi cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '31', 'TenDM' => 'Vật dụng chăm sóc mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '32', 'TenDM' => 'Sữa tắm cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '33', 'TenDM' => 'Lược chải lông mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '34', 'TenDM' => 'Kìm cắt móng mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '35', 'TenDM' => 'Nhà cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '36', 'TenDM' => 'Chuồng mèo', 'parent_id' => 2, 'loai' => '0'],
+            ['MaDanhMuc' => '37', 'TenDM' => 'Thuốc thú y cho mèo', 'parent_id' => 2, 'loai' => '0'],
+        ];
 
-        // foreach ($danhMucs as $danhMuc) {
-        //     DanhMuc::create($danhMuc);
-        // }
+        foreach ($danhMucs as $danhMuc) {
+            DanhMuc::create($danhMuc);
+        }
 
         // Tạo dữ liệu mẫu cho sản phẩm
         $sanPhams = [
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Xương cho chó gặm sạch răng VEGEBRAND 360 Bone Prevent Tartar',
-            //     'GiaSP' => 10000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Thành phần dinh dưỡng Xương cho chó gặm sạch răng VEGEBRAND 360 Bone Prevent Tartar với các thành phần như ngũ cốc, thịt và động vật. Dẫn xuất có nguồn gốc thực vật, rau, khoáng chất. Vitamin E. Feroh Sulphate Monohydrate, Zinc Sulphate Monohydrate, Mangan Sulphate Monohydrate. Màu sắc, hương vị, chất bảo quản.
-            //                 Phân tích đảm bảo: Protein thô (tối thiểu) 10%. Chất béo thô (tối thiểu) 0,4%. Sợi thô (tối đa) 4%. Tro (tối đa) 5%. Độ ẩm (tối đa) 16%. Canxi (tối thiểu) 0,05%. Photpho (tối thiểu) 0,04%. Natri (tối thiểu) 0,02%.
-            //             ',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy',
-            //     'GiaSP' => 250000,
-            //     'GiamGia' => 20000,
-            //     'MoTa' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy dành cho các giống chó con dưới 10 tháng tuổi. Với công thức đặc chế riêng cho nhu cầu dinh dưỡng của chó con thuộc các giống cỡ nhỏ. Thức ăn cho chó con (các giống chó cỡ nhỏ) được nghiên cứu để cung cấp dinh dưỡng theo nhu cầu thực tế của chó con.
-            //                 Duy trì sức đề kháng cho chó con: chất chống oxy hóa CELT. Hỗ trợ hệ tiêu hóa hoạt động ổn định: L.I.P, đường FOS. Cung cấp dinh dưỡng toàn diện cho chó: chế biến theo công thức cung cấp năng lượng cao.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef',
-            //     'GiaSP' => 25000,
-            //     'GiamGia' => 4000,
-            //     'MoTa' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef có tác dụng làm sạch răng cho chó vị thịt bò. Sản phẩm có chứa các thành phần bạc hà tự nhiên kết hợp với hương vị thịt bò, có khả năng loại bỏ các vi khuẩn gây hôi miệng cho chú chó của bạn một cách nhanh chóng. Sản phẩm có thể kết hợp dùng để huấn luyện.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'banh-thuong-cho-cho-vi-thit-bo-vegebrand-orgo-freshening-biscuit-bacon-beef-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Pate cho chó vị thịt bò IRIS OHYAMA One Care Beef',
-            //     'GiaSP' => 35000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Pate cho chó vị thịt bò IRIS OHYAMA One Care Beef là sản phẩm dành cho tất cả giống chó. Với thành phần hoàn toàn từ tự nhiên và thịt bò.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'pate-cho-cho-vi-thit-bo-iris-one-care-beef100g-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Pate cho chó nước sốt vị thịt bò PEDIGREE Pouch Beef',
-            //     'GiaSP' => 25000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Pate cho chó nước sốt vị thịt bò PEDIGREE Pouch Beef với hương vị kích thích dành cho cún biếng ăn, có thể trộn với cơm, hạt khô để tạo mùi cho thức ăn. Ngoài ra trong trường hợp không có thức ăn sẵn cho vật nuôi, có thể dùng để cho cún ăn trực tiếp.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'pate-cho-cho-nuoc-sot-vi-thit-bo-pedigree-pouch-beef-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Thức ăn cho chó Poodle con ROYAL CANIN Poodle Puppy',
-            //     'GiaSP' => 185000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Thức ăn cho chó Poodle con ROYAL CANIN Poodle Puppy dành riêng cho tất cả các giống chó Teacup, Tiny Poodle, Toy Poodle, Standard Poodle dưới 10 tháng tuổi.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'thuc-an-cho-cho-poodle-con-royal-canin-poodle-puppy1-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Xương cho chó vị thịt bò VEGEBRAND Orgo Nutrients Beef',
-            //     'GiaSP' => 25000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xương cho chó vị thịt bò VEGEBRAND Orgo Nutrients Beef dành cho các giống chó có kích thước trung bình có chứa vị thịt bò.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xuong-cho-cho-vi-thit-bo-le-vegebrand-orgo-nutrients-beef-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Xương Canxi cho chó VEGEBRAND Orgo High Calcium Cheese',
-            //     'GiaSP' => 50000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xương Canxi cho chó VEGEBRAND Orgo High Calcium Cheese có hàm lượng canxi cao, đáp ứng tốt cho mọi giống chó ở mọi độ tuổi khác nhau. Với thành phần pho mát chất lượng cao từ nguyên liệu thô cùng công thức sữa thơm ngon có hàm lượng canxi cao giúp cho sự phát triển xương tốt hơn, răng chắc khỏe, loại bỏ mảng bám cao răng, giúp răng trắng hơn, không gây mùi hôi khó chịu và cải thiện khả năng gặm – nhai của cún cưng.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xuong-canxi-cho-cho-vegebrand-orgo-high-calcium-cheese.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Pate cho chó hỗ trợ chức năng gan và sáng mắt IRIS OHYAMA Benefit For Eyes & Liver',
-            //     'GiaSP' => 35000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Pate cho chó hỗ trợ chức năng gan và sáng mắt IRIS OHYAMA Benefit For Eyes & Liver là sản phẩm dành cho tất cả giống chó. Với thành phần hoàn toàn từ tự nhiên.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'pate-cho-cho-ho-tro-chuc-nang-gan-va-sang-mat-iris-benefit-for-eyes-liver-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Xương gặm cho chó Poodle VEGEBRAND 360 For Poodles Bone',
-            //     'GiaSP' => 50000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xương gặm cho chó Poodle VEGEBRAND 360 For Poodles Bone vị thịt vịt phù hợp với giống chó Poodle trong mọi giai đoạn phát triển.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xuong-gam-cho-cho-poodle-vegebrand-360-for-poodles-bone-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Thức ăn cho chó Poodle MKB All Life Stages Formula Nutrition',
-            //     'GiaSP' => 315000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Thức ăn cho chó Poodle MKB All Life Stages Formula Nutrition, dành riêng cho chó Poodle, bao gồm tất cả các giai đoạn phát triển.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'thuc-an-cho-cho-poodle-mkb-all-life-stages-formula-nutrition-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 3, // iPhone
-            //     'TenSanPham' => 'Pate cho chó hỗ trợ hệ tiêu hóa IRIS OHYAMA Benefit For Enteric Canal',
-            //     'GiaSP' => 35000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Pate cho chó hỗ trợ hệ tiêu hóa IRIS OHYAMA Benefit For Enteric Canal là sản phẩm dành cho tất cả giống chó.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'pate-cho-cho-ho-tro-he-tieu-hoa-iris-benefit-for-enteric-canal-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-
-
-
-            
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Vòng cổ chó mèo kèm dây dắt cỡ mini HAND IN HAND',
-            //     'GiaSP' => 70000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Vòng cổ chó mèo kèm dây dắt cỡ mini Hand In Hand được làm bằng chất liệu 100% nylon cao cấp, cực bền, cực chắc. Dành cho những chú chó cỡ nhỏ, chó mèo con.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'vong-co-cho-meo-kem-day-dat-co-mini-hand-in-hand-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Chuông lục lạc cho chó mèo PAW nhiều sắc màu',
-            //     'GiaSP' => 10000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Chuông lục lạc cho chó mèo PAW nhiều sắc màu với đầy đủ sắc màu và kích cỡ khác nhau. Phù hợp với tất cả các giống chó mèo.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'chuong-luc-lac-cho-cho-meo-paw-nhieu-sac-mau-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Rọ mõm chó hình mỏ vịt PAW Aduck',
-            //     'GiaSP' => 75000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Rọ mõm chó hình mỏ vịt PAW Aduck là sản phẩm dành cho tất cả giống chó.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'ro-mom-cho-hinh-mo-vit-paw-aduck-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Vòng cổ chó mèo kèm dây dắt cỡ bé HAND IN HAND',
-            //     'GiaSP' => 80000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Vòng cổ chó mèo kèm dây dắt cỡ bé HAND IN HAND được làm bằng chất liệu 100% nylon cao cấp, cực bền, cực chắc.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'vong-co-cho-meo-kem-day-dat-co-be-hand-in-hand-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Xích cho chó kèm vòng cổ HAND IN HAND Reflective Collar Leash',
-            //     'GiaSP' => 200000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xích cho chó kèm vòng cổ HAND IN HAND Reflective Collar Leash là sản phẩm dành cho tất cả giống chó.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xich-cho-cho-kem-vong-co-hand-in-hand-reflective-collar-leash-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Rọ mõm chó bằng da HAND IN HAND Dog Muzzle',
-            //     'GiaSP' => 75000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Rọ mõm cho chó bằng da HAND IN HAND Dog Muzzle là sản phẩm dành cho tất cả giống chó.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'ro-mom-cho-cho-gia-da-hand-in-hand-dog-muzzle-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Bảng tên cho chó mèo PAW Quick-Tag Pet ID',
-            //     'GiaSP' => 50000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Bảng tên cho chó mèo PAW Quick-Tag Pet ID sử dụng công nghệ sản xuất tiên tiến hình cục xương rất đáng yêu. Kích thước size nhỏ 4×2 cm.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'bang-ten-cho-cho-meo-paw-quick-tag-pet-id-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Xích cho chó đai ngực cỡ mini HAND IN HAND',
-            //     'GiaSP' => 80000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xích cho chó đai ngực Hand In Hand là sản phẩm dành cho tất cả giống chó cỡ mini.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xich-cho-cho-dai-nguc-co-mini-hand-in-hand-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Chuông lục lạc cho chó mèo PAW hình mặt đáng yêu',
-            //     'GiaSP' => 25000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Chuông lục lạc cho chó mèo PAW hình mặt đáng yêu. Với đầy đủ sắc màu và kích cỡ khác nhau. Phù hợp với tất cả các giống chó mèo.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'chuong-luc-lac-cho-cho-meo-paw-hinh-mat-dang-yeu-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Xích cho chó đai ngực cỡ bé HAND IN HAND',
-            //     'GiaSP' => 100000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xích cho chó đai ngực HAND IN HAND là sản phẩm dành cho tất cả giống chó cỡ bé.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xich-cho-cho-dai-nguc-co-be-hand-in-hand-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Vòng cổ cho chó cỡ nhỏ PAW bằng da đính cườm cao cấp',
-            //     'GiaSP' => 170000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Vòng cổ cho chó cỡ nhỏ PAW bằng da đính cườm cao cấp là sản phẩm dành cho tất cả giống chó cỡ nhỏ.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'vong-co-cho-cho-co-nho-paw-bang-da-dinh-cuom-cao-cap-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
-            // [
-            //     'MaDanhMuc' => 4, // iPhone
-            //     'TenSanPham' => 'Dây dắt chó mèo đi dạo tự cuốn DELE 009 Retractable Leash',
-            //     'GiaSP' => 175000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Dây dắt chó mèo đi dạo tự cuốn DELE 009 Retractable Leash là sản phẩm phù hợp cho những giống chó dưới 40kg.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'dat-cho-meo-di-dao-tu-cuon-dele-009-retractable-leash-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1, // 1: ẩn , 0: hiện
-            // ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Xương cho chó gặm sạch răng VEGEBRAND 360 Bone Prevent Tartar',
+                'GiaSP' => 10000,
+                'GiamGia' => 0,
+                'MoTa' => 'Thành phần dinh dưỡng Xương cho chó gặm sạch răng VEGEBRAND 360 Bone Prevent Tartar với các thành phần như ngũ cốc, thịt và động vật. Dẫn xuất có nguồn gốc thực vật, rau, khoáng chất. Vitamin E. Feroh Sulphate Monohydrate, Zinc Sulphate Monohydrate, Mangan Sulphate Monohydrate. Màu sắc, hương vị, chất bảo quản.
+                            Phân tích đảm bảo: Protein thô (tối thiểu) 10%. Chất béo thô (tối thiểu) 0,4%. Sợi thô (tối đa) 4%. Tro (tối đa) 5%. Độ ẩm (tối đa) 16%. Canxi (tối thiểu) 0,05%. Photpho (tối thiểu) 0,04%. Natri (tối thiểu) 0,02%.
+                        ',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy',
+                'GiaSP' => 250000,
+                'GiamGia' => 20000,
+                'MoTa' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy dành cho các giống chó con dưới 10 tháng tuổi. Với công thức đặc chế riêng cho nhu cầu dinh dưỡng của chó con thuộc các giống cỡ nhỏ. Thức ăn cho chó con (các giống chó cỡ nhỏ) được nghiên cứu để cung cấp dinh dưỡng theo nhu cầu thực tế của chó con.
+                            Duy trì sức đề kháng cho chó con: chất chống oxy hóa CELT. Hỗ trợ hệ tiêu hóa hoạt động ổn định: L.I.P, đường FOS. Cung cấp dinh dưỡng toàn diện cho chó: chế biến theo công thức cung cấp năng lượng cao.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'thuc-an-cho-cho-con-co-nho-royal-canin-mini-puppy1-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef',
+                'GiaSP' => 25000,
+                'GiamGia' => 4000,
+                'MoTa' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef có tác dụng làm sạch răng cho chó vị thịt bò. Sản phẩm có chứa các thành phần bạc hà tự nhiên kết hợp với hương vị thịt bò, có khả năng loại bỏ các vi khuẩn gây hôi miệng cho chú chó của bạn một cách nhanh chóng. Sản phẩm có thể kết hợp dùng để huấn luyện.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'banh-thuong-cho-cho-vi-thit-bo-vegebrand-orgo-freshening-biscuit-bacon-beef-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Pate cho chó vị thịt bò IRIS OHYAMA One Care Beef',
+                'GiaSP' => 35000,
+                'GiamGia' => 0,
+                'MoTa' => 'Pate cho chó vị thịt bò IRIS OHYAMA One Care Beef là sản phẩm dành cho tất cả giống chó. Với thành phần hoàn toàn từ tự nhiên và thịt bò.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'pate-cho-cho-vi-thit-bo-iris-one-care-beef100g-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Pate cho chó nước sốt vị thịt bò PEDIGREE Pouch Beef',
+                'GiaSP' => 25000,
+                'GiamGia' => 0,
+                'MoTa' => 'Pate cho chó nước sốt vị thịt bò PEDIGREE Pouch Beef với hương vị kích thích dành cho cún biếng ăn, có thể trộn với cơm, hạt khô để tạo mùi cho thức ăn. Ngoài ra trong trường hợp không có thức ăn sẵn cho vật nuôi, có thể dùng để cho cún ăn trực tiếp.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'pate-cho-cho-nuoc-sot-vi-thit-bo-pedigree-pouch-beef-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Thức ăn cho chó Poodle con ROYAL CANIN Poodle Puppy',
+                'GiaSP' => 185000,
+                'GiamGia' => 0,
+                'MoTa' => 'Thức ăn cho chó Poodle con ROYAL CANIN Poodle Puppy dành riêng cho tất cả các giống chó Teacup, Tiny Poodle, Toy Poodle, Standard Poodle dưới 10 tháng tuổi.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'thuc-an-cho-cho-poodle-con-royal-canin-poodle-puppy1-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Xương cho chó vị thịt bò VEGEBRAND Orgo Nutrients Beef',
+                'GiaSP' => 25000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xương cho chó vị thịt bò VEGEBRAND Orgo Nutrients Beef dành cho các giống chó có kích thước trung bình có chứa vị thịt bò.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xuong-cho-cho-vi-thit-bo-le-vegebrand-orgo-nutrients-beef-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Xương Canxi cho chó VEGEBRAND Orgo High Calcium Cheese',
+                'GiaSP' => 50000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xương Canxi cho chó VEGEBRAND Orgo High Calcium Cheese có hàm lượng canxi cao, đáp ứng tốt cho mọi giống chó ở mọi độ tuổi khác nhau. Với thành phần pho mát chất lượng cao từ nguyên liệu thô cùng công thức sữa thơm ngon có hàm lượng canxi cao giúp cho sự phát triển xương tốt hơn, răng chắc khỏe, loại bỏ mảng bám cao răng, giúp răng trắng hơn, không gây mùi hôi khó chịu và cải thiện khả năng gặm – nhai của cún cưng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xuong-canxi-cho-cho-vegebrand-orgo-high-calcium-cheese.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Pate cho chó hỗ trợ chức năng gan và sáng mắt IRIS OHYAMA Benefit For Eyes & Liver',
+                'GiaSP' => 35000,
+                'GiamGia' => 0,
+                'MoTa' => 'Pate cho chó hỗ trợ chức năng gan và sáng mắt IRIS OHYAMA Benefit For Eyes & Liver là sản phẩm dành cho tất cả giống chó. Với thành phần hoàn toàn từ tự nhiên.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'pate-cho-cho-ho-tro-chuc-nang-gan-va-sang-mat-iris-benefit-for-eyes-liver-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Xương gặm cho chó Poodle VEGEBRAND 360 For Poodles Bone',
+                'GiaSP' => 50000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xương gặm cho chó Poodle VEGEBRAND 360 For Poodles Bone vị thịt vịt phù hợp với giống chó Poodle trong mọi giai đoạn phát triển.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xuong-gam-cho-cho-poodle-vegebrand-360-for-poodles-bone-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Thức ăn cho chó Poodle MKB All Life Stages Formula Nutrition',
+                'GiaSP' => 315000,
+                'GiamGia' => 0,
+                'MoTa' => 'Thức ăn cho chó Poodle MKB All Life Stages Formula Nutrition, dành riêng cho chó Poodle, bao gồm tất cả các giai đoạn phát triển.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'thuc-an-cho-cho-poodle-mkb-all-life-stages-formula-nutrition-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 3, // iPhone
+                'TenSanPham' => 'Pate cho chó hỗ trợ hệ tiêu hóa IRIS OHYAMA Benefit For Enteric Canal',
+                'GiaSP' => 35000,
+                'GiamGia' => 0,
+                'MoTa' => 'Pate cho chó hỗ trợ hệ tiêu hóa IRIS OHYAMA Benefit For Enteric Canal là sản phẩm dành cho tất cả giống chó.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'pate-cho-cho-ho-tro-he-tieu-hoa-iris-benefit-for-enteric-canal-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
 
 
 
 
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Vòng cổ chó mèo kèm dây dắt cỡ mini HAND IN HAND',
+                'GiaSP' => 70000,
+                'GiamGia' => 0,
+                'MoTa' => 'Vòng cổ chó mèo kèm dây dắt cỡ mini Hand In Hand được làm bằng chất liệu 100% nylon cao cấp, cực bền, cực chắc. Dành cho những chú chó cỡ nhỏ, chó mèo con.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'vong-co-cho-meo-kem-day-dat-co-mini-hand-in-hand-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Chuông lục lạc cho chó mèo PAW nhiều sắc màu',
+                'GiaSP' => 10000,
+                'GiamGia' => 0,
+                'MoTa' => 'Chuông lục lạc cho chó mèo PAW nhiều sắc màu với đầy đủ sắc màu và kích cỡ khác nhau. Phù hợp với tất cả các giống chó mèo.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'chuong-luc-lac-cho-cho-meo-paw-nhieu-sac-mau-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Rọ mõm chó hình mỏ vịt PAW Aduck',
+                'GiaSP' => 75000,
+                'GiamGia' => 0,
+                'MoTa' => 'Rọ mõm chó hình mỏ vịt PAW Aduck là sản phẩm dành cho tất cả giống chó.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'ro-mom-cho-hinh-mo-vit-paw-aduck-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Vòng cổ chó mèo kèm dây dắt cỡ bé HAND IN HAND',
+                'GiaSP' => 80000,
+                'GiamGia' => 0,
+                'MoTa' => 'Vòng cổ chó mèo kèm dây dắt cỡ bé HAND IN HAND được làm bằng chất liệu 100% nylon cao cấp, cực bền, cực chắc.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'vong-co-cho-meo-kem-day-dat-co-be-hand-in-hand-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Xích cho chó kèm vòng cổ HAND IN HAND Reflective Collar Leash',
+                'GiaSP' => 200000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xích cho chó kèm vòng cổ HAND IN HAND Reflective Collar Leash là sản phẩm dành cho tất cả giống chó.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xich-cho-cho-kem-vong-co-hand-in-hand-reflective-collar-leash-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Rọ mõm chó bằng da HAND IN HAND Dog Muzzle',
+                'GiaSP' => 75000,
+                'GiamGia' => 0,
+                'MoTa' => 'Rọ mõm cho chó bằng da HAND IN HAND Dog Muzzle là sản phẩm dành cho tất cả giống chó.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'ro-mom-cho-cho-gia-da-hand-in-hand-dog-muzzle-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Bảng tên cho chó mèo PAW Quick-Tag Pet ID',
+                'GiaSP' => 50000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bảng tên cho chó mèo PAW Quick-Tag Pet ID sử dụng công nghệ sản xuất tiên tiến hình cục xương rất đáng yêu. Kích thước size nhỏ 4×2 cm.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bang-ten-cho-cho-meo-paw-quick-tag-pet-id-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Xích cho chó đai ngực cỡ mini HAND IN HAND',
+                'GiaSP' => 80000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xích cho chó đai ngực Hand In Hand là sản phẩm dành cho tất cả giống chó cỡ mini.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xich-cho-cho-dai-nguc-co-mini-hand-in-hand-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Chuông lục lạc cho chó mèo PAW hình mặt đáng yêu',
+                'GiaSP' => 25000,
+                'GiamGia' => 0,
+                'MoTa' => 'Chuông lục lạc cho chó mèo PAW hình mặt đáng yêu. Với đầy đủ sắc màu và kích cỡ khác nhau. Phù hợp với tất cả các giống chó mèo.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'chuong-luc-lac-cho-cho-meo-paw-hinh-mat-dang-yeu-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Xích cho chó đai ngực cỡ bé HAND IN HAND',
+                'GiaSP' => 100000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xích cho chó đai ngực HAND IN HAND là sản phẩm dành cho tất cả giống chó cỡ bé.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xich-cho-cho-dai-nguc-co-be-hand-in-hand-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Vòng cổ cho chó cỡ nhỏ PAW bằng da đính cườm cao cấp',
+                'GiaSP' => 170000,
+                'GiamGia' => 0,
+                'MoTa' => 'Vòng cổ cho chó cỡ nhỏ PAW bằng da đính cườm cao cấp là sản phẩm dành cho tất cả giống chó cỡ nhỏ.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'vong-co-cho-cho-co-nho-paw-bang-da-dinh-cuom-cao-cap-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
+            [
+                'MaDanhMuc' => 4, // iPhone
+                'TenSanPham' => 'Dây dắt chó mèo đi dạo tự cuốn DELE 009 Retractable Leash',
+                'GiaSP' => 175000,
+                'GiamGia' => 0,
+                'MoTa' => 'Dây dắt chó mèo đi dạo tự cuốn DELE 009 Retractable Leash là sản phẩm phù hợp cho những giống chó dưới 40kg.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'dat-cho-meo-di-dao-tu-cuon-dele-009-retractable-leash-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+            ],
 
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Small',
-            //     'GiaSP' => 220000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Small với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 5kg.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-small-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Xẻng xúc phân chó mèo PAW bằng nhựa cao cấp đủ màu',
-            //     'GiaSP' => 40000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Xẻng xúc phân chó mèo PAW bằng nhựa cao cấp đủ màu Plastic Black Cat Litter Scoop với nhiều màu sắc khác nhau cho bạn lựa chọn. Màu sắc đen, xanh nước biển, xanh lá cây, hồng. Kích thước 26.5 cm.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'xeng-xuc-phan-cho-meo-soleil-bang-nhua-cao-cap-du-mau.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT500',
-            //     'GiaSP' => 395000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT500 với thiết kế hình vuông nhỏ gọn, thuận tiện cho việc cún cưng đi vệ sinh. Sử dụng chất liệu nhựa tổng hợp chất lượng cao. Có tính đàn hồi giúp chó mèo dẫm lên cảm thấy thoải mái. Phù hợp với tất cả các giống chó mèo, giới tính đực và cái.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 've-sinh-cho-cho-thanh-cao-iris-trt500-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó đi đúng chỗ IRIS OHYAMA FTT',
-            //     'GiaSP' => 245000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó đi đúng chỗ IRIS OHYAMA FTT sử dụng chất liệu nhựa tổng hợp chất lượng cao. Có tính đàn hồi giúp chó mèo dẫm lên cảm thấy thoải mái. Khay hướng dẫn chó đi vệ sinh đúng chỗ trong nhà với màu sắc đa dạng, bền và chịu lực tốt, tuổi thọ dài. Sử dụng kết hợp với nước xịt hướng dẫn vệ sinh đúng chỗ đảm bảo sẽ huấn luyện cún cưng thành công 100%.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'khay-ve-sinh-cho-cho-di-dung-cho-iris-ftt-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó thành cao SAWYER PET Toilet',
-            //     'GiaSP' => 280000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó thành cao SAWYER PET Toilet giúp bạn huấn luyện chó cưng đi vệ sinh đúng chỗ quy định. Thiết kế nhỏ gọn phù hợp với không gian của mọi gia đình. Thích hợp với tất cả các giống chó mèo lớn, nhỏ, đực và cái.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 've-sinh-cho-cho-thanh-cao-sawyer-pet-toilet-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT650',
-            //     'GiaSP' => 495000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT650 với thiết kế hình vuông nhỏ gọn, thuận tiện cho việc cún cưng đi vệ sinh. Phù hợp với các giống chó lớn nhỏ khác nhau như Poodle, Phốc, Phốc sóc…',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 've-sinh-cho-cho-thanh-cao-iris-trt650-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Medium',
-            //     'GiaSP' => 290000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Medium với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 10kg.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-medium-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
-            // [
-            //     'MaDanhMuc' => 5,
-            //     'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Large',
-            //     'GiaSP' => 365000,
-            //     'GiamGia' => 0,
-            //     'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Large với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 20kg.',
-            //     'SoLuong' => 100,
-            //     'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-large-400x400.jpg',
-            //     'LuotXem' => 0,
-            //     'LuotBan' => 0,
-            //     'ThoiGian' => now(),
-            //     'TrangThai' => 1,
-            // ],
+
+
+
+
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Small',
+                'GiaSP' => 220000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Small với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 5kg.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-small-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Xẻng xúc phân chó mèo PAW bằng nhựa cao cấp đủ màu',
+                'GiaSP' => 40000,
+                'GiamGia' => 0,
+                'MoTa' => 'Xẻng xúc phân chó mèo PAW bằng nhựa cao cấp đủ màu Plastic Black Cat Litter Scoop với nhiều màu sắc khác nhau cho bạn lựa chọn. Màu sắc đen, xanh nước biển, xanh lá cây, hồng. Kích thước 26.5 cm.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'xeng-xuc-phan-cho-meo-soleil-bang-nhua-cao-cap-du-mau.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT500',
+                'GiaSP' => 395000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT500 với thiết kế hình vuông nhỏ gọn, thuận tiện cho việc cún cưng đi vệ sinh. Sử dụng chất liệu nhựa tổng hợp chất lượng cao. Có tính đàn hồi giúp chó mèo dẫm lên cảm thấy thoải mái. Phù hợp với tất cả các giống chó mèo, giới tính đực và cái.',
+                'SoLuong' => 100,
+                'HinhAnh' => 've-sinh-cho-cho-thanh-cao-iris-trt500-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó đi đúng chỗ IRIS OHYAMA FTT',
+                'GiaSP' => 245000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó đi đúng chỗ IRIS OHYAMA FTT sử dụng chất liệu nhựa tổng hợp chất lượng cao. Có tính đàn hồi giúp chó mèo dẫm lên cảm thấy thoải mái. Khay hướng dẫn chó đi vệ sinh đúng chỗ trong nhà với màu sắc đa dạng, bền và chịu lực tốt, tuổi thọ dài. Sử dụng kết hợp với nước xịt hướng dẫn vệ sinh đúng chỗ đảm bảo sẽ huấn luyện cún cưng thành công 100%.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'khay-ve-sinh-cho-cho-di-dung-cho-iris-ftt-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó thành cao SAWYER PET Toilet',
+                'GiaSP' => 280000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó thành cao SAWYER PET Toilet giúp bạn huấn luyện chó cưng đi vệ sinh đúng chỗ quy định. Thiết kế nhỏ gọn phù hợp với không gian của mọi gia đình. Thích hợp với tất cả các giống chó mèo lớn, nhỏ, đực và cái.',
+                'SoLuong' => 100,
+                'HinhAnh' => 've-sinh-cho-cho-thanh-cao-sawyer-pet-toilet-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT650',
+                'GiaSP' => 495000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó thành cao IRIS OHYAMA TRT650 với thiết kế hình vuông nhỏ gọn, thuận tiện cho việc cún cưng đi vệ sinh. Phù hợp với các giống chó lớn nhỏ khác nhau như Poodle, Phốc, Phốc sóc…',
+                'SoLuong' => 100,
+                'HinhAnh' => 've-sinh-cho-cho-thanh-cao-iris-trt650-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Medium',
+                'GiaSP' => 290000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Medium với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 10kg.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-medium-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
+            [
+                'MaDanhMuc' => 5,
+                'TenSanPham' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Large',
+                'GiaSP' => 365000,
+                'GiamGia' => 0,
+                'MoTa' => 'Khay vệ sinh cho chó MAKAR Dog Toilet Trays Large với thiết kế thông minh được làm từ 100% nhựa tổng hợp cao cấp an toàn với thú cưng và môi trường. Phù hợp với tất cả các giống chó và giới tính đực cái có trọng lượng dưới 20kg.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'khay-ve-sinh-cho-cho-makar-dog-toilet-trays-large-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1,
+            ],
 
 
             [
@@ -893,6 +895,98 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
 
         foreach ($sanPhams as $sanPham) {
             SanPham::create($sanPham);
+        }
+
+        $users = [
+            [
+                'MaTaiKhoan' => 1,
+                'Hovaten' => 'Nguyễn Văn A',
+                'SDT' => '0123456789',
+                'Email' => 'nguyenvana@example.com',
+                'ThuCung' => 'Chó',
+                'DiaChi' => '123 Đường ABC, Quận 1, TP.HCM',
+                'Quyen' => 1, // Ví dụ: 1 cho admin
+                'Matkhau' => bcrypt('password1'), // Mã hóa mật khẩu
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'MaTaiKhoan' => 2,
+                'Hovaten' => 'Trần Thị B',
+                'SDT' => '0987654321',
+                'Email' => 'tranthib@example.com',
+                'ThuCung' => 'Mèo',
+                'DiaChi' => '456 Đường DEF, Quận 2, TP.HCM',
+                'Quyen' => 2, // Ví dụ: 2 cho user
+                'Matkhau' => bcrypt('password2'), // Mã hóa mật khẩu
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'MaTaiKhoan' => 3,
+                'Hovaten' => 'Lê Văn C',
+                'SDT' => '0912345678',
+                'Email' => 'levanc@example.com',
+                'ThuCung' => 'Chó',
+                'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
+                'Quyen' => 2, // Ví dụ: 2 cho user
+                'Matkhau' => bcrypt('password3'), // Mã hóa mật khẩu
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // Bạn có thể thêm nhiều người dùng khác ở đây
+        ];
+
+        foreach ($users as $user) {
+            User::create($user); // Sử dụng mô hình User để chèn dữ liệu
+        }
+
+         // Tạo dữ liệu mẫu cho đơn hàng
+         $donHangs = [
+            [
+                'MaTaiKhoan' => 1,
+                'TongTien' => 500000,
+                'SoLuong' => 2,
+                'Ten' => 'Nguyễn Văn A',
+                'SDT' => '0123456789',
+                'DiaChi' => '123 Đường ABC, Quận 1, TP.HCM',
+                'PTTT' => 'Chuyển khoản',
+                'GhiChu' => 'Ghi chú đơn hàng 1',
+                
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(3),
+            ],
+            [
+                'MaTaiKhoan' => 2,
+                'TongTien' => 250000,
+                'SoLuong' => 1,
+                'Ten' => 'Trần Thị B',
+                'SDT' => '0987654321',
+                'DiaChi' => '456 Đường DEF, Quận 2, TP.HCM',
+                'PTTT' => 'Tiền mặt',
+                'GhiChu' => 'Ghi chú đơn hàng 2',
+                
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(1),
+            ],
+            [
+                'MaTaiKhoan' => 3,
+                'TongTien' => 750000,
+                'SoLuong' => 3,
+                'Ten' => 'Lê Văn C',
+                'SDT' => '0912345678',
+                'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
+                'PTTT' => 'Chuyển khoản',
+                'GhiChu' => 'Ghi chú đơn hàng 3',
+                
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(2),
+            ],
+            // Thêm nhiều đơn hàng mẫu khác nếu cần
+        ];
+
+        foreach ($donHangs as $donHang) {
+            DonHang::create($donHang);
         }
     }
 }

@@ -14,9 +14,17 @@ return new class extends Migration
         Schema::create('don_hang', function (Blueprint $table) {
             $table->id('MaDH'); // Khóa chính
             $table->unsignedBigInteger('MaTaiKhoan'); // Khóa ngoại đến bảng TaiKhoan
-            $table->decimal('TongTien', 10, 2); 
+            $table->integer('TongTien');
             $table->integer('SoLuong');
-            $table->string('TrangThai'); // Ví dụ: 'Chờ xác nhận', 'Đang giao', 'Hoàn thành'
+            $table->string('Ten'); // Có thể là tên người nhận
+            $table->string('SDT');
+            $table->string('DiaChi');
+            $table->string('PTTT'); // Phương thức thanh toán
+            $table->string('GhiChu');
+            $table->enum('TrangThai', ['cho_xac_nhan', 'dang_xu_ly', 'hoan_thanh', 'huy'])->default('cho_xac_nhan'); // Trạng thái đơn hàng
+            $table->dateTime('NgayDat');  // Ngày và giờ đặt hàng có thể để trống
+            $table->dateTime('NgayGiao')->nullable(); // Ngày và giờ giao hàng có thể để trống
+
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại

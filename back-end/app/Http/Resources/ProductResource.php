@@ -18,6 +18,7 @@ class ProductResource extends JsonResource
             'ma_san_pham'=>$this->MaSP,
             'ma_danh_muc'=>$this->MaDanhMuc,
             'ten_san_pham'=>$this->TenSanPham,
+            'tenDM' => $this->danhMuc->TenDM ?? 'Không có danh mục',
             'gia'=>$this->GiaSP,
             'giam_gia'=>$this->GiamGia,
             'mo_ta'=>$this->MoTa,

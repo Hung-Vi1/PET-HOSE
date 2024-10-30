@@ -30,7 +30,7 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-12">
               <div className="page-title-heading">
-                <h1 className="title">Woolen T-Shirt</h1>
+                <h2 className="title">{sp ? sp.ten_san_pham : 'Sản phẩm'}</h2>
               </div>
               {/* /.page-title-heading */}
               <div className="breadcrumbs">
@@ -42,7 +42,7 @@ function ChiTietSanPham() {
                     <Link to="/sanpham">Sản phẩm</Link>
                   </li>
                   <li>
-                    <Link to="shop-detail-des.html">Mẫu</Link>
+                    <Link to="shop-detail-des.html">{sp ? sp.ten_san_pham : 'Sản phẩm'}</Link>
                   </li>
                 </ul>
               </div>
@@ -60,7 +60,7 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-6">
               <img
-                src={`image/product/${sp.hinh_anh}`}
+                src={`../image/product/${sp.hinh_anh}`}
                 className="card-img-top mx-auto"
                 alt={sp.ten_san_pham}
                 style={{ width: "75%" }}

@@ -10,7 +10,6 @@ function SanPham() {
   const toggleSearch = () => setSearchVisible(!isSearchVisible);
 
   const [sp, ganSP] = useState([]);
-
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
       .then((res) => res.json())
