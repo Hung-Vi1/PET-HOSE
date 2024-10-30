@@ -40,6 +40,10 @@
     overflow: hidden;
 }
 
+.fix-padding{
+	padding: 0 0 63px 0px !important;
+}
+
 .flat-row.flat-error {
 	padding: 180px 0px 189px 0px;
 }
@@ -1171,6 +1175,15 @@
 
 .product.style2 .product-item .product-title {
 	font-size: 16px;
+}
+
+.box-title{
+	height: 40px; /* Chiều cao cố định cho tên sản phẩm */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+	text-align: center;
 }
 
 .product.style2 .product-item .product-info {

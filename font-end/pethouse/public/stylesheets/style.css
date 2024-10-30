@@ -200,7 +200,7 @@ a {
 
 a:hover,
 a:focus {
-	color: #f63440;
+	/* color: #f63440; */
 	text-decoration: none;
 	outline: 0;
 	-webkit-transition: all 0.3s ease-in-out;

@@ -150,7 +150,41 @@ function Index() {
                             </div>
                             <div className="product-content product-fourcolumn clearfix">
                                 <ul className="product style2 clearfix">
+<<<<<<< HEAD
                                     <li className="product-item">
+=======
+
+                                    {NewProduct.slice(0, 4).map((sp, i) => (
+
+                                        <li className="product-item" key={i}>
+                                            <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                                <div className="product-thumb clearfix">
+                                                    <a href="/" className="product-link">
+                                                        <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                    </a>
+                                                    <span className="new">New</span>
+                                                </div>
+                                                <div className="product-info text-center clearfix">
+                                                    <span className="product-title box-title">
+                                                        {sp.ten_san_pham}
+                                                    </span>
+                                                    <div className="price">
+                                                        <ins>
+                                                            <span className="amount">{sp.gia} đ</span>
+                                                        </ins>
+                                                    </div>
+                                                </div>
+                                                <div className="add-to-cart text-center">
+                                                    <a href="/">ADD TO CART</a>
+                                                </div>
+                                                <a href="/" className="like">
+                                                    <i className="fa fa-heart-o" />
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                    {/* <li className="product-item">
+>>>>>>> master
                                         <div className="product-thumb clearfix">
                                             <a href="/" className="product-link">
                                                 <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="product" />
@@ -184,6 +218,7 @@ function Index() {
                                         <a href="/" className="like">
                                             <i className="fa fa-heart-o" />
                                         </a>
+<<<<<<< HEAD
                                     </li>
                                     <li className="product-item">
                                         <div className="product-thumb clearfix">
@@ -281,6 +316,9 @@ function Index() {
                                             <i className="fa fa-heart-o" />
                                         </a>
                                     </li>
+=======
+                                    </li> */}
+>>>>>>> master
                                 </ul>
                             </div>
                         </div>
@@ -343,7 +381,7 @@ function Index() {
                         <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
+                                {/* <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
                                         <a href="#">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -366,6 +404,7 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
+<<<<<<< HEAD
                                 </li>
                                 <li className="product-item man accessories">
                                     <div className="product-thumb clearfix">
@@ -541,6 +580,39 @@ function Index() {
                                         <i className="fa fa-heart-o" />
                                     </a>
                                 </li>
+=======
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
+
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
+
+>>>>>>> master
                             </ul>
                         </div>
                     </div>
@@ -548,41 +620,7 @@ function Index() {
                     <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
-                                    <div className="product-thumb clearfix">
-                                        <a href="#">
-                                            <img src="images/shop/sh-4/1.jpg" alt="image" />
-                                        </a>
-                                    </div>
-                                    <div className="product-info clearfix">
-                                        <span className="product-title">
-                                            Cotton White Underweaer Block Out Edition
-                                        </span>
-                                        <div className="price">
-                                            <ins>
-                                                <span className="amount">$100.00</span>
-                                            </ins>
-                                        </div>
-                                        <ul className="flat-color-list width-14">
-                                            <li>
-                                                <a href="#" className="red" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="blue" />
-                                            </li>
-                                            <li>
-                                                <a href="#" className="black" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="add-to-cart text-center">
-                                        <a href="#">ADD TO CART</a>
-                                    </div>
-                                    <a href="#" className="like">
-                                        <i className="fa fa-heart-o" />
-                                    </a>
-                                </li>
-                                <li className="product-item man accessories">
+                                {/* <li className="product-item man accessories">
                                     <div className="product-thumb clearfix">
                                         <a href="#">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -605,6 +643,7 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
+<<<<<<< HEAD
                                 </li>
                                 <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
@@ -667,6 +706,38 @@ function Index() {
                                         <i className="fa fa-heart-o" />
                                     </a>
                                 </li>         
+=======
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
+
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
+>>>>>>> master
                             </ul>
                         </div>
                     </div>
@@ -674,7 +745,7 @@ function Index() {
                     <div className="divider h54" />
                         <div className="product-content product-fourcolumn clearfix">
                             <ul className="product style2 isotope-product clearfix">
-                                <li className="product-item kid woman">
+                                {/* <li className="product-item kid woman">
                                     <div className="product-thumb clearfix">
                                         <a href="#">
                                             <img src="image/product/xuong-cho-cho-gam-sach-rang-vegebrand-360-bone-prevent-tartar-400x400.jpg" alt="image" />
@@ -707,6 +778,7 @@ function Index() {
                                     <a href="#" className="like">
                                         <i className="fa fa-heart-o" />
                                     </a>
+<<<<<<< HEAD
                                 </li>
                                 <li className="product-item man accessories">
                                     <div className="product-thumb clearfix">
@@ -793,6 +865,38 @@ function Index() {
                                         <i className="fa fa-heart-o" />
                                     </a>
                                 </li>         
+=======
+                                </li> */}
+                                {NewProduct.slice(0, 8).map((sp, i) => (
+
+                                    <li className="product-item" key={i}>
+                                        <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+                                            <div className="product-thumb clearfix">
+                                                <a href="/" className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </a>
+                                                <span className="new">New</span>
+                                            </div>
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
+                                                </div>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <a href="/">ADD TO CART</a>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+                                        </Link>
+                                    </li>
+                                ))}
+>>>>>>> master
                             </ul>
                         </div>
                     </div>

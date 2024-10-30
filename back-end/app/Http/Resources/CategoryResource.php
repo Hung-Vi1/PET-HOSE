@@ -19,8 +19,8 @@ class CategoryResource extends JsonResource
             'ten_danh_muc'=>$this->TenDM,
             'parent_id'=>$this->parent_id,
             'loai'=>$this->loai,
-            'ngay_tao'=>$this->created_at->format('d/m/Y'),
-            'ngay_cap_nhat'=>$this->updated_at->format('d/m/Y'),
+            'ngay_tao' => $this->created_at ? $this->created_at->format('d/m/Y') : null,
+            'ngay_cap_nhat' => $this->updated_at ? $this->updated_at->format('d/m/Y') : null,
             ];
     }
 }

@@ -28,13 +28,8 @@ class ChiTietDonHang extends Model
     protected $fillable = [
         'MaDH',
         'MaSP',
-        'TongTien',
+        'DonGia',
         'SoLuong',
-        'Ten',
-        'SDT',
-        'DiaChi',
-        'PTTT',
-        'TrangThai',
     ];
 
     /**

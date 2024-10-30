@@ -1,5 +1,37 @@
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 function LienHe() {
+    useEffect(() => {
+        // Khởi tạo bản đồ Google
+        const initializeMap = () => {
+            const mapOptions = {
+                center: new window.google.maps.LatLng(10.853162580208462, 106.62685899715075), // Tọa độ mong muốn
+                zoom: 15, // Độ phóng to của bản đồ
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+            };
+            const map = new window.google.maps.Map(document.getElementById('map'), mapOptions);
+
+            // Tạo dấu chỉ (marker)
+            const marker = new window.google.maps.Marker({
+                position: { lat: 10.853162580208462, lng: 106.62685899715075 }, // Tọa độ của marker
+                map: map,
+                title: 'Địa điểm của chúng tôi', // Tiêu đề cho marker
+            });
+        };
+
+        // Tải script Google Maps và khởi tạo bản đồ
+        if (window.google && window.google.maps) {
+            initializeMap();
+        } else {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
+            script.async = true;
+            script.onload = initializeMap;
+            document.body.appendChild(script);
+        }
+    }, []);
+
     return (
         <>
             <div className="page-title parallax parallax1">
@@ -9,26 +41,18 @@ function LienHe() {
                             <div className="page-title-heading">
                                 <h1 className="title">Liên hệ</h1>
                             </div>
-                            {/* /.page-title-heading */}
                             <div className="breadcrumbs">
                                 <ul>
-                                    <li>
-                                        <Link to="/">Trang chủ</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/lienhe">Liên hệ</Link>
-                                    </li>
+                                    <li><Link to="/">Trang chủ</Link></li>
+                                    <li><Link to="/lienhe">Liên hệ</Link></li>
                                 </ul>
                             </div>
-                            {/* /.breadcrumbs */}
                         </div>
-                        {/* /.col-md-12 */}
                     </div>
-                    {/* /.row */}
                 </div>
-                {/* /.container */}
             </div>
 
+            {/* Nội dung trang liên hệ */}
             <section className="flat-row flat-iconbox">
                 <div className="container">
                     <div className="row">
@@ -36,11 +60,8 @@ function LienHe() {
                             <div className="title-section">
                                 <h2 className="title">Get In Touch</h2>
                             </div>
-                            {/* /.title-section */}
                         </div>
-                        {/* /.col-md-12 */}
                     </div>
-                    {/* /.row */}
                     <div className="row">
                         <div className="col-md-4">
                             <div className="iconbox text-center">
@@ -49,15 +70,11 @@ function LienHe() {
                                         <i className="fa fa-map-marker" />
                                     </div>
                                 </div>
-                                {/* /.box-header */}
                                 <div className="box-content">
                                     <p>203, Envato Labs, Behind Alis Steet</p>
                                 </div>
-                                {/* /.box-content */}
                             </div>
-                            {/* /.iconbox */}
                         </div>
-                        {/* /.col-md-4 */}
                         <div className="col-md-4">
                             <div className="divider h0" />
                             <div className="iconbox text-center">
@@ -66,15 +83,11 @@ function LienHe() {
                                         <i className="fa fa-phone" />
                                     </div>
                                 </div>
-                                {/* /.box-header */}
                                 <div className="box-content">
                                     <p>+12 345 678 910 / +23 122 345 678</p>
                                 </div>
-                                {/* /.box-content */}
                             </div>
-                            {/* /.iconbox */}
                         </div>
-                        {/* /.col-md-4 */}
                         <div className="col-md-4">
                             <div className="divider h0" />
                             <div className="iconbox text-center">
@@ -83,27 +96,13 @@ function LienHe() {
                                         <i className="fa fa-envelope" />
                                     </div>
                                 </div>
-                                {/* /.box-header */}
                                 <div className="box-content">
                                     <p>Infor.deercreative@gmail.com</p>
                                 </div>
-                                {/* /.box-content */}
                             </div>
-                            {/* /.iconbox */}
                         </div>
-                        {/* /.col-md-4 */}
                     </div>
-                    {/* /.row */}
-                    <div className="divider h43" />
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="flat-map" />
-                        </div>
-                        {/* /.col-md-12 */}
-                    </div>
-                    {/* /.row */}
                 </div>
-                {/* /.container */}
             </section>
 
             <section className="flat-row flat-contact">
@@ -113,11 +112,8 @@ function LienHe() {
                             <div className="title-section margin_bottom_17">
                                 <h2 className="title">Send Us Email</h2>
                             </div>
-                            {/* /.title-section */}
                         </div>
-                        {/* /.col-md-12 */}
                     </div>
-                    {/* /.row */}
                     <div className="row">
                         <div className="wrap-contact style2">
                             <form
@@ -135,7 +131,6 @@ function LienHe() {
                                             placeholder="Name"
                                             aria-required="true"
                                             size={30}
-                                            defaultValue=""
                                             name="author"
                                             id="author"
                                         />
@@ -146,7 +141,6 @@ function LienHe() {
                                             type="email"
                                             size={30}
                                             placeholder="Email"
-                                            defaultValue=""
                                             name="email"
                                             id="email"
                                         />
@@ -158,7 +152,6 @@ function LienHe() {
                                             placeholder="Subject"
                                             aria-required="true"
                                             size={30}
-                                            defaultValue=""
                                             name="subject"
                                             id="subject"
                                         />
@@ -167,12 +160,9 @@ function LienHe() {
                                 <div className="contact-message clearfix">
                                     <label />
                                     <textarea
-                                        className=""
-                                        tabIndex={4}
                                         placeholder="Message"
                                         name="message"
                                         required=""
-                                        defaultValue={""}
                                     />
                                 </div>
                                 <div className="form-submit">
@@ -180,11 +170,18 @@ function LienHe() {
                                 </div>
                             </form>
                         </div>
-                        {/* /.wrap-contact */}
                     </div>
-                    {/* /.row */}
                 </div>
-                {/* /.container */}
+            </section>
+
+            <section className="flat-row flat-map fix-padding" style={{height:'600px'}}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div id="map" style={{ height: '600px', width: '100%' }}></div> {/* Tăng chiều cao và kích thước của bản đồ */}
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <section className="flat-row mail-chimp">
@@ -243,17 +240,13 @@ function LienHe() {
                                         </a>
                                     </li>
                                 </ul>
-                                {/* /.flat-social */}
                             </div>
-                            {/* /.subscribe */}
                         </div>
                     </div>
                 </div>
             </section>
-
-
-
         </>
-    )
+    );
 }
-export default LienHe
+
+export default LienHe;
