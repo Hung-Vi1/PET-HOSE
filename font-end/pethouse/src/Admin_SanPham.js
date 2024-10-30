@@ -187,9 +187,9 @@ function Admin_SanPham() {
                       />
                     </td>
                     <td>{sp.ten_san_pham}</td>
-                    <td className="text-center">{sp.ma_danh_muc}</td>
+                    <td className="text-center">{sp.tenDM}</td>
                     <td className="text-center">{sp.ngay_tao}</td>
-                    <td className="text-center">
+                    <td className="text-center" style={{width: "150px"}}>
                       <Link
                         to={"/adminsanphamchitiet"}
                         className="btn btn-outline-warning m-1"
@@ -202,9 +202,9 @@ function Admin_SanPham() {
                       {/* <button onClick={() => xoaSanPham(sp.maSP)}><i className="bi bi-trash"></i></button> */}
                       <button
                         onClick={() => xoaSanPham(sp.ma_san_pham)}
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-outline-danger m-1"
                       >
-                        Xóa
+                        <i className="bi bi-trash"></i>
                       </button>
                     </td>
                   </tr>
