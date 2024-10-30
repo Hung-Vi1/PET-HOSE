@@ -38,12 +38,12 @@
   }
 }
 
-.card-text {
+.product-title {
   display: -webkit-box;
   /* Thiết lập chế độ hiển thị */
   -webkit-box-orient: vertical;
   /* Định hướng chiều dọc */
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   /* Giới hạn số dòng hiển thị */
   overflow: hidden;
   /* Ẩn nội dung vượt quá */
