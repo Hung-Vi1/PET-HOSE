@@ -159,7 +159,7 @@ function Admin_SanPham() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang }) {
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   const [ganSP] = useState([]);
 
   const xoaSanPham = (maSP) => {
@@ -199,7 +199,7 @@ function HienSPTrongMotTrang({ spTrongTrang }) {
         spTrongTrang.map((sp, i) => {
           return (
             <tr>
-              <td className="text-center">{i + 1}</td>
+              <td className="text-center">{fromIndex + i + 1}</td>
               <td className="text-center">
                 <img
                   src={`image/product/${sp.hinh_anh}`}
@@ -243,7 +243,7 @@ function PhanTrang({ listSP, pageSize }) {
   };
   return (
     <>
-      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} />
+      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
       <tr>
         <td colspan="6">
           <ReactPaginate
