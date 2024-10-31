@@ -39,3 +39,9 @@ Route::post('/products/store', [ProductApiController::class, 'store']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
 Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
+
+use App\Http\Controllers\OrderApiController;
+// Route để lấy danh sách đơn hàng
+Route::get('/orders', [OrderApiController::class, 'index']);
+Route::post('/orders', [OrderApiController::class, 'store']);
+Route::get('/orders/{MaDH}', [OrderApiController::class, 'show']);
