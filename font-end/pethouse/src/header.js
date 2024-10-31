@@ -49,7 +49,7 @@ function Header() {
                     </form>
                 </li>
                 <li className="box-login">
-                    <a className="icon_login" href="/#" />
+                        <Link to="/login"> <a className="icon_login" href="/#" ></a></Link>
                 </li>
                 <li className="box-cart nav-top-cart-wrapper">
                     <a className="icon_cart nav-cart-trigger active" href="/#">
@@ -79,7 +79,7 @@ function Header() {
                             <Link to="/sanpham">Sản phẩm</Link>
                         </li>
                         <li>
-                            <a href="coming-soon.html">Đặt lịch</a>
+                            <Link to="/datlich">Đặt lịch</Link>
                             <ul className="submenu">
                                 <li><a href="coming-soon.html">Dịch vụ 1</a></li>
                                 <li><a href="404.html"> Dịch vụ 2</a></li>

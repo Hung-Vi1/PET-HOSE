@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
+use App\Models\User;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderDetailResource;
+use App\Models\SanPham;
+
+
 
 
 /**
@@ -18,7 +22,7 @@ use App\Http\Resources\OrderDetailResource;
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
  *     @OA\Property(property="MaTaiKhoan", type="integer", example=1),
  *     @OA\Property(property="TongTien", type="integer", example=500000),
- *     @OA\Property(property="SoLuong", type="integer", example=2),
+ *     @OA\Property(property="SoLuong", type="integer", example=1),
  *     @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
  *     @OA\Property(property="SDT", type="string", example="0123456789"),
  *     @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM"),
@@ -31,11 +35,13 @@ use App\Http\Resources\OrderDetailResource;
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-29T17:09:04Z")
  * )
  */
+
+
+
+
 class OrderApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
 
     /**
      * @OA\Get(
@@ -86,9 +92,7 @@ class OrderApiController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
@@ -107,17 +111,13 @@ class OrderApiController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"MaTaiKhoan", "Ten", "SDT", "DiaChi", "PTTT", "chi_tiet"},
+     *             required={"MaTaiKhoan", "PTTT", "chi_tiet"},
      *             @OA\Property(property="MaTaiKhoan", type="integer", example=1, description="Mã tài khoản của người đặt hàng"),
-     *             @OA\Property(property="Ten", type="string", example="Nguyễn Văn A", description="Tên người đặt hàng"),
-     *             @OA\Property(property="SDT", type="string", example="0123456789", description="Số điện thoại người đặt hàng"),
-     *             @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM", description="Địa chỉ giao hàng"),
      *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản", description="Phương thức thanh toán"),
      *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng", description="Ghi chú cho đơn hàng"),
      *             @OA\Property(property="chi_tiet", type="array", @OA\Items(
      *                 @OA\Property(property="MaSP", type="integer", example=1, description="Mã sản phẩm"),
      *                 @OA\Property(property="SoLuong", type="integer", example=2, description="Số lượng sản phẩm"),
-     *                 @OA\Property(property="DonGia", type="integer", example=250000, description="Đơn giá sản phẩm"),
      *             )),
      *         )
      *     ),
@@ -148,90 +148,79 @@ class OrderApiController extends Controller
             // Validate dữ liệu đầu vào
             $validatedData = $request->validate([
                 'MaTaiKhoan' => 'required|integer|exists:users,MaTaiKhoan', // Kiểm tra tồn tại
-                'Ten' => 'required|string|max:255',
-                'SDT' => 'required|string|max:15',
-                'DiaChi' => 'required|string|max:255',
                 'PTTT' => 'required|string|max:50',
                 'GhiChu' => 'nullable|string|max:255',
-    
+
                 'chi_tiet' => 'required|array', // Đảm bảo rằng 'chi_tiet' là một mảng
                 'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
                 'chi_tiet.*.SoLuong' => 'required|integer|min:1|max:50',
-                'chi_tiet.*.DonGia' => 'required|integer|min:0',
             ], [
                 'MaTaiKhoan.required' => 'Vui lòng nhập mã tài khoản',
                 'MaTaiKhoan.integer' => 'Mã tài khoản phải là số',
                 'MaTaiKhoan.exists' => 'Mã tài khoản không tồn tại',
-    
-                'Ten.required' => 'Vui lòng nhập tên',
-                'Ten.string' => 'Tên phải là chuỗi ký tự',
-                'Ten.max' => 'Tên không được vượt quá 255 ký tự',
-    
-                'SDT.required' => 'Vui lòng nhập số điện thoại',
-                'SDT.string' => 'Số điện thoại phải là chuỗi ký tự',
-                'SDT.max' => 'Số điện thoại không được vượt quá 15 ký tự',
-    
-                'DiaChi.required' => 'Vui lòng nhập địa chỉ',
-                'DiaChi.string' => 'Địa chỉ phải là chuỗi ký tự',
-                'DiaChi.max' => 'Địa chỉ không được vượt quá 255 ký tự',
-    
+
                 'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
                 'PTTT.string' => 'Phương thức thanh toán phải là chuỗi ký tự',
                 'PTTT.max' => 'Phương thức thanh toán không được vượt quá 50 ký tự',
-    
+
                 'GhiChu.string' => 'Ghi chú phải là chuỗi ký tự',
                 'GhiChu.max' => 'Ghi chú không được vượt quá 255 ký tự',
-    
+
                 'chi_tiet.required' => 'Vui lòng cung cấp chi tiết đơn hàng',
                 'chi_tiet.array' => 'Chi tiết đơn hàng phải là một mảng',
                 'chi_tiet.*.MaSP.required' => 'Vui lòng nhập mã sản phẩm',
                 'chi_tiet.*.SoLuong.required' => 'Vui lòng nhập số lượng',
-                'chi_tiet.*.DonGia.required' => 'Vui lòng nhập đơn giá',
             ]);
-    
+
+
+            // Lấy thông tin người dùng từ bảng users
+            $user = User::findOrFail($validatedData['MaTaiKhoan']);
             // Khởi tạo trạng thái và ngày đặt
             $validatedData['TrangThai'] = 'dang_xu_ly';
             $validatedData['NgayDat'] = now();    // Thời gian hiện tại
             $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày
-    
+
             // Tạo đơn hàng
             $order = DonHang::create([
                 'MaTaiKhoan' => $validatedData['MaTaiKhoan'],
                 'TongTien' => 0, // Tổng tiền sẽ được tính sau
                 'SoLuong' => 0,   // Khởi tạo SoLuong
-                'Ten' => $validatedData['Ten'],
-                'SDT' => $validatedData['SDT'],
-                'DiaChi' => $validatedData['DiaChi'],
+                'Ten' => $user->Hovaten,       // Lấy tên từ bảng users
+                'SDT' => $user->SDT,       // Lấy SDT từ bảng users
+                'DiaChi' => $user->DiaChi, // Lấy địa chỉ từ bảng users
                 'PTTT' => $validatedData['PTTT'],
                 'GhiChu' => $validatedData['GhiChu'],
                 'TrangThai' => $validatedData['TrangThai'],
                 'NgayDat' => $validatedData['NgayDat'],
                 'NgayGiao' => $validatedData['NgayGiao'],
             ]);
-    
+
             // Lưu chi tiết đơn hàng và tính tổng tiền & số lượng
             $tongTien = 0; // Khởi tạo tổng tiền
             $tongSoLuong = 0; // Khởi tạo tổng số lượng
             foreach ($validatedData['chi_tiet'] as $item) {
+                // Lấy giá của sản phẩm từ bảng san_pham
+                $sanPham = SanPham::findOrFail($item['MaSP']);
+                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia;
                 // Tạo chi tiết đơn hàng
                 $ctDonHang = ChiTietDonHang::create([
                     'MaDH' => $order->MaDH,
                     'MaSP' => $item['MaSP'],
-                    'DonGia' => $item['DonGia'],
+                    'DonGia' => $DonGia,  // Sử dụng giá từ bảng san_pham
                     'SoLuong' => $item['SoLuong'],
                 ]);
-    
+
                 // Cập nhật tổng tiền
                 $tongTien += $ctDonHang->DonGia * $ctDonHang->SoLuong;
                 $tongSoLuong += $ctDonHang->SoLuong; // Cộng dồn số lượng
             }
-    
+
             // Cập nhật tổng tiền và số lượng cho đơn hàng
             $order->update([
                 'TongTien' => $tongTien,
                 'SoLuong' => $tongSoLuong // Cập nhật số lượng
             ]);
-    
+
             // Trả về thông tin đơn hàng vừa tạo
             return response()->json([
                 'status' => 'success',
@@ -239,22 +228,44 @@ class OrderApiController extends Controller
                 'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng vừa tạo
             ], 201);
         } catch (\Exception $e) {
-            
+
             return response()->json([
                 'status' => 'fail',
-                'message' => 'Đã xảy ra lỗi trong quá trình xử lý',
+                'message' => $e->getMessage(),
                 'data' => null
             ], 500);
         }
     }
-    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+
+
+    public function show($MaDH)
     {
-        //
+        //GET
+        try {
+            $orderDetails = ChiTietDonHang::where('MaDH', $MaDH)->get();
+
+            if ($orderDetails->isEmpty()) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Không tìm thấy chi tiết đơn hàng',
+                    'data' => null
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Lấy dữ liệu thành công',
+                'data' => OrderDetailResource::collection($orderDetails)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
     }
 
     /**

@@ -390,9 +390,6 @@
                             "schema": {
                                 "required": [
                                     "MaTaiKhoan",
-                                    "Ten",
-                                    "SDT",
-                                    "DiaChi",
                                     "PTTT",
                                     "chi_tiet"
                                 ],
@@ -401,21 +398,6 @@
                                         "description": "Mã tài khoản của người đặt hàng",
                                         "type": "integer",
                                         "example": 1
-                                    },
-                                    "Ten": {
-                                        "description": "Tên người đặt hàng",
-                                        "type": "string",
-                                        "example": "Nguyễn Văn A"
-                                    },
-                                    "SDT": {
-                                        "description": "Số điện thoại người đặt hàng",
-                                        "type": "string",
-                                        "example": "0123456789"
-                                    },
-                                    "DiaChi": {
-                                        "description": "Địa chỉ giao hàng",
-                                        "type": "string",
-                                        "example": "123 Đường ABC, Quận 1, TP.HCM"
                                     },
                                     "PTTT": {
                                         "description": "Phương thức thanh toán",
@@ -440,11 +422,6 @@
                                                     "description": "Số lượng sản phẩm",
                                                     "type": "integer",
                                                     "example": 2
-                                                },
-                                                "DonGia": {
-                                                    "description": "Đơn giá sản phẩm",
-                                                    "type": "integer",
-                                                    "example": 250000
                                                 }
                                             },
                                             "type": "object"
@@ -1171,7 +1148,7 @@
                     },
                     "SoLuong": {
                         "type": "integer",
-                        "example": 2
+                        "example": 1
                     },
                     "Ten": {
                         "type": "string",

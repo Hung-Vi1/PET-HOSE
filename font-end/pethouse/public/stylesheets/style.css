@@ -200,7 +200,7 @@ a {
 
 a:hover,
 a:focus {
-	color: #f63440;
+	/* color: #f63440; */
 	text-decoration: none;
 	outline: 0;
 	-webkit-transition: all 0.3s ease-in-out;
@@ -347,6 +347,7 @@ button:before {
 	width: 0%;
 	height: 100%;
 	position: absolute;
+	border-radius:5px;
 	top: 0;
 	left: 0;
 	background: #333333;
