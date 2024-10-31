@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import { useState, useEffect } from "react";
+
 function Admin_SanPham() {
   const [sp, ganSP] = useState([]);
   useEffect(() => {
@@ -189,7 +190,7 @@ function Admin_SanPham() {
                     <td>{sp.ten_san_pham}</td>
                     <td className="text-center">{sp.tenDM}</td>
                     <td className="text-center">{sp.ngay_tao}</td>
-                    <td className="text-center" style={{width: "150px"}}>
+                    <td className="text-center" style={{ width: "150px" }}>
                       <Link
                         to={"/adminsanphamchitiet"}
                         className="btn btn-outline-warning m-1"
