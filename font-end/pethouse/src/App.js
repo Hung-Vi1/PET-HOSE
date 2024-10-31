@@ -9,7 +9,11 @@ import LienHe from "./component/lienhe";
 import ChiTietTinTuc from "./component/chitiettintuc";
 import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
+
 import GioHang from "./component/giohang";
+
+import DatLich from "./component/datlich";
+import LoginSignupForm from "./component/login";
 
 /* Admin */
 import Admin_TrangChu from "./Admin_TrangChu";
@@ -18,7 +22,6 @@ import Admin_TaiKhoanThem from "./Admin_TaiKhoanThem";
 import Admin_TaiKhoanSua from "./Admin_TaiKhoanSua";
 import Admin_SanPham from "./Admin_SanPham";
 import Admin_SanPhamChiTiet from "./Admin_SanPhamChiTiet";
-import DatLich from "./component/datlich";
 function App() {
   return (
     <BrowserRouter>
@@ -250,26 +253,50 @@ function App() {
           }
         />
         <Route
-          path="/datlich"
-          exact
-          element={
-            <div>
-              <Header />
-              <DatLich />
-              <Footer />
-            </div>
-          }
+         path="/datlich"
+         exact
+         element={
+           <div>
+             <div id="site-header-wrap">
+               <header id="header" class="header header-container clearfix">
+                 <div class="container clearfix" id="site-header-inner">
+                   <Header />
+                 </div>
+               </header>
+             </div>
+
+             <DatLich />
+
+             <footer class="footer">
+               <div class="container">
+                 <Footer />
+               </div>
+             </footer>
+           </div>
+         }
         />
         <Route
-          path="/chitiettintuc"
-          exact
-          element={
-            <div>
-              <Header />
-              <ChiTietTinTuc />
-              <Footer />
-            </div>
-          }
+         path="/login"
+         exact
+         element={
+           <div>
+             <div id="site-header-wrap">
+               <header id="header" class="header header-container clearfix">
+                 <div class="container clearfix" id="site-header-inner">
+                   <Header />
+                 </div>
+               </header>
+             </div>
+
+             <LoginSignupForm/>
+
+             <footer class="footer">
+               <div class="container">
+                 <Footer />
+               </div>
+             </footer>
+           </div>
+         }
         />
         <Route
           path="/chitietsanpham"
