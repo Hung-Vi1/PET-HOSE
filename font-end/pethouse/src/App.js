@@ -9,6 +9,7 @@ import LienHe from "./component/lienhe";
 import ChiTietTinTuc from "./component/chitiettintuc";
 import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
+import GioHang from "./component/giohang";
 
 /* Admin */
 import Admin_TrangChu from "./Admin_TrangChu";
@@ -176,6 +177,31 @@ function App() {
             </div>
           }
         />
+
+<Route
+          path="/giohang"
+          exact
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+
+              <GioHang />
+
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
+
         <Route path="/admin" exact element={<Admin_TrangChu />} />
         <Route path="/admintaikhoan" exact element={<Admin_TaiKhoan />} />
         <Route

@@ -52,9 +52,9 @@ function Header() {
                     <a className="icon_login" href="/#" />
                 </li>
                 <li className="box-cart nav-top-cart-wrapper">
-                    <a className="icon_cart nav-cart-trigger active" href="/#">
+                    <Link className="icon_cart nav-cart-trigger active" to="/giohang">
                         <span>3</span>
-                    </a>
+                    </Link>
                     <div className="nav-shop-cart">
                         <div className="widget_shopping_cart_content">
                             <div className="woocommerce-min-cart-wrap">
