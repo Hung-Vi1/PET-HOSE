@@ -49,9 +49,12 @@ class ProductApiController extends Controller
     {
         // GET
         try {
-            $products = SanPham::whereHas('danhMuc', function ($query) {
-                $query->where('loai', '0');
-            })->get();
+            // Truy vấn sản phẩm và quan hệ danh mục
+            $products = SanPham::with('danhMuc')
+                ->whereHas('danhMuc', function ($query) {
+                    $query->where('loai', '0');
+                })
+                ->get();
 
 
 

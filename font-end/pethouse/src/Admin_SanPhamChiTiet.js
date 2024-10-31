@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
-
 function Admin_SanPhamChiTiet() {
   return (
     <div className="container-fluid admintrangchu">
