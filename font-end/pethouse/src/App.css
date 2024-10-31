@@ -1,72 +1,117 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
 
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .product-title {
-  display: -webkit-box;
-  /* Thiết lập chế độ hiển thị */
-  -webkit-box-orient: vertical;
-  /* Định hướng chiều dọc */
-  -webkit-line-clamp: 2;
-  /* Giới hạn số dòng hiển thị */
-  overflow: hidden;
-  /* Ẩn nội dung vượt quá */
-  text-overflow: ellipsis;
-  /* Hiển thị dấu ba chấm */
+    display: -webkit-box;
+    /* Thiết lập chế độ hiển thị */
+    -webkit-box-orient: vertical;
+    /* Định hướng chiều dọc */
+    -webkit-line-clamp: 2;
+    /* Giới hạn số dòng hiển thị */
+    overflow: hidden;
+    /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis;
+    /* Hiển thị dấu ba chấm */
 }
 
 /* CSS Admin */
 .menu-header-top:hover,
 .menu-header-bottom:hover {
-  background-color: #fff;
-  color: #111;
+    background-color: #fff;
+    color: #111;
 }
 
 .menu-header-top:hover {
-  border-radius: 5px 5px 0 0;
-  border: 1px solid #0d6efd;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid #0d6efd;
 }
 
 .menu-header-bottom:hover {
-  border-radius: 0 0 5px 5px;
-  border: 1px solid #0d6efd;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #0d6efd;
 }
+
+/* Phân trang */
+.thanhphantrang {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.thanhphantrang li {
+    display: inline-block;
+    margin: 15px 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background: #fff;
+    border: 0.5px solid #888;
+    border-radius: 5px;
+}
+
+.thanhphantrang li a {
+    color: #555;
+    font-weight: bold;
+}
+
+.thanhphantrang li.selected {
+    background: #f63440;
+    color: #fff;
+    border: 0.5px solid #f63440;
+}
+
+.thanhphantrang li:hover {
+    background: #f63440;
+    color: #fff;
+    border: 0.5px solid #f63440;
+    cursor: pointer;
+}
+
+.thanhphantrang li a:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+
+/* End CSS Admin */
 
 /* CSS LoginSignupForm */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');

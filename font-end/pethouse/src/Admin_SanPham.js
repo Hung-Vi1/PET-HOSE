@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 
 function Admin_SanPham() {
-  const [sp, ganSP] = useState([]);
+  const [list_sp, ganSP] = useState([]);
+
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
       .then((res) => res.json())
@@ -23,36 +25,6 @@ function Admin_SanPham() {
       });
   }, []);
 
-  const xoaSanPham = (maSP) => {
-    // Hiển thị thông báo xác nhận
-    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.ok) {
-            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
-            fetch("http://localhost:8000/api/products")
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("Dữ liệu trả về:", data);
-                if (Array.isArray(data.data)) {
-                  ganSP(data.data);
-                } else {
-                  console.error("Dữ liệu không phải là mảng:", data);
-                  ganSP([]); // Khởi tạo giá trị mặc định
-                }
-              })
-              .catch((error) => {
-                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa sản phẩm:", error);
-        });
-    }
-  };
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -165,7 +137,7 @@ function Admin_SanPham() {
             </Link>
 
             <h2 className="my-3">Sản phẩm</h2>
-            <table className="table align-middle">
+            <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
@@ -177,101 +149,115 @@ function Admin_SanPham() {
                 </tr>
               </thead>
               <tbody>
-                {sp.map((sp, i) => (
-                  <tr>
-                    <td className="text-center">{i + 1}</td>
-                    <td className="text-center">
-                      <img
-                        src={`image/product/${sp.hinh_anh}`}
-                        alt="image/san_pham_1.webp"
-                        style={{ width: "100px" }}
-                      />
-                    </td>
-                    <td>{sp.ten_san_pham}</td>
-                    <td className="text-center">{sp.tenDM}</td>
-                    <td className="text-center">{sp.ngay_tao}</td>
-                    <td className="text-center" style={{ width: "150px" }}>
-                      <Link
-                        to={"/adminsanphamchitiet"}
-                        className="btn btn-outline-warning m-1"
-                      >
-                        <i className="bi bi-pencil-square"></i>
-                      </Link>
-                      {/* <Link href="/#" className="btn btn-outline-danger m-1">
-                          <i className="bi bi-trash"></i>xóa
-                        </Link> */}
-                      {/* <button onClick={() => xoaSanPham(sp.maSP)}><i className="bi bi-trash"></i></button> */}
-                      <button
-                        onClick={() => xoaSanPham(sp.ma_san_pham)}
-                        className="btn btn-outline-danger m-1"
-                      >
-                        <i className="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-
-                {/* <tr>
-                    <td className="text-center">1</td>
-                    <td className="text-center">
-                      <img
-                        src="image/san_pham_1.webp"
-                        alt="image/san_pham_1.webp"
-                        style={{ width: "100px" }}
-                      />
-                    </td>
-                    <td>Balo vận chuyển chó mèo Phi hành</td>
-                    <td className="text-center">Phụ kiện chó / mèo</td>
-                    <td className="text-center">25/05/2024</td>
-                    <td className="text-center">
-                      <Link
-                        to={"/adminsanphamchitiet"}
-                        className="btn btn-outline-warning m-1"
-                      >
-                        <i className="bi bi-pencil-square"></i>
-                      </Link>
-                      <a href="/#" className="btn btn-outline-danger m-1">
-<i className="bi bi-trash"></i>
-                      </a>
-                    </td>
-                  </tr> */}
+                <PhanTrang listSP={list_sp} pageSize={10} />
               </tbody>
             </table>
-
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center">
-                <li className="page-item disabled">
-                  <a className="page-link" href="/#">
-                    <i className="bi bi-chevron-double-left"></i>
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link active" href="/#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">
-                    3
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">
-                    <i className="bi bi-chevron-double-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang }) {
+  const [ganSP] = useState([]);
+
+  const xoaSanPham = (maSP) => {
+    // Hiển thị thông báo xác nhận
+    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.ok) {
+            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
+            fetch("http://localhost:8000/api/products")
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Dữ liệu trả về:", data);
+                if (Array.isArray(data.data)) {
+                  ganSP(data.data);
+                } else {
+                  console.error("Dữ liệu không phải là mảng:", data);
+                  ganSP([]); // Khởi tạo giá trị mặc định
+                }
+              })
+              .catch((error) => {
+                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi xóa sản phẩm:", error);
+        });
+    }
+  };
+
+  return (
+    <>
+      {
+        spTrongTrang.map((sp, i) => {
+          return (
+            <tr>
+              <td className="text-center">{i + 1}</td>
+              <td className="text-center">
+                <img
+                  src={`image/product/${sp.hinh_anh}`}
+                  alt="image/san_pham_1.webp"
+                  style={{ width: "100px" }}
+                />
+              </td>
+              <td>{sp.ten_san_pham}</td>
+              <td className="text-center">{sp.tenDM}</td>
+              <td className="text-center">{sp.ngay_tao}</td>
+              <td className="text-center" style={{ width: "150px" }}>
+                <Link
+                  to={"/adminsanphamchitiet"}
+                  className="btn btn-outline-warning m-1"
+                >
+                  <i className="bi bi-pencil-square"></i>
+                </Link>
+                <button
+                  onClick={() => xoaSanPham(sp.ma_san_pham)}
+                  className="btn btn-outline-danger m-1"
+                >
+                  <i className="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          );
+        }) //map
+      }
+    </>
+  );
+} //HienSPTrongMotTrang
+
+function PhanTrang({ listSP, pageSize }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const spTrong1Trang = listSP.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listSP.length / pageSize);
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % listSP.length;
+    setfromIndex(newIndex);
+  };
+  return (
+    <>
+      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} />
+      <tr>
+        <td colspan="6">
+          <ReactPaginate
+            nextLabel=">"
+            previousLabel="<"
+            pageCount={tongSoTrang}
+            pageRangeDisplayed={5}
+            onPageChange={chuyenTrang}
+            className="thanhphantrang"
+          />
+        </td>
+      </tr>
+    </>
+  );
+} //PhanTrang
 
 export default Admin_SanPham;
