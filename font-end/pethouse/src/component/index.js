@@ -3,10 +3,24 @@ import { Link } from "react-router-dom";
 import axios from "axios"
 function Index() {
     const [NewProduct, ListNewProduct] = useState([]);
+
+    const [cart, setCart] = useState(() => {
+        // Khởi tạo giỏ hàng từ sessionStorage nếu có, nếu không thì để là mảng rỗng
+        const savedCart = sessionStorage.getItem("cart");
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
     useEffect(() => {
         axios.get("http://127.0.0.1:8000/api/products")
             .then(response => ListNewProduct(response.data.data || []));
     }, []);
+
+    const addToCart = (product) => {
+        const updatedCart = [...cart, product];
+        setCart(updatedCart);
+        sessionStorage.setItem("cart", JSON.stringify(updatedCart)); // Lưu giỏ hàng vào sessionStorage
+        alert("Đã thêm vào giỏ hàng");
+    };
 
     return (
         <>
@@ -163,30 +177,31 @@ function Index() {
                                     {NewProduct.slice(0, 4).map((sp, i) => (
 
                                         <li className="product-item" key={i}>
-                                            <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                                                <div className="product-thumb clearfix">
-                                                    <a href="/" className="product-link">
-                                                        <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
-                                                    </a>
-                                                    <span className="new">New</span>
+
+                                            <div className="product-thumb clearfix">
+                                                <Link to={`/chitietsanpham/${sp.ma_san_pham}`} className="product-link">
+                                                    <img src={`image/product/${sp.hinh_anh}`} alt={sp.ten_san_pham} />
+                                                </Link>
+                                                <span className="new">New</span>
+                                            </div>
+
+                                            <div className="product-info text-center clearfix">
+                                                <span className="product-title box-title">
+                                                    {sp.ten_san_pham}
+                                                </span>
+                                                <div className="price">
+                                                    <ins>
+                                                        <span className="amount">{sp.gia} đ</span>
+                                                    </ins>
                                                 </div>
-                                                <div className="product-info text-center clearfix">
-                                                    <span className="product-title box-title">
-                                                        {sp.ten_san_pham}
-                                                    </span>
-                                                    <div className="price">
-                                                        <ins>
-                                                            <span className="amount">{sp.gia} đ</span>
-                                                        </ins>
-                                                    </div>
-                                                </div>
-                                                <div className="add-to-cart text-center">
-                                                    <a href="/">ADD TO CART</a>
-                                                </div>
-                                                <a href="/" className="like">
-                                                    <i className="fa fa-heart-o" />
-                                                </a>
-                                            </Link>
+                                            </div>
+                                            <div className="add-to-cart text-center">
+                                                <button onClick={() => addToCart(sp)}>ADD TO CART</button>
+                                            </div>
+                                            <a href="/" className="like">
+                                                <i className="fa fa-heart-o" />
+                                            </a>
+
                                         </li>
                                     ))}
                                     {/* <li className="product-item">
