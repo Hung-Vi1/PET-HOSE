@@ -280,35 +280,33 @@ function Admin_SanPhamChiTiet() {
 
             <div>
               <p className="d-inline-flex gap-1">
-                <a
-                  className="btn btn-primary"
-                  href="#collapseExample"
-                  role="button"
-                  aria-expanded={isOpen}
-                  aria-controls="collapseExample"
-                  onClick={toggleCollapse}
-                >
-                  Link with href
-                </a>
                 <button
                   className="btn btn-primary"
                   type="button"
                   onClick={toggleCollapse}
                   aria-expanded={isOpen}
-                  aria-controls="collapseExample"
+                  aria-controls="TonKho"
                 >
-                  Button with data-bs-target
+                  Tồn kho
+                </button>
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={toggleCollapse}
+                  aria-expanded={isOpen}
+                  aria-controls="LichSuKho"
+                >
+                  Lịch sử kho
                 </button>
               </p>
+              <div className={`collapse ${isOpen ? "show" : ""}`} id="TonKho">
+                <div className="card card-body show">Tồn kho</div>
+              </div>
               <div
                 className={`collapse ${isOpen ? "show" : ""}`}
-                id="collapseExample"
+                id="LichSuKho"
               >
-                <div className="card card-body">
-                  Some placeholder content for the collapse component. This
-                  panel is hidden by default but revealed when the user
-                  activates the relevant trigger.
-                </div>
+                <div className="card card-body show">Lịch sử kho</div>
               </div>
             </div>
           </div>
