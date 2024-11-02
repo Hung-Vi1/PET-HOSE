@@ -17,34 +17,43 @@ function Admin_TrangChu() {
             alt="image/Nen_trong_suot.png"
           />
 
-          <div className="list-group list-group-item-primary m-3">
-            <a
-              href="/#"
-              className="list-group-item list-group-item-action active"
+          <div className="list-group list-group-item-primary">
+            <Link
+              to={"/admin"}
+              className="list-group-item list-group-item-action active mt-4 rounded-0"
               aria-current="true"
             >
-              Tổng quan
-            </a>
+              <h5 className="mb-0 py-1">Tổng quan</h5>
+            </Link>
             <Link
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
             >
-              Sản phẩm
+              <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
             >
-              Tài khoản
+              <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Đơn hàng
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Đơn hàng</h5>
             </a>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Dịch vụ chăm sóc
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </a>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Tin tức
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Tin tức</h5>
             </a>
           </div>
         </div>
