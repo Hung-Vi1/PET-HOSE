@@ -37,9 +37,20 @@ function Admin_SanPhamChiTiet() {
   };
 
   // Ẩn hiện nội dung dưới tồn kho
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleCollapse = () => {
-    setIsOpen(!isOpen);
+  const [isFirstOpen, setIsFirstOpen] = useState(false);
+  const [isSecondOpen, setIsSecondOpen] = useState(false);
+
+  const toggleFirst = () => {
+    setIsFirstOpen(!isFirstOpen);
+  };
+
+  const toggleSecond = () => {
+    setIsSecondOpen(!isSecondOpen);
+  };
+
+  const toggleBoth = () => {
+    setIsFirstOpen(!isFirstOpen);
+    setIsSecondOpen(!isSecondOpen);
   };
 
   return (
@@ -280,33 +291,66 @@ function Admin_SanPhamChiTiet() {
 
             <div>
               <p className="d-inline-flex gap-1">
+                <a
+                  className="btn btn-primary"
+                  href="#multiCollapseExample1"
+                  role="button"
+                  aria-expanded={isFirstOpen}
+                  aria-controls="multiCollapseExample1"
+                  onClick={toggleFirst}
+                >
+                  Toggle first element
+                </a>
                 <button
                   className="btn btn-primary"
                   type="button"
-                  onClick={toggleCollapse}
-                  aria-expanded={isOpen}
-                  aria-controls="TonKho"
+                  onClick={toggleSecond}
+                  aria-expanded={isSecondOpen}
+                  aria-controls="multiCollapseExample2"
                 >
-                  Tồn kho
+                  Toggle second element
                 </button>
                 <button
                   className="btn btn-primary"
                   type="button"
-                  onClick={toggleCollapse}
-                  aria-expanded={isOpen}
-                  aria-controls="LichSuKho"
+                  onClick={toggleBoth}
+                  aria-expanded={isFirstOpen || isSecondOpen}
+                  aria-controls="multiCollapseExample1 multiCollapseExample2"
                 >
-                  Lịch sử kho
+                  Toggle both elements
                 </button>
               </p>
-              <div className={`collapse ${isOpen ? "show" : ""}`} id="TonKho">
-                <div className="card card-body show">Tồn kho</div>
-              </div>
-              <div
-                className={`collapse ${isOpen ? "show" : ""}`}
-                id="LichSuKho"
-              >
-                <div className="card card-body show">Lịch sử kho</div>
+              <div className="row">
+                <div className="col">
+                  <div
+                    className={`collapse multi-collapse ${
+                      isFirstOpen ? "show" : ""
+                    }`}
+                    id="multiCollapseExample1"
+                  >
+                    <div className="card card-body">
+                      Some placeholder content for the first collapse component
+                      of this multi-collapse example. This panel is hidden by
+                      default but revealed when the user activates the relevant
+                      trigger.
+                    </div>
+                  </div>
+                </div>
+                <div className="col">
+                  <div
+                    className={`collapse multi-collapse ${
+                      isSecondOpen ? "show" : ""
+                    }`}
+                    id="multiCollapseExample2"
+                  >
+                    <div className="card card-body">
+                      Some placeholder content for the second collapse component
+                      of this multi-collapse example. This panel is hidden by
+                      default but revealed when the user activates the relevant
+                      trigger.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
