@@ -37,7 +37,7 @@ const LoginSignupForm = () => {
             <input type="text" placeholder="Name" />
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
-            <button type="button">Sign Up</button>
+            <button className="btn-register" type="button">Sign Up</button>
           </form>
         </div>
 
@@ -59,7 +59,7 @@ const LoginSignupForm = () => {
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <a href="#">Forgot your password?</a>
-            <button type="button">Sign In</button>
+            <button className="btn-login" type="button">Sign In</button>
           </form>
         </div>
 

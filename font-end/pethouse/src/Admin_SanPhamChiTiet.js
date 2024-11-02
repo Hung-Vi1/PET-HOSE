@@ -1,7 +1,47 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 function Admin_SanPhamChiTiet() {
+  const [ganSP] = useState([]);
+
+  const xoaSanPham = (maSP) => {
+    // Hiển thị thông báo xác nhận
+    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
+      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.ok) {
+            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
+            fetch("http://localhost:8000/api/products")
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Dữ liệu trả về:", data);
+                if (Array.isArray(data.data)) {
+                  ganSP(data.data);
+                } else {
+                  console.error("Dữ liệu không phải là mảng:", data);
+                  ganSP([]); // Khởi tạo giá trị mặc định
+                }
+              })
+              .catch((error) => {
+                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi xóa sản phẩm:", error);
+        });
+    }
+  };
+
+  // Ẩn hiện nội dung dưới tồn kho
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleCollapse = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -26,13 +66,13 @@ function Admin_SanPhamChiTiet() {
             </Link>
             <Link
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              className="list-group-item list-group-item-action mt-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action mt-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
@@ -121,17 +161,22 @@ function Admin_SanPhamChiTiet() {
           <div className="container">
             <div className="d-flex">
               <i className="bi bi-chevron-double-left py-1 my-2"></i>
-              <strong className="py-1 my-2 ms-2">
-                Quay lại danh sách sản phẩm
-              </strong>
+              <Link to={"/adminsanpham"}>
+                <strong className="py-1 my-2 ms-2">
+                  Quay lại danh sách sản phẩm
+                </strong>
+              </Link>
+
               <div className="d-flex ms-auto">
-                <button
-                  type="button"
+                <Link
                   className="btn btn-outline-warning p-1 m-2"
+                  to={"/adminsanpham"}
                 >
                   Thoát
-                </button>
+                </Link>
+
                 <button
+                  // onClick={() => xoaSanPham(sp.ma_san_pham)}
                   type="button"
                   className="btn btn-danger p-1 m-2 text-white"
                 >
@@ -165,58 +210,14 @@ function Admin_SanPhamChiTiet() {
               <hr className="my-2" />
 
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-8">
                   <table className="table table-borderless mb-0">
                     <tbody>
                       <tr>
-                        <td>Mã SKU</td>
+                        <td>Mã sản phẩm</td>
                         <td>:</td>
                         <td>SP001</td>
-                      </tr>
-                      <tr>
-                        <td>Mã barcode</td>
-                        <td>:</td>
-                        <td>9319740000531</td>
-                      </tr>
-                      <tr>
-                        <td>Khối lượng</td>
-                        <td>:</td>
-                        <td>2kg</td>
-                      </tr>
-                      <tr>
-                        <td>Đơn vị tính</td>
-                        <td>:</td>
-                        <td>Chai</td>
-                      </tr>
-                      <tr>
-                        <td>Phân loại</td>
-                        <td>:</td>
-                        <td>Sản phẩm thường</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="col-md-4">
-                  <table className="table table-borderless mb-0">
-                    <tbody>
-                      <tr>
-                        <td>Nhãn hiệu</td>
-                        <td>:</td>
-                        <td>___</td>
-                      </tr>
-                      <tr>
-                        <td>Tags</td>
-                        <td>:</td>
-                        <td>___</td>
-                      </tr>
-                      <tr>
                         <td>Ngày tạo</td>
-                        <td>:</td>
-                        <td>27/09/2024 17:09</td>
-                      </tr>
-                      <tr>
-                        <td>Ngày cập nhật</td>
                         <td>:</td>
                         <td>27/09/2024 17:09</td>
                       </tr>
@@ -224,6 +225,44 @@ function Admin_SanPhamChiTiet() {
                         <td>Loại sản phẩm</td>
                         <td>:</td>
                         <td>Phụ kiện chó / mèo</td>
+                        <td>Ngày cập nhật</td>
+                        <td>:</td>
+                        <td>27/09/2024 17:09</td>
+                      </tr>
+                      <tr>
+                        <td>Giá nhập</td>
+                        <td>:</td>
+                        <td>300.000 đ</td>
+                        <td>Giá sale</td>
+                        <td>:</td>
+                        <td>400.000 đ</td>
+                      </tr>
+                      <tr>
+                        <td colSpan={6}>
+                          <label
+                            htmlFor="exampleFormControlTextarea1"
+                            className="form-label"
+                          >
+                            Mô tả
+                          </label>
+                          <textarea
+                            className="form-control"
+                            id="exampleFormControlTextarea1"
+                            rows="3"
+                          >
+                            Thành phần dinh dưỡng Xương cho chó gặm sạch răng
+                            VEGEBRAND 360 Bone Prevent Tartar với các thành phần
+                            như ngũ cốc, thịt và động vật. Dẫn xuất có nguồn gốc
+                            thực vật, rau, khoáng chất. Vitamin E. Feroh
+                            Sulphate Monohydrate, Zinc Sulphate Monohydrate,
+                            Mangan Sulphate Monohydrate. Màu sắc, hương vị, chất
+                            bảo quản. Phân tích đảm bảo: Protein thô (tối thiểu)
+                            10%. Chất béo thô (tối thiểu) 0,4%. Sợi thô (tối đa)
+                            4%. Tro (tối đa) 5%. Độ ẩm (tối đa) 16%. Canxi (tối
+                            thiểu) 0,05%. Photpho (tối thiểu) 0,04%. Natri (tối
+                            thiểu) 0,02%.
+                          </textarea>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -231,76 +270,10 @@ function Admin_SanPhamChiTiet() {
 
                 <div className="text-center col-md-4">
                   <img
-                    className="w-50"
+                    className="w-75"
                     src="image/san_pham_1.webp"
                     alt="Sản phẩm"
                   />
-                </div>
-              </div>
-            </div>
-
-            <div className="d-flex">
-              <div className="col-md-9 border border-dark rounded-3 mb-3 p-2 me-1">
-                <h5 className="m-0 py-1">Giá sản phẩm</h5>
-                <hr className="my-2" />
-                <div className="row">
-                  <div className="col-md-6">
-                    <table className="table table-borderless mb-0">
-                      <tbody>
-                        <tr>
-                          <td>Giá nhập</td>
-                          <td>:</td>
-                          <td>300.000 đ</td>
-                        </tr>
-                        <tr>
-                          <td>Giá sale</td>
-                          <td>:</td>
-                          <td>400.000 đ</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="col-md-6">
-                    <table className="table table-borderless mb-0">
-                      <tbody>
-                        <tr>
-                          <td>Giá nhập</td>
-                          <td>:</td>
-                          <td>300.000 đ</td>
-                        </tr>
-                        <tr>
-                          <td>Giá sale</td>
-                          <td>:</td>
-                          <td>400.000 đ</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-md border border-dark rounded-3 mb-3 p-2 ms-1">
-                <h5 className="m-0 py-1">Thông tin thêm</h5>
-                <hr className="my-2" />
-                <div className="form-check m-0">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="ChoPhepBan"
-                  />
-                  <label className="form-check-label" htmlFor="ChoPhepBan">
-                    Cho phép bán
-                  </label>
-                </div>
-                <div className="form-check m-0">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="ApDungThue"
-                  />
-                  <label className="form-check-label" htmlFor="ApDungThue">
-                    Áp dụng thuế
-                  </label>
                 </div>
               </div>
             </div>
@@ -309,26 +282,28 @@ function Admin_SanPhamChiTiet() {
               <p className="d-inline-flex gap-1">
                 <a
                   className="btn btn-primary"
-                  data-bs-toggle="collapse"
                   href="#collapseExample"
                   role="button"
-                  aria-expanded="false"
+                  aria-expanded={isOpen}
                   aria-controls="collapseExample"
+                  onClick={toggleCollapse}
                 >
                   Link with href
                 </a>
                 <button
                   className="btn btn-primary"
                   type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample"
-                  aria-expanded="false"
+                  onClick={toggleCollapse}
+                  aria-expanded={isOpen}
                   aria-controls="collapseExample"
                 >
                   Button with data-bs-target
                 </button>
               </p>
-              <div className="collapse show" id="collapseExample">
+              <div
+                className={`collapse ${isOpen ? "show" : ""}`}
+                id="collapseExample"
+              >
                 <div className="card card-body">
                   Some placeholder content for the collapse component. This
                   panel is hidden by default but revealed when the user
