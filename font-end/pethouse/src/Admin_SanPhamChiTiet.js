@@ -15,41 +15,51 @@ function Admin_SanPhamChiTiet() {
             className="d-block w-75 mx-auto"
             alt="Background"
           />
-          <div className="list-group list-group-item-primary m-3">
+
+          <div className="list-group list-group-item-primary">
             <Link
-              to="/admin"
-              className="list-group-item list-group-item-action"
+              to={"/admin"}
+              className="list-group-item list-group-item-action mt-2 rounded-0"
               aria-current="true"
             >
-              Tổng quan
+              <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
             <Link
-              to="/adminsanpham"
-              className="list-group-item list-group-item-action active"
+              to={"/adminsanpham"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
             >
-              Sản phẩm
+              <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
-              to="/admintaikhoan"
-              className="list-group-item list-group-item-action"
+              to={"/admintaikhoan"}
+              className="list-group-item list-group-item-action mt-0 rounded-0 active"
             >
-              Tài khoản
+              <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Đơn hàng
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Đơn hàng</h5>
             </a>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Dịch vụ chăm sóc
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </a>
-            <a href="/#" className="list-group-item list-group-item-action">
-              Tin tức
+            <a
+              href="/#"
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Tin tức</h5>
             </a>
           </div>
         </div>
 
         <div className="col-md p-0">
           <nav
-            className="navbar navbar-expand-lg bg-primary"
+            className="navbar navbar-expand-lg bg-primary p-0"
             data-bs-theme="dark"
           >
             <div className="container-fluid">
@@ -81,18 +91,21 @@ function Admin_SanPhamChiTiet() {
                     >
                       Xin chào, Trần Thanh Tú
                     </a>
-                    <ul className="dropdown-menu bg-primary p-0">
-                      <li>
-                        <a className="menu-header-top dropdown-item" href="/#">
+                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
+                      <li className="rounded-0">
+                        <Link
+                          className="menu-header-top dropdown-item m-0 py-2"
+                          to={"/"}
+                        >
                           Xem trang chủ
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
                         <a
-                          className="menu-header-bottom dropdown-item"
+                          className="menu-header-bottom dropdown-item m-0 py-2"
                           href="/#"
                         >
                           Đăng xuất

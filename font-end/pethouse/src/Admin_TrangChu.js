@@ -20,7 +20,7 @@ function Admin_TrangChu() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action active mt-4 rounded-0"
+              className="list-group-item list-group-item-action mt-2 rounded-0 active"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -59,7 +59,7 @@ function Admin_TrangChu() {
         </div>
         <div className="col-md p-0">
           <nav
-            className="navbar navbar-expand-lg bg-primary"
+            className="navbar navbar-expand-lg bg-primary p-0"
             data-bs-theme="dark"
           >
             <div className="container-fluid">
@@ -91,18 +91,21 @@ function Admin_TrangChu() {
                     >
                       Xin chào, Trần Thanh Tú
                     </a>
-                    <ul className="dropdown-menu bg-primary p-0">
-                      <li>
-                        <a className="menu-header-top dropdown-item" href="/#">
+                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
+                      <li className="rounded-0">
+                        <Link
+                          className="menu-header-top dropdown-item m-0 py-2"
+                          to={"/"}
+                        >
                           Xem trang chủ
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
                         <a
-                          className="menu-header-bottom dropdown-item"
+                          className="menu-header-bottom dropdown-item m-0 py-2"
                           href="/#"
                         >
                           Đăng xuất
