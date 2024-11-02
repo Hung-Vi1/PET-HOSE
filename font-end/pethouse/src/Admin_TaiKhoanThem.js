@@ -92,18 +92,21 @@ function Admin_TaiKhoanThem() {
                     >
                       Xin chào, Trần Thanh Tú
                     </a>
-                    <ul className="dropdown-menu bg-primary p-0">
-                      <li>
-                        <a className="menu-header-top dropdown-item" href="/#">
+                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
+                      <li className="rounded-0">
+                        <Link
+                          className="menu-header-top dropdown-item m-0 py-2"
+                          to={"/"}
+                        >
                           Xem trang chủ
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
                         <a
-                          className="menu-header-bottom dropdown-item"
+                          className="menu-header-bottom dropdown-item m-0 py-2"
                           href="/#"
                         >
                           Đăng xuất

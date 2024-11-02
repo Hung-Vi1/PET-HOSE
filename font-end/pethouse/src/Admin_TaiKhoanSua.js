@@ -101,12 +101,12 @@ function Admin_TaiKhoanSua() {
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
-                        <a
+                        <Link
                           className="menu-header-bottom dropdown-item"
-                          href="/#"
+                          to={"/"}
                         >
                           Đăng xuất
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
