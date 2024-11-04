@@ -11,6 +11,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasFactory;
 
+    protected $primaryKey = 'Mataikhoan';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +27,8 @@ class User extends Authenticatable
         'ThuCung',
         'Diachi',
         'Quyen',
-        'Matkhau',  // Đổi từ 'Matkhau' thành 'password' để Laravel nhận diện
+        'Matkhau',
+        'remember_token',  // Đổi từ 'Matkhau' thành 'password' để Laravel nhận diện
     ];
 
     /**

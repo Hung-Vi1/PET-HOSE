@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
 /**
  * @OA\Info(
@@ -150,7 +149,7 @@ class UserController extends Controller
      * 
      * @OA\Post(
      *     path="/api/guiemail",
-     *     summary="Đăng kí tài khoản",
+     *     summary="Gữi email cấp lại mật khẩu",
      *     tags={"Users"},
      *     @OA\RequestBody(
      *         required=true,
@@ -174,18 +173,31 @@ class UserController extends Controller
      */
     public function GuiEmail(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'Email' => 'required|string|email|max:255',
+        $request->validate([
+            'Email' => 'required|email|max:255',
+        ], [
+            'Email.required' => 'Email là bắt buộc.',
+            'Email.email' => 'Email không đúng định dạng.',
+            'Email.max' => 'Email không được vượt quá :max ký tự.',
         ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+
+        $user = User::where('Email', $request->Email)->first();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email không phải email đăng ký tài khoản của bạn!',
+            ], 400);
         } else {
-            $status = Password::sendResetLink(['email' => $request->Email]);
-        }
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json(['message' => 'Reset link sent successfully.'], 200);
-        } else {
-            return response()->json(['message' => __($status)], 400);
+            $token = \Str::random(40);
+            $user->update(['remember_token' => $token]);
+            if ($user->wasChanged('remember_token')) {
+                $subject = 'Đặt lại mật khẩu của bạn';
+                Mail::to($user->Email)->send(new SendEmail($subject, ['name' => $user->Hovaten]));
+                return response()->json([
+                    'message' => 'Email hoặc mật khẩu không đúng!',
+                    'user' => $user,
+                    'token' => $token
+                ], 200);
+            }
         }
     }
 

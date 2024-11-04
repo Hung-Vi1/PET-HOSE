@@ -142,7 +142,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Đăng kí tài khoản",
+                "summary": "Gữi email cấp lại mật khẩu",
                 "description": "Thêm mới một người dùng",
                 "operationId": "f96a4dfe2af9c08dd084cab55c4ece3c",
                 "requestBody": {
