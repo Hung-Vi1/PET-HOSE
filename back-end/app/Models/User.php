@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -18,16 +17,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'Hovaten', 
+        'Hovaten',
         'SDT',
-        'Email',
+        'Email',  // Đổi từ 'Email' thành 'email' để Laravel nhận diện
         'ThuCung',
         'Diachi',
         'Quyen',
-        'Matkhau',
+        'Matkhau',  // Đổi từ 'Matkhau' thành 'password' để Laravel nhận diện
     ];
-
-    // ... (Các thuộc tính và phương thức khác) ...
 
     /**
      * Mối quan hệ với BaiViet: Một User có thể viết nhiều BaiViet 
@@ -80,10 +77,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'Matkhau' => 'hashed',
     ];
-    
-    public function setPasswordAttribute($value)
-{
-    $this->attributes['password'] = bcrypt($value);
-}
 
+    /**
+     * Override phương thức getAuthPassword để trả về trường password.
+     */
+    public function getAuthPassword()
+    {
+        return $this->Matkhau;
+    }
 }

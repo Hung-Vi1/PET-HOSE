@@ -17,14 +17,12 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+Auth::routes(['reset' => true]);
 
 Route::post('/dangnhap', [UserController::class, 'dangnhap']);
-
-Route::post('/dangki', [UserController::class, 'dangki']); 
+Route::post('/dangki', [UserController::class, 'dangki']);
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-
 Route::put('/users/{id}', [UserController::class, 'update']); 

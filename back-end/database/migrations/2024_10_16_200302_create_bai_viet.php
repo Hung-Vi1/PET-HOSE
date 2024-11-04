@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bai_viet', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('MaTaiKhoan'); // Khóa ngoại đến bảng TaiKhoan
+            $table->unsignedBigInteger('Mataikhoan'); // Khóa ngoại đến bảng TaiKhoan
             $table->unsignedBigInteger('MaDMBV'); // Khóa ngoại đến bảng DMBaiViet
             $table->string('TieuDe');
             $table->text('NoiDung');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại
-            $table->foreign('MaTaiKhoan')->references('MaTaiKhoan')->on('users'); 
+            $table->foreign('Mataikhoan')->references('Mataikhoan')->on('users'); 
             $table->foreign('MaDMBV')->references('MaDMBV')->on('dm_baiviet'); 
         });
     }
