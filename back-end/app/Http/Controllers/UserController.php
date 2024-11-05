@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\SendEmail;
+use Illuminate\Support\Facades\Mail;
+
 /**
  * @OA\Info(
  *     title="API Documentation",
@@ -47,46 +50,34 @@ class UserController extends Controller
     public function dangnhap(Request $request)
     {
         // Validate input
-        $credentials = $request->validate([
+        $credentials = Validator::make($request->all(), [
             'Email' => 'required|email',
             'Matkhau' => 'required|string',
         ]);
-    
-        // Đổi tên các trường cho phù hợp với Laravel (email và password)
-        $credentials = [
-            'email' => $credentials['Email'],
-            'password' => $credentials['Matkhau'],
-        ];
-    
-        // Kiểm tra thông tin đăng nhập
-        // if (!Auth::attempt($credentials)) {
-        //     return response()->json([
-        //         'message' => 'The provided credentials are incorrect.'
-        //     ], 401);
-        // }
+        
+        if ($credentials->fails()) {
+            return response()->json($credentials->errors(), 400);
+        } 
+        
+        $user = User::where('Email', $request->Email)->first();
 
-        if (Auth::attempt(['email' => 'truongminhthien222004@gmail.com', 'password' => '$2y$12$egUdE/iUZwPbPbNHCt72huk2QcPx38/3h9mCE0jHpLUwiRALUB0SW'])) {
+        $canlogin = false;
+        if ($user) {
+            $canlogin = Hash::check($request->Matkhau, $user->Matkhau);
+        }
+        if ($canlogin) {
+            Auth::login($user);
             return response()->json([
-                'message' => 'thanhcong.'
-            ], 401);
+                'message' => 'Đăng nhập thành công!',
+                'user' => Auth::user()
+            ], 201);
         } else {
             return response()->json([
-                'message' => 'that bai.'
-            ], 401);
+                'message' => 'Email hoặc mật khẩu không đúng!',
+                'user' => $user,
+            ], 400);
         }
         
-    
-        // Lấy người dùng sau khi đăng nhập thành công
-        $user = Auth::user();
-    
-        // Tạo token cho người dùng
-        $token = $user->createToken('auth_token')->plainTextToken;
-    
-        // Trả về token cho client
-        return response()->json([
-            'token_type' => 'Bearer',
-            'access_token' => $token,
-        ]);
     }
 
 
@@ -134,11 +125,9 @@ class UserController extends Controller
             'Email' => 'required|string|email|max:255|unique:users',
             'Matkhau' => 'required|string|min:6',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
         // Tạo người dùng mới
         $user = User::create([
             'Hovaten' => $request->Hovaten,
@@ -146,15 +135,71 @@ class UserController extends Controller
             'Email' => $request->Email,
             'Diachi' => $request->Diachi,
             'Quyen' => 0,
-            'Matkhau' => bcrypt($request->Matkhau),
+            'Matkhau' => Hash::make($request->Matkhau),
         ]);
-
+    
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user
         ], 201);
     }
+    
+/**
+     * Thêm mới một người dùng
+     * 
+     * @OA\Post(
+     *     path="/api/guiemail",
+     *     summary="Gữi email cấp lại mật khẩu",
+     *     tags={"Users"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"Email" },
+     *             @OA\Property(property="Email", type="string", format="email", example="truongminhthien222004@gmail.com"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Gữi email đặt lại mật khẩu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Gữi email đặt lại mật khẩu thành công"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dữ liệu không hợp lệ"
+     *     )
+     * )
+     */
+    public function GuiEmail(Request $request)
+    {
+        $request->validate([
+            'Email' => 'required|email|max:255',
+        ], [
+            'Email.required' => 'Email là bắt buộc.',
+            'Email.email' => 'Email không đúng định dạng.',
+            'Email.max' => 'Email không được vượt quá :max ký tự.',
+        ]);
 
+        $user = User::where('Email', $request->Email)->first();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email không phải email đăng ký tài khoản của bạn!',
+            ], 400);
+        } else {
+            $token = \Str::random(40);
+            $user->update(['remember_token' => $token]);
+            if ($user->wasChanged('remember_token')) {
+                $subject = 'Đặt lại mật khẩu của bạn';
+                Mail::to($user->Email)->send(new SendEmail($subject, ['name' => $user->Hovaten]));
+                return response()->json([
+                    'message' => 'Email hoặc mật khẩu không đúng!',
+                    'user' => $user,
+                    'token' => $token
+                ], 200);
+            }
+        }
+    }
 
 
     /**
@@ -203,7 +248,7 @@ class UserController extends Controller
      * Cập nhật thông tin người dùng
      * 
      * @OA\Put(
-     *     path="/api/users/{id}",
+     *     path="/api/capnhat/{id}",
      *     summary="Cập nhật thông tin người dùng",
      *     tags={"Users"},
      *     @OA\Parameter(
@@ -263,10 +308,6 @@ class UserController extends Controller
         // Cập nhật thông tin người dùng
         $user->name = $request->name;
         $user->email = $request->email;
-
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
 
         $user->save();
 

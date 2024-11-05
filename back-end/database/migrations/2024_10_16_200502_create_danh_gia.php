@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('danh_gia', function (Blueprint $table) {
             $table->id('MaDanhGia'); // Khóa chính
-            $table->unsignedBigInteger('MaTaiKhoan')->nullable(); // Khóa ngoại đến bảng TaiKhoan, cho phép null
+            $table->unsignedBigInteger('Mataikhoan')->nullable(); // Khóa ngoại đến bảng TaiKhoan, cho phép null
             $table->unsignedBigInteger('MaSP')->nullable(); // Khóa ngoại đến bảng SanPham, cho phép null
             $table->string('Ten')->nullable(); // Cho phép null
             $table->text('NoiDung')->nullable(); // Cho phép null
             $table->integer('SoSao');
             $table->date('NgayDG'); // Kiểu dữ liệu DATE
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
-
             // Định nghĩa khóa ngoại
-            $table->foreign('MaTaiKhoan')->references('MaTaiKhoan')->on('users');
+            $table->foreign('Mataikhoan')->references('Mataikhoan')->on('users');
             $table->foreign('MaSP')->references('MaSP')->on('san_pham'); 
         });
     }

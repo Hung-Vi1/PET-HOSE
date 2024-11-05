@@ -989,14 +989,107 @@
                 }
             }
         },
+        "/api/guiemail": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gữi email cấp lại mật khẩu",
+                "description": "Thêm mới một người dùng",
+                "operationId": "f96a4dfe2af9c08dd084cab55c4ece3c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Email"
+                                ],
+                                "properties": {
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "truongminhthien222004@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Gữi email đặt lại mật khẩu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Gữi email đặt lại mật khẩu thành công"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ"
+                    }
+                }
+            }
+        },
         "/api/users/{id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Xóa người dùng",
+                "description": "Xóa một người dùng",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã bị xóa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    }
+                }
+            }
+        },
+        "/api/capnhat/{id}": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Cập nhật thông tin người dùng",
                 "description": "Cập nhật thông tin người dùng",
-                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "operationId": "796fa036d22f8b51a742fe343488d8b3",
                 "parameters": [
                     {
                         "name": "id",
@@ -1064,46 +1157,6 @@
                     },
                     "400": {
                         "description": "Dữ liệu không hợp lệ"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Xóa người dùng",
-                "description": "Xóa một người dùng",
-                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID của người dùng",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Người dùng đã bị xóa",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User deleted successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Không tìm thấy người dùng"
                     }
                 }
             }
