@@ -58,13 +58,8 @@
     color: #111;
 }
 
-.menu-header-top:hover {
-    border-radius: 5px 5px 0 0;
-    border: 1px solid #0d6efd;
-}
-
+.menu-header-top:hover,
 .menu-header-bottom:hover {
-    border-radius: 0 0 5px 5px;
     border: 1px solid #0d6efd;
 }
 
@@ -147,7 +142,8 @@ a {
     margin: 15px 0;
 }
 
-button {
+.btn-login,
+.btn-register {
     border-radius: 20px;
     border: 1px solid #FF4B2B;
     background-color: #FF4B2B;
@@ -173,7 +169,7 @@ button.ghost {
     border-color: #FFFFFF;
 }
 
-form {
+.form-login {
     background-color: #FFFFFF;
     display: flex;
     align-items: center;

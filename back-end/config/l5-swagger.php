@@ -19,38 +19,48 @@ return [
             ],
 
             'routes' => [
-                /*
-                 * Route for accessing api documentation interface
-                 */
-                'api' => 'api/documentation',
+                'enabled' => true,
+                'prefix' => 'api',
+                'route' => [
+                    'docs' => 'api-docs.json', // File JSON documentation sẽ được tạo
+                    'api' => 'api',
+                ],
             ],
+            
             'paths' => [
                 /*
-                 * Edit to include full URL in ui for assets
+                 * Chỉnh sửa để bao gồm toàn bộ URL cho tài sản trong UI
                  */
                 'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
 
                 /*
-                 * File name of the generated json documentation file
+                 * Tên file JSON documentation được tạo ra
                  */
-                'docs_json' => 'api-docs.json',
+                'docs_json' => 'api-docs.json', // Bạn có thể chỉnh sửa tên file nếu cần
 
                 /*
-                 * File name of the generated YAML documentation file
+                 * Tên file YAML documentation được tạo ra (nếu cần)
                  */
                 'docs_yaml' => 'api-docs.yaml',
 
                 /*
-                 * Set this to `json` or `yaml` to determine which documentation file to use in UI
+                 * Thiết lập định dạng sử dụng cho docs (json hoặc yaml)
                  */
                 'format_to_use_for_docs' => env('L5_FORMAT_TO_USE_FOR_DOCS', 'json'),
 
                 /*
-                 * Absolute paths to directory containing the swagger annotations are stored.
+                 * Đường dẫn tuyệt đối tới thư mục chứa các annotation của Swagger.
+                 * Đây là nơi Swagger/L5 Swagger sẽ tìm các chú thích trong mã của bạn.
                  */
                 'annotations' => [
-                    base_path('app'),
+                    base_path('app'), // Thường là 'app', có thể bổ sung thêm các đường dẫn khác nếu cần
                 ],
+            ],
+        ],
+        
+        'servers' => [
+            [
+                'url' => env('APP_URL', 'http://localhost:8000'), // URL của server API
             ],
         ],
     ],
@@ -58,10 +68,12 @@ return [
 
     'defaults' => [
         'routes' => [
+            'enabled' => true,
+            'api' => 'api/documentation',
             /*
              * Route for accessing parsed swagger annotations.
              */
-            'docs' => 'docs',
+            'docs' => 'api/docs',
 
             /*
              * Route for Oauth2 authentication callback.
@@ -85,6 +97,7 @@ return [
         ],
 
         'paths' => [
+            
             /*
              * Absolute path to location where parsed annotations will be stored
              */
@@ -111,6 +124,13 @@ return [
              * `scanOptions.exclude` overwrites this
              */
             'excludes' => [],
+
+            /*
+            * Absolute paths to directory containing the swagger annotations are stored.
+            */
+            'annotations' => [
+                base_path('app'),
+            ],
         ],
 
         'scanOptions' => [
