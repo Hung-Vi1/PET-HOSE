@@ -49,7 +49,7 @@ function Header() {
                     </form>
                 </li>
                 <li className="box-login">
-                        <Link to="/login"> <a className="icon_login" href="/#" ></a></Link>
+                        <Link to="/login"> <a className="icon_login" href="/#"></a></Link>
                 </li>
                 <li className="box-cart nav-top-cart-wrapper">
                     <Link className="icon_cart nav-cart-trigger active" to="/giohang">

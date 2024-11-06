@@ -119,8 +119,7 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Montserrat', sans-serif;
-    height: 100vh;
-    margin: -20px 0 50px;
+    padding: 12px;
 }
 
 p {
@@ -167,6 +166,8 @@ button:focus {
 button.ghost {
     background-color: transparent;
     border-color: #FFFFFF;
+    border: 2px solid rgb(203, 182, 182);
+    border-radius: 5px;
 }
 
 .form-login {
@@ -186,6 +187,7 @@ input {
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    border-radius: 10px;
 }
 
 .login {
@@ -195,9 +197,9 @@ input {
         0 10px 10px rgba(0, 0, 0, 0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 1200px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 600px;
 }
 
 .form-login {
@@ -327,3 +329,5 @@ input {
     height: 40px;
     width: 40px;
 }
+
+
