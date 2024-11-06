@@ -59,6 +59,7 @@ function Admin_SanPhamChiTiet() {
   const [created_at, setcreated_at] = useState("");
   const [MaDanhMuc, setMaDanhMuc] = useState("");
   const [updated_at, setupdated_at] = useState("");
+  const [MoTa, setMoTa] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,6 +69,7 @@ function Admin_SanPhamChiTiet() {
     console.log("NgayTao:", created_at);
     console.log("LoaiSanPham:", MaDanhMuc);
     console.log("NgayCapNhat:", updated_at);
+    console.log("MoTa:", MoTa);
   };
 
   return (
@@ -197,150 +199,126 @@ function Admin_SanPhamChiTiet() {
               <h1 className="mb-0">Balo vận chuyển chó mèo Phi hành</h1>
             </div>
 
-            <div className="border border-dark rounded-3 my-3 p-2">
-              <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
+            <div className="d-flex flex-wrap">
+              <div className="col-md-8 border border-dark rounded-3 my-3 p-2 me-3">
+                <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-2">
-                  <label htmlFor="TenSanPham" className="form-label">
-                    Tên sản phẩm
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="TenSanPham"
-                    aria-describedby="TenSanPhamlHelp"
-                    value={TenSanPham}
-                    onChange={(e) => setTenSanPham(e.target.value)}
-                  />
-                  <div id="TenSanPhamlHelp" className="form-text text-danger">
-                    Đây là trường bất buộc
-                  </div>
-                </div>
-
-                <div className="row mb-2">
-                  <div className="col-md">
-                    <label htmlFor="MaSP" className="form-label">
-                      Mã sản phẩm
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="TenSanPham" className="form-label">
+                      Tên sản phẩm
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="MaSP"
-                      value={MaSP}
-                      onChange={(e) => setMaSP(e.target.value)}
+                      id="TenSanPham"
+                      aria-describedby="TenSanPhamlHelp"
+                      value={TenSanPham}
+                      onChange={(e) => setTenSanPham(e.target.value)}
                     />
+                    <div id="TenSanPhamlHelp" className="form-text text-danger">
+                      Đây là trường bất buộc
+                    </div>
                   </div>
-                  <div className="col-md">
-                    <label htmlFor="NgayTao" className="form-label">
-                      Ngày tạo
+
+                  <div className="row mb-3">
+                    <div className="col-md">
+                      <label htmlFor="MaSP" className="form-label">
+                        Mã sản phẩm
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="MaSP"
+                        value={MaSP}
+                        onChange={(e) => setMaSP(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md">
+                      <label htmlFor="NgayTao" className="form-label">
+                        Ngày tạo
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="NgayTao"
+                        value={created_at}
+                        onChange={(e) => setcreated_at(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row mb-3">
+                    <div className="col-md">
+                      <label htmlFor="LoaiSanPham" className="form-label">
+                        Loại sản phẩm
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="LoaiSanPham"
+                        value={MaDanhMuc}
+                        onChange={(e) => setMaDanhMuc(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md">
+                      <label htmlFor="NgayCapNhat" className="form-label">
+                        Ngày cập nhật
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="NgayCapNhat"
+                        value={updated_at}
+                        onChange={(e) => setupdated_at(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="MoTa" className="form-label">
+                      Mô tả
                     </label>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
-                      id="NgayTao"
-                      value={created_at}
-                      onChange={(e) => setcreated_at(e.target.value)}
+                      id="MoTa"
+                      rows={2}
+                      value={MoTa}
+                      onChange={(e) => setMoTa(e.target.value)}
                     />
                   </div>
-                </div>
 
-                <div className="row mb-2">
-                  <div className="col-md">
-                    <label htmlFor="LoaiSanPham" className="form-label">
-                      Loại sản phẩm
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="LoaiSanPham"
-                      value={MaDanhMuc}
-                      onChange={(e) => setMaDanhMuc(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md">
-                    <label htmlFor="NgayCapNhat" className="form-label">
-                      Ngày cập nhật
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="NgayCapNhat"
-                      value={updated_at}
-                      onChange={(e) => setupdated_at(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Submit
-                </button>
-              </form>
+                  <button type="submit" className="btn btn-primary">
+                    Submit
+                  </button>
+                </form>
+              </div>
 
-              <div className="row">
-                <div className="col-md-8">
-                  <table className="table table-borderless mb-0">
-                    <tbody>
-                      <tr>
-                        <td>Mã sản phẩm</td>
-                        <td>:</td>
-                        <td>SP001</td>
-                        <td>Ngày tạo</td>
-                        <td>:</td>
-                        <td>27/09/2024 17:09</td>
-                      </tr>
-                      <tr>
-                        <td>Loại sản phẩm</td>
-                        <td>:</td>
-                        <td>Phụ kiện chó / mèo</td>
-                        <td>Ngày cập nhật</td>
-                        <td>:</td>
-                        <td>27/09/2024 17:09</td>
-                      </tr>
-                      <tr>
-                        <td>Giá nhập</td>
-                        <td>:</td>
-                        <td>300.000 đ</td>
-                        <td>Giá sale</td>
-                        <td>:</td>
-                        <td>400.000 đ</td>
-                      </tr>
-                      <tr>
-                        <td colSpan={6}>
-                          <label
-                            htmlFor="exampleFormControlTextarea1"
-                            className="form-label"
-                          >
-                            Mô tả
-                          </label>
-                          <textarea
-                            className="form-control"
-                            id="exampleFormControlTextarea1"
-                            rows="3"
-                          >
-                            Thành phần dinh dưỡng Xương cho chó gặm sạch răng
-                            VEGEBRAND 360 Bone Prevent Tartar với các thành phần
-                            như ngũ cốc, thịt và động vật. Dẫn xuất có nguồn gốc
-                            thực vật, rau, khoáng chất. Vitamin E. Feroh
-                            Sulphate Monohydrate, Zinc Sulphate Monohydrate,
-                            Mangan Sulphate Monohydrate. Màu sắc, hương vị, chất
-                            bảo quản. Phân tích đảm bảo: Protein thô (tối thiểu)
-                            10%. Chất béo thô (tối thiểu) 0,4%. Sợi thô (tối đa)
-                            4%. Tro (tối đa) 5%. Độ ẩm (tối đa) 16%. Canxi (tối
-                            thiểu) 0,05%. Photpho (tối thiểu) 0,04%. Natri (tối
-                            thiểu) 0,02%.
-                          </textarea>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div className="col-md border border-dark rounded-3 my-3 p-2">
+                <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
 
-                <div className="text-center col-md-4">
+                <div className="text-center">
                   <img
-                    className="w-75"
+                    className="w-75 mt-5"
                     src="image/san_pham_1.webp"
                     alt="Sản phẩm"
                   />
+
+                  <div className="d-flex justify-content-center">
+                    <input
+                      className="form-control form-control-lg"
+                      type="file"
+                      id="fileInput"
+                      style={{ display: "none" }}
+                    />
+                    <label
+                      htmlFor="fileInput"
+                      className="form-control w-50 hinhanh"
+                    >
+                      Chọn tệp
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

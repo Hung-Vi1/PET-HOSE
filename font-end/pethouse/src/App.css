@@ -105,6 +105,20 @@
     cursor: pointer;
 }
 
+.hinhanh {
+    background-color: #999;
+    color: #fff;
+    border: 1px solid #999;
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
+}
+
+.hinhanh:hover {
+    cursor: pointer;
+    background-color: #fff;
+    color: #111;
+    border: 1px solid #111;
+}
+
 
 /* End CSS Admin */
 
