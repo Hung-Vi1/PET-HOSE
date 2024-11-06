@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 function Admin_SanPhamChiTiet() {
+  // Xóa sản phẩm
   const [ganSP] = useState([]);
-
   const xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
@@ -51,6 +51,23 @@ function Admin_SanPhamChiTiet() {
   const toggleBoth = () => {
     setIsFirstOpen(!isFirstOpen);
     setIsSecondOpen(!isSecondOpen);
+  };
+
+  // Form
+  const [TenSanPham, setTenSanPham] = useState("");
+  const [MaSP, setMaSP] = useState("");
+  const [created_at, setcreated_at] = useState("");
+  const [MaDanhMuc, setMaDanhMuc] = useState("");
+  const [updated_at, setupdated_at] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Xử lý dữ liệu ở đây, ví dụ: gửi đến API
+    console.log("TenSanPham:", TenSanPham);
+    console.log("MaSP:", MaSP);
+    console.log("NgayTao:", created_at);
+    console.log("LoaiSanPham:", MaDanhMuc);
+    console.log("NgayCapNhat:", updated_at);
   };
 
   return (
@@ -170,55 +187,94 @@ function Admin_SanPhamChiTiet() {
           </nav>
 
           <div className="container">
-            <div className="d-flex">
-              <i className="bi bi-chevron-double-left py-1 my-2"></i>
-              <Link to={"/adminsanpham"}>
-                <strong className="py-1 my-2 ms-2">
-                  Quay lại danh sách sản phẩm
-                </strong>
+            <div className="d-flex mt-3">
+              <Link
+                to={"/adminsanpham"}
+                className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
+              >
+                <i className="bi bi-arrow-left"></i>
               </Link>
-
-              <div className="d-flex ms-auto">
-                <Link
-                  className="btn btn-outline-warning p-1 m-2"
-                  to={"/adminsanpham"}
-                >
-                  Thoát
-                </Link>
-
-                <button
-                  // onClick={() => xoaSanPham(sp.ma_san_pham)}
-                  type="button"
-                  className="btn btn-danger p-1 m-2 text-white"
-                >
-                  Xóa
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-warning p-1 m-2 text-white"
-                >
-                  Sửa
-                </button>
-              </div>
+              <h1 className="mb-0">Balo vận chuyển chó mèo Phi hành</h1>
             </div>
 
-            <hr className="mt-0" />
-
-            <h1>Balo vận chuyển chó mèo Phi hành</h1>
-
-            <button type="button" className="btn btn-outline-dark">
-              <i className="bi bi-copy me-2"></i>Sao chép
-            </button>
-
             <div className="border border-dark rounded-3 my-3 p-2">
-              <div className="d-flex">
-                <h5 className="m-0 py-1">Thông tin sản phẩm</h5>
-                <div className="border border-warning rounded-5 bg-warning text-white ms-3">
-                  <p className="m-0 p-1">Đang giao dịch</p>
-                </div>
-              </div>
+              <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
 
-              <hr className="my-2" />
+              <form onSubmit={handleSubmit}>
+                <div className="mb-2">
+                  <label htmlFor="TenSanPham" className="form-label">
+                    Tên sản phẩm
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="TenSanPham"
+                    aria-describedby="TenSanPhamlHelp"
+                    value={TenSanPham}
+                    onChange={(e) => setTenSanPham(e.target.value)}
+                  />
+                  <div id="TenSanPhamlHelp" className="form-text text-danger">
+                    Đây là trường bất buộc
+                  </div>
+                </div>
+
+                <div className="row mb-2">
+                  <div className="col-md">
+                    <label htmlFor="MaSP" className="form-label">
+                      Mã sản phẩm
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="MaSP"
+                      value={MaSP}
+                      onChange={(e) => setMaSP(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md">
+                    <label htmlFor="NgayTao" className="form-label">
+                      Ngày tạo
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="NgayTao"
+                      value={created_at}
+                      onChange={(e) => setcreated_at(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="row mb-2">
+                  <div className="col-md">
+                    <label htmlFor="LoaiSanPham" className="form-label">
+                      Loại sản phẩm
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="LoaiSanPham"
+                      value={MaDanhMuc}
+                      onChange={(e) => setMaDanhMuc(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md">
+                    <label htmlFor="NgayCapNhat" className="form-label">
+                      Ngày cập nhật
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="NgayCapNhat"
+                      value={updated_at}
+                      onChange={(e) => setupdated_at(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </form>
 
               <div className="row">
                 <div className="col-md-8">
@@ -289,18 +345,54 @@ function Admin_SanPhamChiTiet() {
               </div>
             </div>
 
+            <div className="border border-dark rounded-3 my-3 p-2">
+              <div className="d-flex">
+                <h5 className="m-0 py-1 pe-3 border-bottom border-2 border-warning text-warning">
+                  Tồn kho
+                </h5>
+                <h5 className="m-0 py-1 pe-3 border-bottom border-2 border-warning text-warning">
+                  Lịch sử kho
+                </h5>
+              </div>
+
+              <table className="table m-0">
+                <thead>
+                  <tr>
+                    <th>Chi nhánh</th>
+                    <th className="text-center">Tồn kho</th>
+                    <th className="text-center">Có thể bán</th>
+                    <th className="text-center">Đang giao dịch</th>
+                    <th className="text-center">Hàng đang về</th>
+                    <th className="text-center">Hàng đang giao</th>
+                    <th className="text-center">Điểm lưu kho</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>564</td>
+                    <td className="text-center">100</td>
+                    <td className="text-center">100</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">0</td>
+                    <td className="text-center">___</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div>
               <p className="d-inline-flex gap-1">
-                <a
+                <button
                   className="btn btn-primary"
-                  href="#multiCollapseExample1"
-                  role="button"
+                  type="button"
+                  onClick={toggleFirst}
                   aria-expanded={isFirstOpen}
                   aria-controls="multiCollapseExample1"
-                  onClick={toggleFirst}
                 >
                   Toggle first element
-                </a>
+                </button>
                 <button
                   className="btn btn-primary"
                   type="button"
