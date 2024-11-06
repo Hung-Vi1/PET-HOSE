@@ -49,3 +49,5 @@ use App\Http\Controllers\OrderApiController;
 Route::get('/orders', [OrderApiController::class, 'index']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orders/{MaDH}', [OrderApiController::class, 'show']);
+Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
+Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);

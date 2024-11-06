@@ -483,6 +483,196 @@
                 }
             }
         },
+        "/api/orders/{MaDH}": {
+            "put": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Cập nhật thông tin đơn hàng",
+                "description": "Cập nhật thông tin của đơn hàng với mã đơn hàng cụ thể",
+                "operationId": "cbb798ee3aac487e111094310f0f7b10",
+                "parameters": [
+                    {
+                        "name": "MaDH",
+                        "in": "path",
+                        "description": "Mã đơn hàng cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Ten",
+                                    "SDT",
+                                    "DiaChi",
+                                    "PTTT",
+                                    "GhiChu",
+                                    "TrangThai",
+                                    "NgayGiao"
+                                ],
+                                "properties": {
+                                    "Ten": {
+                                        "type": "string",
+                                        "example": "Nguyễn Văn A"
+                                    },
+                                    "SDT": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "DiaChi": {
+                                        "type": "string",
+                                        "example": "123 Đường ABC, Quận 1, TP.HCM"
+                                    },
+                                    "PTTT": {
+                                        "type": "string",
+                                        "example": "Chuyển khoản"
+                                    },
+                                    "GhiChu": {
+                                        "type": "string",
+                                        "example": "Ghi chú đơn hàng"
+                                    },
+                                    "TrangThai": {
+                                        "type": "string",
+                                        "enum": [
+                                            "cho_xac_nhan",
+                                            "dang_xu_ly",
+                                            "hoan_thanh",
+                                            "huy"
+                                        ],
+                                        "example": "dang_xu_ly"
+                                    },
+                                    "NgayGiao": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-11-10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Yêu cầu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/{id}": {
+            "delete": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Xóa đơn hàng và chi tiết liên quan",
+                "description": "Xóa đơn hàng theo ID và xóa tất cả chi tiết đơn hàng liên quan.",
+                "operationId": "destroyOrder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Mã đơn hàng cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Đơn hàng và chi tiết đơn hàng đã được xóa thành công.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đơn hàng và chi tiết đơn hàng đã được xóa thành công."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi xóa đơn hàng.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi: Không tìm thấy đơn hàng."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [

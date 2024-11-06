@@ -41,7 +41,7 @@ use App\Models\SanPham;
 
 class OrderApiController extends Controller
 {
-   
+
 
     /**
      * @OA\Get(
@@ -268,27 +268,164 @@ class OrderApiController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+
+    /**
+     * @OA\Put(
+     *     path="/api/orders/{MaDH}",
+     *     tags={"DonHang"},
+     *     summary="Cập nhật thông tin đơn hàng",
+     *     description="Cập nhật thông tin của đơn hàng với mã đơn hàng cụ thể",
+     *     @OA\Parameter(
+     *         name="MaDH",
+     *         in="path",
+     *         required=true,
+     *         description="Mã đơn hàng cần cập nhật",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"Ten", "SDT", "DiaChi", "PTTT", "GhiChu", "TrangThai", "NgayGiao"},
+     *             @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
+     *             @OA\Property(property="SDT", type="string", example="0123456789"),
+     *             @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM"),
+     *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản"),
+     *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng"),
+     *             @OA\Property(property="TrangThai", type="string", example="dang_xu_ly", enum={"cho_xac_nhan", "dang_xu_ly", "hoan_thanh", "huy"}),
+     *             @OA\Property(property="NgayGiao", type="string", format="date", example="2024-11-10")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cập nhật thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Cập nhật thành công"),
+     *             @OA\Property(property="data", ref="#/components/schemas/OrderResource")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Yêu cầu không hợp lệ",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Thông báo lỗi"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     )
+     * )
+     */
+
+    public function update(Request $request, $MaDH)
     {
-        //
+        // PUT
+        try {
+            $validatedData = $request->validate([
+                'Ten' => 'required|string|max:50',
+                'SDT' => 'required|regex:/^[0-9]{10}$/',
+                'DiaChi' => 'required',
+                'PTTT' => 'required',
+                'GhiChu' => 'required',
+                'TrangThai' => 'required|in:cho_xac_nhan,dang_xu_ly,hoan_thanh,huy',
+                'NgayGiao' => 'required|date'
+            ], [
+                'Ten.required' => 'Vui lòng nhập Tên',
+                'Ten.string' => 'tên phải là chữ',
+                'Ten.max' => 'Độ dài thấp hơn 50 ký tự',
+                'SDT.required' => 'Vui lòng nhập số điện thoại',
+                'SDT.regex' => 'Số điện thoại phải gồm 10 chữ số',
+                'DiaChi.required' => 'Vui lòng nhập địa chỉ',
+                'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
+                'GhiChu.required' => 'Vui lòng nhập ghi chú',
+                'TrangThai.required' => 'Vui lòng nhập trạng thái',
+                'TrangThai.in' => 'Trạng thái phải là: cho_xac_nhan, dang_xu_ly, hoan_thanh, huy',
+                'NgayGiao.required' => 'Vui lòng nhập ngày giao',
+                'NgayGiao.date' => 'Định dạng sai ngày tháng',
+            ]);
+
+            $order = DonHang::findOrFail($MaDH);
+            $order->update($validatedData);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cập nhật thành công',
+                'data' => new OrderResource($order)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 400);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
+    /**
+     * @OA\Delete(
+     *     path="/api/orders/{id}",
+     *     summary="Xóa đơn hàng và chi tiết liên quan",
+     *     description="Xóa đơn hàng theo ID và xóa tất cả chi tiết đơn hàng liên quan.",
+     *     operationId="destroyOrder",
+     *     tags={"DonHang"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Mã đơn hàng cần xóa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="1"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đơn hàng và chi tiết đơn hàng đã được xóa thành công.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Đơn hàng và chi tiết đơn hàng đã được xóa thành công.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Lỗi khi xóa đơn hàng.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Lỗi: Không tìm thấy đơn hàng.")
+     *         )
+     *     )
+     * )
+     */
+    
     public function destroy(string $id)
     {
-        //
+        try {
+            // Tìm đơn hàng theo ID
+            $order = DonHang::findOrFail($id);
+
+            // Xóa tất cả chi tiết đơn hàng liên quan
+            $order->orderDetails()->delete();
+
+            // Xóa đơn hàng
+            $order->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Đơn hàng và chi tiết đơn hàng đã được xóa thành công.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Lỗi: ' . $e->getMessage()
+            ], 400);
+        }
     }
 }
