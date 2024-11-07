@@ -125,6 +125,11 @@
     margin: 0;
 }
 
+.lichsukho:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
 
 /* End CSS Admin */
 

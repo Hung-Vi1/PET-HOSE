@@ -175,8 +175,8 @@ function Admin_SanPhamChiTiet() {
             </div>
           </nav>
 
-          <div className="container">
-            <div className="d-flex mt-3">
+          <div className="container mt-3 mb-5">
+            <div className="d-flex">
               <Link
                 to={"/adminsanpham"}
                 className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
@@ -209,7 +209,7 @@ function Admin_SanPhamChiTiet() {
                           id="TenSanPhamlHelp"
                           className="form-text text-danger"
                         >
-                          Đây là trường bất buộc
+                          Đây là trường bắt buộc
                         </div>
                       </div>
 
@@ -280,10 +280,6 @@ function Admin_SanPhamChiTiet() {
                           onChange={(e) => setMoTa(e.target.value)}
                         />
                       </div>
-
-                      <button type="submit" className="btn btn-primary">
-                        Lưu
-                      </button>
                     </form>
                   </div>
 
@@ -291,7 +287,7 @@ function Admin_SanPhamChiTiet() {
                     <div className="d-flex flex-wrap justify-content-between">
                       <h5 className="mb-2 py-1">Thông tin kho</h5>
 
-                      <a href="/#" className="my-auto">
+                      <a href="/#" className="my-auto text-primary lichsukho">
                         Lịch sử thay đổi kho
                       </a>
                     </div>
@@ -396,6 +392,14 @@ function Admin_SanPhamChiTiet() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button type="submit" className="btn btn-outline-danger me-2">
+                Xóa
+              </button>
+              <button type="submit" className="btn btn-primary ms-2">
+                Lưu
+              </button>
             </div>
           </div>
         </div>
