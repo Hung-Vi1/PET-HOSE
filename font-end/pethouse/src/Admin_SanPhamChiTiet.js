@@ -290,7 +290,7 @@ function Admin_SanPhamChiTiet() {
                   </div>
 
                   <button type="submit" className="btn btn-primary">
-                    Submit
+                    Lưu
                   </button>
                 </form>
               </div>

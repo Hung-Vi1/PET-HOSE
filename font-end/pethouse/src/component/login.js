@@ -199,7 +199,7 @@
               {loginFormik.touched.password && loginFormik.errors.password && (
                 <div className="text-danger">{loginFormik.errors.password}</div>
               )}
-              <a href="#">Quên mật khẩu?</a><br />
+              <a href="/#">Quên mật khẩu?</a><br />
               <button className="mt-4 rounded" type="submit" disabled={loginFormik.isSubmitting}>
                 Đăng Nhập
               </button>
