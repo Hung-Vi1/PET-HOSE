@@ -3,16 +3,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 function Admin_SanPhamChiTiet() {
-  const [isCheckedDefault, setIsCheckedDefault] = useState(false);
-  const [isCheckedChecked, setIsCheckedChecked] = useState(true);
-
-  const handleDefaultChange = () => {
-    setIsCheckedDefault(!isCheckedDefault);
-  };
-
-  const handleCheckedChange = () => {
-    setIsCheckedChecked(!isCheckedChecked);
-  };
   // Xóa sản phẩm
   /*   const [ganSP] = useState([]);
   const xoaSanPham = (maSP) => {
@@ -45,23 +35,6 @@ function Admin_SanPhamChiTiet() {
         });
     }
   }; */
-
-  // Ẩn hiện nội dung dưới tồn kho
-  const [isFirstOpen, setIsFirstOpen] = useState(false);
-  const [isSecondOpen, setIsSecondOpen] = useState(false);
-
-  const toggleFirst = () => {
-    setIsFirstOpen(!isFirstOpen);
-  };
-
-  const toggleSecond = () => {
-    setIsSecondOpen(!isSecondOpen);
-  };
-
-  const toggleBoth = () => {
-    setIsFirstOpen(!isFirstOpen);
-    setIsSecondOpen(!isSecondOpen);
-  };
 
   // Form
   const [TenSanPham, setTenSanPham] = useState("");
@@ -323,36 +296,29 @@ function Admin_SanPhamChiTiet() {
                       </a>
                     </div>
 
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexCheckDefault"
-                        checked={isCheckedDefault}
-                        onChange={handleDefaultChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Default checkbox
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexCheckChecked"
-                        checked={isCheckedChecked}
-                        onChange={handleCheckedChange}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckChecked"
-                      >
-                        Checked checkbox
-                      </label>
-                    </div>
+                    <table className="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th className="fw-bold">Kho lưu trữ</th>
+                          <th className="fw-bold text-center">Tồn kho</th>
+                          <th className="fw-bold text-center">Hàng đang về</th>
+                          <th className="fw-bold text-center">
+                            Đang giao dịch
+                          </th>
+                          <th className="fw-bold text-center">Có thể bán</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Cửa hàng</td>
+                          <td className="text-center">100</td>
+                          <td className="text-center">0</td>
+                          <td className="text-center">0</td>
+                          <td className="text-center">100</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -427,107 +393,6 @@ function Admin_SanPhamChiTiet() {
                         />
                       </div>
                     </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-dark rounded-3 my-3 p-2">
-              <div className="d-flex">
-                <h5 className="m-0 py-1 pe-3 border-bottom border-2 border-warning text-warning">
-                  Tồn kho
-                </h5>
-                <h5 className="m-0 py-1 pe-3 border-bottom border-2 border-warning text-warning">
-                  Lịch sử kho
-                </h5>
-              </div>
-
-              <table className="table m-0">
-                <thead>
-                  <tr>
-                    <th>Chi nhánh</th>
-                    <th className="text-center">Tồn kho</th>
-                    <th className="text-center">Có thể bán</th>
-                    <th className="text-center">Đang giao dịch</th>
-                    <th className="text-center">Hàng đang về</th>
-                    <th className="text-center">Hàng đang giao</th>
-                    <th className="text-center">Điểm lưu kho</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>564</td>
-                    <td className="text-center">100</td>
-                    <td className="text-center">100</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">0</td>
-                    <td className="text-center">___</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div>
-              <p className="d-inline-flex gap-1">
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={toggleFirst}
-                  aria-expanded={isFirstOpen}
-                  aria-controls="multiCollapseExample1"
-                >
-                  Toggle first element
-                </button>
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={toggleSecond}
-                  aria-expanded={isSecondOpen}
-                  aria-controls="multiCollapseExample2"
-                >
-                  Toggle second element
-                </button>
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={toggleBoth}
-                  aria-expanded={isFirstOpen || isSecondOpen}
-                  aria-controls="multiCollapseExample1 multiCollapseExample2"
-                >
-                  Toggle both elements
-                </button>
-              </p>
-              <div className="row">
-                <div className="col">
-                  <div
-                    className={`collapse multi-collapse ${
-                      isFirstOpen ? "show" : ""
-                    }`}
-                    id="multiCollapseExample1"
-                  >
-                    <div className="card card-body">
-                      Some placeholder content for the first collapse component
-                      of this multi-collapse example. This panel is hidden by
-                      default but revealed when the user activates the relevant
-                      trigger.
-                    </div>
-                  </div>
-                </div>
-                <div className="col">
-                  <div
-                    className={`collapse multi-collapse ${
-                      isSecondOpen ? "show" : ""
-                    }`}
-                    id="multiCollapseExample2"
-                  >
-                    <div className="card card-body">
-                      Some placeholder content for the second collapse component
-                      of this multi-collapse example. This panel is hidden by
-                      default but revealed when the user activates the relevant
-                      trigger.
-                    </div>
                   </div>
                 </div>
               </div>
