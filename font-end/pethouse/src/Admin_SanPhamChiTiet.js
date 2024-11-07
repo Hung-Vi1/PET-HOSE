@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./App.css";
 function Admin_SanPhamChiTiet() {
   // Xóa sản phẩm
-  const [ganSP] = useState([]);
+  /*   const [ganSP] = useState([]);
   const xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
@@ -34,7 +34,7 @@ function Admin_SanPhamChiTiet() {
           console.error("Lỗi khi xóa sản phẩm:", error);
         });
     }
-  };
+  }; */
 
   // Ẩn hiện nội dung dưới tồn kho
   const [isFirstOpen, setIsFirstOpen] = useState(false);
