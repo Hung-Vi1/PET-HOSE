@@ -3,6 +3,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 function Admin_SanPhamChiTiet() {
+  const [isCheckedDefault, setIsCheckedDefault] = useState(false);
+  const [isCheckedChecked, setIsCheckedChecked] = useState(true);
+
+  const handleDefaultChange = () => {
+    setIsCheckedDefault(!isCheckedDefault);
+  };
+
+  const handleCheckedChange = () => {
+    setIsCheckedChecked(!isCheckedChecked);
+  };
   // Xóa sản phẩm
   /*   const [ganSP] = useState([]);
   const xoaSanPham = (maSP) => {
@@ -305,36 +315,44 @@ function Admin_SanPhamChiTiet() {
                   </div>
 
                   <div className="col-md border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Thông tin giá</h5>
+                    <div className="d-flex flex-wrap justify-content-between">
+                      <h5 className="mb-2 py-1">Thông tin kho</h5>
 
-                    <form onSubmit={handleSubmit}>
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label htmlFor="GiaSP" className="form-label">
-                            Giá bán
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="GiaSP"
-                            value={GiaSP}
-                            onChange={(e) => setGiaSP(e.target.value)}
-                          />
-                        </div>
-                        <div className="col-md">
-                          <label htmlFor="GiamGia" className="form-label">
-                            Giá khuyễn mãi
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="GiamGia"
-                            value={GiamGia}
-                            onChange={(e) => setGiamGia(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                    </form>
+                      <a href="/#" className="my-auto">
+                        Lịch sử thay đổi kho
+                      </a>
+                    </div>
+
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexCheckDefault"
+                        checked={isCheckedDefault}
+                        onChange={handleDefaultChange}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Default checkbox
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexCheckChecked"
+                        checked={isCheckedChecked}
+                        onChange={handleCheckedChange}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckChecked"
+                      >
+                        Checked checkbox
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
