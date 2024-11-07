@@ -60,6 +60,8 @@ function Admin_SanPhamChiTiet() {
   const [MaDanhMuc, setMaDanhMuc] = useState("");
   const [updated_at, setupdated_at] = useState("");
   const [MoTa, setMoTa] = useState("");
+  const [GiaSP, setGiaSP] = useState("");
+  const [GiamGia, setGiamGia] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,6 +72,8 @@ function Admin_SanPhamChiTiet() {
     console.log("LoaiSanPham:", MaDanhMuc);
     console.log("NgayCapNhat:", updated_at);
     console.log("MoTa:", MoTa);
+    console.log("GiaSP:", GiaSP);
+    console.log("GiamGia:", GiamGia);
   };
 
   return (
@@ -200,124 +204,211 @@ function Admin_SanPhamChiTiet() {
             </div>
 
             <div className="d-flex flex-wrap">
-              <div className="col-md-8 border border-dark rounded-3 my-3 p-2 me-3">
-                <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
+              <div className="col-md-8 px-0">
+                <div className="d-flex flex-wrap me-3">
+                  <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                    <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
 
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label htmlFor="TenSanPham" className="form-label">
-                      Tên sản phẩm
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="TenSanPham"
-                      aria-describedby="TenSanPhamlHelp"
-                      value={TenSanPham}
-                      onChange={(e) => setTenSanPham(e.target.value)}
-                    />
-                    <div id="TenSanPhamlHelp" className="form-text text-danger">
-                      Đây là trường bất buộc
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="TenSanPham" className="form-label">
+                          Tên sản phẩm
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="TenSanPham"
+                          aria-describedby="TenSanPhamlHelp"
+                          value={TenSanPham}
+                          onChange={(e) => setTenSanPham(e.target.value)}
+                        />
+                        <div
+                          id="TenSanPhamlHelp"
+                          className="form-text text-danger"
+                        >
+                          Đây là trường bất buộc
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-md">
+                          <label htmlFor="MaSP" className="form-label">
+                            Mã sản phẩm
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="MaSP"
+                            value={MaSP}
+                            onChange={(e) => setMaSP(e.target.value)}
+                          />
+                        </div>
+                        <div className="col-md">
+                          <label htmlFor="NgayTao" className="form-label">
+                            Ngày tạo
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="NgayTao"
+                            value={created_at}
+                            onChange={(e) => setcreated_at(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row mb-3">
+                        <div className="col-md">
+                          <label htmlFor="LoaiSanPham" className="form-label">
+                            Loại sản phẩm
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="LoaiSanPham"
+                            value={MaDanhMuc}
+                            onChange={(e) => setMaDanhMuc(e.target.value)}
+                          />
+                        </div>
+                        <div className="col-md">
+                          <label htmlFor="NgayCapNhat" className="form-label">
+                            Ngày cập nhật
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="NgayCapNhat"
+                            value={updated_at}
+                            onChange={(e) => setupdated_at(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <label htmlFor="MoTa" className="form-label">
+                          Mô tả
+                        </label>
+                        <textarea
+                          type="text"
+                          className="form-control"
+                          id="MoTa"
+                          rows={2}
+                          value={MoTa}
+                          onChange={(e) => setMoTa(e.target.value)}
+                        />
+                      </div>
+
+                      <button type="submit" className="btn btn-primary">
+                        Lưu
+                      </button>
+                    </form>
                   </div>
 
-                  <div className="row mb-3">
-                    <div className="col-md">
-                      <label htmlFor="MaSP" className="form-label">
-                        Mã sản phẩm
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="MaSP"
-                        value={MaSP}
-                        onChange={(e) => setMaSP(e.target.value)}
-                      />
-                    </div>
-                    <div className="col-md">
-                      <label htmlFor="NgayTao" className="form-label">
-                        Ngày tạo
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="NgayTao"
-                        value={created_at}
-                        onChange={(e) => setcreated_at(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                  <div className="col-md border border-dark rounded-3 my-3 p-2">
+                    <h5 className="mb-2 py-1">Thông tin giá</h5>
 
-                  <div className="row mb-3">
-                    <div className="col-md">
-                      <label htmlFor="LoaiSanPham" className="form-label">
-                        Loại sản phẩm
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="LoaiSanPham"
-                        value={MaDanhMuc}
-                        onChange={(e) => setMaDanhMuc(e.target.value)}
-                      />
-                    </div>
-                    <div className="col-md">
-                      <label htmlFor="NgayCapNhat" className="form-label">
-                        Ngày cập nhật
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="NgayCapNhat"
-                        value={updated_at}
-                        onChange={(e) => setupdated_at(e.target.value)}
-                      />
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                      <div className="row mb-3">
+                        <div className="col-md">
+                          <label htmlFor="GiaSP" className="form-label">
+                            Giá bán
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="GiaSP"
+                            value={GiaSP}
+                            onChange={(e) => setGiaSP(e.target.value)}
+                          />
+                        </div>
+                        <div className="col-md">
+                          <label htmlFor="GiamGia" className="form-label">
+                            Giá khuyễn mãi
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="GiamGia"
+                            value={GiamGia}
+                            onChange={(e) => setGiamGia(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </form>
                   </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="MoTa" className="form-label">
-                      Mô tả
-                    </label>
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      id="MoTa"
-                      rows={2}
-                      value={MoTa}
-                      onChange={(e) => setMoTa(e.target.value)}
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary">
-                    Lưu
-                  </button>
-                </form>
+                </div>
               </div>
 
-              <div className="col-md border border-dark rounded-3 my-3 p-2">
-                <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
+              <div className="col-md px-0">
+                <div className="d-flex flex-wrap">
+                  <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                    <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
 
-                <div className="text-center">
-                  <img
-                    className="w-75 mt-5"
-                    src="image/san_pham_1.webp"
-                    alt="Sản phẩm"
-                  />
+                    <div className="text-center">
+                      <img
+                        className="w-75 mt-5"
+                        src="image/san_pham_1.webp"
+                        alt="Sản phẩm"
+                      />
 
-                  <div className="d-flex justify-content-center">
-                    <input
-                      className="form-control form-control-lg"
-                      type="file"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                    />
-                    <label
-                      htmlFor="fileInput"
-                      className="form-control w-50 hinhanh"
-                    >
-                      Chọn tệp
-                    </label>
+                      <div className="d-flex justify-content-center">
+                        <input
+                          className="form-control form-control-lg"
+                          type="file"
+                          id="fileInput"
+                          style={{ display: "none" }}
+                        />
+                        <label
+                          htmlFor="fileInput"
+                          className="form-control w-50 hinhanh"
+                        >
+                          Chọn tệp
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md border border-dark rounded-3 my-3 p-2">
+                    <h5 className="mb-2 py-1">Thông tin giá</h5>
+
+                    <form className="adminspsua" onSubmit={handleSubmit}>
+                      <div className="mb-3">
+                        <label htmlFor="GiaSP" className="form-label">
+                          Giá bán
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="GiaSP"
+                          value={GiaSP}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value >= 0) {
+                              setGiaSP(value);
+                            }
+                          }}
+                          min="0" // Đặt giá trị tối thiểu là 0
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="GiamGia" className="form-label">
+                          Giá khuyễn mãi
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="GiamGia"
+                          value={GiamGia}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value >= 0) {
+                              setGiamGia(value);
+                            }
+                          }}
+                          min="0" // Đặt giá trị tối thiểu là 0
+                        />
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
