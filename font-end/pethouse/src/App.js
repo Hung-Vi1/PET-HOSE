@@ -23,6 +23,7 @@ import AdminTaiKhoanSua from "./AdminTaiKhoanSua";
 import AdminSanPham from "./AdminSanPham";
 import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
 import AdminDanhMuc from "./AdminDanhMuc";
+import AdminDanhMucSua from "./AdminDanhMucSua";
 function App() {
   return (
     <BrowserRouter>
@@ -310,6 +311,7 @@ function App() {
           element={<AdminSanPhamChiTiet />}
         />
         <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
+        <Route path="/admindanhmucsua" exact element={<AdminDanhMucSua />} />
       </Routes>
     </BrowserRouter>
   );

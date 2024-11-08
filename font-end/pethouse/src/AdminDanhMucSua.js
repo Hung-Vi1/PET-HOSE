@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./App.css";
 
-function AdminDanhMuc() {
+function AdminDanhMucSua() {
   const [list_dm, ganSP] = useState([]);
 
   useEffect(() => {
@@ -204,4 +204,4 @@ function AdminDanhMuc() {
   );
 }
 
-export default AdminDanhMuc;
+export default AdminDanhMucSua;
