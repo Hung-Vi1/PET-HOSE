@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 
-function Admin_TrangChu() {
+function AdminDanhMuc() {
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -20,7 +20,7 @@ function Admin_TrangChu() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -32,10 +32,10 @@ function Admin_TrangChu() {
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action mt-0 rounded-0 active"
             >
-              <h5 className="mb-0 py-1">Sản phẩm</h5>
+              <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
@@ -63,6 +63,7 @@ function Admin_TrangChu() {
             </a>
           </div>
         </div>
+
         <div className="col-md p-0">
           <nav
             className="navbar navbar-expand-lg bg-primary p-0"
@@ -124,44 +125,34 @@ function Admin_TrangChu() {
             </div>
           </nav>
           <div className="container">
-            <h2 className="my-3">Tổng quan</h2>
+            <Link
+              to={"/adminsanphamthem"}
+              className="btn btn-success float-end"
+            >
+              Thêm danh mục
+            </Link>
 
-            <div className="row">
-              <div className="col-md-3">
-                <div className="card border-primary mb-3">
-                  <div className="card-body text-primary">
-                    <h5 className="card-title text-center fw-bold">Sản phẩm</h5>
-                    <p className="card-text fs-1 text-center">500</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="card border-success mb-3">
-                  <div className="card-body text-success">
-                    <h5 className="card-title text-center fw-bold">
-                      Tài khoản
-                    </h5>
-                    <p className="card-text fs-1 text-center">1.500</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="card border-warning mb-3">
-                  <div className="card-body text-warning">
-                    <h5 className="card-title text-center fw-bold">Đơn hàng</h5>
-                    <p className="card-text fs-1 text-center">100</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="card border-danger mb-3">
-                  <div className="card-body text-danger">
-                    <h5 className="card-title text-center fw-bold">Đánh giá</h5>
-                    <p className="card-text fs-1 text-center">3.200</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h2 className="my-3">Danh mục</h2>
+            <table className="table align-middle table-borderless">
+              <thead>
+                <tr>
+                  <th className="fw-bold text-center">STT</th>
+                  <th className="fw-bold">Tên danh mục</th>
+                  <th className="fw-bold text-center">Phân loại</th>
+                  <th className="fw-bold text-center">Ngày tạo</th>
+                  <th className="fw-bold text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -169,4 +160,4 @@ function Admin_TrangChu() {
   );
 }
 
-export default Admin_TrangChu;
+export default AdminDanhMuc;

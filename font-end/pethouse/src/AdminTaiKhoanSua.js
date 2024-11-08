@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 
-function Admin_TaiKhoanSua() {
+function AdminTaiKhoanSua() {
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -30,6 +30,12 @@ function Admin_TaiKhoanSua() {
               className="list-group-item list-group-item-action mt-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
@@ -203,4 +209,4 @@ function Admin_TaiKhoanSua() {
   );
 }
 
-export default Admin_TaiKhoanSua;
+export default AdminTaiKhoanSua;

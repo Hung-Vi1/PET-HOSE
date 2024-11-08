@@ -30,7 +30,7 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-12">
               <div className="page-title-heading">
-                <h2 className="title">{sp ? sp.ten_san_pham : 'Sản phẩm'}</h2>
+                <h2 className="title">{sp ? sp.ten_san_pham : "Sản phẩm"}</h2>
               </div>
               {/* /.page-title-heading */}
               <div className="breadcrumbs">
@@ -42,7 +42,9 @@ function ChiTietSanPham() {
                     <Link to="/sanpham">Sản phẩm</Link>
                   </li>
                   <li>
-                    <Link to="shop-detail-des.html">{sp ? sp.ten_san_pham : 'Sản phẩm'}</Link>
+                    <Link to="shop-detail-des.html">
+                      {sp ? sp.ten_san_pham : "Sản phẩm"}
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -106,10 +108,10 @@ function ChiTietSanPham() {
                         <span className="dec quantity-button">-</span>
                       </div>
                       <div className="add-to-cart">
-                        <a href="#">Thêm vào giỏ hàng</a>
+                        <a href="/#">Thêm vào giỏ hàng</a>
                       </div>
                       <div className="box-like">
-                        <a href="#" className="like">
+                        <a href="/#" className="like">
                           <i className="fa fa-heart-o" />
                         </a>
                       </div>
@@ -120,27 +122,27 @@ function ChiTietSanPham() {
                     </div>
                     <ul className="flat-socials">
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-facebook" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-twitter" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-pinterest" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-linkedin" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-google-plus" />
                         </a>
                       </li>
@@ -167,8 +169,8 @@ function ChiTietSanPham() {
                 <ul className="product style2">
                   <li className="product-item">
                     <div className="product-thumb clearfix">
-                      <a href="#">
-                        <img src="images/shop/sh-4/1.jpg" alt="image" />
+                      <a href="/#">
+                        <img src="images/shop/sh-4/1.jpg" alt="hinh" />
                       </a>
                     </div>
                     <div className="product-info clearfix">
@@ -182,27 +184,27 @@ function ChiTietSanPham() {
                       </div>
                       <ul className="flat-color-list">
                         <li>
-                          <a href="#" className="red" />
+                          <a href="/#" className="red" />
                         </li>
                         <li>
-                          <a href="#" className="blue" />
+                          <a href="/#" className="blue" />
                         </li>
                         <li>
-                          <a href="#" className="black" />
+                          <a href="/#" className="black" />
                         </li>
                       </ul>
                     </div>
                     <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
+                      <a href="/#">ADD TO CART</a>
                     </div>
-                    <a href="#" className="like">
+                    <a href="/#" className="like">
                       <i className="fa fa-heart-o" />
                     </a>
                   </li>
                   <li className="product-item">
                     <div className="product-thumb clearfix">
-                      <a href="#">
-                        <img src="images/shop/sh-4/2.jpg" alt="image" />
+                      <a href="/#">
+                        <img src="images/shop/sh-4/2.jpg" alt="hinh" />
                       </a>
                       <span className="new">New</span>
                     </div>
@@ -217,16 +219,16 @@ function ChiTietSanPham() {
                       </div>
                     </div>
                     <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
+                      <a href="/#">ADD TO CART</a>
                     </div>
-                    <a href="#" className="like">
+                    <a href="/#" className="like">
                       <i className="fa fa-heart-o" />
                     </a>
                   </li>
                   <li className="product-item">
                     <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/3.jpg" alt="image" />
+                      <a href="/#" className="product-thumb">
+                        <img src="images/shop/sh-4/3.jpg" alt="hinh" />
                       </a>
                     </div>
                     <div className="product-info clearfix">
@@ -240,16 +242,16 @@ function ChiTietSanPham() {
                       </div>
                     </div>
                     <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
+                      <a href="/#">ADD TO CART</a>
                     </div>
-                    <a href="#" className="like">
+                    <a href="/#" className="like">
                       <i className="fa fa-heart-o" />
                     </a>
                   </li>
                   <li className="product-item">
                     <div className="product-thumb clearfix">
-                      <a href="#" className="product-thumb">
-                        <img src="images/shop/sh-4/4.jpg" alt="image" />
+                      <a href="/#" className="product-thumb">
+                        <img src="images/shop/sh-4/4.jpg" alt="hinh" />
                       </a>
                       <span className="new sale">Sale</span>
                     </div>
@@ -267,20 +269,20 @@ function ChiTietSanPham() {
                       </div>
                       <ul className="flat-color-list">
                         <li>
-                          <a href="#" className="red" />
+                          <a href="/#" className="red" />
                         </li>
                         <li>
-                          <a href="#" className="blue" />
+                          <a href="/#" className="blue" />
                         </li>
                         <li>
-                          <a href="#" className="black" />
+                          <a href="/#" className="black" />
                         </li>
                       </ul>
                     </div>
                     <div className="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
+                      <a href="/#">ADD TO CART</a>
                     </div>
-                    <a href="#" className="like">
+                    <a href="/#" className="like">
                       <i className="fa fa-heart-o" />
                     </a>
                   </li>
@@ -325,27 +327,27 @@ function ChiTietSanPham() {
                 </form>
                 <ul className="flat-social">
                   <li>
-                    <a href="#">
+                    <a href="/#">
                       <i className="fa fa-facebook" />
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/#">
                       <i className="fa fa-twitter" />
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/#">
                       <i className="fa fa-google" />
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/#">
                       <i className="fa fa-behance" />
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/#">
                       <i className="fa fa-linkedin" />
                     </a>
                   </li>

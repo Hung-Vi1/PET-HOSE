@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 
-function Admin_TaiKhoanThem() {
+function AdminTaiKhoan() {
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -30,6 +30,12 @@ function Admin_TaiKhoanThem() {
               className="list-group-item list-group-item-action mt-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
@@ -119,39 +125,99 @@ function Admin_TaiKhoanThem() {
             </div>
           </nav>
           <div className="container">
-            <h2 className="my-3">Thêm tài khoản</h2>
+            <Link
+              to={"/admintaikhoanthem"}
+              className="btn btn-success float-end"
+            >
+              Thêm tài khoản
+            </Link>
 
-            <form>
-              <div className="mb-3">
-                <label for="SoDienThoai" className="form-label">
-                  Số điện thoại
-                </label>
-                <input type="text" className="form-control" id="SoDienThoai" />
-              </div>
-              <div className="mb-3">
-                <label for="HoTen" className="form-label">
-                  Họ và tên
-                </label>
-                <input type="text" className="form-control" id="HoTen" />
-              </div>
-              <div className="mb-3">
-                <label for="Quyền" className="form-label">
-                  Quyền
-                </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                >
-                  <option value="0" selected>
-                    Người dùng
-                  </option>
-                  <option value="1">Quản trị viên</option>
-                </select>
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Xác nhận
-              </button>
-            </form>
+            <h2 className="my-3">Tài khoản</h2>
+
+            <table className="table align-middle">
+              <thead>
+                <tr>
+                  <th className="fw-bold text-center">STT</th>
+                  <th className="fw-bold">Họ và tên</th>
+                  <th className="fw-bold text-center">Số điện thoại</th>
+                  <th className="fw-bold">Email</th>
+                  <th className="fw-bold text-center">Quyền</th>
+                  <th className="fw-bold text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="text-star">1</td>
+                  <td>Trần Ngọc Kim Hiếu</td>
+                  <td className="text-center">0364395907</td>
+                  <td>tranngockimhieu2k2@gmail.com</td>
+                  <td className="text-center">
+                    <span class="badge text-bg-success">Người dùng</span>
+                  </td>
+                  <td className="text-center">
+                    <Link
+                      to={"/admintaikhoansua"}
+                      className="btn btn-outline-warning m-1"
+                    >
+                      <i className="bi bi-pencil-square"></i>
+                    </Link>
+                    <a href="/#" className="btn btn-outline-danger m-1">
+                      <i className="bi bi-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-star">2</td>
+                  <td>Trần Ngọc Kim Hiếu</td>
+                  <td className="text-center">0364395907</td>
+                  <td>tranngockimhieu2k2@gmail.com</td>
+                  <td className="text-center">
+                    <span class="badge text-bg-danger">Quản trị viên</span>
+                  </td>
+                  <td className="text-center">
+                    <Link
+                      to={"/admintaikhoansua"}
+                      className="btn btn-outline-warning m-1"
+                    >
+                      <i className="bi bi-pencil-square"></i>
+                    </Link>
+                    <a href="/#" className="btn btn-outline-danger m-1">
+                      <i className="bi bi-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+              <ul className="pagination justify-content-center">
+                <li className="page-item disabled">
+                  <a className="page-link" href="/#">
+                    <i className="bi bi-chevron-double-left"></i>
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link active" href="/#">
+                    1
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="/#">
+                    2
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="/#">
+                    3
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="/#">
+                    <i className="bi bi-chevron-double-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -159,4 +225,4 @@ function Admin_TaiKhoanThem() {
   );
 }
 
-export default Admin_TaiKhoanThem;
+export default AdminTaiKhoan;

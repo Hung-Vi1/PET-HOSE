@@ -4,7 +4,7 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
-function Admin_SanPham() {
+function AdminSanPham() {
   const [list_sp, ganSP] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function Admin_SanPham() {
   }, []);
 
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -52,6 +52,12 @@ function Admin_SanPham() {
               className="list-group-item list-group-item-action mt-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
@@ -272,4 +278,4 @@ function PhanTrang({ listSP, pageSize }) {
   );
 } //PhanTrang
 
-export default Admin_SanPham;
+export default AdminSanPham;

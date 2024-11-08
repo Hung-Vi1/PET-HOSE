@@ -2,7 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
-function Admin_SanPhamChiTiet() {
+
+function AdminSanPhamChiTiet() {
   // Xóa sản phẩm
   /*   const [ganSP] = useState([]);
   const xoaSanPham = (maSP) => {
@@ -86,6 +87,12 @@ function Admin_SanPhamChiTiet() {
               className="list-group-item list-group-item-action mt-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
@@ -408,4 +415,4 @@ function Admin_SanPhamChiTiet() {
   );
 }
 
-export default Admin_SanPhamChiTiet;
+export default AdminSanPhamChiTiet;

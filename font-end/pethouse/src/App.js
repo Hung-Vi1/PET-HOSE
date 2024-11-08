@@ -16,13 +16,13 @@ import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
 
 /* Admin */
-import Admin_TrangChu from "./Admin_TrangChu";
-import Admin_TaiKhoan from "./Admin_TaiKhoan";
-import Admin_TaiKhoanThem from "./Admin_TaiKhoanThem";
-import Admin_TaiKhoanSua from "./Admin_TaiKhoanSua";
-import Admin_SanPham from "./Admin_SanPham";
-import Admin_SanPhamChiTiet from "./Admin_SanPhamChiTiet";
-import Admin_DanhMuc from "./Admin_DanhMuc";
+import AdminTrangChu from "./AdminTrangChu";
+import AdminTaiKhoan from "./AdminTaiKhoan";
+import AdminTaiKhoanThem from "./AdminTaiKhoanThem";
+import AdminTaiKhoanSua from "./AdminTaiKhoanSua";
+import AdminSanPham from "./AdminSanPham";
+import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
+import AdminDanhMuc from "./AdminDanhMuc";
 function App() {
   return (
     <BrowserRouter>
@@ -295,21 +295,21 @@ function App() {
             </div>
           }
         />
-        <Route path="/admin" exact element={<Admin_TrangChu />} />
-        <Route path="/admintaikhoan" exact element={<Admin_TaiKhoan />} />
+        <Route path="/admin" exact element={<AdminTrangChu />} />
+        <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
         <Route
           path="/admintaikhoanthem"
           exact
-          element={<Admin_TaiKhoanThem />}
+          element={<AdminTaiKhoanThem />}
         />
-        <Route path="/admintaikhoansua" exact element={<Admin_TaiKhoanSua />} />
-        <Route path="/adminsanpham" exact element={<Admin_SanPham />} />
+        <Route path="/admintaikhoansua" exact element={<AdminTaiKhoanSua />} />
+        <Route path="/adminsanpham" exact element={<AdminSanPham />} />
         <Route
           path="/adminsanphamchitiet"
           exact
-          element={<Admin_SanPhamChiTiet />}
+          element={<AdminSanPhamChiTiet />}
         />
-        <Route path="/admindanhmuc" exact element={<Admin_DanhMuc />} />
+        <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
       </Routes>
     </BrowserRouter>
   );
