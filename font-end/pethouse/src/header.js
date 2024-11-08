@@ -42,7 +42,9 @@ function Header() {
 
       <ul className="menu-extra">
         <li className="box-search">
-          <a className="icon_search header-search-icon" href="/#" />
+          <a className="icon_search header-search-icon" href="/#">
+            {""}
+          </a>
           <form
             role="search"
             method="get"
@@ -66,8 +68,9 @@ function Header() {
         </li>
         <li className="box-login">
           <Link to="/login">
-            {" "}
-            <a className="icon_login" href="/#"></a>
+            <a className="icon_login" href="/#">
+              {" "}
+            </a>
           </Link>
         </li>
         <li className="box-cart nav-top-cart-wrapper">

@@ -182,17 +182,6 @@ function ChiTietSanPham() {
                           <span className="amount">$19.00</span>
                         </ins>
                       </div>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="/#" className="red" />
-                        </li>
-                        <li>
-                          <a href="/#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="/#" className="black" />
-                        </li>
-                      </ul>
                     </div>
                     <div className="add-to-cart text-center">
                       <a href="/#">ADD TO CART</a>
@@ -267,17 +256,6 @@ function ChiTietSanPham() {
                           <span className="amount">$60.00</span>
                         </ins>
                       </div>
-                      <ul className="flat-color-list">
-                        <li>
-                          <a href="/#" className="red" />
-                        </li>
-                        <li>
-                          <a href="/#" className="blue" />
-                        </li>
-                        <li>
-                          <a href="/#" className="black" />
-                        </li>
-                      </ul>
                     </div>
                     <div className="add-to-cart text-center">
                       <a href="/#">ADD TO CART</a>

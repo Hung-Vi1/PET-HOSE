@@ -90,8 +90,8 @@ function SanPham() {
                   </div>
                   {isFilterVisible && (
                     <div className="box-filter slidebar-shop clearfix">
-                      <div className="btn-close">
-                        <a href="#" onClick={toggleFilter}>
+                      <div className="d-flex justify-content-end">
+                        <a href="#" onClick={toggleFilter} className="btn btn-danger">
                           <i className="fa fa-times"></i>
                         </a>
                       </div>
@@ -99,24 +99,24 @@ function SanPham() {
                         <h5 className="widget-title">Sort By</h5>
                         <ul>
                           <li>
-                            <a href="#" className="active">
+                            <a href="/#" className="active">
                               Default
                             </a>
                           </li>
                           <li>
-                            <a href="#">Popularity</a>
+                            <a href="/#">Popularity</a>
                           </li>
                           <li>
-                            <a href="#">Average rating</a>
+                            <a href="/#">Average rating</a>
                           </li>
                           <li>
-                            <a href="#">Newness</a>
+                            <a href="/#">Newness</a>
                           </li>
                           <li>
-                            <a href="#">Price: low to high</a>
+                            <a href="/#">Price: low to high</a>
                           </li>
                           <li>
-                            <a href="#">Price: high to low</a>
+                            <a href="/#">Price: high to low</a>
                           </li>
                         </ul>
                       </div>
@@ -124,24 +124,24 @@ function SanPham() {
                         <h5 className="widget-title">Price</h5>
                         <ul>
                           <li>
-                            <a href="#" className="active">
+                            <a href="/#" className="active">
                               $0.00 - $50.00
                             </a>
                           </li>
                           <li>
-                            <a href="#">$50.00 - $100.00</a>
+                            <a href="/#">$50.00 - $100.00</a>
                           </li>
                           <li>
-                            <a href="#">$100.00 - $150.00</a>
+                            <a href="/#">$100.00 - $150.00</a>
                           </li>
                           <li>
-                            <a href="#">$150.00 - $200.00</a>
+                            <a href="/#">$150.00 - $200.00</a>
                           </li>
                           <li>
-                            <a href="#">$200.00 - 250.00</a>
+                            <a href="/#">$200.00 - 250.00</a>
                           </li>
                           <li>
-                            <a href="#">250.00+</a>
+                            <a href="/#">250.00+</a>
                           </li>
                         </ul>
                       </div>
@@ -149,27 +149,27 @@ function SanPham() {
                         <h5 className="widget-title">Colors</h5>
                         <ul className="flat-color-list icon-left">
                           <li>
-                            <a href="#" className="yellow"></a>
+                            <a href="/#" className="yellow m-0"></a>
                             <span>Yellow</span>
                           </li>
                           <li>
-                            <a href="#" className="pink"></a>
+                            <a href="/#" className="pink m-0"></a>
                             <span>White</span>
                           </li>
                           <li>
-                            <a href="#" className="red active"></a>
+                            <a href="/#" className="red active m-0"></a>
                             <span>Red</span>
                           </li>
                           <li>
-                            <a href="#" className="black"></a>
+                            <a href="/#" className="black m-0"></a>
                             <span>Black</span>
                           </li>
                           <li>
-                            <a href="#" className="blue"></a>
+                            <a href="/#" className="blue m-0"></a>
                             <span>Green</span>
                           </li>
                           <li>
-                            <a href="#" className="khaki"></a>
+                            <a href="/#" className="khaki m-0"></a>
                             <span>Orange</span>
                           </li>
                         </ul>
@@ -178,38 +178,38 @@ function SanPham() {
                         <h5 className="widget-title">Size</h5>
                         <ul>
                           <li>
-                            <a href="#">L</a>
+                            <a href="/#">L</a>
                           </li>
                           <li>
-                            <a href="#">M</a>
+                            <a href="/#">M</a>
                           </li>
                           <li>
-                            <a href="#">S</a>
+                            <a href="/#">S</a>
                           </li>
                           <li>
-                            <a href="#">XL</a>
+                            <a href="/#">XL</a>
                           </li>
                           <li>
-                            <a href="#">XXL</a>
+                            <a href="/#">XXL</a>
                           </li>
                           <li>
-                            <a href="#">Over Size</a>
+                            <a href="/#">Over Size</a>
                           </li>
                         </ul>
                       </div>
                       <div className="widget widget_tag">
                         <h5 className="widget-title">Tags</h5>
                         <div className="tag-list">
-                          <a href="#">All products</a>
-                          <a href="#" className="active">
+                          <a href="/#">All products</a>
+                          <a href="/#" className="active">
                             Bags
                           </a>
-                          <a href="#">Chair</a>
-                          <a href="#">Decoration</a>
-                          <a href="#">Fashion</a>
-                          <a href="#">Tie</a>
-                          <a href="#">Furniture</a>
-                          <a href="#">Accesories</a>
+                          <a href="/#">Chair</a>
+                          <a href="/#">Decoration</a>
+                          <a href="/#">Fashion</a>
+                          <a href="/#">Tie</a>
+                          <a href="/#">Furniture</a>
+                          <a href="/#">Accesories</a>
                         </div>
                       </div>
                     </div>
@@ -263,9 +263,9 @@ function SanPham() {
                             </div>
                           </div>
                           <div className="add-to-cart text-center">
-                            <a href="#">Thêm vào giỏ hàng</a>
+                            <a href="/#">Thêm vào giỏ hàng</a>
                           </div>
-                          <a href="#" className="like">
+                          <a href="/#" className="like">
                             <i className="fa fa-heart-o"></i>
                           </a>
                         </li>
@@ -276,23 +276,23 @@ function SanPham() {
                   <div className="product-pagination text-center margin-top-11 clearfix">
                     <ul className="flat-pagination">
                       <li className="prev">
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-angle-left"></i>
                         </a>
                       </li>
                       <li>
-                        <a href="#">1</a>
+                        <a href="/#">1</a>
                       </li>
                       <li className="active">
-                        <a href="#" title="">
+                        <a href="/#" title="">
                           2
                         </a>
                       </li>
                       <li>
-                        <a href="#">3</a>
+                        <a href="/#">3</a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-angle-right"></i>
                         </a>
                       </li>
@@ -333,27 +333,27 @@ function SanPham() {
                     </form>
                     <ul className="flat-social">
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-facebook" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-twitter" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-google" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-behance" />
                         </a>
                       </li>
                       <li>
-                        <a href="#">
+                        <a href="/#">
                           <i className="fa fa-linkedin" />
                         </a>
                       </li>
