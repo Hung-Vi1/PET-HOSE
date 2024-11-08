@@ -32,6 +32,12 @@ function Admin_TrangChu() {
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
+              to={"/adminsanpham"}
+              className="list-group-item list-group-item-action mt-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
               to={"/admintaikhoan"}
               className="list-group-item list-group-item-action mt-0 rounded-0"
             >
