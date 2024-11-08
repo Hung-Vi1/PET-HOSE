@@ -91,7 +91,11 @@ function SanPham() {
                   {isFilterVisible && (
                     <div className="box-filter slidebar-shop clearfix">
                       <div className="d-flex justify-content-end">
-                        <a href="#" onClick={toggleFilter} className="btn btn-danger">
+                        <a
+                          href="#"
+                          onClick={toggleFilter}
+                          className="btn btn-danger"
+                        >
                           <i className="fa fa-times"></i>
                         </a>
                       </div>
@@ -149,27 +153,39 @@ function SanPham() {
                         <h5 className="widget-title">Colors</h5>
                         <ul className="flat-color-list icon-left">
                           <li>
-                            <a href="/#" className="yellow m-0"></a>
+                            <a href="/#" className="yellow m-0">
+                              {""}
+                            </a>
                             <span>Yellow</span>
                           </li>
                           <li>
-                            <a href="/#" className="pink m-0"></a>
+                            <a href="/#" className="pink m-0">
+                              {""}
+                            </a>
                             <span>White</span>
                           </li>
                           <li>
-                            <a href="/#" className="red active m-0"></a>
+                            <a href="/#" className="red active m-0">
+                              {""}
+                            </a>
                             <span>Red</span>
                           </li>
                           <li>
-                            <a href="/#" className="black m-0"></a>
+                            <a href="/#" className="black m-0">
+                              {""}
+                            </a>
                             <span>Black</span>
                           </li>
                           <li>
-                            <a href="/#" className="blue m-0"></a>
+                            <a href="/#" className="blue m-0">
+                              {""}
+                            </a>
                             <span>Green</span>
                           </li>
                           <li>
-                            <a href="/#" className="khaki m-0"></a>
+                            <a href="/#" className="khaki m-0">
+                              {""}
+                            </a>
                             <span>Orange</span>
                           </li>
                         </ul>

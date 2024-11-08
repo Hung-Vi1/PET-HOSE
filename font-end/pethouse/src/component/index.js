@@ -110,7 +110,7 @@ function Index() {
                 <div className="item data-effect-item">
                   <div className="inner">
                     <div className="thumb">
-                      <img src="image/banner_new.webp" alt="Image" />
+                      <img src="image/banner_new.webp" alt="hinh" />
                       <div className="elm-btn">
                         <a
                           href="#"
@@ -133,7 +133,7 @@ function Index() {
                     <div className="thumb">
                       <img
                         src="image/352a36db-cach-nuoi-chuot-hamster.jpg"
-                        alt="Image"
+                        alt="hinh"
                       />
                       <div className="elm-btn">
                         <a
@@ -152,7 +152,7 @@ function Index() {
                     <div className="thumb">
                       <img
                         src="image/beyjif6gmney6024ighvm66jnnet_banner-1.1.jpg"
-                        alt="Image"
+                        alt="hinh"
                       />
                       <div className="elm-btn">
                         <a
@@ -174,7 +174,7 @@ function Index() {
                 <div className="item data-effect-item">
                   <div className="inner">
                     <div className="thumb">
-                      <img src="image/banner_goodprice.webp" alt="Image" />
+                      <img src="image/banner_goodprice.webp" alt="hinh" />
                       <div className="elm-btn">
                         <a
                           href="#"
@@ -548,7 +548,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-1-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">
@@ -583,7 +583,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-2-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">
@@ -618,7 +618,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-3-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">
@@ -653,7 +653,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-1-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">
@@ -688,7 +688,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-2-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">
@@ -723,7 +723,7 @@ function Index() {
                       <div className="featured-post data-effect-item">
                         <img
                           src="images/blog/new-lastest-3-370x280.jpg"
-                          alt="image"
+                          alt="hinh"
                         />
                         <div className="content-post text-center">
                           <div className="title-post">

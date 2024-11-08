@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const BlogDetail = () => {
   return (
@@ -10,7 +10,9 @@ const BlogDetail = () => {
               <article className="post clearfix">
                 <div className="title-post">
                   <h2>
-                    <a href="blog-detail.html">Anya Hindmarch Changes Strategy</a>
+                    <a href="blog-detail.html">
+                      Anya Hindmarch Changes Strategy
+                    </a>
                   </h2>
                 </div>
                 {/* /.title-post */}
@@ -33,42 +35,51 @@ const BlogDetail = () => {
                   </div>
                   <div className="entry-post">
                     <p>
-                      Earlier this month, the Selfridges Wonder Room welcomed a new addition to its
-                      star-studded and sparkling roster: Bucherer Fine Jewellery. Bucherer is a brand
-                      steeped in history; it was founded nearly 130 years ago in 1888 in Switzerland,
-                      the home of jewellery, and has been creating modern pieces with a rich heritage
-                      ever since. From the younger Peekaboo collection to the high design of the Viv-
+                      Earlier this month, the Selfridges Wonder Room welcomed a
+                      new addition to its star-studded and sparkling roster:
+                      Bucherer Fine Jewellery. Bucherer is a brand steeped in
+                      history; it was founded nearly 130 years ago in 1888 in
+                      Switzerland, the home of jewellery, and has been creating
+                      modern pieces with a rich heritage ever since. From the
+                      younger Peekaboo collection to the high design of the Viv-
                       elle line, there’s something for everyone here.
                     </p>
                     <p>
-                      Diamond connoisseurs will fall for the carats nestled within Bucherer’s designs,
-                      whether they’re in the market for an engagement ring, a statement necklace or the
-                      perfect pear drop earrings to offset any evening look. But the collection we’re
-                      most excited for is Peekaboo. Think Marie Antoinette meets Glossier with a
-                      smattering of stones thrown in for good measure.
+                      Diamond connoisseurs will fall for the carats nestled
+                      within Bucherer’s designs, whether they’re in the market
+                      for an engagement ring, a statement necklace or the
+                      perfect pear drop earrings to offset any evening look. But
+                      the collection we’re most excited for is Peekaboo. Think
+                      Marie Antoinette meets Glossier with a smattering of
+                      stones thrown in for good measure.
                     </p>
                     <p>
-                      It’s feminine and bold, innocent but statement-making, and romantic in all the
-                      right ways. With a fondant fancy colour palette of brilliant-cut stones set in
-                      gold and decorated with dinky diamonds to bring another level to the pieces, it
-                      hits the right notes every time.
+                      It’s feminine and bold, innocent but statement-making, and
+                      romantic in all the right ways. With a fondant fancy
+                      colour palette of brilliant-cut stones set in gold and
+                      decorated with dinky diamonds to bring another level to
+                      the pieces, it hits the right notes every time.
                     </p>
                     <div className="box-detail">
                       <h3>The best Jewellery 2018</h3>
                       <p>
-                        This is jewellery to aspire to – pieces that will last a lifetime and be
-                        imbued with the kind of sentimentality that only jewellery can achieve. And
-                        Bucherer Fine Jeweller’s stellar work doesn’t stop there. For a more graphic
-                        and structural take on jewellery-box delights, look no further than the
-                        pear-shaped modern elegance of Lacrima – dainty, architectural and opulent in
-                        one fell swoop.
+                        This is jewellery to aspire to – pieces that will last a
+                        lifetime and be imbued with the kind of sentimentality
+                        that only jewellery can achieve. And Bucherer Fine
+                        Jeweller’s stellar work doesn’t stop there. For a more
+                        graphic and structural take on jewellery-box delights,
+                        look no further than the pear-shaped modern elegance of
+                        Lacrima – dainty, architectural and opulent in one fell
+                        swoop.
                       </p>
                     </div>
                     <blockquote>
                       <p>
-                        “Bucherer has a range of lines that will appeal to a range of women – and
-                        men – in this loud, busy modern world and cut through the noise with jewellery
-                        steeped in heritage and crafted by the best artisans Europe has to offer.”
+                        “Bucherer has a range of lines that will appeal to a
+                        range of women – and men – in this loud, busy modern
+                        world and cut through the noise with jewellery steeped
+                        in heritage and crafted by the best artisans Europe has
+                        to offer.”
                       </p>
                       <div className="name">
                         <span>Ollie Schneider </span>-CEO DeerCreative
@@ -82,7 +93,8 @@ const BlogDetail = () => {
                     <li className="float-left">
                       <div className="tags">
                         <span>Tags:</span>
-                        <a href="#">Decoration</a>, <a href="#">Fashion</a>, <a href="#">Bags</a>
+                        <a href="#">Decoration</a>, <a href="#">Fashion</a>,{" "}
+                        <a href="#">Bags</a>
                       </div>
                       {/* /.tags */}
                     </li>
@@ -131,7 +143,9 @@ const BlogDetail = () => {
                         <div className="text text-pre">
                           <span>Previous Reading</span>
                           <h4>
-                            <a href="#">Upto 50% offer For Men’s Bag – Black...</a>
+                            <a href="#">
+                              Upto 50% offer For Men’s Bag – Black...
+                            </a>
                           </h4>
                         </div>
                       </div>
@@ -178,11 +192,13 @@ const BlogDetail = () => {
                         {/* .comment-metadata */}
                         <div className="comment-content">
                           <p>
-                            There are many variations of passages of Lorem Ipsum available, but the
-                            majority have alteration in some form, by injected humour, or randomised
-                            words which don't look even slightly believable. If you are going to use
-                            a passage of Lorem Ipsum, you need to be sure there isn't anything
-                            barrassing hidden in the middle of text.
+                            There are many variations of passages of Lorem Ipsum
+                            available, but the majority have alteration in some
+                            form, by injected humour, or randomised words which
+                            don't look even slightly believable. If you are
+                            going to use a passage of Lorem Ipsum, you need to
+                            be sure there isn't anything barrassing hidden in
+                            the middle of text.
                           </p>
                         </div>
                         {/* .comment-content */}
@@ -198,9 +214,15 @@ const BlogDetail = () => {
                         </div>
                         <ol className="children">
                           <li className="comment style1" id="comment-2">
-                            <article className="comment-body" id="div-comment-2">
+                            <article
+                              className="comment-body"
+                              id="div-comment-2"
+                            >
                               <div className="comment-author">
-                                <img src="images/blog/comment1-1.png" alt="image" />
+                                <img
+                                  src="images/blog/comment1-1.png"
+                                  alt="image"
+                                />
                               </div>
                               {/* .comment-author */}
                               <div className="comment-text">
@@ -213,12 +235,14 @@ const BlogDetail = () => {
                                 {/* .comment-metadata */}
                                 <div className="comment-content">
                                   <p>
-                                    There are many variations of passages of Lorem Ipsum available,
-                                    but the majority have alteration in some form, by injected
-                                    humour, or randomised words which don't look even slightly
-                                    believable. If you are going to use a passage of Lorem Ipsum,
-                                    you need to be sure there isn't anything barrassing hidden in
-                                    the middle of text.
+                                    There are many variations of passages of
+                                    Lorem Ipsum available, but the majority have
+                                    alteration in some form, by injected humour,
+                                    or randomised words which don't look even
+                                    slightly believable. If you are going to use
+                                    a passage of Lorem Ipsum, you need to be
+                                    sure there isn't anything barrassing hidden
+                                    in the middle of text.
                                   </p>
                                 </div>
                                 {/* .comment-content */}
@@ -276,4 +300,3 @@ const BlogDetail = () => {
 };
 
 export default BlogDetail;
-
