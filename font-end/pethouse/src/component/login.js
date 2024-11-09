@@ -57,7 +57,10 @@ const LoginSignupForm = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          if (response.status === 400 && errorData.message === "Email đã tồn tại") {
+          if (
+            response.status === 400 &&
+            errorData.message === "Email đã tồn tại"
+          ) {
             setFieldError("email", "Email đã tồn tại");
           } else {
             throw new Error(errorData.message || "Đăng ký thất bại");
@@ -99,12 +102,12 @@ const LoginSignupForm = () => {
             Matkhau: values.password,
           }),
         });
-  
+
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
-  
+
         const userData = await response.json(); // Giả sử phản hồi chứa thông tin người dùng
         const name = userData.Hovaten || values.email; // Lấy tên người dùng từ phản hồi
         login(name); // Gọi hàm login với tên người dùng
@@ -120,32 +123,64 @@ const LoginSignupForm = () => {
 
   return (
     <div className="lg">
-      <div className={`login ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
+      <div
+        className={`login ${isRightPanelActive ? "right-panel-active" : ""}`}
+        id="container"
+      >
         {/* Form Đăng Ký */}
         <div className="form-login sign-up-login">
           <form onSubmit={signupFormik.handleSubmit}>
             <h1 className="fw-bold mt-4">Tạo tài khoản</h1>
-            <input type="text" placeholder="Tên" {...signupFormik.getFieldProps("name")} required />
+            <input
+              type="text"
+              placeholder="Tên"
+              {...signupFormik.getFieldProps("name")}
+              required
+            />
             {signupFormik.touched.name && signupFormik.errors.name && (
               <div className="text-danger">{signupFormik.errors.name}</div>
             )}
-            <input type="email" placeholder="Email" {...signupFormik.getFieldProps("email")} required />
+            <input
+              type="email"
+              placeholder="Email"
+              {...signupFormik.getFieldProps("email")}
+              required
+            />
             {signupFormik.touched.email && signupFormik.errors.email && (
               <div className="text-danger">{signupFormik.errors.email}</div>
             )}
-            <input type="password" placeholder="Mật khẩu" {...signupFormik.getFieldProps("password")} required />
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              {...signupFormik.getFieldProps("password")}
+              required
+            />
             {signupFormik.touched.password && signupFormik.errors.password && (
               <div className="text-danger">{signupFormik.errors.password}</div>
             )}
-            <input type="text" placeholder="Số điện thoại" {...signupFormik.getFieldProps("phone")} required />
+            <input
+              type="text"
+              placeholder="Số điện thoại"
+              {...signupFormik.getFieldProps("phone")}
+              required
+            />
             {signupFormik.touched.phone && signupFormik.errors.phone && (
               <div className="text-danger">{signupFormik.errors.phone}</div>
             )}
-            <input type="text" placeholder="Địa chỉ" {...signupFormik.getFieldProps("address")} required />
+            <input
+              type="text"
+              placeholder="Địa chỉ"
+              {...signupFormik.getFieldProps("address")}
+              required
+            />
             {signupFormik.touched.address && signupFormik.errors.address && (
               <div className="text-danger">{signupFormik.errors.address}</div>
             )}
-            <button className="mt-4 rounded" type="submit" disabled={signupFormik.isSubmitting}>
+            <button
+              className="mt-4 rounded"
+              type="submit"
+              disabled={signupFormik.isSubmitting}
+            >
               Đăng Ký
             </button>
             {signupFormik.errors.general && (
@@ -158,16 +193,31 @@ const LoginSignupForm = () => {
         <div className="form-login sign-in-login">
           <form onSubmit={loginFormik.handleSubmit}>
             <h1 className="fw-bold mb-4">Đăng Nhập</h1>
-            <input type="email" placeholder="Email" {...loginFormik.getFieldProps("email")} required />
+            <input
+              type="email"
+              placeholder="Email"
+              {...loginFormik.getFieldProps("email")}
+              required
+            />
             {loginFormik.touched.email && loginFormik.errors.email && (
               <div className="text-danger">{loginFormik.errors.email}</div>
             )}
-            <input type="password" placeholder="Mật khẩu" {...loginFormik.getFieldProps("password")} required />
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              {...loginFormik.getFieldProps("password")}
+              required
+            />
             {loginFormik.touched.password && loginFormik.errors.password && (
               <div className="text-danger">{loginFormik.errors.password}</div>
             )}
-            <a href="#">Quên mật khẩu?</a><br />
-            <button className="mt-4 rounded" type="submit" disabled={loginFormik.isSubmitting}>
+            <a href="/#">Quên mật khẩu?</a>
+            <br />
+            <button
+              className="mt-4 rounded"
+              type="submit"
+              disabled={loginFormik.isSubmitting}
+            >
               Đăng Nhập
             </button>
             {loginFormik.errors.general && (
@@ -181,18 +231,28 @@ const LoginSignupForm = () => {
             <div className="overlay-panel overlay-left">
               <h1 className="fw-bold">Chào Mừng Trở Lại!</h1>
               <p>
-                Để kết nối với chúng tôi, vui lòng đăng nhập với thông tin cá nhân của bạn
+                Để kết nối với chúng tôi, vui lòng đăng nhập với thông tin cá
+                nhân của bạn
               </p>
-              <button className="ghost" id="signIn" onClick={() => setIsRightPanelActive(false)}>
+              <button
+                className="ghost"
+                id="signIn"
+                onClick={() => setIsRightPanelActive(false)}
+              >
                 Đăng Nhập
               </button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1 className="fw-bold">Xin Chào, Bạn!</h1>
               <p>
-                Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng tôi
+                Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng
+                tôi
               </p>
-              <button className="ghost" id="signUp" onClick={() => setIsRightPanelActive(true)}>
+              <button
+                className="ghost"
+                id="signUp"
+                onClick={() => setIsRightPanelActive(true)}
+              >
                 Đăng Ký
               </button>
             </div>

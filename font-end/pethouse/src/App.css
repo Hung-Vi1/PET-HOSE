@@ -68,7 +68,8 @@
     list-style: none;
     text-align: center;
     margin-bottom: 0;
-    padding: 0;
+    padding-left: 0;
+    margin-top: 40px;
 }
 
 .thanhphantrang li {

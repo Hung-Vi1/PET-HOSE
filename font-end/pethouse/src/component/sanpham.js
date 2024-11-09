@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import "../App.css";
 
 function SanPham() {
+  const [list_sp, ganSP] = useState([]);
+
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
 
   const toggleFilter = () => setFilterVisible(!isFilterVisible);
   const toggleSearch = () => setSearchVisible(!isSearchVisible);
 
-  const [sp, ganSP] = useState([]);
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
       .then((res) => res.json())
@@ -31,11 +33,6 @@ function SanPham() {
   return (
     <>
       <div className="header_sticky header-style-2 has-menu-extra">
-        {/* Preloader */}
-        {/* <div id="loading-overlay">
-          <div className="loader"></div>
-        </div> */}
-
         <div className="boxed">
           <div className="page-title parallax parallax1">
             <div className="container">
@@ -249,75 +246,12 @@ function SanPham() {
                       </form>
                     </div>
                   )}
-                  <div className="product-content product-fourcolumn clearfix">
-                    <ul className="product style2">
-                      {sp.map((sp, i) => (
-                        <li className="product-item" key={i}>
-                          <div className="product-thumb clearfix">
-                            <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                              <img
-                                src={`image/product/${sp.hinh_anh}`}
-                                className="card-img-top mx-auto"
-                                alt={sp.ten_san_pham}
-                                style={{ width: "75%" }}
-                              />
-                            </Link>
-                          </div>
-                          <div className="product-info clearfix">
-                            <span className="product-title">
-                              {sp.ten_san_pham}
-                            </span>
-                            <div className="price">
-                              <ins>
-                                <span className="amount">
-                                  {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
-                                  })}
-                                </span>
-                              </ins>
-                            </div>
-                          </div>
-                          <div className="add-to-cart text-center">
-                            <a href="/#">Thêm vào giỏ hàng</a>
-                          </div>
-                          <a href="/#" className="like">
-                            <i className="fa fa-heart-o"></i>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="product-pagination text-center margin-top-11 clearfix">
-                    <ul className="flat-pagination">
-                      <li className="prev">
-                        <a href="/#">
-                          <i className="fa fa-angle-left"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">1</a>
-                      </li>
-                      <li className="active">
-                        <a href="/#" title="">
-                          2
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">3</a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-angle-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <PhanTrang listSP={list_sp} pageSize={12} ganSP={ganSP} />
                 </div>
               </div>
             </div>
           </section>
+
           <section className="flat-row mail-chimp">
             <div className="container">
               <div className="row">
@@ -386,4 +320,104 @@ function SanPham() {
     </>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang }) {
+  const [cart, setCart] = useState(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  const addToCart = (product) => {
+    const existingProductIndex = cart.findIndex(
+      (item) => item.ma_san_pham === product.ma_san_pham
+    );
+    let updatedCart;
+
+    if (existingProductIndex !== -1) {
+      updatedCart = [...cart];
+      updatedCart[existingProductIndex].quantity += 1;
+    } else {
+      updatedCart = [...cart, { ...product, quantity: 1 }];
+    }
+
+    setCart(updatedCart);
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    alert("Đã thêm vào giỏ hàng");
+  };
+
+  return (
+    <>
+      {spTrongTrang.map((sp, i) => (
+        <li className="product-item" key={i}>
+          <div className="product-thumb clearfix">
+            <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
+              <img
+                src={`image/product/${sp.hinh_anh}`}
+                className="card-img-top mx-auto w-75 pb-3"
+                alt={sp.ten_san_pham}
+              />
+            </Link>
+          </div>
+          <div className="product-info clearfix">
+            <span className="product-title">{sp.ten_san_pham}</span>
+            <div className="price">
+              <ins>
+                <span className="amount">
+                  {parseInt(sp.gia).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              </ins>
+            </div>
+          </div>
+          <div className="add-to-cart text-center">
+            <Link onClick={() => addToCart(sp)}>THÊM VÀO GIỎ HÀNG</Link>
+          </div>
+          <a href="/#" className="like">
+            <i className="fa fa-heart-o"></i>
+          </a>
+        </li>
+      ))}
+    </>
+  );
+}
+
+function PhanTrang({ listSP, pageSize, ganSP }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const spTrong1Trang = listSP.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listSP.length / pageSize);
+
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % listSP.length;
+    setfromIndex(newIndex);
+  };
+
+  return (
+    <>
+      <div className="product-content product-fourcolumn clearfix">
+        <ul className="product style2">
+          <HienSPTrongMotTrang
+            spTrongTrang={spTrong1Trang}
+            fromIndex={fromIndex}
+            ganSP={ganSP}
+          />
+        </ul>
+      </div>
+
+      <div>
+        <ReactPaginate
+          nextLabel=">"
+          previousLabel="<"
+          pageCount={tongSoTrang}
+          pageRangeDisplayed={5}
+          onPageChange={chuyenTrang}
+          className="thanhphantrang"
+        />
+      </div>
+    </>
+  );
+}
+
 export default SanPham;
