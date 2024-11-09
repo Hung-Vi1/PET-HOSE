@@ -51,13 +51,27 @@ function GioHang() {
           <table className="table table-bordered">
             <thead>
               <tr>
-                <th scope="col" style={{textAlign:"center"}}>STT</th>
-                <th scope="col" style={{textAlign:"center"}}>Tên sản phẩm</th>
-                <th scope="col" style={{textAlign:"center"}}>Hình ảnh</th>
-                <th scope="col" style={{textAlign:"center"}}>Giá</th>
-                <th scope="col" style={{textAlign:"center"}}>Số lượng</th>
-                <th scope="col" style={{textAlign:"center"}}>Tổng cộng</th>
-                <th scope="col" style={{textAlign:"center"}}>Xóa</th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  STT
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Tên sản phẩm
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Hình ảnh
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Giá
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Số lượng
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Tổng cộng
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Xóa
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -113,20 +127,21 @@ function GioHang() {
                 <td colSpan="6" className="text-right font-weight-bold">
                   Tổng giá trị giỏ hàng
                 </td>
-                <td className="font-weight-bold">{calculateCartTotal()} đ</td>
+                <td className="font-weight-bold">
+                  {parseInt(calculateCartTotal()).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
               </tr>
             </tfoot>
           </table>
-
         )}
         <div className="text-right py-10 px-10">
           <Link to="/formthanhtoan">
-            <button className="btn btn-danger btn-lg">
-              Thanh toán
-            </button>
+            <button className="btn btn-danger btn-lg">Thanh toán</button>
           </Link>
         </div>
-
       </div>
     </section>
   );
