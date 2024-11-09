@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext"; // Nhập useAuth từ AuthContext
 
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+    const { user, logout } = useAuth(); // Lấy thông tin người dùng và hàm logout
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Trạng thái của dropdown
 
     useEffect(() => {
         const handleResize = () => {
@@ -18,6 +21,11 @@ function Header() {
 
     const toggleMenu = () => {
         if (isMobile) setIsMenuOpen(!isMenuOpen); // Chỉ mở menu khi ở chế độ di động
+    };
+
+    const handleLogout = () => {
+        logout(); // Gọi hàm logout
+        setIsDropdownOpen(false); // Đóng dropdown sau khi đăng xuất
     };
 
     return (
@@ -35,7 +43,7 @@ function Header() {
                     />
                 </Link>
             </div>
-            
+
             <div className="mobile-button" onClick={toggleMenu}>
                 <span />
             </div>
@@ -49,7 +57,36 @@ function Header() {
                     </form>
                 </li>
                 <li className="box-login">
-                        <Link to="/login"> <a className="icon_login" href="/#"></a></Link>
+                    {user ? (
+                        <div
+                            className="user-menu"
+                            onMouseEnter={() => setIsDropdownOpen(true)}
+                            onMouseLeave={() => setIsDropdownOpen(false)}
+                        >
+                            <span className="m-2">{user.slice(0, 4)}{user.length > 4}</span>
+                            {isDropdownOpen && (
+                                <ul className="submenu ps-4">
+                                    <li className="m-0">
+                                        <Link className="text-nowrap" to="/info">Thông tin tài khoản</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="text-nowrap" to="/lichsumua">Lịch sử mua hàng</Link>
+                                    </li>
+                                    <li>
+                                        <a
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={handleLogout}
+                                            className="text-nowrap"
+                                        >
+                                            Đăng Xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                            )}
+                        </div>
+                    ) : (
+                        <Link className="icon_login" to="/login"></Link>
+                    )}
                 </li>
                 <li className="box-cart nav-top-cart-wrapper">
                     <Link className="icon_cart nav-cart-trigger active" to="/giohang">
@@ -82,7 +119,7 @@ function Header() {
                             <Link to="/datlich">Đặt lịch</Link>
                             <ul className="submenu">
                                 <li><a href="coming-soon.html">Dịch vụ 1</a></li>
-                                <li><a href="404.html"> Dịch vụ 2</a></li>
+                                <li><a href="404.html">Dịch vụ 2</a></li>
                             </ul>
                         </li>
                         <li>

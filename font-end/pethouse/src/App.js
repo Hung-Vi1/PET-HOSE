@@ -2,6 +2,7 @@ import Header from "./header";
 import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 /* User */
 import TinTuc from "./component/tintuc";
@@ -14,6 +15,7 @@ import GioHang from "./component/giohang";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
+import Info from "./component/info";
 
 /* Admin */
 import Admin_TrangChu from "./Admin_TrangChu";
@@ -24,6 +26,7 @@ import Admin_SanPham from "./Admin_SanPham";
 import Admin_SanPhamChiTiet from "./Admin_SanPhamChiTiet";
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         {/* header */}
@@ -276,28 +279,26 @@ function App() {
          }
         />
         <Route
-         path="/login"
-         exact
-         element={
-           <div>
-             <div id="site-header-wrap">
-               <header id="header" class="header header-container clearfix">
-                 <div class="container clearfix" id="site-header-inner">
-                   <Header />
-                 </div>
-               </header>
-             </div>
-
-             <LoginSignupForm/>
-
-             <footer class="footer">
-               <div class="container">
-                 <Footer />
-               </div>
-             </footer>
-           </div>
-         }
-        />
+            path="/login"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <LoginSignupForm />
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
         <Route
           path="/chitietsanpham"
           exact
@@ -325,6 +326,7 @@ function App() {
         />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
