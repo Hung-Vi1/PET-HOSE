@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext"; // Nhập useAuth từ AuthContext
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +25,7 @@ function Header() {
       const parsedCart = savedCart ? JSON.parse(savedCart) : [];
       setCart(parsedCart);
     };
+
 
     // Gọi hàm updateCart khi component load lần đầu
     updateCart();

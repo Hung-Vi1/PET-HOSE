@@ -2,6 +2,7 @@ import Header from "./header";
 import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 /* User */
 import TinTuc from "./component/tintuc";
@@ -15,6 +16,7 @@ import ThanhToan from "./component/thanhtoan";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
+import Info from "./component/info";
 
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
@@ -28,6 +30,7 @@ import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         {/* header */}
@@ -345,6 +348,7 @@ function App() {
         <Route path="/admindanhmucthem" exact element={<AdminDanhMucThem />} />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
