@@ -144,12 +144,11 @@ function ChiTietSanPham() {
       <section className="flat-row main-shop shop-detail">
         <div className="container">
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 d-flex justify-content-center">
               <img
                 src={`../image/product/${sp?.hinh_anh}`}
-                className="card-img-top mx-auto"
+                className="card-img-top w-75"
                 alt={sp?.ten_san_pham}
-                style={{ width: "75%" }}
               />
             </div>
             <div className="col-md-6">
@@ -220,7 +219,7 @@ function ChiTietSanPham() {
                   <ul className="product style2">
                     {relatedProducts.map((product) => (
                       <li className="product-item" key={product.ma_san_pham}>
-                        <div className="product-thumb clearfix">
+                        <div className="product-thumb clearfix w-75 mx-auto pb-3">
                           <a href={`/sanpham/${product.ma_san_pham}`}>
                             <img
                               src={`../image/product/${product.hinh_anh}`}
