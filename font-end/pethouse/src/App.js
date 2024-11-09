@@ -311,7 +311,7 @@ function App() {
           element={<AdminSanPhamChiTiet />}
         />
         <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
-        <Route path="/admindanhmucsua" exact element={<AdminDanhMucSua />} />
+        <Route path="/admindanhmucsua/:ma_danh_muc" exact element={<AdminDanhMucSua />} />
       </Routes>
     </BrowserRouter>
   );

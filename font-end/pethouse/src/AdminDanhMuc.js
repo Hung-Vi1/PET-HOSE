@@ -5,7 +5,9 @@ import "./App.css";
 
 function AdminDanhMuc() {
   const [list_dm, ganSP] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // Lấy danh sách danh mục
   useEffect(() => {
     fetch("http://localhost:8000/api/category")
       .then((res) => res.json())
@@ -23,6 +25,19 @@ function AdminDanhMuc() {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
   }, []);
+
+  // Lấy thông tin danh mục theo ID
+  const fetchCategoryById = (ma_danh_muc) => {
+    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin danh mục:", data);
+        setSelectedCategory(data); // Lưu thông tin danh mục vào state
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin danh mục:", error);
+      });
+  };
 
   return (
     <div className="container-fluid">
@@ -170,7 +185,7 @@ function AdminDanhMuc() {
                   const stt = i + 1;
                   // Xử lý hiển thị tên danh mục dựa vào parent_id
                   let loaiDanhMuc;
-                  if (dm.parent_id === null) {
+                  if (dm.parent_id === 0) {
                     loaiDanhMuc = "Thư mục cha";
                   } else if (dm.parent_id === 1) {
                     loaiDanhMuc = "Thư mục cha -> Chó";
@@ -185,7 +200,11 @@ function AdminDanhMuc() {
                       <td className="text-center">{loaiDanhMuc}</td>
                       <td className="text-center">{dm.ngay_tao}</td>
                       <td className="text-center">
-                        <Link to={""} className="btn btn-outline-warning m-1">
+                        <Link
+                          onClick={() => fetchCategoryById(dm.ma_danh_muc)}
+                          to={`/admindanhmucsua/${dm.ma_danh_muc}`}
+                          className="btn btn-outline-warning m-1"
+                        >
                           <i className="bi bi-pencil-square"></i>
                         </Link>
                         <a href="/#" className="btn btn-outline-danger m-1">
@@ -197,6 +216,15 @@ function AdminDanhMuc() {
                 })}
               </tbody>
             </table>
+
+            {selectedCategory && (
+              <div>
+                <h3>Thông tin danh mục đã chọn:</h3>
+                <p>Tên danh mục: {selectedCategory.ten_danh_muc}</p>
+                <p>Ngày tạo: {selectedCategory.ngay_tao}</p>
+                {/* Thêm thông tin khác nếu cần */}
+              </div>
+            )}
           </div>
         </div>
       </div>

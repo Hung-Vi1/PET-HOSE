@@ -1,28 +1,42 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import "./App.css";
 
 function AdminDanhMucSua() {
-  const [list_dm, ganSP] = useState([]);
+  const { ma_danh_muc } = useParams(); // Lấy ma_danh_muc từ URL
+  const [ten_danh_muc, setTenDM] = useState("");
+  const [parent_id, setParentId] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/category")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
-        if (Array.isArray(data.data)) {
-          ganSP(data.data); // Nếu có mảng sản phẩm trong data
-        } else {
-          console.error("Dữ liệu không phải là mảng:", data);
-          ganSP([]); // Khởi tạo giá trị mặc định
-        }
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-      });
-  }, []);
+    if (ma_danh_muc) {
+      fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log("Dữ liệu từ API:", data); // Kiểm tra dữ liệu
+          if (data) {
+            setTenDM(data.ten_danh_muc);
+            setParentId(data.parent_id);
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy thông tin danh mục:", error);
+        });
+    } else {
+      console.error("ma_danh_muc is undefined");
+    }
+  }, [ma_danh_muc]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Xử lý dữ liệu ở đây, ví dụ: gửi đến API để cập nhật
+    console.log("Tên danh mục:", ten_danh_muc);
+    console.log("Phân loại:", parent_id);
+  };
 
   return (
     <div className="container-fluid">
@@ -145,58 +159,63 @@ function AdminDanhMucSua() {
               </div>
             </div>
           </nav>
-          <div className="container">
-            <Link
-              to={"/adminsanphamthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm danh mục
-            </Link>
 
-            <h2 className="my-3">Danh mục</h2>
-            <table className="table align-middle table-borderless">
-              <thead>
-                <tr>
-                  <th className="fw-bold text-center">STT</th>
-                  <th className="fw-bold">Tên danh mục</th>
-                  <th className="fw-bold text-center">Phân loại</th>
-                  <th className="fw-bold text-center">Ngày tạo</th>
-                  <th className="fw-bold text-center">Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list_dm.map((dm, i) => {
-                  // Tạo số thứ tự
-                  const stt = i + 1;
-                  // Xử lý hiển thị tên danh mục dựa vào parent_id
-                  let loaiDanhMuc;
-                  if (dm.parent_id === null) {
-                    loaiDanhMuc = "Thư mục cha";
-                  } else if (dm.parent_id === 1) {
-                    loaiDanhMuc = "Thư mục cha -> Chó";
-                  } else {
-                    loaiDanhMuc = "Thư mục cha -> Mèo";
-                  }
+          <div className="container mt-3 mb-5">
+            <div className="d-flex">
+              <Link
+                to={"/admindanhmuc"}
+                className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
+              >
+                <i className="bi bi-arrow-left"></i>
+              </Link>
+              <h1 className="mb-0">{ten_danh_muc}</h1>
+            </div>
 
-                  return (
-                    <tr key={dm.ma_danh_muc}>
-                      <td className="text-center">{stt}</td>
-                      <td>{dm.ten_danh_muc}</td>
-                      <td className="text-center">{loaiDanhMuc}</td>
-                      <td className="text-center">{dm.ngay_tao}</td>
-                      <td className="text-center">
-                        <Link to={""} className="btn btn-outline-warning m-1">
-                          <i className="bi bi-pencil-square"></i>
-                        </Link>
-                        <a href="/#" className="btn btn-outline-danger m-1">
-                          <i className="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="d-flex flex-wrap">
+              <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                <h5 className="mb-2 py-1">Thông tin danh mục</h5>
+
+                <form onSubmit={handleSubmit}>
+                  <div className="row mb-3">
+                    <div className="col-md">
+                      <label htmlFor="TenDM" className="form-label">
+                        Tên danh mục
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="TenDM"
+                        value={ten_danh_muc}
+                        onChange={(e) => setTenDM(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md">
+                      <label htmlFor="parent_id" className="form-label">
+                        Phân loại
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="parent_id"
+                        value={parent_id}
+                        onChange={(e) => setParentId(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger me-2"
+                    >
+                      Xóa
+                    </button>
+                    <button type="submit" className="btn btn-primary ms-2">
+                      Lưu
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>

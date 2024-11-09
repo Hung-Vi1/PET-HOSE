@@ -400,6 +400,7 @@ function AdminSanPhamChiTiet() {
                 </div>
               </div>
             </div>
+            
             <div className="d-flex justify-content-end">
               <button type="submit" className="btn btn-outline-danger me-2">
                 Xóa
