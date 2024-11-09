@@ -167,7 +167,7 @@ function AdminDanhMuc() {
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDM={list_dm} pageSize={10} />
+                <PhanTrang listDM={list_dm} pageSize={10} ganDM={ganDM} />
               </tbody>
             </table>
           </div>
@@ -177,17 +177,15 @@ function AdminDanhMuc() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
-  const ganDM = useState([]);
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
   const setSelectedCategory = useState(null);
 
-  // Lấy thông tin danh mục theo ID
   const fetchCategoryById = (ma_danh_muc) => {
     fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin danh mục:", data);
-        setSelectedCategory(data); // Lưu thông tin danh mục vào state
+        setSelectedCategory(data);
       })
       .catch((error) => {
         console.error("Lỗi khi lấy thông tin danh mục:", error);
@@ -214,7 +212,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
         })
         .then((data) => {
           if (Array.isArray(data.data)) {
-            ganDM(data.data); // Các bạn chắc chắn rằng ganDM là một hàm
+            ganDM(data.data); // Sử dụng ganDM từ props
           } else {
             console.error("Dữ liệu không phải là mảng:", data);
             ganDM([]); // Khởi tạo giá trị mặc định
@@ -229,61 +227,64 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
 
   return (
     <>
-      {
-        spTrongTrang.map((dm, i) => {
-          // Xử lý hiển thị tên danh mục dựa vào parent_id
-          let loaiDanhMuc;
-          if (dm.parent_id === 0) {
-            loaiDanhMuc = "Thư mục cha";
-          } else if (dm.parent_id === 1) {
-            loaiDanhMuc = "Thư mục cha -> Chó";
-          } else {
-            loaiDanhMuc = "Thư mục cha -> Mèo";
-          }
+      {spTrongTrang.map((dm, i) => {
+        let loaiDanhMuc;
+        if (dm.parent_id === 0) {
+          loaiDanhMuc = "Thư mục cha";
+        } else if (dm.parent_id === 1) {
+          loaiDanhMuc = "Thư mục cha -> Chó";
+        } else {
+          loaiDanhMuc = "Thư mục cha -> Mèo";
+        }
 
-          return (
-            <tr key={dm.ma_danh_muc}>
-              <td className="text-center">{fromIndex + i + 1}</td>
-              <td>{dm.ten_danh_muc}</td>
-              <td className="text-center">{loaiDanhMuc}</td>
-              <td className="text-center">{dm.ngay_tao}</td>
-              <td className="text-center">
-                <Link
-                  onClick={() => fetchCategoryById(dm.ma_danh_muc)}
-                  to={`/admindanhmucsua/${dm.ma_danh_muc}`}
-                  className="btn btn-outline-warning m-1"
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </Link>
-                <button
-                  onClick={() => xoaDanhMuc(dm.ma_danh_muc)}
-                  className="btn btn-outline-danger m-1"
-                >
-                  <i className="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-          );
-        }) //map
-      }
+        return (
+          <tr key={dm.ma_danh_muc}>
+            <td className="text-center">{fromIndex + i + 1}</td>
+            <td>{dm.ten_danh_muc}</td>
+            <td className="text-center">{loaiDanhMuc}</td>
+            <td className="text-center">{dm.ngay_tao}</td>
+            <td className="text-center">
+              <Link
+                onClick={() => fetchCategoryById(dm.ma_danh_muc)}
+                to={`/admindanhmucsua/${dm.ma_danh_muc}`}
+                className="btn btn-outline-warning m-1"
+              >
+                <i className="bi bi-pencil-square"></i>
+              </Link>
+              <button
+                onClick={() => xoaDanhMuc(dm.ma_danh_muc)}
+                className="btn btn-outline-danger m-1"
+              >
+                <i className="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        );
+      })}
     </>
   );
-} //HienSPTrongMotTrang
+}
 
-function PhanTrang({ listDM, pageSize }) {
+function PhanTrang({ listDM, pageSize, ganDM }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const spTrong1Trang = listDM.slice(fromIndex, toIndex);
   const tongSoTrang = Math.ceil(listDM.length / pageSize);
+
   const chuyenTrang = (event) => {
     const newIndex = (event.selected * pageSize) % listDM.length;
     setfromIndex(newIndex);
   };
+
   return (
     <>
-      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
+      <HienSPTrongMotTrang
+        spTrongTrang={spTrong1Trang}
+        fromIndex={fromIndex}
+        ganDM={ganDM}
+      />
       <tr>
-        <td colspan="6">
+        <td colSpan="5">
           <ReactPaginate
             nextLabel=">"
             previousLabel="<"
@@ -296,6 +297,6 @@ function PhanTrang({ listDM, pageSize }) {
       </tr>
     </>
   );
-} //PhanTrang
+}
 
 export default AdminDanhMuc;
