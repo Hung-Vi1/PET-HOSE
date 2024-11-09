@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminDanhMuc() {
-  const [list_dm, ganSP] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [list_dm, ganDM] = useState([]);
 
   // Lấy danh sách danh mục
   useEffect(() => {
@@ -15,29 +15,16 @@ function AdminDanhMuc() {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganSP(data.data); // Nếu có mảng sản phẩm trong data
+          ganDM(data.data); // Nếu có mảng sản phẩm trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganSP([]); // Khởi tạo giá trị mặc định
+          ganDM([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
   }, []);
-
-  // Lấy thông tin danh mục theo ID
-  const fetchCategoryById = (ma_danh_muc) => {
-    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Thông tin danh mục:", data);
-        setSelectedCategory(data); // Lưu thông tin danh mục vào state
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy thông tin danh mục:", error);
-      });
-  };
 
   return (
     <div className="container-fluid">
@@ -162,7 +149,7 @@ function AdminDanhMuc() {
           </nav>
           <div className="container">
             <Link
-              to={"/adminsanphamthem"}
+              to={"/admindanhmucthem"}
               className="btn btn-success float-end"
             >
               Thêm danh mục
@@ -180,56 +167,137 @@ function AdminDanhMuc() {
                 </tr>
               </thead>
               <tbody>
-                {list_dm.map((dm, i) => {
-                  // Tạo số thứ tự
-                  const stt = i + 1;
-                  // Xử lý hiển thị tên danh mục dựa vào parent_id
-                  let loaiDanhMuc;
-                  if (dm.parent_id === 0) {
-                    loaiDanhMuc = "Thư mục cha";
-                  } else if (dm.parent_id === 1) {
-                    loaiDanhMuc = "Thư mục cha -> Chó";
-                  } else {
-                    loaiDanhMuc = "Thư mục cha -> Mèo";
-                  }
-
-                  return (
-                    <tr key={dm.ma_danh_muc}>
-                      <td className="text-center">{stt}</td>
-                      <td>{dm.ten_danh_muc}</td>
-                      <td className="text-center">{loaiDanhMuc}</td>
-                      <td className="text-center">{dm.ngay_tao}</td>
-                      <td className="text-center">
-                        <Link
-                          onClick={() => fetchCategoryById(dm.ma_danh_muc)}
-                          to={`/admindanhmucsua/${dm.ma_danh_muc}`}
-                          className="btn btn-outline-warning m-1"
-                        >
-                          <i className="bi bi-pencil-square"></i>
-                        </Link>
-                        <a href="/#" className="btn btn-outline-danger m-1">
-                          <i className="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
+                <PhanTrang listDM={list_dm} pageSize={10} />
               </tbody>
             </table>
-
-            {selectedCategory && (
-              <div>
-                <h3>Thông tin danh mục đã chọn:</h3>
-                <p>Tên danh mục: {selectedCategory.ten_danh_muc}</p>
-                <p>Ngày tạo: {selectedCategory.ngay_tao}</p>
-                {/* Thêm thông tin khác nếu cần */}
-              </div>
-            )}
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
+  const ganDM = useState([]);
+  const setSelectedCategory = useState(null);
+
+  // Lấy thông tin danh mục theo ID
+  const fetchCategoryById = (ma_danh_muc) => {
+    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin danh mục:", data);
+        setSelectedCategory(data); // Lưu thông tin danh mục vào state
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin danh mục:", error);
+      });
+  };
+
+  const xoaDanhMuc = (ma_danh_muc) => {
+    if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
+      fetch(`http://localhost:8000/api/category/destroy/${ma_danh_muc}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          if (res.status === 204) {
+            // Nếu mã trạng thái là 204, xóa thành công
+            alert("Danh mục đã được xóa thành công");
+            // Gọi lại hàm fetch để tải lại dữ liệu danh mục
+            return fetch("http://localhost:8000/api/category");
+          } else {
+            throw new Error("Lỗi khi xóa danh mục");
+          }
+        })
+        .then((res) => {
+          if (res) {
+            return res.json(); // Chuyển đổi phản hồi thành JSON
+          }
+        })
+        .then((data) => {
+          if (Array.isArray(data.data)) {
+            ganDM(data.data); // Cập nhật danh sách danh mục
+          } else {
+            console.error("Dữ liệu không phải là mảng:", data);
+            ganDM([]); // Khởi tạo giá trị mặc định
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi xóa danh mục:", error);
+          alert("Có lỗi xảy ra: " + error.message);
+        });
+    }
+  };
+
+  return (
+    <>
+      {
+        spTrongTrang.map((dm, i) => {
+          // Xử lý hiển thị tên danh mục dựa vào parent_id
+          let loaiDanhMuc;
+          if (dm.parent_id === 0) {
+            loaiDanhMuc = "Thư mục cha";
+          } else if (dm.parent_id === 1) {
+            loaiDanhMuc = "Thư mục cha -> Chó";
+          } else {
+            loaiDanhMuc = "Thư mục cha -> Mèo";
+          }
+
+          return (
+            <tr key={dm.ma_danh_muc}>
+              <td className="text-center">{fromIndex + i + 1}</td>
+              <td>{dm.ten_danh_muc}</td>
+              <td className="text-center">{loaiDanhMuc}</td>
+              <td className="text-center">{dm.ngay_tao}</td>
+              <td className="text-center">
+                <Link
+                  onClick={() => fetchCategoryById(dm.ma_danh_muc)}
+                  to={`/admindanhmucsua/${dm.ma_danh_muc}`}
+                  className="btn btn-outline-warning m-1"
+                >
+                  <i className="bi bi-pencil-square"></i>
+                </Link>
+                <button
+                  onClick={() => xoaDanhMuc(dm.ma_danh_muc)}
+                  className="btn btn-outline-danger m-1"
+                >
+                  <i className="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          );
+        }) //map
+      }
+    </>
+  );
+} //HienSPTrongMotTrang
+
+function PhanTrang({ listDM, pageSize }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const spTrong1Trang = listDM.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listDM.length / pageSize);
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % listDM.length;
+    setfromIndex(newIndex);
+  };
+  return (
+    <>
+      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
+      <tr>
+        <td colspan="6">
+          <ReactPaginate
+            nextLabel=">"
+            previousLabel="<"
+            pageCount={tongSoTrang}
+            pageRangeDisplayed={5}
+            onPageChange={chuyenTrang}
+            className="thanhphantrang"
+          />
+        </td>
+      </tr>
+    </>
+  );
+} //PhanTrang
 
 export default AdminDanhMuc;

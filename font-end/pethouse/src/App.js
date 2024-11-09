@@ -25,6 +25,7 @@ import AdminSanPham from "./AdminSanPham";
 import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
 import AdminDanhMuc from "./AdminDanhMuc";
 import AdminDanhMucSua from "./AdminDanhMucSua";
+import AdminDanhMucThem from "./AdminDanhMucThem";
 function App() {
   return (
     <BrowserRouter>
@@ -200,28 +201,31 @@ function App() {
               <GioHang />
 
               <Route
-          path="/formthanhtoan"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+                path="/formthanhtoan"
+                exact
+                element={
+                  <div>
+                    <div id="site-header-wrap">
+                      <header
+                        id="header"
+                        class="header header-container clearfix"
+                      >
+                        <div class="container clearfix" id="site-header-inner">
+                          <Header />
+                        </div>
+                      </header>
+                    </div>
+
+                    <ThanhToan />
+
+                    <footer class="footer">
+                      <div class="container">
+                        <Footer />
+                      </div>
+                    </footer>
                   </div>
-                </header>
-              </div>
-
-              <ThanhToan />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
-                </div>
-              </footer>
-            </div>
-          }
-        />
+                }
+              />
 
               <footer class="footer">
                 <div class="container">
@@ -336,7 +340,12 @@ function App() {
           element={<AdminSanPhamChiTiet />}
         />
         <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
-        <Route path="/admindanhmucsua/:ma_danh_muc" exact element={<AdminDanhMucSua />} />
+        <Route
+          path="/admindanhmucsua/:ma_danh_muc"
+          exact
+          element={<AdminDanhMucSua />}
+        />
+        <Route path="/admindanhmucthem" exact element={<AdminDanhMucThem />} />
       </Routes>
     </BrowserRouter>
   );
