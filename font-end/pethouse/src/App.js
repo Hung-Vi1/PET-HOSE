@@ -200,32 +200,29 @@ function App() {
 
               <GioHang />
 
-              <Route
-                path="/formthanhtoan"
-                exact
-                element={
-                  <div>
-                    <div id="site-header-wrap">
-                      <header
-                        id="header"
-                        class="header header-container clearfix"
-                      >
-                        <div class="container clearfix" id="site-header-inner">
-                          <Header />
-                        </div>
-                      </header>
-                    </div>
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
 
-                    <ThanhToan />
-
-                    <footer class="footer">
-                      <div class="container">
-                        <Footer />
-                      </div>
-                    </footer>
+        <Route
+          path="/formthanhtoan"
+          exact
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
                   </div>
-                }
-              />
+                </header>
+              </div>
+
+              <ThanhToan />
 
               <footer class="footer">
                 <div class="container">

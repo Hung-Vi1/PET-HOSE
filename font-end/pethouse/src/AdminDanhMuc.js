@@ -201,9 +201,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       })
         .then((res) => {
           if (res.status === 204) {
-            // Nếu mã trạng thái là 204, xóa thành công
             alert("Danh mục đã được xóa thành công");
-            // Gọi lại hàm fetch để tải lại dữ liệu danh mục
             return fetch("http://localhost:8000/api/category");
           } else {
             throw new Error("Lỗi khi xóa danh mục");
@@ -211,12 +209,12 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
         })
         .then((res) => {
           if (res) {
-            return res.json(); // Chuyển đổi phản hồi thành JSON
+            return res.json();
           }
         })
         .then((data) => {
           if (Array.isArray(data.data)) {
-            ganDM(data.data); // Cập nhật danh sách danh mục
+            ganDM(data.data); // Các bạn chắc chắn rằng ganDM là một hàm
           } else {
             console.error("Dữ liệu không phải là mảng:", data);
             ganDM([]); // Khởi tạo giá trị mặc định
