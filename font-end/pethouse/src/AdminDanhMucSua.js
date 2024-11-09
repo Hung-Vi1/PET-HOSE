@@ -47,7 +47,7 @@ function AdminDanhMucSua() {
           style={{ minHeight: "100vh" }}
         >
           <img
-            src="image/Nen_trong_suot.png"
+            src="/image/Nen_trong_suot.png"
             className="d-block w-75 mx-auto"
             alt="image/Nen_trong_suot.png"
           />
@@ -55,38 +55,38 @@ function AdminDanhMucSua() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 rounded-0"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
             <Link
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              className="list-group-item list-group-item-action my-0  rounded-0"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
               to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action mt-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
             <Link
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
             <a
               href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </a>
             <a
               href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </a>
