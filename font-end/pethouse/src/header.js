@@ -4,20 +4,46 @@ import { useState, useEffect } from "react";
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 991);
       if (window.innerWidth > 991) {
-        setIsMenuOpen(false); // Đóng menu di động khi thoát chế độ di động
+        setIsMenuOpen(false);
       }
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    // Hàm cập nhật giỏ hàng từ sessionStorage
+    const updateCart = () => {
+      const savedCart = sessionStorage.getItem("cart");
+      const parsedCart = savedCart ? JSON.parse(savedCart) : [];
+      setCart(parsedCart);
+    };
+
+    // Gọi hàm updateCart khi component load lần đầu
+    updateCart();
+
+    // Lắng nghe sự kiện 'cartUpdated' để cập nhật giỏ hàng khi có thay đổi
+    window.addEventListener("cartUpdated", updateCart);
+
+    // Cleanup event listener khi component bị unmount
+    return () => {
+      window.removeEventListener("cartUpdated", updateCart);
+    };
+  }, []);
+
   const toggleMenu = () => {
-    if (isMobile) setIsMenuOpen(!isMenuOpen); // Chỉ mở menu khi ở chế độ di động
+    if (isMobile) setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Hàm rút gọn tên sản phẩm
+  const truncateProductName = (name, maxLength = 20) => {
+    return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
   };
 
   return (
@@ -42,9 +68,7 @@ function Header() {
 
       <ul className="menu-extra">
         <li className="box-search">
-          <a className="icon_search header-search-icon" href="/#">
-            {""}
-          </a>
+          <a className="icon_search header-search-icon" href="/#" />
           <form
             role="search"
             method="get"
@@ -68,23 +92,32 @@ function Header() {
         </li>
         <li className="box-login">
           <Link to="/login">
-            <a className="icon_login" href="/#">
-              {" "}
-            </a>
+            <a className="icon_login" href="/#"></a>
           </Link>
         </li>
         <li className="box-cart nav-top-cart-wrapper">
           <Link className="icon_cart nav-cart-trigger active" to="/giohang">
-            <span>3</span>
+            <span>{cart.length}</span>
           </Link>
           <div className="nav-shop-cart">
             <div className="widget_shopping_cart_content">
               <div className="woocommerce-min-cart-wrap">
-                <ul className="woocommerce-mini-cart cart_list product_list_widget">
-                  <li className="woocommerce-mini-cart-item mini_cart_item">
-                    <span>No Items in Shopping Cart</span>
-                  </li>
-                </ul>
+                {cart.length > 0 ? (
+                  <ul className="woocommerce-mini-cart cart_list product_list_widget">
+                    {cart.map((item, index) => (
+                      <li
+                        key={index}
+                        className="woocommerce-mini-cart-item mini_cart_item"
+                        style={{ fontSize: "14px" }}
+                      >
+                        <span>{truncateProductName(item.ten_san_pham)}</span> -{" "}
+                        <span>Số lượng: {item.quantity}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <span>Chưa có sản phẩm nào trong giỏ hàng</span>
+                )}
               </div>
             </div>
           </div>

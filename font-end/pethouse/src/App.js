@@ -11,6 +11,7 @@ import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
 
 import GioHang from "./component/giohang";
+import ThanhToan from "./component/thanhtoan";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
@@ -197,6 +198,30 @@ function App() {
               </div>
 
               <GioHang />
+
+              <Route
+          path="/formthanhtoan"
+          exact
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+
+              <ThanhToan />
+
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
 
               <footer class="footer">
                 <div class="container">

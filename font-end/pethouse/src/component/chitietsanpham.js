@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 function ChiTietSanPham() {
   let { id } = useParams();
 
-  const [sp, ganSP] = useState([]);
+  const [sp, ganSP] = useState(null);
+  const [quantity, setQuantity] = useState(1); // State for the quantity of the product
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/products/${id}`)
@@ -23,6 +24,48 @@ function ChiTietSanPham() {
       });
   }, [id]);
 
+  // Hàm thêm sản phẩm vào giỏ hàng
+  const addToCart = () => {
+    if (!sp) return; // Nếu không có sản phẩm, không làm gì cả
+
+    // Kiểm tra nếu giỏ hàng đã có sản phẩm
+    const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    const existingProductIndex = cart.findIndex(item => item.ma_san_pham === sp.ma_san_pham);
+
+    if (existingProductIndex !== -1) {
+      // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      // Nếu chưa có, thêm sản phẩm mới vào giỏ hàng
+      cart.push({
+        ma_san_pham: sp.ma_san_pham,
+        ten_san_pham: sp.ten_san_pham,
+        hinh_anh: sp.hinh_anh,
+        gia: sp.gia,
+        quantity: quantity
+      });
+    }
+
+    // Lưu giỏ hàng vào sessionStorage
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Đã thêm sản phẩm vào giỏ hàng!");
+  };
+
+  // Hàm tăng số lượng sản phẩm
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  // Hàm giảm số lượng sản phẩm
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
   return (
     <>
       <div className="page-title parallax parallax1">
@@ -32,29 +75,16 @@ function ChiTietSanPham() {
               <div className="page-title-heading">
                 <h2 className="title">{sp ? sp.ten_san_pham : "Sản phẩm"}</h2>
               </div>
-              {/* /.page-title-heading */}
               <div className="breadcrumbs">
                 <ul>
-                  <li>
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li>
-                    <Link to="/sanpham">Sản phẩm</Link>
-                  </li>
-                  <li>
-                    <Link to="shop-detail-des.html">
-                      {sp ? sp.ten_san_pham : "Sản phẩm"}
-                    </Link>
-                  </li>
+                  <li><Link to="/">Trang chủ</Link></li>
+                  <li><Link to="/sanpham">Sản phẩm</Link></li>
+                  <li><Link to="shop-detail-des.html">{sp ? sp.ten_san_pham : "Sản phẩm"}</Link></li>
                 </ul>
               </div>
-              {/* /.breadcrumbs */}
             </div>
-            {/* /.col-md-12 */}
           </div>
-          {/* /.row */}
         </div>
-        {/* /.container */}
       </div>
 
       <section className="flat-row main-shop shop-detail">
@@ -62,34 +92,22 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-6">
               <img
-                src={`../image/product/${sp.hinh_anh}`}
+                src={`../image/product/${sp?.hinh_anh}`}
                 className="card-img-top mx-auto"
-                alt={sp.ten_san_pham}
+                alt={sp?.ten_san_pham}
                 style={{ width: "75%" }}
               />
             </div>
-            {/* /.col-md-6 */}
             <div className="col-md-6">
               <div className="product-detail">
                 <div className="inner">
                   <div className="content-detail">
-                    <h2 className="product-title">{sp.ten_san_pham}</h2>
-                    <div className="flat-star style-1">
-                      <i className="fa fa-star" />
-                      <i className="fa fa-star" />
-                      <i className="fa fa-star" />
-                      <i className="fa fa-star-half-o" />
-                      <i className="fa fa-star-half-o" />
-                      <span>(1)</span>
-                    </div>
-                    <p>{sp.mo_ta}</p>
+                    <h2 className="product-title">{sp?.ten_san_pham}</h2>
+                    <p>{sp?.mo_ta}</p>
                     <div className="price">
-                      {/* <del>
-                        <span className="regular">$90.00</span>
-                      </del> */}
                       <ins>
                         <span className="amount">
-                          {parseInt(sp.gia).toLocaleString("vi-VN", {
+                          {parseInt(sp?.gia).toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}
@@ -98,66 +116,32 @@ function ChiTietSanPham() {
                     </div>
                     <div className="product-quantity">
                       <div className="quantity">
+                        <span className="dec quantity-button" onClick={decreaseQuantity}>-</span>
                         <input
                           type="text"
-                          defaultValue={1}
-                          name="quantity-number"
+                          value={quantity}
+                          readOnly
                           className="quantity-number"
                         />
-                        <span className="inc quantity-button">+</span>
-                        <span className="dec quantity-button">-</span>
+                        <span className="inc quantity-button" onClick={increaseQuantity}>+</span>
                       </div>
                       <div className="add-to-cart">
-                        <a href="/#">Thêm vào giỏ hàng</a>
-                      </div>
-                      <div className="box-like">
-                        <a href="/#" className="like">
-                          <i className="fa fa-heart-o" />
-                        </a>
+                        <button className="btn btn-primary" onClick={addToCart}>Thêm vào giỏ hàng</button>
                       </div>
                     </div>
                     <div className="product-categories">
                       <span>Danh mục: </span>
-                      <a href="/#">{sp.ma_danh_muc}</a>
+                      <a href="/#">{sp?.ma_danh_muc}</a>
                     </div>
-                    <ul className="flat-socials">
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-facebook" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-twitter" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-pinterest" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-linkedin" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-google-plus" />
-                        </a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </div>
-              {/* /.product-detail */}
             </div>
           </div>
-          {/* /.row */}
         </div>
-        {/* /.container */}
       </section>
 
+      {/* Sản phẩm liên quan */}
       <section className="flat-row shop-related">
         <div className="container">
           <div className="row">
@@ -167,6 +151,7 @@ function ChiTietSanPham() {
               </div>
               <div className="product-content product-fourcolumn clearfix">
                 <ul className="product style2">
+                  {/* Các sản phẩm liên quan */}
                   <li className="product-item">
                     <div className="product-thumb clearfix">
                       <a href="/#">
@@ -190,90 +175,15 @@ function ChiTietSanPham() {
                       <i className="fa fa-heart-o" />
                     </a>
                   </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="/#">
-                        <img src="images/shop/sh-4/2.jpg" alt="hinh" />
-                      </a>
-                      <span className="new">New</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$10.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="/#">ADD TO CART</a>
-                    </div>
-                    <a href="/#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="/#" className="product-thumb">
-                        <img src="images/shop/sh-4/3.jpg" alt="hinh" />
-                      </a>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$20.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="/#">ADD TO CART</a>
-                    </div>
-                    <a href="/#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="/#" className="product-thumb">
-                        <img src="images/shop/sh-4/4.jpg" alt="hinh" />
-                      </a>
-                      <span className="new sale">Sale</span>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <del>
-                          <span className="regular">$90.00</span>
-                        </del>
-                        <ins>
-                          <span className="amount">$60.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="/#">ADD TO CART</a>
-                    </div>
-                    <a href="/#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
+                  {/* Thêm các sản phẩm liên quan khác */}
                 </ul>
-                {/* /.product */}
               </div>
-              {/* /.product-content */}
             </div>
           </div>
-          {/* /.row */}
         </div>
       </section>
 
+      {/* Đăng ký nhận bản tin */}
       <section className="flat-row mail-chimp">
         <div className="container">
           <div className="row">
@@ -284,55 +194,24 @@ function ChiTietSanPham() {
             </div>
             <div className="col-md-8">
               <div className="subscribe clearfix">
-                <form
-                  action="#"
-                  method="post"
-                  acceptCharset="utf-8"
-                  id="subscribe-form"
-                >
+                <form action="#" method="post" acceptCharset="utf-8" id="subscribe-form">
                   <div className="subscribe-content">
                     <div className="input">
-                      <input
-                        type="email"
-                        name="subscribe-email"
-                        placeholder="Your Email"
-                      />
+                      <input type="email" name="subscribe-email" placeholder="Your Email" />
                     </div>
                     <div className="button">
-                      <button type="button">SUBCRIBE</button>
+                      <button type="button">SUBSCRIBE</button>
                     </div>
                   </div>
                 </form>
                 <ul className="flat-social">
-                  <li>
-                    <a href="/#">
-                      <i className="fa fa-facebook" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/#">
-                      <i className="fa fa-twitter" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/#">
-                      <i className="fa fa-google" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/#">
-                      <i className="fa fa-behance" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/#">
-                      <i className="fa fa-linkedin" />
-                    </a>
-                  </li>
+                  <li><a href="/#"><i className="fa fa-facebook" /></a></li>
+                  <li><a href="/#"><i className="fa fa-twitter" /></a></li>
+                  <li><a href="/#"><i className="fa fa-google" /></a></li>
+                  <li><a href="/#"><i className="fa fa-behance" /></a></li>
+                  <li><a href="/#"><i className="fa fa-linkedin" /></a></li>
                 </ul>
-                {/* /.flat-social */}
               </div>
-              {/* /.subscribe */}
             </div>
           </div>
         </div>
@@ -340,4 +219,5 @@ function ChiTietSanPham() {
     </>
   );
 }
+
 export default ChiTietSanPham;
