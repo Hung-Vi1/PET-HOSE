@@ -209,7 +209,7 @@ function ChiTietSanPham() {
 
       {/* Sản phẩm liên quan */}
       {relatedProducts.length > 0 && (
-        <section className="flat-row shop-related">
+        <section className="flat-row shop-related pb-0">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
