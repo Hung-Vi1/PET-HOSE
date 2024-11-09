@@ -5,9 +5,12 @@ function ChiTietSanPham() {
   let { id } = useParams();
 
   const [sp, ganSP] = useState(null);
+  const [category, setCategory] = useState(null); // State for storing categories
+  const [relatedProducts, setRelatedProducts] = useState([]); // State for related products
   const [quantity, setQuantity] = useState(1); // State for the quantity of the product
 
   useEffect(() => {
+    // Lấy dữ liệu sản phẩm
     fetch(`http://localhost:8000/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -22,7 +25,43 @@ function ChiTietSanPham() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
+
+    // Lấy danh mục sản phẩm
+    fetch("http://localhost:8000/api/category")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setCategory(data.data); // Gán dữ liệu danh mục
+        } else {
+          console.error("Lỗi khi lấy dữ liệu danh mục:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu danh mục:", error);
+      });
   }, [id]);
+
+  useEffect(() => {
+    if (sp?.ma_danh_muc) {
+      // Lấy các sản phẩm liên quan (cùng danh mục)
+      fetch(`http://localhost:8000/api/products?category=${sp.ma_danh_muc}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "success") {
+            // Sắp xếp sản phẩm ngẫu nhiên và chỉ lấy 4 sản phẩm
+            const shuffledProducts = data.data
+              .sort(() => 0.5 - Math.random()) // Sắp xếp ngẫu nhiên
+              .slice(0, 4); // Giới hạn 4 sản phẩm
+            setRelatedProducts(shuffledProducts); // Gán dữ liệu sản phẩm liên quan
+          } else {
+            console.error("Lỗi khi lấy sản phẩm liên quan:", data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi lấy sản phẩm liên quan:", error);
+        });
+    }
+  }, [sp]);
 
   // Hàm thêm sản phẩm vào giỏ hàng
   const addToCart = () => {
@@ -32,7 +71,9 @@ function ChiTietSanPham() {
     const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-    const existingProductIndex = cart.findIndex(item => item.ma_san_pham === sp.ma_san_pham);
+    const existingProductIndex = cart.findIndex(
+      (item) => item.ma_san_pham === sp.ma_san_pham
+    );
 
     if (existingProductIndex !== -1) {
       // Nếu sản phẩm đã có trong giỏ hàng, cập nhật số lượng
@@ -44,7 +85,7 @@ function ChiTietSanPham() {
         ten_san_pham: sp.ten_san_pham,
         hinh_anh: sp.hinh_anh,
         gia: sp.gia,
-        quantity: quantity
+        quantity: quantity,
       });
     }
 
@@ -66,6 +107,11 @@ function ChiTietSanPham() {
     }
   };
 
+  // Tìm tên danh mục từ mã danh mục
+  const categoryName = category
+    ? category.find((c) => c.ma_danh_muc === sp?.ma_danh_muc)?.ten_danh_muc
+    : "Không có danh mục";
+
   return (
     <>
       <div className="page-title parallax parallax1">
@@ -77,9 +123,17 @@ function ChiTietSanPham() {
               </div>
               <div className="breadcrumbs">
                 <ul>
-                  <li><Link to="/">Trang chủ</Link></li>
-                  <li><Link to="/sanpham">Sản phẩm</Link></li>
-                  <li><Link to="shop-detail-des.html">{sp ? sp.ten_san_pham : "Sản phẩm"}</Link></li>
+                  <li>
+                    <Link to="/">Trang chủ</Link>
+                  </li>
+                  <li>
+                    <Link to="/sanpham">Sản phẩm</Link>
+                  </li>
+                  <li>
+                    <Link to="shop-detail-des.html">
+                      {sp ? sp.ten_san_pham : "Sản phẩm"}
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -116,22 +170,34 @@ function ChiTietSanPham() {
                     </div>
                     <div className="product-quantity">
                       <div className="quantity">
-                        <span className="dec quantity-button" onClick={decreaseQuantity}>-</span>
+                        <span
+                          className="dec quantity-button"
+                          onClick={decreaseQuantity}
+                        >
+                          -
+                        </span>
                         <input
                           type="text"
                           value={quantity}
                           readOnly
                           className="quantity-number"
                         />
-                        <span className="inc quantity-button" onClick={increaseQuantity}>+</span>
+                        <span
+                          className="inc quantity-button"
+                          onClick={increaseQuantity}
+                        >
+                          +
+                        </span>
                       </div>
                       <div className="add-to-cart">
-                        <button className="btn btn-primary" onClick={addToCart}>Thêm vào giỏ hàng</button>
+                        <button className="btn btn-primary" onClick={addToCart}>
+                          Thêm vào giỏ hàng
+                        </button>
                       </div>
                     </div>
                     <div className="product-categories">
                       <span>Danh mục: </span>
-                      <a href="/#">{sp?.ma_danh_muc}</a>
+                      <a href="/#">{categoryName}</a>
                     </div>
                   </div>
                 </div>
@@ -142,80 +208,58 @@ function ChiTietSanPham() {
       </section>
 
       {/* Sản phẩm liên quan */}
-      <section className="flat-row shop-related">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="title-section margin-bottom-55">
-                <h2 className="title">Related Products</h2>
-              </div>
-              <div className="product-content product-fourcolumn clearfix">
-                <ul className="product style2">
-                  {/* Các sản phẩm liên quan */}
-                  <li className="product-item">
-                    <div className="product-thumb clearfix">
-                      <a href="/#">
-                        <img src="images/shop/sh-4/1.jpg" alt="hinh" />
-                      </a>
-                    </div>
-                    <div className="product-info clearfix">
-                      <span className="product-title">
-                        Cotton White Underweaer Block Out Edition
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount">$19.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div className="add-to-cart text-center">
-                      <a href="/#">ADD TO CART</a>
-                    </div>
-                    <a href="/#" className="like">
-                      <i className="fa fa-heart-o" />
-                    </a>
-                  </li>
-                  {/* Thêm các sản phẩm liên quan khác */}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Đăng ký nhận bản tin */}
-      <section className="flat-row mail-chimp">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="text">
-                <h3>Sign up for Send Newsletter</h3>
-              </div>
-            </div>
-            <div className="col-md-8">
-              <div className="subscribe clearfix">
-                <form action="#" method="post" acceptCharset="utf-8" id="subscribe-form">
-                  <div className="subscribe-content">
-                    <div className="input">
-                      <input type="email" name="subscribe-email" placeholder="Your Email" />
-                    </div>
-                    <div className="button">
-                      <button type="button">SUBSCRIBE</button>
-                    </div>
-                  </div>
-                </form>
-                <ul className="flat-social">
-                  <li><a href="/#"><i className="fa fa-facebook" /></a></li>
-                  <li><a href="/#"><i className="fa fa-twitter" /></a></li>
-                  <li><a href="/#"><i className="fa fa-google" /></a></li>
-                  <li><a href="/#"><i className="fa fa-behance" /></a></li>
-                  <li><a href="/#"><i className="fa fa-linkedin" /></a></li>
-                </ul>
+      {relatedProducts.length > 0 && (
+        <section className="flat-row shop-related">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="title-section margin-bottom-55">
+                  <h2 className="title">Sản phẩm liên quan</h2>
+                </div>
+                <div className="product-content product-fourcolumn clearfix">
+                  <ul className="product style2">
+                    {relatedProducts.map((product) => (
+                      <li className="product-item" key={product.ma_san_pham}>
+                        <div className="product-thumb clearfix">
+                          <a href={`/sanpham/${product.ma_san_pham}`}>
+                            <img
+                              src={`../image/product/${product.hinh_anh}`}
+                              alt={product.ten_san_pham}
+                            />
+                          </a>
+                        </div>
+                        <div className="product-info clearfix">
+                          <span className="product-title">
+                            {product.ten_san_pham}
+                          </span>
+                          <div className="price">
+                            <ins>
+                              <span className="amount">
+                                {parseInt(product.gia).toLocaleString("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                })}
+                              </span>
+                            </ins>
+                          </div>
+                        </div>
+                        <div className="add-to-cart text-center">
+                          <Link to={`/sanpham/${product.ma_san_pham}`}>
+                            Xem chi tiết
+                          </Link>
+                        </div>
+                        <a href="/#" className="like">
+                          <i className="fa fa-heart-o" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }
