@@ -364,28 +364,35 @@ button.ghost:hover {
 }
 
 .box-login .submenu {
-    width: 198px;
-    display: none; /* Ẩn menu con theo mặc định */
-    position: absolute; /* Đặt vị trí menu con */
-    background-color: white; /* Màu nền cho menu con */
-    border-top: 2px solid #ff0606; /* Đường viền cho menu con */
-    z-index: 100; /* Đảm bảo menu con nằm trên các phần tử khác */
+    width: 190px;
+    display: none;
+    /* Ẩn menu con theo mặc định */
+    position: absolute;
+    /* Đặt vị trí menu con */
+    background-color: white;
+    /* Màu nền cho menu con */
+    border-top: 2px solid #ff0606;
+    /* Đường viền cho menu con */
+    z-index: 100;
+    /* Đảm bảo menu con nằm trên các phần tử khác */
 }
 
 .box-login:hover .submenu {
-    display: block; /* Hiển thị menu con khi hover vào box-login */
+    display: block; 
 }
 
-.submenu li a{
+.submenu li a {
     margin: 10px;
-    text-decoration: none; /* Xóa gạch chân cho liên kết */
-    color: rgb(66, 65, 65); /* Màu chữ cho liên kết */
-    display: block; /* Để liên kết chiếm toàn bộ chiều rộng của mục menu */
+    text-decoration: none;
+    /* Xóa gạch chân cho liên kết */
+    color: rgb(66, 65, 65);
+    /* Màu chữ cho liên kết */
+    display: block;
+    /* Để liên kết chiếm toàn bộ chiều rộng của mục menu */
 }
 
 .submenu li:hover {
-    background-color: #f0f0f0; /* Thay đổi màu nền khi hover vào mục menu */
+    background-color: #f0f0f0;
+    /* Thay đổi màu nền khi hover vào mục menu */
 
 }
-
-
