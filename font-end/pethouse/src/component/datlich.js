@@ -122,7 +122,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/11.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/11.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -149,7 +149,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/12.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/12.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -176,7 +176,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/13.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/13.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -203,7 +203,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -228,7 +228,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -253,7 +253,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -278,7 +278,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">
@@ -303,7 +303,7 @@ function DatLich() {
     <div className="col-md-3">
       <article className="post clearfix">
         <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="image" className="img-fluid" />
+          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
         </div>
         <div className="content-post">
           <div className="title-post">

@@ -12,18 +12,22 @@ import SanPham from "./component/sanpham";
 import ChiTietSanPham from "./component/chitietsanpham";
 
 import GioHang from "./component/giohang";
+import ThanhToan from "./component/thanhtoan";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
 import Info from "./component/info";
 
 /* Admin */
-import Admin_TrangChu from "./Admin_TrangChu";
-import Admin_TaiKhoan from "./Admin_TaiKhoan";
-import Admin_TaiKhoanThem from "./Admin_TaiKhoanThem";
-import Admin_TaiKhoanSua from "./Admin_TaiKhoanSua";
-import Admin_SanPham from "./Admin_SanPham";
-import Admin_SanPhamChiTiet from "./Admin_SanPhamChiTiet";
+import AdminTrangChu from "./AdminTrangChu";
+import AdminTaiKhoan from "./AdminTaiKhoan";
+import AdminTaiKhoanThem from "./AdminTaiKhoanThem";
+import AdminTaiKhoanSua from "./AdminTaiKhoanSua";
+import AdminSanPham from "./AdminSanPham";
+import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
+import AdminDanhMuc from "./AdminDanhMuc";
+import AdminDanhMucSua from "./AdminDanhMucSua";
+import AdminDanhMucThem from "./AdminDanhMucThem";
 function App() {
   return (
     <AuthProvider>
@@ -184,7 +188,7 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path="/giohang"
           exact
           element={
@@ -208,19 +212,28 @@ function App() {
           }
         />
 
-        <Route path="/admin" exact element={<Admin_TrangChu />} />
-        <Route path="/admintaikhoan" exact element={<Admin_TaiKhoan />} />
         <Route
-          path="/admintaikhoanthem"
+          path="/formthanhtoan"
           exact
-          element={<Admin_TaiKhoanThem />}
-        />
-        <Route path="/admintaikhoansua" exact element={<Admin_TaiKhoanSua />} />
-        <Route path="/adminsanpham" exact element={<Admin_SanPham />} />
-        <Route
-          path="/adminsanphamchitiet"
-          exact
-          element={<Admin_SanPhamChiTiet />}
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
+
+              <ThanhToan />
+
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
         />
         <Route
           path="/tintuc"
@@ -256,49 +269,51 @@ function App() {
           }
         />
         <Route
-         path="/datlich"
-         exact
-         element={
-           <div>
-             <div id="site-header-wrap">
-               <header id="header" class="header header-container clearfix">
-                 <div class="container clearfix" id="site-header-inner">
-                   <Header />
-                 </div>
-               </header>
-             </div>
+          path="/datlich"
+          exact
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
+                  </div>
+                </header>
+              </div>
 
-             <DatLich />
+              <DatLich />
 
-             <footer class="footer">
-               <div class="container">
-                 <Footer />
-               </div>
-             </footer>
-           </div>
-         }
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
         />
         <Route
-            path="/login"
-            exact
-            element={
-              <div>
-                <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
-                    <div className="container clearfix" id="site-header-inner">
-                      <Header />
-                    </div>
-                  </header>
-                </div>
-                <LoginSignupForm />
-                <footer className="footer">
-                  <div className="container">
-                    <Footer />
+          path="/login"
+          exact
+          element={
+            <div>
+              <div id="site-header-wrap">
+                <header id="header" class="header header-container clearfix">
+                  <div class="container clearfix" id="site-header-inner">
+                    <Header />
                   </div>
-                </footer>
+                </header>
               </div>
-            }
-          />
+
+              <LoginSignupForm />
+
+              <footer class="footer">
+                <div class="container">
+                  <Footer />
+                </div>
+              </footer>
+            </div>
+          }
+        />
         <Route
           path="/chitietsanpham"
           exact
@@ -310,20 +325,27 @@ function App() {
             </div>
           }
         />
-        <Route path="/admin" exact element={<Admin_TrangChu />} />
-        <Route path="/admintaikhoan" exact element={<Admin_TaiKhoan />} />
+        <Route path="/admin" exact element={<AdminTrangChu />} />
+        <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
         <Route
           path="/admintaikhoanthem"
           exact
-          element={<Admin_TaiKhoanThem />}
+          element={<AdminTaiKhoanThem />}
         />
-        <Route path="/admintaikhoansua" exact element={<Admin_TaiKhoanSua />} />
-        <Route path="/adminsanpham" exact element={<Admin_SanPham />} />
+        <Route path="/admintaikhoansua" exact element={<AdminTaiKhoanSua />} />
+        <Route path="/adminsanpham" exact element={<AdminSanPham />} />
         <Route
           path="/adminsanphamchitiet"
           exact
-          element={<Admin_SanPhamChiTiet />}
+          element={<AdminSanPhamChiTiet />}
         />
+        <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
+        <Route
+          path="/admindanhmucsua/:ma_danh_muc"
+          exact
+          element={<AdminDanhMucSua />}
+        />
+        <Route path="/admindanhmucthem" exact element={<AdminDanhMucThem />} />
       </Routes>
     </BrowserRouter>
     </AuthProvider>
