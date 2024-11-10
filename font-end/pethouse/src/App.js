@@ -3,6 +3,7 @@ import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import BaoVeRoute from "./BaoVeRoute";
 
 /* User */
 import TinTuc from "./component/tintuc";
@@ -16,7 +17,7 @@ import ThanhToan from "./component/thanhtoan";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
-import Info from "./component/info";
+// import Info from "./component/info";
 
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
@@ -31,10 +32,10 @@ import AdminDanhMucThem from "./AdminDanhMucThem";
 function App() {
   return (
     <AuthProvider>
-    <BrowserRouter>
-      <Routes>
-        {/* header */}
-        {/* <div id="site-header-wrap">
+      <BrowserRouter>
+        <Routes>
+          {/* header */}
+          {/* <div id="site-header-wrap">
           <header id="header" class="header header-container clearfix">
             <div class="container clearfix" id="site-header-inner">
         <Route
@@ -48,306 +49,315 @@ function App() {
             </div>
           </header>
         </div> */}
-        {/* header */}
-        <Route
-          path="/"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
-                  </div>
-                </header>
-              </div>
-
-              <Index />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+          {/* header */}
+          <Route
+            path="/"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/tintuc"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <Index />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <TinTuc />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/tintuc"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/lienhe"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <TinTuc />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <LienHe />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/lienhe"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/sanpham"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <LienHe />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <SanPham />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/sanpham"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/chitietsanpham/:id"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <SanPham />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <ChiTietSanPham />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/chitietsanpham/:id"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/chitiettintuc"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <ChiTietSanPham />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <ChiTietTinTuc />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/chitiettintuc"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
 
-        <Route
-          path="/giohang"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+                <ChiTietTinTuc />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
+            }
+          />
 
-              <GioHang />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+          <Route
+            path="/giohang"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
 
-        <Route
-          path="/formthanhtoan"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+                <GioHang />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
+            }
+          />
 
-              <ThanhToan />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+          <Route
+            path="/formthanhtoan"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/tintuc"
-          exact
-          element={
-            <div>
-              <Header />
-              <TinTuc />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/lienhe"
-          exact
-          element={
-            <div>
-              <Header />
-              <LienHe />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/sanpham"
-          exact
-          element={
-            <div>
-              <Header />
-              <SanPham />
-              <Footer />
-            </div>
-          }
-        />
-        <Route
-          path="/datlich"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <ThanhToan />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <DatLich />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/tintuc"
+            exact
+            element={
+              <div>
+                <Header />
+                <TinTuc />
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/lienhe"
+            exact
+            element={
+              <div>
+                <Header />
+                <LienHe />
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/sanpham"
+            exact
+            element={
+              <div>
+                <Header />
+                <SanPham />
+                <Footer />
+              </div>
+            }
+          />
+          <Route
+            path="/datlich"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/login"
-          exact
-          element={
-            <div>
-              <div id="site-header-wrap">
-                <header id="header" class="header header-container clearfix">
-                  <div class="container clearfix" id="site-header-inner">
-                    <Header />
+
+                <DatLich />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
                   </div>
-                </header>
+                </footer>
               </div>
-
-              <LoginSignupForm />
-
-              <footer class="footer">
-                <div class="container">
-                  <Footer />
+            }
+          />
+          <Route
+            path="/login"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
                 </div>
-              </footer>
-            </div>
-          }
-        />
-        <Route
-          path="/chitietsanpham"
-          exact
-          element={
-            <div>
-              <Header />
-              <ChiTietSanPham />
-              <Footer />
-            </div>
-          }
-        />
-        <Route path="/admin" exact element={<AdminTrangChu />} />
-        <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
-        <Route
-          path="/admintaikhoanthem"
-          exact
-          element={<AdminTaiKhoanThem />}
-        />
-        <Route path="/admintaikhoansua" exact element={<AdminTaiKhoanSua />} />
-        <Route path="/adminsanpham" exact element={<AdminSanPham />} />
-        <Route
-          path="/adminsanphamchitiet"
-          exact
-          element={<AdminSanPhamChiTiet />}
-        />
-        <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
-        <Route
-          path="/admindanhmucsua/:ma_danh_muc"
-          exact
-          element={<AdminDanhMucSua />}
-        />
-        <Route path="/admindanhmucthem" exact element={<AdminDanhMucThem />} />
-      </Routes>
-    </BrowserRouter>
+
+                <LoginSignupForm />
+
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+          <Route
+            path="/chitietsanpham"
+            exact
+            element={
+              <div>
+                <Header />
+                <ChiTietSanPham />
+                <Footer />
+              </div>
+            }
+          />
+          {/* Admin */}
+          <Route path="/admin" exact element={<BaoVeRoute element={<AdminTrangChu />} />} />
+          <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
+          <Route
+            path="/admintaikhoanthem"
+            exact
+            element={<AdminTaiKhoanThem />}
+          />
+          <Route
+            path="/admintaikhoansua"
+            exact
+            element={<AdminTaiKhoanSua />}
+          />
+          <Route path="/adminsanpham" exact element={<AdminSanPham />} />
+          <Route
+            path="/adminsanphamchitiet"
+            exact
+            element={<AdminSanPhamChiTiet />}
+          />
+          <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
+          <Route
+            path="/admindanhmucsua/:ma_danh_muc"
+            exact
+            element={<AdminDanhMucSua />}
+          />
+          <Route
+            path="/admindanhmucthem"
+            exact
+            element={<AdminDanhMucThem />}
+          />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
