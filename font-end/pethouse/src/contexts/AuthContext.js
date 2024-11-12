@@ -8,7 +8,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -32,9 +32,6 @@ export const AuthProvider = ({ children }) => {
     // Sau khi đăng ký thành công, gọi login
   };
 
-  //Sau khi đăng nhập mới cho truy cập vào trang admin
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
     <AuthContext.Provider
       value={{
@@ -43,8 +40,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         register,
         error,
-        isLoggedIn,
-        setIsLoggedIn,
       }}
     >
       {children}

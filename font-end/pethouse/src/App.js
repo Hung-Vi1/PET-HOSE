@@ -3,7 +3,6 @@ import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import BaoVeRoute from "./BaoVeRoute";
 
 /* User */
 import TinTuc from "./component/tintuc";
@@ -327,7 +326,7 @@ function App() {
             }
           />
           {/* Admin */}
-          <Route path="/admin" exact element={<BaoVeRoute element={<AdminTrangChu />} />} />
+          <Route path="/admin" exact element={<AdminTrangChu />} />
           <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
           <Route
             path="/admintaikhoanthem"

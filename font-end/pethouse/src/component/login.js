@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext"; // Nhập useAuth từ AuthContext
 import "../App.css";
 
 const LoginSignupForm = () => {
-  const { setIsLoggedIn } = useAuth(); // Lấy hàm setIsLoggedIn từ context
 
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  const navigate = useNavigate();
   const { login } = useAuth(); // Lấy hàm login từ context
 
   // Formik cho Đăng Ký
@@ -113,10 +110,7 @@ const LoginSignupForm = () => {
         const userData = await response.json(); // Giả sử phản hồi chứa thông tin người dùng
         const name = userData.Hovaten || values.email; // Lấy tên người dùng từ phản hồi
         login(name); // Gọi hàm login với tên người dùng
-        setIsLoggedIn(true);
         alert("Đăng nhập thành công!");
-        navigate("/"); // Chuyển hướng về trang chủ
-        
       } catch (error) {
         setFieldError("general", error.message);
       } finally {
