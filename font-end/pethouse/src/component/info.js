@@ -1,30 +1,37 @@
-// AccountInfo.js
-import React from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Info = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const { user, isLoggedIn, setIsLoggedIn } = useAuth();
 
-  const handleAdminPage = () => {
-    navigate("/admin"); // Đường dẫn đến trang admin
-  };
+  // Kiểm tra quyền của người dùng
+  const isAdmin = user && user.role === 'admin';
 
   return (
-    <div>
-      <h1>Thông Tin Tài Khoản</h1>
-      {user ? (
-        <>
-          <p>Tên: {user.name}</p>
+    <div className="info-container">
+      <h1>Thông tin tài khoản</h1>
+      {isLoggedIn ? (
+        <div>
+          <p>Họ và tên: {user.name}</p>
           <p>Email: {user.email}</p>
-          <p>Vai trò: {user.role === 1 ? "Admin" : "Khách hàng"}</p>
-          {user.role === 1 && (
-            <button onClick={handleAdminPage}>Đến trang admin</button>
+          <p>Số điện thoại: {user.phone}</p>
+          <p>Địa chỉ: {user.address}</p>
+          {isAdmin ? (
+            <div>
+              <h2>Quyền Admin</h2>
+              <p>Bạn có quyền truy cập vào trang admin.</p>
+              <Link to="/admin">Đi đến trang Admin</Link>
+            </div>
+          ) : (
+            <div>
+              <h2>Quyền Khách Hàng</h2>
+              <p>Bạn chỉ có thể xem thông tin tài khoản của mình.</p>
+            </div>
           )}
-        </>
+        </div>
       ) : (
-        <p>Vui lòng đăng nhập để xem thông tin tài khoản.</p>
+        <p>Bạn chưa đăng nhập. Vui lòng đăng nhập để xem thông tin tài khoản.</p>
       )}
     </div>
   );

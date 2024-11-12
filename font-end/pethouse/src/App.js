@@ -17,7 +17,7 @@ import ThanhToan from "./component/thanhtoan";
 
 import DatLich from "./component/datlich";
 import LoginSignupForm from "./component/login";
-// import Info from "./component/info";
+import Info from "./component/info";
 
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
@@ -304,9 +304,28 @@ function App() {
                     </div>
                   </header>
                 </div>
-
                 <LoginSignupForm />
-
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+          <Route
+            path="/info"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <Info />
                 <footer class="footer">
                   <div class="container">
                     <Footer />

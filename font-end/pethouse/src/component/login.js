@@ -7,7 +7,6 @@ import "../App.css";
 
 const LoginSignupForm = () => {
   const { setIsLoggedIn } = useAuth(); // Lấy hàm setIsLoggedIn từ context
-
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth(); // Lấy hàm login từ context
@@ -104,7 +103,6 @@ const LoginSignupForm = () => {
             Matkhau: values.password,
           }),
         });
-
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
