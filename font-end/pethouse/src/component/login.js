@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext"; // Nhập useAuth từ AuthContext
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const LoginSignupForm = () => {
+  const navigate = useNavigate(); // Khởi tạo useNavigate
 
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  const { login } = useAuth(); // Lấy hàm login từ context
+  const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login từ context
 
   // Formik cho Đăng Ký
   const signupFormik = useFormik({
@@ -82,12 +84,6 @@ const LoginSignupForm = () => {
       email: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Email không hợp lệ")
-        .required("Vui lòng nhập email"),
-      password: Yup.string().required("Vui lòng nhập mật khẩu"),
-    }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/dangnhap", {
@@ -107,10 +103,13 @@ const LoginSignupForm = () => {
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
 
-        const userData = await response.json(); // Giả sử phản hồi chứa thông tin người dùng
-        const name = userData.Hovaten || values.email; // Lấy tên người dùng từ phản hồi
+        const userData = await response.json();
+        const name = userData.Hovaten || values.email;
         login(name); // Gọi hàm login với tên người dùng
+        setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
         alert("Đăng nhập thành công!");
+
+        navigate("/"); // Chuyển hướng đến trang Admin
       } catch (error) {
         setFieldError("general", error.message);
       } finally {

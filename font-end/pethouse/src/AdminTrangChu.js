@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTrangChu() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập

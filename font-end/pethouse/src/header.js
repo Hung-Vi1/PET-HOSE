@@ -72,7 +72,7 @@ function Header() {
         <span />
       </div>
 
-      <ul className="menu-extra">
+      <ul className="menu-extra menu">
         <li className="box-search">
           <a className="icon_search header-search-icon" href="/#" />
           <form
@@ -108,7 +108,15 @@ function Header() {
                 {user.length > 4}
               </span>
               {isDropdownOpen && (
-                <ul className="submenu ps-2">
+                <ul className="submenu px-2">
+                  <li className="m-0">
+                    <Link className="text-nowrap" to="/admin">
+                      Trang quản trị
+                    </Link>
+                  </li>
+                  <li>
+                    <hr></hr>
+                  </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
                       Thông tin tài khoản
