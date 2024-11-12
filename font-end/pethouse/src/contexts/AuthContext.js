@@ -33,6 +33,10 @@ export const AuthProvider = ({ children }) => {
     // Sau khi đăng ký thành công, gọi login
   };
 
+  const hasPermission = (permission) => {
+    return user && user.Quyen === permission; // Kiểm tra quyền
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -44,6 +48,7 @@ export const AuthProvider = ({ children }) => {
         setError,
         isLoggedIn,
         setIsLoggedIn, // Có thể dùng nếu cần từ bên ngoài
+        hasPermission, // Xuất hàm kiểm tra quyền
       }}
     >
       {children}

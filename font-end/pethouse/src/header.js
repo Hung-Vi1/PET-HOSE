@@ -6,7 +6,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
   const [cart, setCart] = useState([]);
-  const { user, logout } = useAuth(); // Nhập user và logout từ AuthContext
+  const { user, hasPermission, logout } = useAuth(); // Nhập user và logout từ AuthContext
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -109,13 +109,15 @@ function Header() {
               </span>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
-                  <li className="m-0">
-                    <Link className="text-nowrap" to="/admin">
-                      Trang quản trị
-                    </Link>
-                  </li>
+                  {hasPermission(1) && ( // Kiểm tra quyền
+                    <li className="m-0">
+                      <Link className="text-nowrap" to="/admin">
+                        Trang quản trị
+                      </Link>
+                    </li>
+                  )}
                   <li>
-                    <hr></hr>
+                    <hr />
                   </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
@@ -130,7 +132,7 @@ function Header() {
                   <li>
                     <a
                       style={{ cursor: "pointer" }}
-                      onClick={handleLogout}
+                      onClick={logout}
                       className="text-nowrap"
                     >
                       Đăng Xuất
