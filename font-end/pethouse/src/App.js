@@ -3,7 +3,6 @@ import Index from "./component";
 import Footer from "./footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import BaoVeRoute from "./BaoVeRoute";
 
 /* User */
 import TinTuc from "./component/tintuc";
@@ -29,27 +28,13 @@ import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
 import AdminDanhMuc from "./AdminDanhMuc";
 import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
+import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* header */}
-          {/* <div id="site-header-wrap">
-          <header id="header" class="header header-container clearfix">
-            <div class="container clearfix" id="site-header-inner">
-        <Route
-          path="/"
-          exact
-          element={
-            <div>
-              <Header />
-              <Index />
-              <Footer />
-            </div>
-          </header>
-        </div> */}
-          {/* header */}
           <Route
             path="/"
             exact
@@ -73,6 +58,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/tintuc"
             exact
@@ -96,6 +82,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/lienhe"
             exact
@@ -119,6 +106,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/sanpham"
             exact
@@ -142,6 +130,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/chitietsanpham/:id"
             exact
@@ -165,6 +154,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/chitiettintuc"
             exact
@@ -236,6 +226,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/tintuc"
             exact
@@ -247,6 +238,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/lienhe"
             exact
@@ -258,6 +250,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/sanpham"
             exact
@@ -269,6 +262,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/datlich"
             exact
@@ -292,6 +286,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/login"
             exact
@@ -334,6 +329,7 @@ function App() {
               </div>
             }
           />
+
           <Route
             path="/chitietsanpham"
             exact
@@ -346,8 +342,16 @@ function App() {
             }
           />
           {/* Admin */}
-          <Route path="/admin" exact element={<BaoVeRoute element={<AdminTrangChu />} />} />
-          <Route path="/admintaikhoan" exact element={<AdminTaiKhoan />} />
+          <Route
+            path="/admin"
+            exact
+            element={<BaoVeRoute element={<AdminTrangChu />} />}
+          />
+          <Route
+            path="/admintaikhoan"
+            exact
+            element={<BaoVeRoute element={<AdminTaiKhoan />} />}
+          />
           <Route
             path="/admintaikhoanthem"
             exact
