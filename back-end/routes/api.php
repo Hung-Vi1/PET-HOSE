@@ -28,6 +28,7 @@ Route::post('/guiemail', [UserController::class, 'GuiEmail']);
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::put('/users/{id}', [UserController::class, 'update']); 
+Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']); 
 
 use App\Http\Controllers\CategoryApiController;
 Route::get('/category', [CategoryApiController::class, 'index']);

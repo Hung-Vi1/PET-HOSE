@@ -1445,6 +1445,55 @@
                     }
                 }
             }
+        },
+        "/api/users/show/{Mataikhoan}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Lấy thông tin tài khoản",
+                "description": "Trả về thông tin chi tiết của một danh mục cụ thể.",
+                "operationId": "dd34a85a1c89749910a21d5aeabdd2bd",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID user cần lấy",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            }
         }
     },
     "components": {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Resources\UserResource;
 
 /**
  * @OA\Info(
@@ -54,11 +55,11 @@ class UserController extends Controller
             'Email' => 'required|email',
             'Matkhau' => 'required|string',
         ]);
-        
+
         if ($credentials->fails()) {
             return response()->json($credentials->errors(), 400);
-        } 
-        
+        }
+
         $user = User::where('Email', $request->Email)->first();
 
         $canlogin = false;
@@ -77,7 +78,6 @@ class UserController extends Controller
                 'user' => $user,
             ], 400);
         }
-        
     }
 
 
@@ -137,14 +137,14 @@ class UserController extends Controller
             'Quyen' => 0,
             'Matkhau' => Hash::make($request->Matkhau),
         ]);
-    
+
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user
         ], 201);
     }
-    
-/**
+
+    /**
      * Thêm mới một người dùng
      * 
      * @OA\Post(
@@ -315,5 +315,51 @@ class UserController extends Controller
             'message' => 'User updated successfully',
             'user' => $user
         ], 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/users/show/{Mataikhoan}",
+     *     tags={"Users"},
+     *     summary="Lấy thông tin tài khoản",
+     *     description="Trả về thông tin chi tiết của một danh mục cụ thể.",
+     *     @OA\Parameter(
+     *         name="Mataikhoan",
+     *         in="path",
+     *         required=true,
+     *         description="ID user cần lấy",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lấy dữ liệu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
+     *          
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Lỗi khi lấy dữ liệu"),
+     *     @OA\Response(response=404, description="Danh mục không tìm thấy")
+     * )
+     */
+
+    public function show($Mataikhoan)
+    {
+        //GET
+        try {
+            $user = User::findOrFail($Mataikhoan);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Lấy dữ liệu thành công',
+                'data' => new UserResource($user)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 400);
+        }
     }
 }
