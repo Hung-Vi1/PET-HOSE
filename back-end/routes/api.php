@@ -53,3 +53,18 @@ Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orders/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
+
+use App\Http\Controllers\CatagoryNewsApiController;
+Route::get('/catagorysNews', [CatagoryNewsApiController::class, 'index']);
+Route::post('/catagorysNews/store', [CatagoryNewsApiController::class, 'store']);
+Route::get('/catagorysNews/{MaDMBV}', [CatagoryNewsApiController::class, 'show']);
+Route::put('/catagorysNews/update/{MaDMBV}', [CatagoryNewsApiController::class, 'update']);
+Route::delete('/catagorysNews/destroy/{MaDMBV}', [CatagoryNewsApiController::class, 'destroy']);
+
+use App\Http\Controllers\NewsApiController;
+Route::get('/News', [NewsApiController::class, 'index']);
+Route::get('/News/{id}', [NewsApiController::class, 'show']);
+Route::post('/News/store', [NewsApiController::class, 'store']);
+Route::put('/News/{id}', [NewsApiController::class, 'update']);
+Route::delete('/News/{id}', [NewsApiController::class, 'destroy']);
+

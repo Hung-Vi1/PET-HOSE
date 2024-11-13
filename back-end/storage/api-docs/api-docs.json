@@ -6,6 +6,286 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/catagorysNews": {
+            "get": {
+                "tags": [
+                    "DanhMucBaiViet"
+                ],
+                "summary": "Lấy danh sách danh mục bài viết",
+                "description": "Trả về danh sách tất cả các danh mục bài viết.",
+                "operationId": "da2d248ed4fdba59aebf3ff5177d40e7",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CatagoryNewsResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/catagorysNews/store": {
+            "post": {
+                "tags": [
+                    "DanhMucBaiViet"
+                ],
+                "summary": "Thêm mới một danh mục bài viết",
+                "description": "Tạo một danh mục bài viết mới với các thông tin đã được cung cấp",
+                "operationId": "0b2c7bdf398e0e82523e29d1c0ed6f46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "TenDM"
+                                ],
+                                "properties": {
+                                    "TenDMBV": {
+                                        "type": "string",
+                                        "example": "Tên danh mục"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "MaDMBV": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "TenDM": {
+                                                    "type": "string",
+                                                    "example": "Tên danh mục"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc lỗi khác",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/catagorysNews/{MaDMBV}": {
+            "get": {
+                "tags": [
+                    "DanhMucBaiViet"
+                ],
+                "summary": "Lấy thông tin danh mục",
+                "description": "Trả về thông tin chi tiết của một danh mục cụ thể.",
+                "operationId": "263cf56303be63220054df51fa364314",
+                "parameters": [
+                    {
+                        "name": "MaDMBV",
+                        "in": "path",
+                        "description": "ID của danh mục cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CatagoryNewsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/catagorysNews/update/{MaDMBV}": {
+            "put": {
+                "tags": [
+                    "DanhMucBaiViet"
+                ],
+                "summary": "Cập nhật danh mục",
+                "description": "Cập nhật thông tin của một danh mục cụ thể.",
+                "operationId": "5c2aec9b21654068a3f9f1011dca79d7",
+                "parameters": [
+                    {
+                        "name": "MaDMBV",
+                        "in": "path",
+                        "description": "ID của danh mục cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "TenDMBV": {
+                                        "type": "string",
+                                        "example": "Danh mục mới"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Category updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CatagoryNewsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/catagorysNews/destroy/{MaDMBV}": {
+            "delete": {
+                "tags": [
+                    "DanhMucBaiViet"
+                ],
+                "summary": "Xóa danh mục",
+                "description": "Xóa một danh mục theo ID.",
+                "operationId": "1406be6447d3130c1178b0c4fc20b479",
+                "parameters": [
+                    {
+                        "name": "MaDMBV",
+                        "in": "path",
+                        "description": "ID của danh mục cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
         "/api/category": {
             "get": {
                 "tags": [
@@ -298,6 +578,374 @@
                         "name": "MaDanhMuc",
                         "in": "path",
                         "description": "ID của danh mục cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/News": {
+            "get": {
+                "tags": [
+                    "BaiViet"
+                ],
+                "summary": "Lấy danh sách  bài viết",
+                "description": "Trả về danh sách tất cả các  bài viết.",
+                "operationId": "236d18c73d4a2571a94b8238a685cb47",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NewsResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/News/store": {
+            "post": {
+                "tags": [
+                    "BaiViet"
+                ],
+                "summary": "Thêm mới một bài viết",
+                "description": "Tạo một bài viết mới với các thông tin đã được cung cấp",
+                "operationId": "6e856aa25d7cab9cb80ac630baae2499",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "MaDMBV",
+                                    "TieuDe",
+                                    "anh",
+                                    "NoiDung",
+                                    "ChiTiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "MaDMBV": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "TieuDe": {
+                                        "type": "string",
+                                        "example": "Tiêu đề bài viết"
+                                    },
+                                    "anh": {
+                                        "type": "string",
+                                        "example": "abc.jpg"
+                                    },
+                                    "NoiDung": {
+                                        "type": "string",
+                                        "example": "Nội dung bài viết"
+                                    },
+                                    "ChiTiet": {
+                                        "type": "string",
+                                        "example": "Chi tiết bài viết"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NewsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc lỗi khác",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/News/{id}": {
+            "get": {
+                "tags": [
+                    "BaiViet"
+                ],
+                "summary": "Lấy thông tin chi tiết bài viết",
+                "description": "Trả về thông tin chi tiết của một bài viết cụ thể.",
+                "operationId": "7bc188d0af06c051b85d4e236e5471ca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của bài viết cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NewsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "BaiViet"
+                ],
+                "summary": "Cập nhật thông tin bài viết",
+                "description": "Cập nhật thông tin của một bài viết dựa trên ID.",
+                "operationId": "updateNews",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của bài viết cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Thông tin bài viết mới",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "MaDMBV",
+                                    "TieuDe",
+                                    "NoiDung",
+                                    "ChiTiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "MaDMBV": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "TieuDe": {
+                                        "type": "string",
+                                        "example": "viết"
+                                    },
+                                    "anh": {
+                                        "type": "string",
+                                        "example": "image.jpg"
+                                    },
+                                    "NoiDung": {
+                                        "type": "string",
+                                        "example": "Nội dung bài viết"
+                                    },
+                                    "ChiTiet": {
+                                        "type": "string",
+                                        "example": "Chi tiết bài viết"
+                                    },
+                                    "LuotXem": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "BinhLuan": {
+                                        "type": "string",
+                                        "example": "Bình luận bài viết"
+                                    },
+                                    "TrangThai": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật bài viết thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "news updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/NewsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi cập nhật bài viết",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "message error"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi hệ thống",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "BaiViet"
+                ],
+                "summary": "Xóa bài viết",
+                "description": "Xóa một bài viết theo ID.",
+                "operationId": "d7668e1620239d20e1724d0d1bfccacb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của bài viết cần xóa",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1498,6 +2146,19 @@
     },
     "components": {
         "schemas": {
+            "CatagoryNewsResource": {
+                "properties": {
+                    "MaDMBV": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TenDMBV": {
+                        "type": "string",
+                        "example": "Danh mục bài viết 1"
+                    }
+                },
+                "type": "object"
+            },
             "CategoryResource": {
                 "properties": {
                     "MaDanhMuc": {
@@ -1515,6 +2176,51 @@
                     "loai": {
                         "type": "integer",
                         "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "NewsResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Mataikhoan": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "MaDMBV": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TieuDe": {
+                        "type": "string",
+                        "example": "Bài viết về công nghệ"
+                    },
+                    "anh": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "NoiDung": {
+                        "type": "string",
+                        "example": "Đây là nội dung của bài viết."
+                    },
+                    "ChiTiet": {
+                        "type": "string",
+                        "example": "Chi tiết bài viết về công nghệ mới."
+                    },
+                    "LuotXem": {
+                        "type": "integer",
+                        "example": 150
+                    },
+                    "BinhLuan": {
+                        "type": "string",
+                        "example": "20"
+                    },
+                    "TrangThai": {
+                        "type": "string",
+                        "example": 1
                     }
                 },
                 "type": "object"
@@ -1611,8 +2317,16 @@
     },
     "tags": [
         {
+            "name": "DanhMucBaiViet",
+            "description": "DanhMucBaiViet"
+        },
+        {
             "name": "DanhMuc",
             "description": "DanhMuc"
+        },
+        {
+            "name": "BaiViet",
+            "description": "BaiViet"
         },
         {
             "name": "DonHang",

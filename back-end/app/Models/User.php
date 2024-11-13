@@ -37,7 +37,7 @@ class User extends Authenticatable
      */
     public function baiViets()
     {
-        return $this->hasMany(BaiViet::class, 'MaTaiKhoan');
+        return $this->hasMany(BaiViet::class, 'MataiKhoan');
     }
 
     /**
@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function lienHes()
     {
-        return $this->hasMany(LienHe::class, 'MaTaiKhoan');
+        return $this->hasMany(LienHe::class, 'MataiKhoan');
     }
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
     public function danhGias()
     {
-        return $this->hasMany(DanhGia::class, 'MaTaiKhoan');
+        return $this->hasMany(DanhGia::class, 'MataiKhoan');
     }
 
     /**
@@ -61,7 +61,7 @@ class User extends Authenticatable
      */
     public function donHangs()
     {
-        return $this->hasMany(DonHang::class, 'MaTaiKhoan');
+        return $this->hasMany(DonHang::class, 'MataiKhoan');
     }
 
     /**
