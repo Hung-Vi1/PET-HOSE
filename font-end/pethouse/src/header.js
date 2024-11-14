@@ -109,13 +109,11 @@ function Header() {
               </h7>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
-                  {hasPermission(1) && ( // Kiểm tra quyền
-                    <li className="m-0">
-                      <Link className="text-nowrap" to="/admin">
-                        Trang quản trị
-                      </Link>
-                    </li>
-                  )}
+                  <li className="m-0">
+                    <Link className="text-nowrap" to="/admin">
+                      Trang quản trị
+                    </Link>
+                  </li>
                   <li>
                     <hr />
                   </li>

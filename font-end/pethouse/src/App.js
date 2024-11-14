@@ -26,7 +26,7 @@ import AdminTaiKhoan from "./AdminTaiKhoan";
 import AdminTaiKhoanThem from "./AdminTaiKhoanThem";
 import AdminTaiKhoanSua from "./AdminTaiKhoanSua";
 import AdminSanPham from "./AdminSanPham";
-import AdminSanPhamChiTiet from "./AdminSanPhamChiTiet";
+import AdminSanPhamSua from "./AdminSanPhamSua";
 import AdminDanhMuc from "./AdminDanhMuc";
 import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
@@ -406,11 +406,7 @@ function App() {
             element={<AdminTaiKhoanSua />}
           />
           <Route path="/adminsanpham" exact element={<AdminSanPham />} />
-          <Route
-            path="/adminsanphamchitiet"
-            exact
-            element={<AdminSanPhamChiTiet />}
-          />
+          <Route path="/adminsanphamsua/:ma_san_pham" exact element={<AdminSanPhamSua />} />
           <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
           <Route
             path="/admindanhmucsua/:ma_danh_muc"
