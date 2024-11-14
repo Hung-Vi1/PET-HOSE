@@ -103,10 +103,10 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <span className="m-2">
+              <h7 className="m-2">
                 {user.slice(0, 4)}
                 {user.length > 4}
-              </span>
+              </h7>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
                   <li className="m-0">
@@ -119,7 +119,7 @@ function Header() {
                   </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
-                      Thông tin tài khoản
+                      Tài khoảng của tôi
                     </Link>
                   </li>
                   <li>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext"; // Nhập useAuth từ AuthContext
@@ -6,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const LoginSignupForm = () => {
-  const navigate = useNavigate(); // Khởi tạo useNavigate
 
+  const navigate = useNavigate(); // Khởi tạo useNavigate
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login từ context
 
@@ -97,7 +98,6 @@ const LoginSignupForm = () => {
             Matkhau: values.password,
           }),
         });
-
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
@@ -208,7 +208,7 @@ const LoginSignupForm = () => {
             {loginFormik.touched.password && loginFormik.errors.password && (
               <div className="text-danger">{loginFormik.errors.password}</div>
             )}
-            <a href="/#">Quên mật khẩu?</a>
+            <Link className="text-nowrap" to="/Password">Quên mật khẩu?</Link>
             <br />
             <button
               className="mt-4 rounded"
