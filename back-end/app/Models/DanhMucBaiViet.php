@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DanhMucBaiViet extends Model
 {
     use HasFactory;
-
+    protected $table = 'dm_baiviet';
     protected $primaryKey = 'MaDMBV'; // Chỉ định khóa chính
    
        /**

@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class BaiViet extends Model
 {
     use HasFactory;
-    
+    protected $table = 'bai_viet';
+    protected $primaryKey = 'id'; // Chỉ định khóa chính
     protected $fillable = [
-        'MaTaiKhoan',
+        'Mataikhoan',
         'MaDMBV',
         'TieuDe',
+        'anh',
         'NoiDung',
         'ChiTiet',
         'LuotXem',
@@ -25,7 +27,7 @@ class BaiViet extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'MaTaiKhoan');
+        return $this->belongsTo(User::class, 'Mataikhoan');
     }
 
     /**

@@ -272,7 +272,7 @@ function AdminSanPhamSua() {
                         </div>
                         <div className="col-md">
                           <label htmlFor="NgayTao" className="form-label">
-                            Ngày tạo
+                            Ngày tạoo
                           </label>
                           <input
                             type="text"

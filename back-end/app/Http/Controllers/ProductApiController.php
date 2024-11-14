@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use OpenApi\Annotations as OA;
 use App\Models\SanPham;
+use App\Models\DanhMuc;
 use App\Http\Resources\ProductResource;
 
 /**
@@ -72,12 +73,80 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    
+/**
+ * @OA\Get(
+ *     path="/api/products/sanPhamTheoDM/{MaDanhMuc}",
+ *     tags={"SanPham"},
+ *     summary="Lấy danh sách sản phẩm theo mã danh mục",
+ *     description="Trả về danh sách sản phẩm thuộc một danh mục cụ thể, chỉ khi danh mục có parent_id.",
+ *     @OA\Parameter(
+ *         name="MaDanhMuc",
+ *         in="path",
+ *         required=true,
+ *         description="Mã danh mục cần lấy sản phẩm",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Lấy dữ liệu thành công",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="message", type="string", example="Dữ liệu được lấy thành công"),
+ *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ProductResource"))
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Danh mục không tồn tại hoặc không có parent_id",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="fail"),
+ *             @OA\Property(property="message", type="string", example="Danh mục không tồn tại hoặc không có parent_id"),
+ *             @OA\Property(property="data", type="null")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Lỗi máy chủ",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="fail"),
+ *             @OA\Property(property="message", type="string", example="Lỗi máy chủ"),
+ *             @OA\Property(property="data", type="null")
+ *         )
+ *     )
+ * )
+ */
+    public function sanPhamTheoDM($MaDanhMuc)
     {
-        //
+        try {
+            // Kiểm tra nếu danh mục có parent_id khác null
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
+    
+            // Nếu không tìm thấy danh mục hoặc không có parent_id
+            if (!$danhMuc) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Danh mục không tồn tại hoặc không có danh mục con',
+                    'data' => null
+                ], 404);
+            }
+    
+            // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
     }
 
     /**
