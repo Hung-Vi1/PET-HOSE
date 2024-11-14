@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext"; // Nhập useAuth từ AuthContext
@@ -207,7 +208,7 @@ const LoginSignupForm = () => {
             {loginFormik.touched.password && loginFormik.errors.password && (
               <div className="text-danger">{loginFormik.errors.password}</div>
             )}
-            <a href="/#">Quên mật khẩu?</a>
+            <Link className="text-nowrap" to="/Password">Quên mật khẩu?</Link>
             <br />
             <button
               className="mt-4 rounded"
