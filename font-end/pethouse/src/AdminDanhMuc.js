@@ -229,13 +229,27 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
     <>
       {spTrongTrang.map((dm, i) => {
         let loaiDanhMuc;
-        if (dm.parent_id === 0) {
-          loaiDanhMuc = "Thư mục cha";
-        } else if (dm.parent_id === 1) {
-          loaiDanhMuc = "Thư mục cha -> Chó";
-        } else {
-          loaiDanhMuc = "Thư mục cha -> Mèo";
+        const parentId = parseInt(dm.parent_id, 10); // Chuyển đổi parent_id từ chuỗi sang số
+
+        // Kiểm tra giá trị parentId để xác định loại danh mục
+        switch (parentId) {
+          case 0:
+            loaiDanhMuc = "Thư mục cha";
+            break;
+          case 1:
+            loaiDanhMuc = "Thư mục cha -> Chó";
+            break;
+          case 2:
+            loaiDanhMuc = "Thư mục cha -> Mèo";
+            break;
+          default:
+            loaiDanhMuc = "Khác"; // Hoặc xử lý cho các trường hợp khác
+            break;
         }
+
+        console.log(
+          `Danh mục: ${dm.ten_danh_muc}, parent_id: ${parentId}, loại: ${loaiDanhMuc}`
+        ); // Kiểm tra thông tin
 
         return (
           <tr key={dm.ma_danh_muc}>
