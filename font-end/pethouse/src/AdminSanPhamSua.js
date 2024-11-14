@@ -272,7 +272,7 @@ function AdminSanPhamSua() {
                         </div>
                         <div className="col-md">
                           <label htmlFor="NgayTao" className="form-label">
-                            Ngày tạoo
+                            Ngày tạo
                           </label>
                           <input
                             type="text"
@@ -372,7 +372,7 @@ function AdminSanPhamSua() {
                       <img
                         className="w-75 pt-2 pb-4"
                         src={`../image/product/${hinh_anh}`}
-                        alt="Sản phẩm"
+                        alt={hinh_anh}
                       />
 
                       <div className="d-flex justify-content-center py-2">
