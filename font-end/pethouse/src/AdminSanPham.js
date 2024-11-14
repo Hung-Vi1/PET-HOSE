@@ -235,7 +235,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">
                 <img
                   src={`image/product/${sp.hinh_anh}`}
-                  alt="image/san_pham_1.webp"
+                  alt={`image/product/${sp.hinh_anh}`}
                   style={{ width: "100px" }}
                 />
               </td>
