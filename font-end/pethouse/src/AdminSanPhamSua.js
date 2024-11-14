@@ -1,9 +1,8 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import "./App.css";
 
-function AdminSanPhamChiTiet() {
+function AdminSanPhamSua() {
   // Xóa sản phẩm
   /*   const [ganSP] = useState([]);
   const xoaSanPham = (maSP) => {
@@ -37,27 +36,65 @@ function AdminSanPhamChiTiet() {
     }
   }; */
 
-  // Form
-  const [TenSanPham, setTenSanPham] = useState("");
-  const [MaSP, setMaSP] = useState("");
-  const [created_at, setcreated_at] = useState("");
-  const [MaDanhMuc, setMaDanhMuc] = useState("");
-  const [updated_at, setupdated_at] = useState("");
-  const [MoTa, setMoTa] = useState("");
-  const [GiaSP, setGiaSP] = useState("");
-  const [GiamGia, setGiamGia] = useState("");
+  const [ten_san_pham, setten_san_pham] = useState("");
+  const { ma_san_pham } = useParams(); // Sử dụng destructuring để lấy ma_san_pham
+  const [ngay_tao, setngay_tao] = useState("");
+  const [tenDM, settenDM] = useState("");
+  const [ngay_cap_nhat, setngay_cap_nhat] = useState("");
+  const [mo_ta, setmo_ta] = useState("");
+  const [gia, setgia] = useState("");
+  const [giam_gia, setgiam_gia] = useState("");
+  const [hinh_anh, sethinh_anh] = useState("");
+  const [error, setError] = useState(null);
+
+  // Lấy thông tin sản phẩm theo mã sản phẩm
+  useEffect(() => {
+    if (ma_san_pham) {
+      fetch(`http://localhost:8000/api/products/${ma_san_pham}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Không thể lấy thông tin sản phẩm");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          if (data && data.status === "success" && data.data) {
+            const sp = data.data;
+            if (typeof sp === "object") {
+              // Kiểm tra sp có phải là đối tượng không
+              setten_san_pham(sp.ten_san_pham || "");
+              setngay_tao(sp.ngay_tao || "");
+              settenDM(sp.tenDM || "");
+              setngay_cap_nhat(sp.ngay_cap_nhat || "");
+              setmo_ta(sp.mo_ta || "");
+              setgia(sp.gia || "");
+              setgiam_gia(sp.giam_gia || "");
+              sethinh_anh(sp.hinh_anh || "");
+            } else {
+              throw new Error("Dữ liệu sản phẩm không hợp lệ");
+            }
+          } else {
+            throw new Error(data.message || "Không có dữ liệu");
+          }
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    }
+  }, [ma_san_pham]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Xử lý dữ liệu ở đây, ví dụ: gửi đến API
-    console.log("TenSanPham:", TenSanPham);
-    console.log("MaSP:", MaSP);
-    console.log("NgayTao:", created_at);
-    console.log("LoaiSanPham:", MaDanhMuc);
-    console.log("NgayCapNhat:", updated_at);
-    console.log("MoTa:", MoTa);
-    console.log("GiaSP:", GiaSP);
-    console.log("GiamGia:", GiamGia);
+    console.log("TenSanPham:", ten_san_pham);
+    console.log("MaSP:", ma_san_pham);
+    console.log("NgayTao:", ngay_tao);
+    console.log("LoaiSanPham:", tenDM);
+    console.log("NgayCapNhat:", ngay_cap_nhat);
+    console.log("MoTa:", mo_ta);
+    console.log("GiaSP:", gia);
+    console.log("GiamGia:", giam_gia);
+    console.log("Hinhanh:", hinh_anh);
   };
 
   return (
@@ -69,7 +106,7 @@ function AdminSanPhamChiTiet() {
           style={{ minHeight: "100vh" }}
         >
           <img
-            src="image/Nen_trong_suot.png"
+            src="../image/Nen_trong_suot.png"
             className="d-block w-75 mx-auto"
             alt="Background"
           />
@@ -190,7 +227,7 @@ function AdminSanPhamChiTiet() {
               >
                 <i className="bi bi-arrow-left"></i>
               </Link>
-              <h1 className="mb-0">Balo vận chuyển chó mèo Phi hành</h1>
+              <h1 className="mb-0">{ten_san_pham || "Chỉnh sửa sản phẩm"}</h1>
             </div>
 
             <div className="d-flex flex-wrap">
@@ -209,8 +246,8 @@ function AdminSanPhamChiTiet() {
                           className="form-control"
                           id="TenSanPham"
                           aria-describedby="TenSanPhamlHelp"
-                          value={TenSanPham}
-                          onChange={(e) => setTenSanPham(e.target.value)}
+                          value={ten_san_pham}
+                          onChange={(e) => setten_san_pham(e.target.value)}
                         />
                         <div
                           id="TenSanPhamlHelp"
@@ -229,8 +266,8 @@ function AdminSanPhamChiTiet() {
                             type="text"
                             className="form-control"
                             id="MaSP"
-                            value={MaSP}
-                            onChange={(e) => setMaSP(e.target.value)}
+                            value={ma_san_pham}
+                            readOnly
                           />
                         </div>
                         <div className="col-md">
@@ -241,8 +278,8 @@ function AdminSanPhamChiTiet() {
                             type="text"
                             className="form-control"
                             id="NgayTao"
-                            value={created_at}
-                            onChange={(e) => setcreated_at(e.target.value)}
+                            value={ngay_tao}
+                            onChange={(e) => setngay_tao(e.target.value)}
                           />
                         </div>
                       </div>
@@ -256,8 +293,8 @@ function AdminSanPhamChiTiet() {
                             type="text"
                             className="form-control"
                             id="LoaiSanPham"
-                            value={MaDanhMuc}
-                            onChange={(e) => setMaDanhMuc(e.target.value)}
+                            value={tenDM}
+                            onChange={(e) => settenDM(e.target.value)}
                           />
                         </div>
                         <div className="col-md">
@@ -268,8 +305,8 @@ function AdminSanPhamChiTiet() {
                             type="text"
                             className="form-control"
                             id="NgayCapNhat"
-                            value={updated_at}
-                            onChange={(e) => setupdated_at(e.target.value)}
+                            value={ngay_cap_nhat}
+                            onChange={(e) => setngay_cap_nhat(e.target.value)}
                           />
                         </div>
                       </div>
@@ -282,9 +319,9 @@ function AdminSanPhamChiTiet() {
                           type="text"
                           className="form-control"
                           id="MoTa"
-                          rows={2}
-                          value={MoTa}
-                          onChange={(e) => setMoTa(e.target.value)}
+                          rows={3}
+                          value={mo_ta}
+                          onChange={(e) => setmo_ta(e.target.value)}
                         />
                       </div>
                     </form>
@@ -333,12 +370,12 @@ function AdminSanPhamChiTiet() {
 
                     <div className="text-center">
                       <img
-                        className="w-75 mt-5"
-                        src="image/san_pham_1.webp"
+                        className="w-75 pt-2 pb-4"
+                        src={`../image/product/${hinh_anh}`}
                         alt="Sản phẩm"
                       />
 
-                      <div className="d-flex justify-content-center">
+                      <div className="d-flex justify-content-center py-2">
                         <input
                           className="form-control form-control-lg"
                           type="file"
@@ -367,11 +404,11 @@ function AdminSanPhamChiTiet() {
                           type="number"
                           className="form-control"
                           id="GiaSP"
-                          value={GiaSP}
+                          value={gia}
                           onChange={(e) => {
                             const value = e.target.value;
                             if (value >= 0) {
-                              setGiaSP(value);
+                              setgia(value);
                             }
                           }}
                           min="0" // Đặt giá trị tối thiểu là 0
@@ -385,11 +422,11 @@ function AdminSanPhamChiTiet() {
                           type="number"
                           className="form-control"
                           id="GiamGia"
-                          value={GiamGia}
+                          value={giam_gia}
                           onChange={(e) => {
                             const value = e.target.value;
                             if (value >= 0) {
-                              setGiamGia(value);
+                              setgiam_gia(value);
                             }
                           }}
                           min="0" // Đặt giá trị tối thiểu là 0
@@ -416,4 +453,4 @@ function AdminSanPhamChiTiet() {
   );
 }
 
-export default AdminSanPhamChiTiet;
+export default AdminSanPhamSua;
