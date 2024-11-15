@@ -1131,6 +1131,200 @@
                 }
             }
         },
+        "/api/orders/{Mataikhoan}": {
+            "get": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Lấy đơn hàng theo tài khoản",
+                "description": "Trả về đơn hàng",
+                "operationId": "555db26320a87bdb9cb5b0a213d15537",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID của tài khoản cần lấy thông tin đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Tài khoản không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/orderDetails/{MaDH}": {
+            "get": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Lấy chi tiết đơn hàng",
+                "description": "Lấy chi tiết đơn hàng bao gồm thông tin sản phẩm theo mã đơn hàng.",
+                "operationId": "ce9f6add2216819cfdb3a74459489709",
+                "parameters": [
+                    {
+                        "name": "MaDH",
+                        "in": "path",
+                        "description": "Mã đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "MaCTDH": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "MaDH": {
+                                                        "type": "string",
+                                                        "example": "DH001"
+                                                    },
+                                                    "MaSP": {
+                                                        "type": "string",
+                                                        "example": "SP001"
+                                                    },
+                                                    "DonGia": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 50000
+                                                    },
+                                                    "SoLuong": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "SanPham": {
+                                                        "properties": {
+                                                            "TenSP": {
+                                                                "type": "string",
+                                                                "example": "Sản phẩm A"
+                                                            },
+                                                            "MoTa": {
+                                                                "type": "string",
+                                                                "example": "Mô tả sản phẩm A"
+                                                            },
+                                                            "Gia": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 50000
+                                                            },
+                                                            "HinhAnh": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy chi tiết đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy chi tiết đơn hàng"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi server"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders/{MaDH}": {
             "put": {
                 "tags": [

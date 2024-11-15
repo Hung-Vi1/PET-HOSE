@@ -92,15 +92,59 @@ class OrderApiController extends Controller
         }
     }
 
-
-    public function create()
-    {
-        //
-    }
-
     /**
-     * Store a newly created resource in storage.
+     * @OA\Get(
+     *     path="/api/orders/{Mataikhoan}",
+     *     tags={"DonHang"},
+     *     summary="Lấy đơn hàng theo tài khoản",
+     *     description="Trả về đơn hàng",
+     *     @OA\Parameter(
+     *         name="Mataikhoan",
+     *         in="path",
+     *         required=true,
+     *         description="ID của tài khoản cần lấy thông tin đơn hàng",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lấy dữ liệu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
+     *             @OA\Property(property="data", ref="#/components/schemas/OrderResource")
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Lỗi khi lấy dữ liệu"),
+     *     @OA\Response(response=404, description="Tài khoản không tìm thấy")
+     * )
      */
+    public function orders($Mataikhoan)
+    {
+        //GET
+        try {
+            $order = DonHang::where('Mataikhoan', $Mataikhoan)->get();
+
+            if ($order->isEmpty()) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Không tìm thấy chi tiết đơn hàng',
+                    'data' => null
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Lấy dữ liệu thành công',
+                'data' => OrderResource::collection($order)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
 
     /**
      * @OA\Post(
@@ -239,12 +283,78 @@ class OrderApiController extends Controller
 
 
 
-
+    /**
+     * @OA\Get(
+     *     path="/api/orderDetails/{MaDH}",
+     *     tags={"DonHang"},
+     *     summary="Lấy chi tiết đơn hàng",
+     *     description="Lấy chi tiết đơn hàng bao gồm thông tin sản phẩm theo mã đơn hàng.",
+     *     @OA\Parameter(
+     *         name="MaDH",
+     *         in="path",
+     *         required=true,
+     *         description="Mã đơn hàng",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lấy dữ liệu thành công",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="MaCTDH", type="integer", example=1),
+     *                     @OA\Property(property="MaDH", type="string", example="DH001"),
+     *                     @OA\Property(property="MaSP", type="string", example="SP001"),
+     *                     @OA\Property(property="DonGia", type="number", format="float", example=50000),
+     *                     @OA\Property(property="SoLuong", type="integer", example=2),
+     *                     @OA\Property(
+     *                         property="SanPham",
+     *                         type="object",
+     *                         @OA\Property(property="TenSP", type="string", example="Sản phẩm A"),
+     *                         @OA\Property(property="MoTa", type="string", example="Mô tả sản phẩm A"),
+     *                         @OA\Property(property="Gia", type="number", format="float", example=50000),
+     *                         @OA\Property(property="HinhAnh", type="string", example="https://example.com/image.jpg")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy chi tiết đơn hàng",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Không tìm thấy chi tiết đơn hàng"),
+     *             @OA\Property(property="data", type="null", example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi server",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Lỗi server"),
+     *             @OA\Property(property="data", type="null", example=null)
+     *         )
+     *     )
+     * )
+     */
     public function show($MaDH)
     {
         //GET
         try {
-            $orderDetails = ChiTietDonHang::where('MaDH', $MaDH)->get();
+            // Eager load bảng 'san_pham' liên quan
+            $orderDetails = ChiTietDonHang::where('MaDH', $MaDH)
+                ->with('sanPham') // Đảm bảo có một mối quan hệ 'sanPham' được định nghĩa trong model ChiTietDonHang
+                ->get();
 
             if ($orderDetails->isEmpty()) {
                 return response()->json([
@@ -404,7 +514,7 @@ class OrderApiController extends Controller
      *     )
      * )
      */
-    
+
     public function destroy(string $id)
     {
         try {

@@ -20,6 +20,11 @@ class OrderDetailResource extends JsonResource
             'MaSP' => $this->MaSP,
             'DonGia' => $this->DonGia,
             'SoLuong' => $this->SoLuong,
+            'SanPham' => [
+                'TenSP' => $this->sanPham->TenSanPham ?? null, // Tên sản phẩm
+                'Gia' => $this->sanPham->GiaSP ?? null, // Giá sản phẩm
+                'HinhAnh' => $this->sanPham->HinhAnh ?? null, // Hình ảnh sản phẩm
+            ],
         ];
     }
 }
