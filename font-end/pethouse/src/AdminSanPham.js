@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 function AdminSanPham() {
   const [list_sp, ganSP] = useState([]);
 
+  // Lấy danh sách sản phẩm
   useEffect(() => {
     fetch("http://localhost:8000/api/products")
       .then((res) => res.json())
@@ -179,6 +180,19 @@ function AdminSanPham() {
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   const [ganSP] = useState([]);
+  const setSelectedProduct = useState(null);
+
+  const fetchProductById = (ma_san_pham) => {
+    fetch(`http://localhost:8000/api/products/${ma_san_pham}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin sản phẩm:", data);
+        setSelectedProduct(data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      });
+  };
 
   const xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
@@ -221,7 +235,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">
                 <img
                   src={`image/product/${sp.hinh_anh}`}
-                  alt="image/san_pham_1.webp"
+                  alt={`image/product/${sp.hinh_anh}`}
                   style={{ width: "100px" }}
                 />
               </td>
@@ -230,7 +244,8 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">{sp.ngay_tao}</td>
               <td className="text-center" style={{ width: "150px" }}>
                 <Link
-                  to={"/adminsanphamchitiet"}
+                  onClick={() => fetchProductById(sp.ma_san_pham)}
+                  to={`/adminsanphamsua/${sp.ma_san_pham}`}
                   className="btn btn-outline-warning m-1"
                 >
                   <i className="bi bi-pencil-square"></i>

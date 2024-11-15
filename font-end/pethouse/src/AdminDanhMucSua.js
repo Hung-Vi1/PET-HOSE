@@ -224,7 +224,7 @@ function AdminDanhMucSua() {
                     <select
                       id="parent_id"
                       className="form-select"
-                      value={parentId || ""}
+                      value={parentId}
                       onChange={(e) =>
                         setParentId(
                           e.target.value === "" ? null : e.target.value

@@ -40,12 +40,15 @@ function AdminSanPhamSua() {
   const { ma_san_pham } = useParams(); // Sử dụng destructuring để lấy ma_san_pham
   const [ngay_tao, setngay_tao] = useState("");
   const [tenDM, settenDM] = useState("");
+  const [ma_danh_muc, setma_danh_muc] = useState("");
   const [ngay_cap_nhat, setngay_cap_nhat] = useState("");
   const [mo_ta, setmo_ta] = useState("");
+  const [so_luong, setso_luong] = useState("");
   const [gia, setgia] = useState("");
-  const [giam_gia, setgiam_gia] = useState("");
+  const [giam_gia, setgiam_gia] = useState(0);
   const [hinh_anh, sethinh_anh] = useState("");
   const [error, setError] = useState(null);
+  const [danhMuc, setDanhMuc] = useState([]); // State để lưu danh sách danh mục
 
   // Lấy thông tin sản phẩm theo mã sản phẩm
   useEffect(() => {
@@ -66,10 +69,12 @@ function AdminSanPhamSua() {
               setten_san_pham(sp.ten_san_pham || "");
               setngay_tao(sp.ngay_tao || "");
               settenDM(sp.tenDM || "");
+              setma_danh_muc(sp.ma_danh_muc || "");
               setngay_cap_nhat(sp.ngay_cap_nhat || "");
               setmo_ta(sp.mo_ta || "");
               setgia(sp.gia || "");
-              setgiam_gia(sp.giam_gia || "");
+              setgiam_gia(sp.giam_gia || 0);
+              setso_luong(sp.so_luong || "");
               sethinh_anh(sp.hinh_anh || "");
             } else {
               throw new Error("Dữ liệu sản phẩm không hợp lệ");
@@ -84,17 +89,71 @@ function AdminSanPhamSua() {
     }
   }, [ma_san_pham]);
 
+  // Lấy danh sách danh mục từ API
+  useEffect(() => {
+    fetch("http://localhost:8000/api/category")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Không thể lấy danh sách danh mục");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.status === "success" && data.data) {
+          setDanhMuc(data.data); // Lưu danh sách danh mục vào state
+        } else {
+          throw new Error(data.message || "Không có dữ liệu danh mục");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  }, []);
+
+  // Hàm xử lý gửi dữ liệu cập nhật
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("TenSanPham:", ten_san_pham);
-    console.log("MaSP:", ma_san_pham);
-    console.log("NgayTao:", ngay_tao);
-    console.log("LoaiSanPham:", tenDM);
-    console.log("NgayCapNhat:", ngay_cap_nhat);
-    console.log("MoTa:", mo_ta);
-    console.log("GiaSP:", gia);
-    console.log("GiamGia:", giam_gia);
-    console.log("Hinhanh:", hinh_anh);
+
+    const updatedProduct = {
+      ten_san_pham,
+      ngay_tao,
+      ma_danh_muc,
+      ngay_cap_nhat,
+      mo_ta,
+      so_luong,
+      gia,
+      giam_gia,
+      hinh_anh,
+    };
+
+    console.log("Dữ liệu gửi đi:", updatedProduct); // In ra dữ liệu để kiểm tra
+
+    fetch(`http://localhost:8000/api/products/update/${ma_san_pham}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProduct),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((err) => {
+            throw new Error(err.message || "Cập nhật sản phẩm thất bại");
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Cập nhật sản phẩm thành công!");
+        } else {
+          throw new Error(data.message || "Có lỗi xảy ra");
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+        console.error("Lỗi:", error); // In ra lỗi để kiểm tra
+      });
   };
 
   return (
@@ -230,13 +289,13 @@ function AdminSanPhamSua() {
               <h1 className="mb-0">{ten_san_pham || "Chỉnh sửa sản phẩm"}</h1>
             </div>
 
-            <div className="d-flex flex-wrap">
-              <div className="col-md-8 px-0">
-                <div className="d-flex flex-wrap me-3">
-                  <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
+            <form onSubmit={handleSubmit}>
+              <div className="d-flex flex-wrap">
+                <div className="col-md-8 px-0">
+                  <div className="d-flex flex-wrap me-3">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
 
-                    <form onSubmit={handleSubmit}>
                       <div className="mb-3">
                         <label htmlFor="TenSanPham" className="form-label">
                           Tên sản phẩm
@@ -266,13 +325,13 @@ function AdminSanPhamSua() {
                             type="text"
                             className="form-control"
                             id="MaSP"
-                            value={ma_san_pham}
+                            value={`SP${ma_san_pham}`}
                             readOnly
                           />
                         </div>
                         <div className="col-md">
                           <label htmlFor="NgayTao" className="form-label">
-                            Ngày tạoo
+                            Ngày tạo
                           </label>
                           <input
                             type="text"
@@ -289,13 +348,24 @@ function AdminSanPhamSua() {
                           <label htmlFor="LoaiSanPham" className="form-label">
                             Loại sản phẩm
                           </label>
-                          <input
-                            type="text"
-                            className="form-control"
+                          <select
+                            class="form-select"
                             id="LoaiSanPham"
-                            value={tenDM}
-                            onChange={(e) => settenDM(e.target.value)}
-                          />
+                            value={ma_danh_muc} // Đặt giá trị của select bằng ma_danh_muc
+                            onChange={(e) => setma_danh_muc(e.target.value)}
+                          >
+                            <option value="" disabled>
+                              Chọn loại sản phẩm
+                            </option>
+                            {danhMuc.map((loaisP) => (
+                              <option
+                                key={loaisP.ma_danh_muc}
+                                value={loaisP.ma_danh_muc}
+                              >
+                                {loaisP.ten_danh_muc}
+                              </option>
+                            ))}
+                          </select>
                         </div>
                         <div className="col-md">
                           <label htmlFor="NgayCapNhat" className="form-label">
@@ -324,128 +394,130 @@ function AdminSanPhamSua() {
                           onChange={(e) => setmo_ta(e.target.value)}
                         />
                       </div>
-                    </form>
-                  </div>
-
-                  <div className="col-md border border-dark rounded-3 my-3 p-2">
-                    <div className="d-flex flex-wrap justify-content-between">
-                      <h5 className="mb-2 py-1">Thông tin kho</h5>
-
-                      <a href="/#" className="my-auto text-primary lichsukho">
-                        Lịch sử thay đổi kho
-                      </a>
                     </div>
 
-                    <table className="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th className="fw-bold">Kho lưu trữ</th>
-                          <th className="fw-bold text-center">Tồn kho</th>
-                          <th className="fw-bold text-center">Hàng đang về</th>
-                          <th className="fw-bold text-center">
-                            Đang giao dịch
-                          </th>
-                          <th className="fw-bold text-center">Có thể bán</th>
-                        </tr>
-                      </thead>
+                    <div className="col-md border border-dark rounded-3 my-3 p-2">
+                      <div className="d-flex flex-wrap justify-content-between">
+                        <h5 className="mb-2 py-1">Thông tin kho</h5>
 
-                      <tbody>
-                        <tr>
-                          <td>Cửa hàng</td>
-                          <td className="text-center">100</td>
-                          <td className="text-center">0</td>
-                          <td className="text-center">0</td>
-                          <td className="text-center">100</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                        <a href="/#" className="my-auto text-primary lichsukho">
+                          Lịch sử thay đổi kho
+                        </a>
+                      </div>
+
+                      <table className="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th className="fw-bold">Kho lưu trữ</th>
+                            <th className="fw-bold text-center">Tồn kho</th>
+                            <th className="fw-bold text-center">
+                              Hàng đang về
+                            </th>
+                            <th className="fw-bold text-center">
+                              Đang giao dịch
+                            </th>
+                            <th className="fw-bold text-center">Có thể bán</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td>Cửa hàng</td>
+                            <td className="text-center">{so_luong}</td>
+                            <td className="text-center">0</td>
+                            <td className="text-center">0</td>
+                            <td className="text-center">{so_luong}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-md px-0">
+                  <div className="d-flex flex-wrap">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
+
+                      <div className="text-center">
+                        <img
+                          className="w-75 pt-2 pb-4"
+                          src={`../image/product/${hinh_anh}`}
+                          alt={hinh_anh}
+                        />
+
+                        <div className="d-flex justify-content-center py-2">
+                          <input
+                            className="form-control form-control-lg"
+                            type="file"
+                            id="fileInput"
+                            style={{ display: "none" }}
+                          />
+                          <label
+                            htmlFor="fileInput"
+                            className="form-control w-50 hinhanh"
+                          >
+                            Chọn tệp
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin giá</h5>
+
+                      <form className="adminspsua" onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                          <label htmlFor="GiaSP" className="form-label">
+                            Giá bán
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="GiaSP"
+                            value={gia}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value >= 0) {
+                                setgia(value);
+                              }
+                            }}
+                            min="0" // Đặt giá trị tối thiểu là 0
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <label htmlFor="GiamGia" className="form-label">
+                            Giá khuyễn mãi
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="GiamGia"
+                            value={giam_gia}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (value >= 0) {
+                                setgiam_gia(value);
+                              }
+                            }}
+                            min="0" // Đặt giá trị tối thiểu là 0
+                          />
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="col-md px-0">
-                <div className="d-flex flex-wrap">
-                  <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
-
-                    <div className="text-center">
-                      <img
-                        className="w-75 pt-2 pb-4"
-                        src={`../image/product/${hinh_anh}`}
-                        alt="Sản phẩm"
-                      />
-
-                      <div className="d-flex justify-content-center py-2">
-                        <input
-                          className="form-control form-control-lg"
-                          type="file"
-                          id="fileInput"
-                          style={{ display: "none" }}
-                        />
-                        <label
-                          htmlFor="fileInput"
-                          className="form-control w-50 hinhanh"
-                        >
-                          Chọn tệp
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-md border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Thông tin giá</h5>
-
-                    <form className="adminspsua" onSubmit={handleSubmit}>
-                      <div className="mb-3">
-                        <label htmlFor="GiaSP" className="form-label">
-                          Giá bán
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="GiaSP"
-                          value={gia}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value >= 0) {
-                              setgia(value);
-                            }
-                          }}
-                          min="0" // Đặt giá trị tối thiểu là 0
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <label htmlFor="GiamGia" className="form-label">
-                          Giá khuyễn mãi
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="GiamGia"
-                          value={giam_gia}
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (value >= 0) {
-                              setgiam_gia(value);
-                            }
-                          }}
-                          min="0" // Đặt giá trị tối thiểu là 0
-                        />
-                      </div>
-                    </form>
-                  </div>
-                </div>
+              <div className="d-flex justify-content-end">
+                <button type="submit" className="btn btn-outline-danger me-2">
+                  Xóa
+                </button>
+                <button type="submit" className="btn btn-primary ms-2">
+                  Lưu
+                </button>
               </div>
-            </div>
-
-            <div className="d-flex justify-content-end">
-              <button type="submit" className="btn btn-outline-danger me-2">
-                Xóa
-              </button>
-              <button type="submit" className="btn btn-primary ms-2">
-                Lưu
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

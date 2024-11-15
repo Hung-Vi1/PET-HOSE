@@ -68,7 +68,8 @@
     list-style: none;
     text-align: center;
     margin-bottom: 0;
-    padding: 0;
+    padding-left: 0;
+    margin-top: 40px;
 }
 
 .thanhphantrang li {
@@ -288,7 +289,7 @@ button.ghost:hover {
     height: 100%;
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
-    z-index: 100;
+    z-index: 50;
 }
 
 .login.right-panel-active .overlay-login {
@@ -360,4 +361,39 @@ button.ghost:hover {
     margin: 0 5px;
     height: 40px;
     width: 40px;
+}
+
+.box-login .submenu {
+    width: 190px;
+    display: none;
+    /* Ẩn menu con theo mặc định */
+    position: absolute;
+    /* Đặt vị trí menu con */
+    background-color: white;
+    /* Màu nền cho menu con */
+    border-top: 2px solid #ff0606;
+    /* Đường viền cho menu con */
+    z-index: 100;
+    /* Đảm bảo menu con nằm trên các phần tử khác */
+    padding: 10px 0; /* Padding trên và dưới */
+}
+
+.box-login:hover .submenu {
+    display: block; 
+}
+
+.submenu li a {
+    margin: 10px;
+    text-decoration: none;
+    /* Xóa gạch chân cho liên kết */
+    color: rgb(66, 65, 65);
+    /* Màu chữ cho liên kết */
+    display: block;
+    /* Để liên kết chiếm toàn bộ chiều rộng của mục menu */
+}
+
+.submenu li:hover {
+    background-color: #f0f0f0;
+    /* Thay đổi màu nền khi hover vào mục menu */
+
 }

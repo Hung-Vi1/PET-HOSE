@@ -20,7 +20,7 @@ use App\Models\SanPham;
  *     schema="OrderResource",
  *     type="object",
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
- *     @OA\Property(property="MaTaiKhoan", type="integer", example=1),
+ *     @OA\Property(property="MataiKhoan", type="integer", example=1),
  *     @OA\Property(property="TongTien", type="integer", example=500000),
  *     @OA\Property(property="SoLuong", type="integer", example=1),
  *     @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),

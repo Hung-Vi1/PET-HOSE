@@ -1,8 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTrangChu() {
+  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+  if (!isLoggedIn) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    return <Navigate to="/login" />;
+  }
+
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">

@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
   const [cart, setCart] = useState([]);
+  const { user, hasPermission, logout } = useAuth(); // Nhập user và logout từ AuthContext
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,7 +21,6 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    // Hàm cập nhật giỏ hàng từ sessionStorage
     const updateCart = () => {
       const savedCart = sessionStorage.getItem("cart");
       const parsedCart = savedCart ? JSON.parse(savedCart) : [];
@@ -41,7 +43,11 @@ function Header() {
     if (isMobile) setIsMenuOpen(!isMenuOpen);
   };
 
-  // Hàm rút gọn tên sản phẩm
+  const handleLogout = () => {
+    logout(); // Gọi hàm logout
+    setIsDropdownOpen(false); // Đóng dropdown sau khi đăng xuất
+  };
+
   const truncateProductName = (name, maxLength = 20) => {
     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
   };
@@ -66,7 +72,7 @@ function Header() {
         <span />
       </div>
 
-      <ul className="menu-extra">
+      <ul className="menu-extra menu">
         <li className="box-search">
           <a className="icon_search header-search-icon" href="/#" />
           <form
@@ -91,9 +97,51 @@ function Header() {
           </form>
         </li>
         <li className="box-login">
-          <Link to="/login">
-            <a className="icon_login" href="/#"></a>
-          </Link>
+          {user ? (
+            <div
+              className="user-menu"
+              onMouseEnter={() => setIsDropdownOpen(true)}
+              onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+              <h7 className="m-2">
+                {user.slice(0, 4)}
+                {user.length > 4}
+              </h7>
+              {isDropdownOpen && (
+                <ul className="submenu px-2">
+                  <li className="m-0">
+                    <Link className="text-nowrap" to="/admin">
+                      Trang quản trị
+                    </Link>
+                  </li>
+                  <li>
+                    <hr />
+                  </li>
+                  <li className="m-0">
+                    <Link className="text-nowrap" to="/info">
+                      Tài khoảng của tôi
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="text-nowrap" to="/lichsumua">
+                      Lịch sử mua hàng
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={logout}
+                      className="text-nowrap"
+                    >
+                      Đăng Xuất
+                    </a>
+                  </li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <Link className="icon_login" to="/login"></Link>
+          )}
         </li>
         <li className="box-cart nav-top-cart-wrapper">
           <Link className="icon_cart nav-cart-trigger active" to="/giohang">
@@ -146,7 +194,7 @@ function Header() {
                   <a href="coming-soon.html">Dịch vụ 1</a>
                 </li>
                 <li>
-                  <a href="404.html"> Dịch vụ 2</a>
+                  <a href="404.html">Dịch vụ 2</a>
                 </li>
               </ul>
             </li>
