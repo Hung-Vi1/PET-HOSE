@@ -1037,12 +1037,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "MaTaiKhoan",
+                                    "Mataikhoan",
                                     "PTTT",
                                     "chi_tiet"
                                 ],
                                 "properties": {
-                                    "MaTaiKhoan": {
+                                    "Mataikhoan": {
                                         "description": "Mã tài khoản của người đặt hàng",
                                         "type": "integer",
                                         "example": 1
