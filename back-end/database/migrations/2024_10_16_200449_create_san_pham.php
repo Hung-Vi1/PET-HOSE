@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('LuotBan')->default(0);
             $table->timestamp('ThoiGian')->nullable(); // Cho phép null
             $table->string('TrangThai');
+            $table->string('Loai');
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại

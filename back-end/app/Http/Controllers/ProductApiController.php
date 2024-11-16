@@ -55,6 +55,7 @@ class ProductApiController extends Controller
                 ->whereHas('danhMuc', function ($query) {
                     $query->where('loai', '0');
                 })
+                ->where('Loai', '1')
                 ->get();
 
 
@@ -121,7 +122,9 @@ class ProductApiController extends Controller
     {
         try {
             // Kiểm tra nếu danh mục có parent_id khác null
-            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)
+            ->whereNotNull('parent_id')
+            ->first();
 
             // Nếu không tìm thấy danh mục hoặc không có parent_id
             if (!$danhMuc) {
@@ -133,7 +136,9 @@ class ProductApiController extends Controller
             }
 
             // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
-            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)
+            ->where('Loai', '1')
+            ->get();
 
             return response()->json([
                 'status' => 'success',
@@ -300,6 +305,7 @@ class ProductApiController extends Controller
             $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
             $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
             $validatedData['TrangThai'] = 1;       // Trạng thái mặc định là 1
+            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
             $validatedData['ThoiGian'] = now();    // Thời gian hiện tại
 
             $product = SanPham::create($validatedData);
@@ -317,9 +323,6 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
 
     /**
      * @OA\Get(
@@ -351,7 +354,7 @@ class ProductApiController extends Controller
     {
         //GET
         try {
-            $product = SanPham::findOrFail($MaSP);
+            $product = SanPham::where('Loai', 1)->findOrFail($MaSP);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
@@ -366,17 +369,7 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     /**
      * @OA\Put(
      *     path="/api/products/update/{MaSP}",
@@ -461,9 +454,6 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
 
     /**
      * @OA\Delete(

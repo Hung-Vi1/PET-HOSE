@@ -28,6 +28,7 @@ class SanPham extends Model
         'LuotBan',
         'ThoiGian',
         'TrangThai',
+        'Loai',
     ];
 
     /**

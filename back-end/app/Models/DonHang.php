@@ -37,6 +37,7 @@ class DonHang extends Model
         'TrangThai',
         'NgayDat',
         'NgayGiao',
+        'Loai',
     ];
     public function orderDetails()
     {

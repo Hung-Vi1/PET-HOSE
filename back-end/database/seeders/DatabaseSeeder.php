@@ -84,6 +84,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -98,6 +99,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -111,6 +113,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -124,6 +127,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -137,6 +141,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -150,6 +155,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -163,6 +169,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -176,6 +183,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -189,6 +197,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -202,6 +211,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -215,6 +225,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 3, // iPhone
@@ -228,6 +239,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
 
 
@@ -245,6 +257,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -258,6 +271,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -271,6 +285,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -284,6 +299,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -297,6 +313,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -310,6 +327,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -323,6 +341,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -336,6 +355,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -349,6 +369,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -362,6 +383,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -375,6 +397,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 4, // iPhone
@@ -388,6 +411,7 @@ class DatabaseSeeder extends Seeder
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
 
 
@@ -405,7 +429,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -418,7 +443,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -431,7 +457,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -444,7 +471,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -457,7 +485,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -470,7 +499,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -483,7 +513,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 5,
@@ -496,7 +527,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
 
 
@@ -511,7 +543,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -524,7 +557,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -537,7 +571,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -550,7 +585,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -563,7 +599,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -576,7 +613,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -589,7 +627,8 @@ class DatabaseSeeder extends Seeder
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 22,
@@ -606,7 +645,8 @@ Protein của pate là protein chất lượng tốt, tỉ lệ hấp thụ cao.
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
 
 
@@ -626,7 +666,8 @@ Màu sắc, kích thước & kiểu dáng đa dạng để khách hàng lựa ch
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -644,7 +685,8 @@ Sản phẩm có 3 màu xanh, hồng và đen để bạn lựa chọn theo sở
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -662,7 +704,8 @@ Màu sắc, kích thước & kiểu dáng đa dạng để khách hàng lựa ch
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -677,7 +720,8 @@ Sản phẩm với thiết kế luồng khí tuần hoàn thông gió mạnh nhi
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -690,7 +734,8 @@ Sản phẩm với thiết kế luồng khí tuần hoàn thông gió mạnh nhi
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -703,7 +748,8 @@ Sản phẩm với thiết kế luồng khí tuần hoàn thông gió mạnh nhi
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -724,7 +770,8 @@ Màu sắc: xanh lá cây, xanh biển, vàng, hồng.',
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 23,
@@ -744,7 +791,8 @@ Balo đựng chó mèo phi hành gia LOFFE Panoramic được thiết kế nhi�
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
 
 
@@ -765,7 +813,8 @@ Khay vệ sinh cho mèo MAKAR Cat Litter Station chuyên dùng cho mèo con trê
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -783,7 +832,8 @@ Với chất liệu có khả năng kháng khuẩn, bề mặt trơn nhẵn, ch�
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -799,7 +849,8 @@ Khay vệ sinh cho mèo MAKAR General Cat Litter Box giúp ngăn cát theo chân
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -817,7 +868,8 @@ Trên nắp thùng có chỗ để cài xẻng xúc cát. Sản phẩm có tặn
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -837,7 +889,8 @@ Chất liệu nhựa PVC an toàn cho môi trường và sức khỏe của mèo
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -855,7 +908,8 @@ Mua sản phẩm tặng kèm xẻng xúc phân.',
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -868,7 +922,8 @@ Mua sản phẩm tặng kèm xẻng xúc phân.',
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
             [
                 'MaDanhMuc' => 25,
@@ -887,7 +942,70 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
-                'TrangThai' => 1,
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+
+
+
+
+
+            //dịch vụ
+            [
+                'MaDanhMuc' => 1,
+                'TenSanPham' => 'tắm cho chó',
+                'GiaSP' => 100000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bảng giá spa cho chó, dịch vụ tắm cho mèo giá rẻ trọn gói đã bao gồm gói tắm gội toàn diện, sấy khô, chải lông rụng, cắt dũa móng, vệ sinh tai theo yêu cầu. Giá dịch vụ thực tế dựa theo hiện trạng kích cỡ, trọng lượng và độ dài của lông.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'tam-cho-cho-1.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 1,
+                'TenSanPham' => 'cạo lông cho chó',
+                'GiaSP' => 120000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bảng giá spa cho chó, dịch vụ tắm cho mèo giá rẻ trọn gói đã bao gồm gói tắm gội toàn diện, sấy khô, chải lông rụng, cắt dũa móng, vệ sinh tai theo yêu cầu. Giá dịch vụ thực tế dựa theo hiện trạng kích cỡ, trọng lượng và độ dài của lông.',
+                'SoLuong' => 100,
+                'HinhAnh' => '4j90v09niygp05fz5i8f6wikl6u0_cao-long-mau-cho-poodle_(5).webp',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 2,
+                'TenSanPham' => 'tắm cho mèo',
+                'GiaSP' => 100000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bảng giá spa cho chó, dịch vụ tắm cho mèo giá rẻ trọn gói đã bao gồm gói tắm gội toàn diện, sấy khô, chải lông rụng, cắt dũa móng, vệ sinh tai theo yêu cầu. Giá dịch vụ thực tế dựa theo hiện trạng kích cỡ, trọng lượng và độ dài của lông.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'co-nen-tam-cho-meo-con2-1200x800.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 2,
+                'TenSanPham' => 'cạo lông cho mèo',
+                'GiaSP' => 120000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bảng giá spa cho chó, dịch vụ tắm cho mèo giá rẻ trọn gói đã bao gồm gói tắm gội toàn diện, sấy khô, chải lông rụng, cắt dũa móng, vệ sinh tai theo yêu cầu. Giá dịch vụ thực tế dựa theo hiện trạng kích cỡ, trọng lượng và độ dài của lông.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'dat-meo-nam-nghien-de-cao-long_304a273f54aa45aca43f0015fc7aa037.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
             ],
 
             // Thêm các sản phẩm khác ở đây...
@@ -952,7 +1070,7 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'DiaChi' => '123 Đường ABC, Quận 1, TP.HCM',
                 'PTTT' => 'Chuyển khoản',
                 'GhiChu' => 'Ghi chú đơn hàng 1',
-                
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
                 'NgayDat' => now(),
                 'NgayGiao' => now()->addDays(3),
             ],
@@ -965,7 +1083,7 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'DiaChi' => '456 Đường DEF, Quận 2, TP.HCM',
                 'PTTT' => 'Tiền mặt',
                 'GhiChu' => 'Ghi chú đơn hàng 2',
-                
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
                 'NgayDat' => now(),
                 'NgayGiao' => now()->addDays(1),
             ],
@@ -978,11 +1096,41 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
                 'PTTT' => 'Chuyển khoản',
                 'GhiChu' => 'Ghi chú đơn hàng 3',
-                
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
                 'NgayDat' => now(),
                 'NgayGiao' => now()->addDays(2),
             ],
             // Thêm nhiều đơn hàng mẫu khác nếu cần
+
+
+            // đơn hàng của dịch vụ
+            [
+                'MaTaiKhoan' => 1,
+                'TongTien' => 500000,
+                'SoLuong' => 1,
+                'Ten' => 'Nguyễn Văn A',
+                'SDT' => '0123456789',
+                'DiaChi' => '123 Đường ABC, Quận 1, TP.HCM',
+                'PTTT' => 'Chuyển khoản',
+                'GhiChu' => 'Ghi chú đơn hàng 1',
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(3),
+            ],
+            // đơn hàng của dịch vụ
+            [
+                'MaTaiKhoan' => 3,
+                'TongTien' => 750000,
+                'SoLuong' => 3,
+                'Ten' => 'Lê Văn C',
+                'SDT' => '0912345678',
+                'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
+                'PTTT' => 'Chuyển khoản',
+                'GhiChu' => 'Ghi chú đơn hàng 3',
+                'Loai' => 0, // 1: sản phẩm , 0: dịch vụ
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(2),
+            ],
         ];
 
         foreach ($donHangs as $donHang) {

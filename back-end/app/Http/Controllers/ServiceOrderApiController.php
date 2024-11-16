@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\User;
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\ServiceOrderResource;
 use App\Http\Resources\OrderDetailResource;
 use App\Models\SanPham;
 
-
-
-
 /**
  * @OA\Schema(
- *     schema="OrderResource",
+ *     schema="ServiceOrderResource",
  *     type="object",
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
  *     @OA\Property(property="Mataikhoan", type="integer", example=1),
@@ -36,18 +31,12 @@ use App\Models\SanPham;
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-29T17:09:04Z")
  * )
  */
-
-
-
-
-class OrderApiController extends Controller
+class ServiceOrderApiController extends Controller
 {
-
-
     /**
      * @OA\Get(
-     *     path="/api/orders",
-     *     tags={"DonHang"},
+     *     path="/api/orderServices",
+     *     tags={"DonHangDichVu"},
      *     summary="Lấy danh sách đơn hàng",
      *     description="Trả về danh sách tất cả các đơn hàng.",
      *     @OA\Response(
@@ -59,7 +48,7 @@ class OrderApiController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/OrderResource")
+     *                 @OA\Items(ref="#/components/schemas/ServiceOrderResource")
      *             )
      *         )
      *     ),
@@ -78,11 +67,11 @@ class OrderApiController extends Controller
     {
         // GET
         try {
-            $orders = DonHang::all()->where('Loai', '1');
+            $orders = DonHang::all()->where('Loai', '0');
             return response()->json([
                 'status' => 'success',
                 'message' => 'Dữ liệu được lấy thành công',
-                'data' => OrderResource::collection($orders)
+                'data' => ServiceOrderResource::collection($orders)
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -95,8 +84,8 @@ class OrderApiController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/orders/{Mataikhoan}",
-     *     tags={"DonHang"},
+     *     path="/api/orderServices/{Mataikhoan}",
+     *     tags={"DonHangDichVu"},
      *     summary="Lấy đơn hàng theo tài khoản",
      *     description="Trả về đơn hàng",
      *     @OA\Parameter(
@@ -112,7 +101,7 @@ class OrderApiController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
-     *             @OA\Property(property="data", ref="#/components/schemas/OrderResource")
+     *             @OA\Property(property="data", ref="#/components/schemas/ServiceOrderResource")
      *         )
      *     ),
      *     @OA\Response(response=400, description="Lỗi khi lấy dữ liệu"),
@@ -124,8 +113,8 @@ class OrderApiController extends Controller
         //GET
         try {
             $order = DonHang::where('Mataikhoan', $Mataikhoan)
-            ->where('Loai', '1')
-            ->get();
+                ->where('Loai', '0')
+                ->get();
 
             if ($order->isEmpty()) {
                 return response()->json([
@@ -138,7 +127,7 @@ class OrderApiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
-                'data' => OrderResource::collection($order)
+                'data' => ServiceOrderResource::collection($order)
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -151,8 +140,8 @@ class OrderApiController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/orders",
-     *     tags={"DonHang"},
+     *     path="/api/orderServices",
+     *     tags={"DonHangDichVu"},
      *     summary="Tạo đơn hàng mới",
      *     description="Tạo một đơn hàng mới cùng với chi tiết đơn hàng.",
      *     @OA\RequestBody(
@@ -163,8 +152,8 @@ class OrderApiController extends Controller
      *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản", description="Phương thức thanh toán"),
      *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng", description="Ghi chú cho đơn hàng"),
      *             @OA\Property(property="chi_tiet", type="array", @OA\Items(
-     *                 @OA\Property(property="MaSP", type="integer", example=1, description="Mã sản phẩm"),
-     *                 @OA\Property(property="SoLuong", type="integer", example=2, description="Số lượng sản phẩm"),
+     *                 @OA\Property(property="MaSP", type="integer", example=60, description="Mã dịch vụ"),
+     *                 @OA\Property(property="SoLuong", type="integer", example=1, description="Số lượng dịch vụ"),
      *             )),
      *         )
      *     ),
@@ -174,7 +163,7 @@ class OrderApiController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
      *             @OA\Property(property="message", type="string", example="Thêm thành công"),
-     *             @OA\Property(property="data", ref="#/components/schemas/OrderResource")
+     *             @OA\Property(property="data", ref="#/components/schemas/ServiceOrderResource")
      *         )
      *     ),
      *     @OA\Response(
@@ -224,7 +213,7 @@ class OrderApiController extends Controller
             $user = User::findOrFail($validatedData['Mataikhoan']);
             // Khởi tạo trạng thái và ngày đặt
             $validatedData['TrangThai'] = 'dang_xu_ly';
-            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
+            $validatedData['Loai'] = 0;       // loại 1 là dịch vụ
             $validatedData['NgayDat'] = now();    // Thời gian hiện tại
             $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày
 
@@ -250,7 +239,18 @@ class OrderApiController extends Controller
             foreach ($validatedData['chi_tiet'] as $item) {
                 // Lấy giá của sản phẩm từ bảng san_pham
                 $sanPham = SanPham::findOrFail($item['MaSP']);
+
+                // Kiểm tra nếu Loai của sản phẩm không phải là 0
+                if ($sanPham->Loai != 0) {
+                    return response()->json([
+                        'status' => 'fail',
+                        'message' => 'Sản phẩm phải là dịch vụ',
+                        'data' => null
+                    ], 400);
+                }
+
                 $DonGia = $sanPham->GiaSP - $sanPham->GiamGia;
+
                 // Tạo chi tiết đơn hàng
                 $ctDonHang = ChiTietDonHang::create([
                     'MaDH' => $order->MaDH,
@@ -274,7 +274,7 @@ class OrderApiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thêm đơn hàng thành công',
-                'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng vừa tạo
+                'data' => new ServiceOrderResource($order->load('orderDetails')) // Trả về đơn hàng vừa tạo
             ], 201);
         } catch (\Exception $e) {
 
@@ -286,12 +286,10 @@ class OrderApiController extends Controller
         }
     }
 
-
-
     /**
      * @OA\Get(
-     *     path="/api/orderDetails/{MaDH}",
-     *     tags={"DonHang"},
+     *     path="/api/orderDetailServices/{MaDH}",
+     *     tags={"DonHangDichVu"},
      *     summary="Lấy chi tiết đơn hàng",
      *     description="Lấy chi tiết đơn hàng bao gồm thông tin sản phẩm theo mã đơn hàng.",
      *     @OA\Parameter(
@@ -318,6 +316,7 @@ class OrderApiController extends Controller
      *                     @OA\Property(property="MaSP", type="string", example="SP001"),
      *                     @OA\Property(property="DonGia", type="number", format="float", example=50000),
      *                     @OA\Property(property="SoLuong", type="integer", example=2),
+     *                     @OA\Property(property="NgayDat", type="string", format="date-time", example="2024-10-29T17:09:04Z"),
      *                     @OA\Property(
      *                         property="SanPham",
      *                         type="object",
@@ -384,163 +383,20 @@ class OrderApiController extends Controller
     }
 
 
+
     /**
      * Update the specified resource in storage.
      */
-
-
-    /**
-     * @OA\Put(
-     *     path="/api/orders/{MaDH}",
-     *     tags={"DonHang"},
-     *     summary="Cập nhật thông tin đơn hàng",
-     *     description="Cập nhật thông tin của đơn hàng với mã đơn hàng cụ thể",
-     *     @OA\Parameter(
-     *         name="MaDH",
-     *         in="path",
-     *         required=true,
-     *         description="Mã đơn hàng cần cập nhật",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"Ten", "SDT", "DiaChi", "PTTT", "GhiChu", "TrangThai", "NgayGiao"},
-     *             @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
-     *             @OA\Property(property="SDT", type="string", example="0123456789"),
-     *             @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM"),
-     *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản"),
-     *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng"),
-     *             @OA\Property(property="TrangThai", type="string", example="dang_xu_ly", enum={"cho_xac_nhan", "dang_xu_ly", "hoan_thanh", "huy"}),
-     *             @OA\Property(property="NgayGiao", type="string", format="date", example="2024-11-10")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Cập nhật thành công",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="Cập nhật thành công"),
-     *             @OA\Property(property="data", ref="#/components/schemas/OrderResource")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Yêu cầu không hợp lệ",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="fail"),
-     *             @OA\Property(property="message", type="string", example="Thông báo lỗi"),
-     *             @OA\Property(property="data", type="null")
-     *         )
-     *     )
-     * )
-     */
-
-    public function update(Request $request, $MaDH)
+    public function update(Request $request, string $id)
     {
-        // PUT
-        try {
-            $validatedData = $request->validate([
-                'Ten' => 'required|string|max:50',
-                'SDT' => 'required|regex:/^[0-9]{10}$/',
-                'DiaChi' => 'required',
-                'PTTT' => 'required',
-                'GhiChu' => 'required',
-                'TrangThai' => 'required|in:cho_xac_nhan,dang_xu_ly,hoan_thanh,huy',
-                'NgayGiao' => 'required|date'
-            ], [
-                'Ten.required' => 'Vui lòng nhập Tên',
-                'Ten.string' => 'tên phải là chữ',
-                'Ten.max' => 'Độ dài thấp hơn 50 ký tự',
-                'SDT.required' => 'Vui lòng nhập số điện thoại',
-                'SDT.regex' => 'Số điện thoại phải gồm 10 chữ số',
-                'DiaChi.required' => 'Vui lòng nhập địa chỉ',
-                'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
-                'GhiChu.required' => 'Vui lòng nhập ghi chú',
-                'TrangThai.required' => 'Vui lòng nhập trạng thái',
-                'TrangThai.in' => 'Trạng thái phải là: cho_xac_nhan, dang_xu_ly, hoan_thanh, huy',
-                'NgayGiao.required' => 'Vui lòng nhập ngày giao',
-                'NgayGiao.date' => 'Định dạng sai ngày tháng',
-            ]);
-
-            $order = DonHang::findOrFail($MaDH);
-            $order->update($validatedData);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Cập nhật thành công',
-                'data' => new OrderResource($order)
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 400);
-        }
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-
-    /**
-     * @OA\Delete(
-     *     path="/api/orders/{id}",
-     *     summary="Xóa đơn hàng và chi tiết liên quan",
-     *     description="Xóa đơn hàng theo ID và xóa tất cả chi tiết đơn hàng liên quan.",
-     *     operationId="destroyOrder",
-     *     tags={"DonHang"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="Mã đơn hàng cần xóa",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string",
-     *             example="1"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Đơn hàng và chi tiết đơn hàng đã được xóa thành công.",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="Đơn hàng và chi tiết đơn hàng đã được xóa thành công.")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Lỗi khi xóa đơn hàng.",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="fail"),
-     *             @OA\Property(property="message", type="string", example="Lỗi: Không tìm thấy đơn hàng.")
-     *         )
-     *     )
-     * )
-     */
-
     public function destroy(string $id)
     {
-        try {
-            // Tìm đơn hàng theo ID
-            $order = DonHang::findOrFail($id);
-
-            // Xóa tất cả chi tiết đơn hàng liên quan
-            $order->orderDetails()->delete();
-
-            // Xóa đơn hàng
-            $order->delete();
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Đơn hàng và chi tiết đơn hàng đã được xóa thành công.'
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Lỗi: ' . $e->getMessage()
-            ], 400);
-        }
+        //
     }
 }

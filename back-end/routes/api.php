@@ -47,6 +47,13 @@ Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanP
 Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
 Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
 
+use App\Http\Controllers\ServiceApiController;
+Route::get('/services', [ServiceApiController::class, 'index']);
+Route::post('/services/store', [ServiceApiController::class, 'store']);
+Route::get('/services/{MaSP}', [ServiceApiController::class, 'show']);
+Route::put('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
+Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy']);
+
 use App\Http\Controllers\OrderApiController;
 // Route để lấy danh sách đơn hàng
 Route::get('/orders', [OrderApiController::class, 'index']);
@@ -55,6 +62,13 @@ Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
+
+use App\Http\Controllers\ServiceOrderApiController;
+Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
+Route::get('/orderServices/{Mataikhoan}', [ServiceOrderApiController::class, 'orders']);
+Route::post('/orderServices', [ServiceOrderApiController::class, 'store']);
+Route::get('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'show']);
+Route::delete('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'destroy']);
 
 use App\Http\Controllers\CatagoryNewsApiController;
 Route::get('/catagorysNews', [CatagoryNewsApiController::class, 'index']);
