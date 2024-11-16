@@ -111,8 +111,27 @@ function AdminSanPhamSua() {
   }, []);
 
   // Hàm xử lý gửi dữ liệu cập nhật
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Kiểm tra các trường bắt buộc
+    if (!ten_san_pham) {
+      alert("Vui lòng nhập tên sản phẩm!");
+      return;
+    }
+    if (!ma_danh_muc) {
+      alert("Vui lòng chọn mã danh mục!");
+      return;
+    }
+    if (!gia || gia < 0) {
+      alert("Vui lòng nhập giá hợp lệ!");
+      return;
+    }
+    if (!so_luong || so_luong < 0) {
+      alert("Vui lòng nhập số lượng hợp lệ!");
+      return;
+    }
 
     const updatedProduct = {
       ten_san_pham,
@@ -357,12 +376,12 @@ function AdminSanPhamSua() {
                             <option value="" disabled>
                               Chọn loại sản phẩm
                             </option>
-                            {danhMuc.map((loaisP) => (
+                            {danhMuc.map((loaiSP) => (
                               <option
-                                key={loaisP.ma_danh_muc}
-                                value={loaisP.ma_danh_muc}
+                                value={loaiSP.ma_danh_muc}
                               >
-                                {loaisP.ten_danh_muc}
+                                {loaiSP.ten_danh_muc}
+                                {loaiSP.ma_danh_muc}
                               </option>
                             ))}
                           </select>
