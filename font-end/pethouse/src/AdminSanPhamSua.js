@@ -36,17 +36,17 @@ function AdminSanPhamSua() {
     }
   }; */
 
-  const [ten_san_pham, setten_san_pham] = useState("");
-  const { ma_san_pham } = useParams(); // Sử dụng destructuring để lấy ma_san_pham
-  const [ngay_tao, setngay_tao] = useState("");
-  const [tenDM, settenDM] = useState("");
-  const [ma_danh_muc, setma_danh_muc] = useState("");
-  const [ngay_cap_nhat, setngay_cap_nhat] = useState("");
-  const [mo_ta, setmo_ta] = useState("");
-  const [so_luong, setso_luong] = useState("");
-  const [gia, setgia] = useState("");
-  const [giam_gia, setgiam_gia] = useState(0);
-  const [hinh_anh, sethinh_anh] = useState("");
+  const { ma_san_pham } = useParams(); // Lấy mã sản phẩm từ URL
+  const [ten_san_pham, setTenSanPham] = useState("");
+  const [ngay_tao, setNgayTao] = useState("");
+  const [ma_danh_muc, setMaDanhMuc] = useState("");
+  const [ngay_cap_nhat, setNgayCapNhat] = useState("");
+  const [mo_ta, setMoTa] = useState("");
+  const [so_luong, setSoLuong] = useState("");
+  const [gia, setGia] = useState("");
+  const [giam_gia, setGiamGia] = useState(0);
+  const [hinh_anh, setHinhAnh] = useState("");
+  const [fileHinhAnh, setFileHinhAnh] = useState(null); // State cho file hình ảnh
   const [error, setError] = useState(null);
   const [danhMuc, setDanhMuc] = useState([]); // State để lưu danh sách danh mục
 
@@ -61,31 +61,22 @@ function AdminSanPhamSua() {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           if (data && data.status === "success" && data.data) {
             const sp = data.data;
-            if (typeof sp === "object") {
-              // Kiểm tra sp có phải là đối tượng không
-              setten_san_pham(sp.ten_san_pham || "");
-              setngay_tao(sp.ngay_tao || "");
-              settenDM(sp.tenDM || "");
-              setma_danh_muc(sp.ma_danh_muc || "");
-              setngay_cap_nhat(sp.ngay_cap_nhat || "");
-              setmo_ta(sp.mo_ta || "");
-              setgia(sp.gia || "");
-              setgiam_gia(sp.giam_gia || 0);
-              setso_luong(sp.so_luong || "");
-              sethinh_anh(sp.hinh_anh || "");
-            } else {
-              throw new Error("Dữ liệu sản phẩm không hợp lệ");
-            }
+            setTenSanPham(sp.ten_san_pham || "");
+            setNgayTao(sp.ngay_tao || "");
+            setMaDanhMuc(sp.ma_danh_muc || "");
+            setNgayCapNhat(sp.ngay_cap_nhat || "");
+            setMoTa(sp.mo_ta || "");
+            setGia(sp.gia || "");
+            setGiamGia(sp.giam_gia || 0);
+            setSoLuong(sp.so_luong || "");
+            setHinhAnh(sp.hinh_anh || "");
           } else {
             throw new Error(data.message || "Không có dữ liệu");
           }
         })
-        .catch((error) => {
-          setError(error.message);
-        });
+        .catch((error) => setError(error.message));
     }
   }, [ma_san_pham]);
 
@@ -100,18 +91,15 @@ function AdminSanPhamSua() {
       })
       .then((data) => {
         if (data && data.status === "success" && data.data) {
-          setDanhMuc(data.data); // Lưu danh sách danh mục vào state
+          setDanhMuc(data.data);
         } else {
           throw new Error(data.message || "Không có dữ liệu danh mục");
         }
       })
-      .catch((error) => {
-        setError(error.message);
-      });
+      .catch((error) => setError(error.message));
   }, []);
 
   // Hàm xử lý gửi dữ liệu cập nhật
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -134,19 +122,26 @@ function AdminSanPhamSua() {
     }
 
     const updatedProduct = {
-      ten_san_pham,
-      ngay_tao,
-      ma_danh_muc,
-      ngay_cap_nhat,
-      mo_ta,
-      so_luong,
-      gia,
-      giam_gia,
-      hinh_anh,
+      TenSanPham: ten_san_pham,
+      NgayTao: ngay_tao,
+      MaDanhMuc: ma_danh_muc,
+      NgayCapNhat: ngay_cap_nhat,
+      MoTa: mo_ta,
+      SoLuong: so_luong,
+      GiaSP: gia,
+      GiamGia: giam_gia,
+      HinhAnh: hinh_anh,
     };
 
-    console.log("Dữ liệu gửi đi:", updatedProduct); // In ra dữ liệu để kiểm tra
+    const formData = new FormData();
+    Object.keys(updatedProduct).forEach((key) =>
+      formData.append(key, updatedProduct[key])
+    );
+    if (fileHinhAnh) {
+      formData.append("HinhAnh", fileHinhAnh); // Thêm file hình ảnh vào formData
+    }
 
+    // Gửi yêu cầu cập nhật
     fetch(`http://localhost:8000/api/products/update/${ma_san_pham}`, {
       method: "PUT",
       headers: {
@@ -165,13 +160,14 @@ function AdminSanPhamSua() {
       .then((data) => {
         if (data.status === "success") {
           alert("Cập nhật sản phẩm thành công!");
+          console.log(data);
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
         }
       })
       .catch((error) => {
         setError(error.message);
-        console.error("Lỗi:", error); // In ra lỗi để kiểm tra
+        console.error("Lỗi:", error);
       });
   };
 
@@ -323,16 +319,10 @@ function AdminSanPhamSua() {
                           type="text"
                           className="form-control"
                           id="TenSanPham"
-                          aria-describedby="TenSanPhamlHelp"
                           value={ten_san_pham}
-                          onChange={(e) => setten_san_pham(e.target.value)}
+                          onChange={(e) => setTenSanPham(e.target.value)}
+                          required
                         />
-                        <div
-                          id="TenSanPhamlHelp"
-                          className="form-text text-danger"
-                        >
-                          Đây là trường bắt buộc
-                        </div>
                       </div>
 
                       <div className="row mb-3">
@@ -357,7 +347,7 @@ function AdminSanPhamSua() {
                             className="form-control"
                             id="NgayTao"
                             value={ngay_tao}
-                            onChange={(e) => setngay_tao(e.target.value)}
+                            onChange={(e) => setNgayTao(e.target.value)}
                           />
                         </div>
                       </div>
@@ -368,20 +358,21 @@ function AdminSanPhamSua() {
                             Loại sản phẩm
                           </label>
                           <select
-                            class="form-select"
+                            className="form-select"
                             id="LoaiSanPham"
-                            value={ma_danh_muc} // Đặt giá trị của select bằng ma_danh_muc
-                            onChange={(e) => setma_danh_muc(e.target.value)}
+                            value={ma_danh_muc}
+                            onChange={(e) => setMaDanhMuc(e.target.value)}
+                            required
                           >
                             <option value="" disabled>
                               Chọn loại sản phẩm
                             </option>
                             {danhMuc.map((loaiSP) => (
                               <option
+                                key={loaiSP.ma_danh_muc}
                                 value={loaiSP.ma_danh_muc}
                               >
                                 {loaiSP.ten_danh_muc}
-                                {loaiSP.ma_danh_muc}
                               </option>
                             ))}
                           </select>
@@ -395,7 +386,7 @@ function AdminSanPhamSua() {
                             className="form-control"
                             id="NgayCapNhat"
                             value={ngay_cap_nhat}
-                            onChange={(e) => setngay_cap_nhat(e.target.value)}
+                            onChange={(e) => setNgayCapNhat(e.target.value)}
                           />
                         </div>
                       </div>
@@ -405,12 +396,11 @@ function AdminSanPhamSua() {
                           Mô tả
                         </label>
                         <textarea
-                          type="text"
                           className="form-control"
                           id="MoTa"
                           rows={3}
                           value={mo_ta}
-                          onChange={(e) => setmo_ta(e.target.value)}
+                          onChange={(e) => setMoTa(e.target.value)}
                         />
                       </div>
                     </div>
@@ -485,44 +475,42 @@ function AdminSanPhamSua() {
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Thông tin giá</h5>
 
-                      <form className="adminspsua" onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                          <label htmlFor="GiaSP" className="form-label">
-                            Giá bán
-                          </label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="GiaSP"
-                            value={gia}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (value >= 0) {
-                                setgia(value);
-                              }
-                            }}
-                            min="0" // Đặt giá trị tối thiểu là 0
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <label htmlFor="GiamGia" className="form-label">
-                            Giá khuyễn mãi
-                          </label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="GiamGia"
-                            value={giam_gia}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (value >= 0) {
-                                setgiam_gia(value);
-                              }
-                            }}
-                            min="0" // Đặt giá trị tối thiểu là 0
-                          />
-                        </div>
-                      </form>
+                      <div className="mb-3">
+                        <label htmlFor="GiaSP" className="form-label">
+                          Giá bán
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="GiaSP"
+                          value={gia}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value >= 0) {
+                              setGia(value);
+                            }
+                          }}
+                          min="0"
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="GiamGia" className="form-label">
+                          Giá khuyễn mãi
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="GiamGia"
+                          value={giam_gia}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (value >= 0) {
+                              setGiamGia(value);
+                            }
+                          }}
+                          min="0"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
