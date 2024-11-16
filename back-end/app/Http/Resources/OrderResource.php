@@ -16,7 +16,7 @@ class OrderResource extends JsonResource
     {
         return[
             'ma_don_hang'=>$this->MaDH,
-            'ma_tai_khoan'=>$this->MaTaiKhoan,
+            'ma_tai_khoan'=>$this->MataiKhoan,
             'tong_tien'=>$this->TongTien,
             'so_luong'=>$this->SoLuong,
             'ho_ten'=>$this->Ten,
