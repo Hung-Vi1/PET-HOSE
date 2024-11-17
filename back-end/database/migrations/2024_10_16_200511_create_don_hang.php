@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('DiaChi');
             $table->string('PTTT'); // Phương thức thanh toán
             $table->string('GhiChu')->nullable();
+            $table->string('Loai');
             $table->enum('TrangThai', ['cho_xac_nhan', 'dang_xu_ly', 'hoan_thanh', 'huy'])->default('cho_xac_nhan'); // Trạng thái đơn hàng
             $table->dateTime('NgayDat');  // Ngày và giờ đặt hàng có thể để trống
             $table->dateTime('NgayGiao')->nullable(); // Ngày và giờ giao hàng có thể để trống

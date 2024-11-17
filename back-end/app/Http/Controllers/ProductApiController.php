@@ -55,6 +55,7 @@ class ProductApiController extends Controller
                 ->whereHas('danhMuc', function ($query) {
                     $query->where('loai', '0');
                 })
+                ->where('Loai', '1')
                 ->get();
 
 
@@ -74,55 +75,57 @@ class ProductApiController extends Controller
     }
 
 
-    
-/**
- * @OA\Get(
- *     path="/api/products/sanPhamTheoDM/{MaDanhMuc}",
- *     tags={"SanPham"},
- *     summary="Lấy danh sách sản phẩm theo mã danh mục",
- *     description="Trả về danh sách sản phẩm thuộc một danh mục cụ thể, chỉ khi danh mục có parent_id.",
- *     @OA\Parameter(
- *         name="MaDanhMuc",
- *         in="path",
- *         required=true,
- *         description="Mã danh mục cần lấy sản phẩm",
- *         @OA\Schema(type="integer")
- *     ),
- *     @OA\Response(
- *         response=200,
- *         description="Lấy dữ liệu thành công",
- *         @OA\JsonContent(
- *             @OA\Property(property="status", type="string", example="success"),
- *             @OA\Property(property="message", type="string", example="Dữ liệu được lấy thành công"),
- *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ProductResource"))
- *         )
- *     ),
- *     @OA\Response(
- *         response=404,
- *         description="Danh mục không tồn tại hoặc không có parent_id",
- *         @OA\JsonContent(
- *             @OA\Property(property="status", type="string", example="fail"),
- *             @OA\Property(property="message", type="string", example="Danh mục không tồn tại hoặc không có parent_id"),
- *             @OA\Property(property="data", type="null")
- *         )
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Lỗi máy chủ",
- *         @OA\JsonContent(
- *             @OA\Property(property="status", type="string", example="fail"),
- *             @OA\Property(property="message", type="string", example="Lỗi máy chủ"),
- *             @OA\Property(property="data", type="null")
- *         )
- *     )
- * )
- */
+
+    /**
+     * @OA\Get(
+     *     path="/api/products/sanPhamTheoDM/{MaDanhMuc}",
+     *     tags={"SanPham"},
+     *     summary="Lấy danh sách sản phẩm theo mã danh mục",
+     *     description="Trả về danh sách sản phẩm thuộc một danh mục cụ thể, chỉ khi danh mục có parent_id.",
+     *     @OA\Parameter(
+     *         name="MaDanhMuc",
+     *         in="path",
+     *         required=true,
+     *         description="Mã danh mục cần lấy sản phẩm",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lấy dữ liệu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Dữ liệu được lấy thành công"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ProductResource"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Danh mục không tồn tại hoặc không có parent_id",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Danh mục không tồn tại hoặc không có parent_id"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi máy chủ",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Lỗi máy chủ"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     )
+     * )
+     */
     public function sanPhamTheoDM($MaDanhMuc)
     {
         try {
             // Kiểm tra nếu danh mục có parent_id khác null
-            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
-    
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)
+            ->whereNotNull('parent_id')
+            ->first();
+
             // Nếu không tìm thấy danh mục hoặc không có parent_id
             if (!$danhMuc) {
                 return response()->json([
@@ -131,10 +134,12 @@ class ProductApiController extends Controller
                     'data' => null
                 ], 404);
             }
-    
+
             // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
-            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
-    
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)
+            ->where('Loai', '1')
+            ->get();
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Dữ liệu được lấy thành công',
@@ -150,8 +155,92 @@ class ProductApiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Get(
+     *     path="/api/products/locSanPhamTheoGia",
+     *     summary="Lọc sản phẩm theo khoảng giá",
+     *     description="API này lọc danh sách sản phẩm dựa trên khoảng giá được cung cấp.",
+     *     tags={"SanPham"},
+     *     @OA\Parameter(
+     *         name="min_price",
+     *         in="query",
+     *         description="Giá tối thiểu để lọc sản phẩm (mặc định là 0)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="number",
+     *             format="float"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="max_price",
+     *         in="query",
+     *         description="Giá tối đa để lọc sản phẩm (mặc định là 1,000,000,000)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="number",
+     *             format="float"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Dữ liệu sản phẩm được lọc thành công",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Dữ liệu sản phẩm được lọc thành công"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/ProductResource")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi hệ thống",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Thông báo lỗi"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     )
+     * )
      */
+
+    public function locSanPhamTheoGia(Request $request)
+    {
+        try {
+            // Lấy giá trị min và max từ request
+            $minPrice = $request->input('min_price', 0); // Giá trị mặc định là 0
+            $maxPrice = $request->input('max_price', 1000000000); // Giá trị mặc định rất lớn
+
+            // Truy vấn sản phẩm theo khoảng giá
+            $products = SanPham::whereBetween('GiaSP', [$minPrice, $maxPrice])->get();
+
+            // Kiểm tra nếu không có sản phẩm nào được tìm thấy
+            if ($products->isEmpty()) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Không tìm thấy sản phẩm nào trong khoảng giá này',
+                    'data' => null
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu sản phẩm được lọc thành công',
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
+
+
 
 
     /**
@@ -216,6 +305,7 @@ class ProductApiController extends Controller
             $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
             $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
             $validatedData['TrangThai'] = 1;       // Trạng thái mặc định là 1
+            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
             $validatedData['ThoiGian'] = now();    // Thời gian hiện tại
 
             $product = SanPham::create($validatedData);
@@ -233,9 +323,6 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
 
     /**
      * @OA\Get(
@@ -267,7 +354,7 @@ class ProductApiController extends Controller
     {
         //GET
         try {
-            $product = SanPham::findOrFail($MaSP);
+            $product = SanPham::where('Loai', 1)->findOrFail($MaSP);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
@@ -282,17 +369,7 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     /**
      * @OA\Put(
      *     path="/api/products/update/{MaSP}",
@@ -377,9 +454,6 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
 
     /**
      * @OA\Delete(

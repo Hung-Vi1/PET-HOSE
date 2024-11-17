@@ -1037,12 +1037,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "MaTaiKhoan",
+                                    "Mataikhoan",
                                     "PTTT",
                                     "chi_tiet"
                                 ],
                                 "properties": {
-                                    "MaTaiKhoan": {
+                                    "Mataikhoan": {
                                         "description": "Mã tài khoản của người đặt hàng",
                                         "type": "integer",
                                         "example": 1
@@ -1121,6 +1121,200 @@
                                         },
                                         "data": {
                                             "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/{Mataikhoan}": {
+            "get": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Lấy đơn hàng theo tài khoản",
+                "description": "Trả về đơn hàng",
+                "operationId": "555db26320a87bdb9cb5b0a213d15537",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID của tài khoản cần lấy thông tin đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Tài khoản không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/orderDetails/{MaDH}": {
+            "get": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Lấy chi tiết đơn hàng",
+                "description": "Lấy chi tiết đơn hàng bao gồm thông tin sản phẩm theo mã đơn hàng.",
+                "operationId": "ce9f6add2216819cfdb3a74459489709",
+                "parameters": [
+                    {
+                        "name": "MaDH",
+                        "in": "path",
+                        "description": "Mã đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "MaCTDH": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "MaDH": {
+                                                        "type": "string",
+                                                        "example": "DH001"
+                                                    },
+                                                    "MaSP": {
+                                                        "type": "string",
+                                                        "example": "SP001"
+                                                    },
+                                                    "DonGia": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 50000
+                                                    },
+                                                    "SoLuong": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "SanPham": {
+                                                        "properties": {
+                                                            "TenSP": {
+                                                                "type": "string",
+                                                                "example": "Sản phẩm A"
+                                                            },
+                                                            "MoTa": {
+                                                                "type": "string",
+                                                                "example": "Mô tả sản phẩm A"
+                                                            },
+                                                            "Gia": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 50000
+                                                            },
+                                                            "HinhAnh": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy chi tiết đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy chi tiết đơn hàng"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi server"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -1444,6 +1638,89 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Lỗi máy chủ"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/locSanPhamTheoGia": {
+            "get": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Lọc sản phẩm theo khoảng giá",
+                "description": "API này lọc danh sách sản phẩm dựa trên khoảng giá được cung cấp.",
+                "operationId": "5dad7c6a515b9348392439661faedb00",
+                "parameters": [
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "description": "Giá tối thiểu để lọc sản phẩm (mặc định là 0)",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "description": "Giá tối đa để lọc sản phẩm (mặc định là 1,000,000,000)",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu sản phẩm được lọc thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu sản phẩm được lọc thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi hệ thống",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
                                         },
                                         "data": {
                                             "type": "null"
@@ -1781,6 +2058,749 @@
                                         },
                                         "data": {
                                             "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services": {
+            "get": {
+                "tags": [
+                    "DichVu"
+                ],
+                "summary": "Lấy danh sách dịch vụ",
+                "description": "Trả về danh sách tất cả các dịch vụ.",
+                "operationId": "a852190551b5f115649bc525b2af1206",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ServiceResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/services/store": {
+            "post": {
+                "tags": [
+                    "DichVu"
+                ],
+                "summary": "Thêm dịch vụ mới",
+                "description": "Thêm dịch vụ vào danh sách.",
+                "operationId": "67956128a3dc4233820703146386b917",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "MaDanhMuc",
+                                    "TenSanPham",
+                                    "GiaSP",
+                                    "HinhAnh",
+                                    "MoTa"
+                                ],
+                                "properties": {
+                                    "MaDanhMuc": {
+                                        "description": "Mã danh mục dịch vụ",
+                                        "type": "integer"
+                                    },
+                                    "TenSanPham": {
+                                        "description": "Tên dịch vụ",
+                                        "type": "string"
+                                    },
+                                    "GiaSP": {
+                                        "description": "Giá dịch vụ",
+                                        "type": "number"
+                                    },
+                                    "GiamGia": {
+                                        "description": "Giảm giá dịch vụ",
+                                        "type": "number"
+                                    },
+                                    "MoTa": {
+                                        "description": "Mô tả chi tiết dịch vụ",
+                                        "type": "string"
+                                    },
+                                    "HinhAnh": {
+                                        "description": "URL của hình ảnh dịch vụ",
+                                        "type": "string",
+                                        "format": "url"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm dịch vụ thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ServiceResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi thêm dịch vụ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi mô tả chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services/{MaSP}": {
+            "get": {
+                "tags": [
+                    "DichVu"
+                ],
+                "summary": "Lấy thông tin chi tiết dịch vụ",
+                "description": "Trả về thông tin chi tiết của dịch vụ dựa trên mã dịch vụ.",
+                "operationId": "6fe32fe69c0c293115b9885c203a6dfe",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã dịch vụ cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ServiceResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "dịch vụ không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/services/update/{MaSP}": {
+            "put": {
+                "tags": [
+                    "DichVu"
+                ],
+                "summary": "Cập nhật thông tin dịch vụ",
+                "description": "Cập nhật thông tin dịch vụ dựa trên mã dịch vụ.",
+                "operationId": "70f4549d5d739c275ec05aed4504ddf7",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã dịch vụ cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "MaDanhMuc": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "TenSanPham": {
+                                        "type": "string",
+                                        "example": "dịch vụ A"
+                                    },
+                                    "GiaSP": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100000
+                                    },
+                                    "GiamGia": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 0
+                                    },
+                                    "MoTa": {
+                                        "type": "string",
+                                        "example": "Mô tả dịch vụ A"
+                                    },
+                                    "SoLuong": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "HinhAnh": {
+                                        "type": "string",
+                                        "example": "hinh_anh_a.jpg"
+                                    },
+                                    "LuotXem": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "LuotBan": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "ThoiGian": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-10-24 12:00:00"
+                                    },
+                                    "TrangThai": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ServiceResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi cập nhật dữ liệu"
+                    },
+                    "404": {
+                        "description": "dịch vụ không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/services/destroy/{MaSP}": {
+            "delete": {
+                "tags": [
+                    "DichVu"
+                ],
+                "summary": "Xóa dịch vụ",
+                "description": "Xóa dịch vụ theo mã dịch vụ (MaSP).",
+                "operationId": "0c99306e0b3d40f978ef3c836f5471b1",
+                "parameters": [
+                    {
+                        "name": "MaSP",
+                        "in": "path",
+                        "description": "Mã dịch vụ cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa thành công"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orderServices": {
+            "get": {
+                "tags": [
+                    "DonHangDichVu"
+                ],
+                "summary": "Lấy danh sách đơn hàng",
+                "description": "Trả về danh sách tất cả các đơn hàng.",
+                "operationId": "266204e4df7345409e3f9a7d43d8934f",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ServiceOrderResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "DonHangDichVu"
+                ],
+                "summary": "Tạo đơn hàng mới",
+                "description": "Tạo một đơn hàng mới cùng với chi tiết đơn hàng.",
+                "operationId": "091bf1ad730b086c164d976f154f7e94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Chuyển khoản"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Ghi chú đơn hàng"
+                                    },
+                                    "chi_tiet": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã dịch vụ",
+                                                    "type": "integer",
+                                                    "example": 60
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng dịch vụ",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ServiceOrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orderServices/{Mataikhoan}": {
+            "get": {
+                "tags": [
+                    "DonHangDichVu"
+                ],
+                "summary": "Lấy đơn hàng theo tài khoản",
+                "description": "Trả về đơn hàng",
+                "operationId": "5386e12e6771384e283aaf71a80cb800",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID của tài khoản cần lấy thông tin đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ServiceOrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Tài khoản không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/orderDetailServices/{MaDH}": {
+            "get": {
+                "tags": [
+                    "DonHangDichVu"
+                ],
+                "summary": "Lấy chi tiết đơn hàng",
+                "description": "Lấy chi tiết đơn hàng bao gồm thông tin sản phẩm theo mã đơn hàng.",
+                "operationId": "d3d3b9a1dccc28c163e11576636851a6",
+                "parameters": [
+                    {
+                        "name": "MaDH",
+                        "in": "path",
+                        "description": "Mã đơn hàng",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "MaCTDH": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "MaDH": {
+                                                        "type": "string",
+                                                        "example": "DH001"
+                                                    },
+                                                    "MaSP": {
+                                                        "type": "string",
+                                                        "example": "SP001"
+                                                    },
+                                                    "DonGia": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 50000
+                                                    },
+                                                    "SoLuong": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "NgayDat": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-29T17:09:04Z"
+                                                    },
+                                                    "SanPham": {
+                                                        "properties": {
+                                                            "TenSP": {
+                                                                "type": "string",
+                                                                "example": "Sản phẩm A"
+                                                            },
+                                                            "MoTa": {
+                                                                "type": "string",
+                                                                "example": "Mô tả sản phẩm A"
+                                                            },
+                                                            "Gia": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 50000
+                                                            },
+                                                            "HinhAnh": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/image.jpg"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy chi tiết đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy chi tiết đơn hàng"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi server"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -2231,7 +3251,7 @@
                         "type": "integer",
                         "example": 1
                     },
-                    "MataiKhoan": {
+                    "Mataikhoan": {
                         "type": "integer",
                         "example": 1
                     },
@@ -2262,6 +3282,10 @@
                     "GhiChu": {
                         "type": "string",
                         "example": "Ghi chú đơn hàng 1"
+                    },
+                    "Loai": {
+                        "type": "string",
+                        "example": "1"
                     },
                     "NgayDat": {
                         "type": "string",
@@ -2312,6 +3336,98 @@
                     }
                 },
                 "type": "object"
+            },
+            "ServiceResource": {
+                "title": "Service Resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Service Name"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 99.99
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "This is a service description."
+                    }
+                },
+                "type": "object"
+            },
+            "ServiceOrderResource": {
+                "properties": {
+                    "MaDonHang": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Mataikhoan": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TongTien": {
+                        "type": "integer",
+                        "example": 500000
+                    },
+                    "SoLuong": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "Ten": {
+                        "type": "string",
+                        "example": "Nguyễn Văn A"
+                    },
+                    "SDT": {
+                        "type": "string",
+                        "example": "0123456789"
+                    },
+                    "DiaChi": {
+                        "type": "string",
+                        "example": "123 Đường ABC, Quận 1, TP.HCM"
+                    },
+                    "PTTT": {
+                        "type": "string",
+                        "example": "Chuyển khoản"
+                    },
+                    "GhiChu": {
+                        "type": "string",
+                        "example": "Ghi chú đơn hàng 1"
+                    },
+                    "Loai": {
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "NgayDat": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    },
+                    "NgayGiao": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-11-01T17:09:04Z"
+                    },
+                    "TrangThai": {
+                        "type": "string",
+                        "example": "Đang xử lý"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -2335,6 +3451,14 @@
         {
             "name": "SanPham",
             "description": "SanPham"
+        },
+        {
+            "name": "DichVu",
+            "description": "DichVu"
+        },
+        {
+            "name": "DonHangDichVu",
+            "description": "DonHangDichVu"
         },
         {
             "name": "Users",
