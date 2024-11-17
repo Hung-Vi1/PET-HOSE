@@ -106,7 +106,7 @@ function Header() {
               <span className="m-2">
                 {typeof user === "string"
                   ? user.slice(0, 4)
-                  : user?.name || "Người dùng"}
+                  : user?.Hovaten || "Người dùng"}
               </span>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
