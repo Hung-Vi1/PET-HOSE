@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 function ThanhToan() {
   const [cart, setCart] = useState([]);
-  const [userData, setUserData] = useState({ name: "", phone: "", address: "" });
+  const [userData, setUserData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    Mataikhoan: "",
+  });
   const [formData, setFormData] = useState({
     note: "",
     paymentMethod: "cod",
@@ -13,32 +18,38 @@ function ThanhToan() {
   useEffect(() => {
     const savedCart = sessionStorage.getItem("cart");
     setCart(savedCart ? JSON.parse(savedCart) : []);
-    
-    // Lấy thông tin người dùng từ localStorage
-    const userData = localStorage.getItem("user");
 
-    if (userData) {
-      const parsedUserData = JSON.parse(userData);
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      const parsedUser = JSON.parse(user);
       setUserData({
-        name: parsedUserData.Hovaten,
-        phone: parsedUserData.SDT,
-        address: parsedUserData.DiaChi,
+        name: parsedUser.Hovaten,
+        phone: parsedUser.SDT,
+        address: parsedUser.DiaChi,
+        Mataikhoan: parsedUser.Mataikhoan || "",
       });
-    } else {
-      alert("Vui lòng đăng nhập để lấy thông tin.");
     }
   }, []);
 
-  // Xử lý thay đổi thông tin trong form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  // Xử lý gửi đơn hàng
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => {
+      return total + item.quantity * parseInt(item.gia);
+    }, 0);
+  };
+
   const handleSubmit = async () => {
+    if (!userData.Mataikhoan) {
+      alert("Vui lòng nhập mã tài khoản để đặt hàng.");
+      return;
+    }
+
     const orderData = {
-      MaTaiKhoan: 1, // Thay đổi ID người dùng nếu cần
+      Mataikhoan: userData.Mataikhoan,
       PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "Chuyển khoản",
       GhiChu: formData.note,
       chi_tiet: cart.map((item) => ({
@@ -60,6 +71,14 @@ function ThanhToan() {
 
       if (response.ok) {
         alert("Đơn hàng đã được gửi thành công!");
+
+        // Xoá giỏ hàng khỏi sessionStorage
+        sessionStorage.removeItem("cart");
+
+        // Cập nhật state cart về mảng rỗng
+        setCart([]);
+
+        // Chuyển hướng người dùng về trang chủ
         navigate("/");
       } else {
         console.error("Lỗi khi đặt hàng:", result.message);
@@ -105,6 +124,17 @@ function ThanhToan() {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td colSpan="3" style={{ textAlign: "right", fontWeight: "bold" }}>
+                  Tổng cộng:
+                </td>
+                <td style={{ textAlign: "center", fontWeight: "bold" }}>
+                  {calculateTotal().toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -149,7 +179,9 @@ function ThanhToan() {
                 className="form-control"
                 placeholder="Ghi chú (tuỳ chọn)"
                 value={formData.note}
-                onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, note: e.target.value })
+                }
               ></textarea>
             </div>
             <div className="mb-3">
@@ -158,7 +190,9 @@ function ThanhToan() {
                 name="paymentMethod"
                 className="form-control"
                 value={formData.paymentMethod}
-                onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, paymentMethod: e.target.value })
+                }
               >
                 <option value="cod">Ship COD</option>
                 <option value="bank">Chuyển khoản</option>

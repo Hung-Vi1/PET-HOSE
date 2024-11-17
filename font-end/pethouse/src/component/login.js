@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../contexts/AuthContext"; // Nhập useAuth từ AuthContext
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext"; // Nhập AuthContext
 import "../App.css";
 
 const LoginSignupForm = () => {
-
-  const navigate = useNavigate(); // Khởi tạo useNavigate
+  const navigate = useNavigate();
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login từ context
+  const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login và setIsLoggedIn từ AuthContext
 
   // Formik cho Đăng Ký
   const signupFormik = useFormik({
@@ -70,7 +68,7 @@ const LoginSignupForm = () => {
         }
 
         alert("Đăng ký thành công! Vui lòng đăng nhập.");
-        setIsRightPanelActive(false); // Đổi sang form đăng nhập sau khi đăng ký thành công
+        setIsRightPanelActive(false);
       } catch (error) {
         setFieldError("general", error.message);
       } finally {
@@ -98,18 +96,37 @@ const LoginSignupForm = () => {
             Matkhau: values.password,
           }),
         });
+
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Đăng nhập thất bại");
         }
 
-        const userData = await response.json();
-        const name = userData.Hovaten || values.email;
-        login(name); // Gọi hàm login với tên người dùng
-        setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
-        alert("Đăng nhập thành công!");
+        const data = await response.json(); // Lấy dữ liệu từ phản hồi
+        const userData = data.user; // Truy cập vào đối tượng user
 
-        navigate("/"); // Chuyển hướng đến trang Admin
+        // Kiểm tra dữ liệu người dùng và lưu vào sessionStorage
+        if (userData) {
+          const userInfo = {
+            Mataikhoan: userData.Mataikhoan || null,
+            Hovaten: userData.Hovaten || null,
+            SDT: userData.SDT || null,
+            Diachi: userData.DiaChi || null,
+            Email: userData.Email || null,
+          };
+
+          sessionStorage.setItem("user", JSON.stringify(userInfo));
+          console.log("Thông tin người dùng được lưu vào sessionStorage:", userInfo);
+
+          // Gọi hàm login và cập nhật trạng thái đăng nhập
+          login(userData);  // Gọi hàm login trong AuthContext
+          setIsLoggedIn(true); // Cập nhật trạng thái đã đăng nhập trong AuthContext
+          alert("Đăng nhập thành công!");
+
+          navigate("/"); // Chuyển hướng đến trang Admin
+        } else {
+          throw new Error("Thông tin người dùng không hợp lệ.");
+        }
       } catch (error) {
         setFieldError("general", error.message);
       } finally {
@@ -120,10 +137,7 @@ const LoginSignupForm = () => {
 
   return (
     <div className="lg">
-      <div
-        className={`login ${isRightPanelActive ? "right-panel-active" : ""}`}
-        id="container"
-      >
+      <div className={`login ${isRightPanelActive ? "right-panel-active" : ""}`} id="container">
         {/* Form Đăng Ký */}
         <div className="form-login sign-up-login">
           <form onSubmit={signupFormik.handleSubmit}>
@@ -227,10 +241,7 @@ const LoginSignupForm = () => {
           <div className="overlay">
             <div className="overlay-panel overlay-left">
               <h1 className="fw-bold">Chào Mừng Trở Lại!</h1>
-              <p>
-                Để kết nối với chúng tôi, vui lòng đăng nhập với thông tin cá
-                nhân của bạn
-              </p>
+              <p>Để kết nối với chúng tôi, vui lòng đăng nhập với thông tin cá nhân của bạn</p>
               <button
                 className="ghost"
                 id="signIn"
@@ -240,11 +251,8 @@ const LoginSignupForm = () => {
               </button>
             </div>
             <div className="overlay-panel overlay-right">
-              <h1 className="fw-bold">Xin Chào, Bạn!</h1>
-              <p>
-                Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng
-                tôi
-              </p>
+              <h1 className="fw-bold">Chào Mừng Bạn!</h1>
+              <p>Hãy bắt đầu với tài khoản mới của bạn</p>
               <button
                 className="ghost"
                 id="signUp"

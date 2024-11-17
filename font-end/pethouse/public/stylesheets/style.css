@@ -1706,7 +1706,7 @@ article .more-link a:after {
 	color: #f63440;
 	position: absolute;
 	top: 0px;
-	right: -12px;
+	right: -18px;
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
 	-ms-transition: all 0.3s ease-in-out;
@@ -2588,6 +2588,7 @@ article .more-link a:hover:after {
 }
 
 #subscribe-form button {
+	height: 44px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -2750,7 +2751,7 @@ article .more-link a:hover:after {
 }
 
 .parallax1 {
-	background-image: url('../images/parallax/bg-parallax1.jpg');
+	background-image: url('../image/banner2.jpg');
 }
 
 .parallax2 {

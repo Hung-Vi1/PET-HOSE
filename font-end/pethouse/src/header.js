@@ -103,23 +103,26 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <h7 className="m-2">
-                {user.slice(0, 4)}
-                {user.length > 4}
-              </h7>
+              <span className="m-2">
+                {typeof user === "string"
+                  ? user.slice(0, 4)
+                  : user?.name || "Người dùng"}
+              </span>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
-                  <li className="m-0">
-                    <Link className="text-nowrap" to="/admin">
-                      Trang quản trị
-                    </Link>
-                  </li>
+                  {hasPermission && (
+                    <li className="m-0">
+                      <Link className="text-nowrap" to="/admin">
+                        Trang quản trị
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <hr />
                   </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
-                      Tài khoảng của tôi
+                      Tài khoản của tôi
                     </Link>
                   </li>
                   <li>
@@ -130,7 +133,7 @@ function Header() {
                   <li>
                     <a
                       style={{ cursor: "pointer" }}
-                      onClick={logout}
+                      onClick={handleLogout}
                       className="text-nowrap"
                     >
                       Đăng Xuất

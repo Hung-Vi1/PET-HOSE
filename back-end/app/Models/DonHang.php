@@ -26,7 +26,7 @@ class DonHang extends Model
      * @var array
      */
     protected $fillable = [
-        'MataiKhoan',
+        'Mataikhoan',
         'TongTien',
         'SoLuong',
         'Ten',
@@ -51,6 +51,6 @@ class DonHang extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'MataiKhoan', 'MataiKhoan');
+        return $this->belongsTo(User::class, 'Mataikhoan', 'Mataikhoan');
     }
 }

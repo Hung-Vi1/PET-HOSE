@@ -764,11 +764,11 @@
 
 .filter-shop .showing-product {
 	font-weight: 400;
-	float: left;
+	float: right;
 }
 
 .filter-shop ul.flat-filter-search {
-	float: right;
+	float: left;
 }
 
 .filter-shop ul.flat-filter-search li {

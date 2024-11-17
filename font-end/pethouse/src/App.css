@@ -397,3 +397,13 @@ button.ghost:hover {
     /* Thay đổi màu nền khi hover vào mục menu */
 
 }
+
+.grid.four {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid.four .post {
+    width: 23%; /* Điều chỉnh cho phù hợp với khoảng cách */
+    margin: 1%;
+}

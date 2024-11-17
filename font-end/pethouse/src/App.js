@@ -353,7 +353,7 @@ function App() {
             }
           />
           <Route
-            path="/lichsunua"
+            path="/lichsumua"
             exact
             element={
               <div>

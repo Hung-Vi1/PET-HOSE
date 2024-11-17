@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "../App.css";
 
 function Index() {
   const [NewProduct, ListNewProduct] = useState([]);
@@ -199,7 +200,7 @@ function Index() {
           <div className="row">
             <div className="col-md-12">
               <div className="title-section margin-bottom-52">
-                <h2 className="title">Sản phẩm mới</h2>
+                <h2 className="title">Sản Phẩm Mới</h2>
               </div>
               <div className="product-content product-fourcolumn clearfix">
                 <ul className="product style2 clearfix">
@@ -215,7 +216,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </Link>
-                        <span className="new">New</span>
+                        <span className="new">Mới</span>
                       </div>
 
                       <div className="product-info text-center clearfix">
@@ -256,23 +257,20 @@ function Index() {
             <div className="col-md-12">
               <div className="flat-animation-block">
                 <div className="title-section width-before-17 bg-before-white margin-bottom-14">
-                  <div className="sup-title">
-                    <span>NEW TREND 2018</span>
-                  </div>
-                  <h2 className="title font-size-52 line-height-76">
-                    Women‘s Collection
+                  <h2 className="title font-size-40 line-height-76">
+                    Ưu đãi hấp dẫn khi mua sản phẩm
                   </h2>
                   <div className="sub-title">
-                    <span>Big Sale of this Week</span>
+                    <span>Sản phẩm chính hãng của Pet houe</span>
                   </div>
                 </div>
                 <div className="elm-btn text-center">
-                  <a
-                    href="/"
+                  <Link
+                    to="/sanpham"
                     className="themesflat-button bg-accent has-padding-36"
                   >
-                    Shop Now
-                  </a>
+                    Xem Ngay
+                  </Link>
                 </div>
               </div>
               {/* /.flat-animation-block */}
@@ -283,7 +281,7 @@ function Index() {
 
       <section class="flat-row row-product-project style-1">
         <div className="title-section margin-bottom-41">
-          <h2 className="title">Khuyến mãi</h2>
+          <h2 className="title">Sản Phẩm</h2>
         </div>
         <ul className="nav nav-tabs d-flex justify-content-center">
           <li className="nav-item">
@@ -330,7 +328,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </a>
-                        <span className="new">New</span>
+                        <span className="new">Mới</span>
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -375,7 +373,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </a>
-                        <span className="new">New</span>
+                        <span className="new">Mới</span>
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -420,7 +418,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </a>
-                        <span className="new">New</span>
+                        <span className="new">Mới</span>
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -527,235 +525,114 @@ function Index() {
         </div>
       </section>
 
-      <section className="flat-row row-new-latest">
+      <section class="flat-row row-new-latest">
+        <div className="title-section margin-bottom-41">
+          <h2 className="title">Tin Thú Cưng</h2>
+        </div>
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <div className="title-section margin-bottom-40">
-                <h2 className="title">Mới nhất</h2>
-              </div>
-              <div className="new-latest-wrap">
-                <div
-                  className="flat-new-latest flat-carousel-box post-wrap style3 data-effect clearfix"
-                  data-auto="false"
-                  data-column={3}
-                  data-column2={2}
-                  data-column3={1}
-                  data-gap={30}
-                >
-                  <div className="owl-carousel owl-theme">
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-1-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
-                        </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
+              <div className="post-wrap margin-bottom-26">
+                <div className="grid four">
+                  <article className="post clearfix">
+                    <div className="featured-post">
+                      <img src="images/blog/11.jpg" alt="Hình ảnh bài viết 1" />
+                    </div>
+                    <div className="content-post">
+                      <div className="title-post">
+                        <h2>
+                          <a href="chitiettintuc">
+                            Grenfell Remembered, Six Months On
+                          </a>
+                        </h2>
                       </div>
-                    </article>
-                    {/* /.post */}
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-2-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
+                      <div className="entry-post">
+                        <p>
+                          MARKING exactly six months since the devastating blaze
+                          at Grenfell Tower, in which 71 people died and
+                          hundreds more lost...
+                        </p>
+                        <div className="more-link">
+                          <a href="chitiettintuc">Read More</a>
                         </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
                       </div>
-                    </article>
-                    {/* /.post */}
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-3-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
+                    </div>
+                  </article>
+
+                  <article className="post clearfix">
+                    <div className="featured-post">
+                      <img src="images/blog/12.jpg" alt="Hình ảnh bài viết 2" />
+                    </div>
+                    <div className="content-post">
+                      <div className="title-post">
+                        <h2>
+                          <a href="chitiettintuc">
+                            The Design Museum Honours...
+                          </a>
+                        </h2>
+                      </div>
+                      <div className="entry-post">
+                        <p>
+                          When the Tunisian-born couturier Azzedine Alaïa passed
+                          away in Paris on November 18, tributes began pouring
+                          in...
+                        </p>
+                        <div className="more-link">
+                          <a href="chitiettintuc">Read More</a>
                         </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
                       </div>
-                    </article>
-                    {/* /.post */}
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-1-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
+                    </div>
+                  </article>
+
+                  <article className="post clearfix">
+                    <div className="featured-post">
+                      <img src="images/blog/13.jpg" alt="Hình ảnh bài viết 3" />
+                    </div>
+                    <div className="content-post">
+                      <div className="title-post">
+                        <h2>
+                          <a href="chitiettintuc">
+                            Is Adriana Lima Hanging Up Her Wings?
+                          </a>
+                        </h2>
+                      </div>
+                      <div className="entry-post">
+                        <p>
+                          It is a long established fact that a reader will be
+                          distracted by the readable content of a page when
+                          looking at its layout...
+                        </p>
+                        <div className="more-link">
+                          <a href="chitiettintuc">Read More</a>
                         </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
                       </div>
-                    </article>
-                    {/* /.post */}
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-2-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
+                    </div>
+                  </article>
+
+                  <article className="post clearfix">
+                    <div className="featured-post">
+                      <img src="images/blog/14.jpg" alt="Hình ảnh bài viết 4" />
+                    </div>
+                    <div className="content-post">
+                      <div className="title-post">
+                        <h2>
+                          <a href="chitiettintuc">
+                            Looking For A New Statement Piece?
+                          </a>
+                        </h2>
+                      </div>
+                      <div className="entry-post">
+                        <p>
+                          There’s nothing more personal in anyone’s wardrobe
+                          than their jewellery. It tells a story beyond the
+                          possibilities of most clothes...
+                        </p>
+                        <div className="more-link">
+                          <a href="chitiettintuc">Read More</a>
                         </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
                       </div>
-                    </article>
-                    {/* /.post */}
-                    <article className="post clearfix">
-                      <div className="featured-post data-effect-item">
-                        <img
-                          src="images/blog/new-lastest-3-370x280.jpg"
-                          alt="hinh"
-                        />
-                        <div className="content-post text-center">
-                          <div className="title-post">
-                            <h2>
-                              <a href="blog-detail.html">Trend Of 2018</a>
-                            </h2>
-                          </div>
-                          {/* /.title-post */}
-                          <ul className="meta-post">
-                            <li className="date">OCT 08, 2018</li>
-                            <li className="author">
-                              <a href="#">BY ADMIN</a>
-                            </li>
-                          </ul>
-                          {/* /.meta-post */}
-                          <div className="entry-post">
-                            <p>
-                              This is Heading the bank manager long ago won the
-                              battle for the heart of...
-                            </p>
-                            <div className="more-link">
-                              <a href="blog-detail.html">READ MORE</a>
-                            </div>
-                          </div>
-                        </div>
-                        {/* /.content-post */}
-                        <div className="overlay-effect bg-overlay-black" />
-                      </div>
-                    </article>
-                    {/* /.post */}
-                  </div>
-                  {/* /.owl-carousel */}
+                    </div>
+                  </article>
                 </div>
               </div>
             </div>
@@ -764,68 +641,68 @@ function Index() {
       </section>
 
       <section className="flat-row mail-chimp">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="text">
-                <h3>Liên hệ với chúng tôi</h3>
-              </div>
-            </div>
-            <div className="col-md-8">
-              <div className="subscribe clearfix">
-                <form
-                  action="#"
-                  method="post"
-                  acceptCharset="utf-8"
-                  id="subscribe-form"
-                >
-                  <div className="subscribe-content">
-                    <div className="input">
-                      <input
-                        type="email"
-                        name="subscribe-email"
-                        placeholder="Nhập email"
-                      />
-                    </div>
-                    <div className="button">
-                      <button type="button">Gửi</button>
-                    </div>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="text">
+                    <h3>Sign up for Send Newsletter</h3>
                   </div>
-                </form>
-                <ul className="flat-social">
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-facebook" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-twitter" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-google" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-behance" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-linkedin" />
-                    </a>
-                  </li>
-                </ul>
-                {/* /.flat-social */}
+                </div>
+                <div className="col-md-8">
+                  <div className="subscribe clearfix">
+                    <form
+                      action="#"
+                      method="post"
+                      acceptCharset="utf-8"
+                      id="subscribe-form"
+                    >
+                      <div className="subscribe-content">
+                        <div className="input">
+                          <input
+                            type="email"
+                            name="subscribe-email"
+                            placeholder="Your Email"
+                          />
+                        </div>
+                        <div className="button">
+                          <button type="button">SUBCRIBE</button>
+                        </div>
+                      </div>
+                    </form>
+                    <ul className="flat-social">
+                      <li>
+                        <a href="/#">
+                          <i className="fa fa-facebook" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/#">
+                          <i className="fa fa-twitter" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/#">
+                          <i className="fa fa-google" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/#">
+                          <i className="fa fa-behance" />
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/#">
+                          <i className="fa fa-linkedin" />
+                        </a>
+                      </li>
+                    </ul>
+                    {/* /.flat-social */}
+                  </div>
+                  {/* /.subscribe */}
+                </div>
               </div>
-              {/* /.subscribe */}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
     </>
   );
 }

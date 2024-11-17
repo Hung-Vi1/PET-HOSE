@@ -20,7 +20,7 @@ use App\Models\SanPham;
  *     schema="OrderResource",
  *     type="object",
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
- *     @OA\Property(property="MataiKhoan", type="integer", example=1),
+ *     @OA\Property(property="Mataikhoan", type="integer", example=1),
  *     @OA\Property(property="TongTien", type="integer", example=500000),
  *     @OA\Property(property="SoLuong", type="integer", example=1),
  *     @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
@@ -111,8 +111,8 @@ class OrderApiController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"MaTaiKhoan", "PTTT", "chi_tiet"},
-     *             @OA\Property(property="MaTaiKhoan", type="integer", example=1, description="Mã tài khoản của người đặt hàng"),
+     *             required={"Mataikhoan", "PTTT", "chi_tiet"},
+     *             @OA\Property(property="Mataikhoan", type="integer", example=1, description="Mã tài khoản của người đặt hàng"),
      *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản", description="Phương thức thanh toán"),
      *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng", description="Ghi chú cho đơn hàng"),
      *             @OA\Property(property="chi_tiet", type="array", @OA\Items(
@@ -147,7 +147,7 @@ class OrderApiController extends Controller
         try {
             // Validate dữ liệu đầu vào
             $validatedData = $request->validate([
-                'MaTaiKhoan' => 'required|integer|exists:users,MaTaiKhoan', // Kiểm tra tồn tại
+                'Mataikhoan' => 'required|integer|exists:users,Mataikhoan', // Kiểm tra tồn tại
                 'PTTT' => 'required|string|max:50',
                 'GhiChu' => 'nullable|string|max:255',
 
@@ -155,9 +155,9 @@ class OrderApiController extends Controller
                 'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
                 'chi_tiet.*.SoLuong' => 'required|integer|min:1|max:50',
             ], [
-                'MaTaiKhoan.required' => 'Vui lòng nhập mã tài khoản',
-                'MaTaiKhoan.integer' => 'Mã tài khoản phải là số',
-                'MaTaiKhoan.exists' => 'Mã tài khoản không tồn tại',
+                'Mataikhoan.required' => 'Vui lòng nhập mã tài khoản',
+                'Mataikhoan.integer' => 'Mã tài khoản phải là số',
+                'Mataikhoan.exists' => 'Mã tài khoản không tồn tại',
 
                 'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
                 'PTTT.string' => 'Phương thức thanh toán phải là chuỗi ký tự',
@@ -174,7 +174,7 @@ class OrderApiController extends Controller
 
 
             // Lấy thông tin người dùng từ bảng users
-            $user = User::findOrFail($validatedData['MaTaiKhoan']);
+            $user = User::findOrFail($validatedData['Mataikhoan']);
             // Khởi tạo trạng thái và ngày đặt
             $validatedData['TrangThai'] = 'dang_xu_ly';
             $validatedData['NgayDat'] = now();    // Thời gian hiện tại
@@ -182,7 +182,7 @@ class OrderApiController extends Controller
 
             // Tạo đơn hàng
             $order = DonHang::create([
-                'MaTaiKhoan' => $validatedData['MaTaiKhoan'],
+                'Mataikhoan' => $validatedData['Mataikhoan'],
                 'TongTien' => 0, // Tổng tiền sẽ được tính sau
                 'SoLuong' => 0,   // Khởi tạo SoLuong
                 'Ten' => $user->Hovaten,       // Lấy tên từ bảng users

@@ -36,6 +36,7 @@ function SanPham() {
         <div className="boxed">
           <div className="page-title parallax parallax1">
             <div className="container">
+              
               <div className="row">
                 <div className="col-md-12">
                   <div className="page-title-heading">
@@ -62,7 +63,7 @@ function SanPham() {
                 <div className="col-md-12">
                   <div className="filter-shop bottom_68 clearfix">
                     <p className="showing-product">
-                      Showing 1–12 of 56 Products
+                      Hiểm thị 1 - 25 sản phẩm
                     </p>
                     <ul className="flat-filter-search">
                       <li>
@@ -71,7 +72,7 @@ function SanPham() {
                           className="show-filter text-black"
                           onClick={toggleFilter}
                         >
-                          {isFilterVisible ? "Filters" : "Filters"}
+                          {isFilterVisible ? "Lọc sản phẩm" : "Lọc sản phẩm "}
                         </a>
                       </li>
                       <li className="search-product">
@@ -80,7 +81,7 @@ function SanPham() {
                           className="text-black"
                           onClick={toggleSearch}
                         >
-                          Search
+                          Tìm kiếm
                         </a>
                       </li>
                     </ul>
@@ -246,7 +247,7 @@ function SanPham() {
                       </form>
                     </div>
                   )}
-                  <PhanTrang listSP={list_sp} pageSize={12} ganSP={ganSP} />
+                  <PhanTrang listSP={list_sp} pageSize={24} ganSP={ganSP} />
                 </div>
               </div>
             </div>
