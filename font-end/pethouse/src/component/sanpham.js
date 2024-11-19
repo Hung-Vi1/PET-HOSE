@@ -327,24 +327,36 @@ function HienSPTrongMotTrang({ spTrongTrang }) {
     const savedCart = sessionStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
-
+  
   const addToCart = (product) => {
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
     const existingProductIndex = cart.findIndex(
       (item) => item.ma_san_pham === product.ma_san_pham
     );
+    
     let updatedCart;
-
+  
     if (existingProductIndex !== -1) {
+      // Nếu sản phẩm đã có, cập nhật số lượng
       updatedCart = [...cart];
       updatedCart[existingProductIndex].quantity += 1;
     } else {
+      // Nếu sản phẩm chưa có, thêm mới vào giỏ
       updatedCart = [...cart, { ...product, quantity: 1 }];
     }
-
+  
+    // Cập nhật lại trạng thái giỏ hàng
     setCart(updatedCart);
+    
+    // Lưu giỏ hàng vào sessionStorage
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    
+    // Phát ra sự kiện để các component khác lắng nghe và cập nhật (bao gồm Header)
+    window.dispatchEvent(new Event("cartUpdated"));
+  
     alert("Đã thêm vào giỏ hàng");
   };
+  
 
   return (
     <>

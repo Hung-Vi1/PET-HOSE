@@ -6,7 +6,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
   const [cart, setCart] = useState([]);
-  const { user, hasPermission, logout } = useAuth(); // Nhập user và logout từ AuthContext
+  const { user, hasPermission, logout } = useAuth(); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -27,13 +27,9 @@ function Header() {
       setCart(parsedCart);
     };
 
-    // Gọi hàm updateCart khi component load lần đầu
     updateCart();
-
-    // Lắng nghe sự kiện 'cartUpdated' để cập nhật giỏ hàng khi có thay đổi
     window.addEventListener("cartUpdated", updateCart);
 
-    // Cleanup event listener khi component bị unmount
     return () => {
       window.removeEventListener("cartUpdated", updateCart);
     };
@@ -44,8 +40,8 @@ function Header() {
   };
 
   const handleLogout = () => {
-    logout(); // Gọi hàm logout
-    setIsDropdownOpen(false); // Đóng dropdown sau khi đăng xuất
+    logout(); 
+    setIsDropdownOpen(false); 
   };
 
   const truncateProductName = (name, maxLength = 20) => {
@@ -61,9 +57,6 @@ function Header() {
             alt="anh"
             width={107}
             height={24}
-            data-retina="logo-ngang.png"
-            data-width={107}
-            data-height={24}
           />
         </Link>
       </div>
@@ -75,25 +68,9 @@ function Header() {
       <ul className="menu-extra menu">
         <li className="box-search">
           <a className="icon_search header-search-icon" href="/#" />
-          <form
-            role="search"
-            method="get"
-            className="header-search-form"
-            action="#"
-          >
-            <input
-              type="text"
-              name="s"
-              className="header-search-field"
-              placeholder="Search..."
-            />
-            <button
-              type="submit"
-              className="header-search-submit"
-              title="Search"
-            >
-              Search
-            </button>
+          <form role="search" method="get" className="header-search-form" action="#">
+            <input type="text" name="s" className="header-search-field" placeholder="Search..." />
+            <button type="submit" className="header-search-submit" title="Search">Tìm kiếm</button>
           </form>
         </li>
         <li className="box-login">
@@ -103,41 +80,23 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <span className="m-2">
-                {typeof user === "string"
-                  ? user.slice(0, 4)
-                  : user?.name || "Người dùng"}
-              </span>
+              <span className="m-2">{typeof user === "string" ? user.slice(0, 4) : user?.Hovaten || "Người dùng"}</span>
               {isDropdownOpen && (
                 <ul className="submenu px-2">
                   {hasPermission && (
                     <li className="m-0">
-                      <Link className="text-nowrap" to="/admin">
-                        Trang quản trị
-                      </Link>
+                      <Link className="text-nowrap" to="/admin">Trang quản trị</Link>
                     </li>
                   )}
-                  <li>
-                    <hr />
-                  </li>
+                  <li><hr /></li>
                   <li className="m-0">
-                    <Link className="text-nowrap" to="/info">
-                      Tài khoản của tôi
-                    </Link>
+                    <Link className="text-nowrap" to="/info">Tài khoản của tôi</Link>
                   </li>
                   <li>
-                    <Link className="text-nowrap" to="/lichsumua">
-                      Lịch sử mua hàng
-                    </Link>
+                    <Link className="text-nowrap" to="/lichsumua">Lịch sử mua hàng</Link>
                   </li>
                   <li>
-                    <a
-                      style={{ cursor: "pointer" }}
-                      onClick={handleLogout}
-                      className="text-nowrap"
-                    >
-                      Đăng Xuất
-                    </a>
+                    <a style={{ cursor: "pointer" }} onClick={handleLogout} className="text-nowrap">Đăng Xuất</a>
                   </li>
                 </ul>
               )}
@@ -156,13 +115,8 @@ function Header() {
                 {cart.length > 0 ? (
                   <ul className="woocommerce-mini-cart cart_list product_list_widget">
                     {cart.map((item, index) => (
-                      <li
-                        key={index}
-                        className="woocommerce-mini-cart-item mini_cart_item"
-                        style={{ fontSize: "14px" }}
-                      >
-                        <span>{truncateProductName(item.ten_san_pham)}</span> -{" "}
-                        <span>Số lượng: {item.quantity}</span>
+                      <li key={index} className="woocommerce-mini-cart-item mini_cart_item" style={{ fontSize: "14px" }}>
+                        <span>{truncateProductName(item.ten_san_pham)}</span> - <span>Số lượng: {item.quantity}</span>
                       </li>
                     ))}
                   </ul>
@@ -176,42 +130,24 @@ function Header() {
       </ul>
 
       <div className="nav-wrap">
-        <nav
-          id="mainnav"
-          className={`mainnav ${isMenuOpen && isMobile ? "open" : ""}`}
-          style={{
-            display: isMobile ? (isMenuOpen ? "block" : "none") : "block",
-          }}
-        >
+        <nav id="mainnav" className={`mainnav ${isMenuOpen && isMobile ? "open" : ""}`} style={{ display: isMobile ? (isMenuOpen ? "block" : "none") : "block" }}>
           <ul className="menu">
-            <li className="active">
-              <Link to="/">Trang chủ</Link>
-            </li>
-            <li>
-              <Link to="/sanpham">Sản phẩm</Link>
-            </li>
+            <li className="active"><Link to="/">Trang chủ</Link></li>
+            <li><Link to="/sanpham">Sản phẩm</Link></li>
             <li>
               <Link to="/datlich">Đặt lịch</Link>
               <ul className="submenu">
-                <li>
-                  <a href="coming-soon.html">Dịch vụ 1</a>
-                </li>
-                <li>
-                  <a href="404.html">Dịch vụ 2</a>
-                </li>
+                <li><a href="coming-soon.html">Dịch vụ 1</a></li>
+                <li><a href="404.html">Dịch vụ 2</a></li>
               </ul>
             </li>
             <li>
               <Link to="/tintuc">Tin thú cưng</Link>
               <ul className="submenu">
-                <li>
-                  <a href="blog-list.html">Blog List Full</a>
-                </li>
+                <li><a href="blog-list.html">Blog List Full</a></li>
               </ul>
             </li>
-            <li>
-              <Link to="/lienhe">Liên hệ</Link>
-            </li>
+            <li><Link to="/lienhe">Liên hệ</Link></li>
           </ul>
         </nav>
       </div>

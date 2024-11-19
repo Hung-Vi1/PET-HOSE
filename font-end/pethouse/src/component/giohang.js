@@ -5,38 +5,29 @@ function GioHang() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    // Lấy giỏ hàng từ sessionStorage khi component được mount
     const savedCart = sessionStorage.getItem("cart");
     setCart(savedCart ? JSON.parse(savedCart) : []);
   }, []);
 
-  // Hàm thay đổi số lượng sản phẩm và cập nhật giỏ hàng
   const handleQuantityChange = (index, quantity) => {
     const updatedCart = [...cart];
-
-    // Nếu số lượng mới là 0, xóa sản phẩm khỏi giỏ hàng
     if (quantity <= 0) {
       updatedCart.splice(index, 1);
     } else {
-      // Cập nhật số lượng nếu lớn hơn 0
       updatedCart[index].quantity = quantity;
     }
-
     setCart(updatedCart);
-    sessionStorage.setItem("cart", JSON.stringify(updatedCart)); // Cập nhật lại sessionStorage
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Hàm xoá sản phẩm khỏi giỏ hàng
   const handleRemoveProduct = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Tính tổng cộng cho từng sản phẩm
   const calculateTotalPrice = (price, quantity) => price * quantity;
 
-  // Tính tổng giá trị giỏ hàng
   const calculateCartTotal = () => {
     return cart.reduce((total, item) => total + item.gia * item.quantity, 0);
   };
@@ -48,99 +39,101 @@ function GioHang() {
         {cart.length === 0 ? (
           <p className="text-center">Giỏ hàng hiện đang trống.</p>
         ) : (
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  STT
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Tên sản phẩm
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Hình ảnh
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Giá
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Số lượng
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Tổng cộng
-                </th>
-                <th scope="col" style={{ textAlign: "center" }}>
-                  Xóa
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.ten_san_pham}</td>
-                  <td>
-                    <img
-                      src={`image/product/${item.hinh_anh}`}
-                      alt={item.ten_san_pham}
-                      style={{ width: "100px", height: "auto" }}
-                    />
-                  </td>
-                  <td>
-                    {parseInt(item.gia).toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={item.quantity}
-                      min="0"
-                      onChange={(e) =>
-                        handleQuantityChange(index, parseInt(e.target.value))
-                      }
-                      className="form-control"
-                    />
-                  </td>
-                  <td>
-                    {parseInt(
-                      calculateTotalPrice(item.gia, item.quantity)
-                    ).toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleRemoveProduct(index)}
-                      className="btn btn-danger btn-sm"
-                    >
-                      Xóa
-                    </button>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-hover align-middle">
+              <thead className="thead-dark">
+                <tr>
+                  <th style={{ width: "5%", textAlign: "center", verticalAlign: "middle" }}>#</th>
+                  <th style={{ width: "20%", verticalAlign: "middle" }}>Sản phẩm</th>
+                  <th style={{ width: "15%", textAlign: "center", verticalAlign: "middle" }}>Hình ảnh</th>
+                  <th style={{ width: "15%", textAlign: "center", verticalAlign: "middle" }}>Đơn giá</th>
+                  <th style={{ width: "10%", textAlign: "center", verticalAlign: "middle" }}>Số lượng</th>
+                  <th style={{ width: "20%", textAlign: "center", verticalAlign: "middle" }}>Tổng cộng</th>
+                  <th style={{ width: "15%", textAlign: "center", verticalAlign: "middle" }}>Hành động</th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan="6" className="text-right font-weight-bold">
-                  Tổng giá trị giỏ hàng
-                </td>
-                <td className="font-weight-bold">
-                  {parseInt(calculateCartTotal()).toLocaleString("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+              </thead>
+              <tbody>
+                {cart.map((item, index) => (
+                  <tr key={index}>
+                    <td className="text-center align-middle">{index + 1}</td>
+                    <td className="align-middle">
+                      <strong>{item.ten_san_pham}</strong>
+                    </td>
+                    <td className="text-center align-middle">
+                      <img
+                        src={`image/product/${item.hinh_anh}`}
+                        alt={item.ten_san_pham}
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </td>
+                    <td className="text-center align-middle">
+                      {parseInt(item.gia).toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
+                    <td className="text-center align-middle">
+                      <input
+                        type="number"
+                        value={item.quantity}
+                        min="0"
+                        onChange={(e) =>
+                          handleQuantityChange(index, parseInt(e.target.value))
+                        }
+                        className="form-control text-center"
+                        style={{ maxWidth: "70px", margin: "auto" }}
+                      />
+                    </td>
+                    <td className="text-center align-middle">
+                      {parseInt(
+                        calculateTotalPrice(item.gia, item.quantity)
+                      ).toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </td>
+                    <td className="text-center align-middle">
+                      <button
+                        onClick={() => handleRemoveProduct(index)}
+                        className="btn btn-danger btn-sm"
+                      >
+                        Xóa
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="5" className="text-right font-weight-bold align-middle">
+                    Tổng giá trị giỏ hàng
+                  </td>
+                  <td className="text-center font-weight-bold align-middle">
+                    {parseInt(calculateCartTotal()).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         )}
-        <div className="text-right py-10 px-10">
-          <Link to="/formthanhtoan">
-            <button className="btn btn-danger btn-lg">Thanh toán</button>
+        <div className="d-flex justify-content-between mt-4">
+          <Link to="/sanpham">
+            <button className="btn btn-secondary btn-lg">Tiếp tục mua sắm</button>
           </Link>
+          {cart.length > 0 && (
+            <Link to="/formthanhtoan">
+              <button className="btn btn-success btn-lg">Thanh toán</button>
+            </Link>
+          )}
         </div>
       </div>
     </section>
