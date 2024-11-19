@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
  *     @OA\Property(property="Mataikhoan", type="integer", example=1),
  *     @OA\Property(property="MaDMBV", type="integer", example=1),
  *     @OA\Property(property="TieuDe", type="string", example="Bài viết về công nghệ"),
- *     @OA\Property(property="anh", type="string", example="https://example.com/image.jpg"),
+ *     @OA\Property(property="Hinh", type="string", example="https://example.com/image.jpg"),
  *     @OA\Property(property="NoiDung", type="string", example="Đây là nội dung của bài viết."),
  *     @OA\Property(property="ChiTiet", type="string", example="Chi tiết bài viết về công nghệ mới."),
  *     @OA\Property(property="LuotXem", type="integer", example=150),
@@ -74,11 +74,11 @@ class NewsApiController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"Mataikhoan", "MaDMBV", "TieuDe", "anh", "NoiDung", "ChiTiet"},
+     *             required={"Mataikhoan", "MaDMBV", "TieuDe", "Hinh", "NoiDung", "ChiTiet"},
      *             @OA\Property(property="Mataikhoan", type="integer", example=1),
      *             @OA\Property(property="MaDMBV", type="integer", example=2),
      *             @OA\Property(property="TieuDe", type="string", example="Tiêu đề bài viết"),
-     *             @OA\Property(property="anh", type="string", example="abc.jpg"),
+     *             @OA\Property(property="Hinh", type="string", example="abc.jpg"),
      *             @OA\Property(property="NoiDung", type="string", example="Nội dung bài viết"),
      *             @OA\Property(property="ChiTiet", type="string", example="Chi tiết bài viết"),
      *         )
@@ -113,7 +113,7 @@ class NewsApiController extends Controller
                 'Mataikhoan' => 'required|exists:users,Mataikhoan', // Kiểm tra mã tài khoản tồn tại
                 'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV', // Kiểm tra mã danh mục tồn tại
                 'TieuDe' => 'required|string',
-                'anh' => 'nullable|string',
+                'Hinh' => 'nullable|string',
                 'NoiDung' => 'required|string', // Nội dung phải là chuỗi ký tự
                 'ChiTiet' => 'required|string', // Chi tiết bài viết phải là chuỗi ký tự
             ], [
@@ -123,8 +123,8 @@ class NewsApiController extends Controller
                 'MaDMBV.exists' => 'Mã danh mục không tồn tại',
                 'TieuDe.required' => 'Vui lòng nhập tiêu đề bài viết',
                 'TieuDe.string' => 'Tiêu đề phải là chuỗi ký tự',
-                'anh.nullable' => 'Ảnh không bắt buộc',
-                'anh.string' => 'Ảnh phải là chuỗi ký tự',
+                'Hinh.nullable' => 'Ảnh không bắt buộc',
+                'Hinh.string' => 'Ảnh phải là chuỗi ký tự',
                 'NoiDung.required' => 'Vui lòng nhập nội dung bài viết',
                 'NoiDung.string' => 'Nội dung phải là chuỗi ký tự',
                 'ChiTiet.required' => 'Vui lòng nhập chi tiết bài viết',
@@ -136,7 +136,7 @@ class NewsApiController extends Controller
                 'Mataikhoan' => $validatedData['Mataikhoan'],
                 'MaDMBV' => $validatedData['MaDMBV'],
                 'TieuDe' => $validatedData['TieuDe'],
-                'anh' => $validatedData['anh'],
+                'Hinh' => $validatedData['Hinh'],
                 'NoiDung' => $validatedData['NoiDung'],
                 'ChiTiet' => $validatedData['ChiTiet'],
                 'LuotXem' => $validatedData['LuotXem'] ?? 0,
@@ -226,11 +226,11 @@ class NewsApiController extends Controller
      *         required=true,
      *         description="Thông tin bài viết mới",
      *         @OA\JsonContent(
-     *             required={"Mataikhoan", "MaDMBV", "TieuDe", "NoiDung", "ChiTiet"},
+     *             required={"Mataikhoan", "MaDMBV", "TieuDe", "Hinh", "NoiDung", "ChiTiet"},
      *             @OA\Property(property="Mataikhoan", type="integer", example=1),
      *             @OA\Property(property="MaDMBV", type="integer", example=1),
      *             @OA\Property(property="TieuDe", type="string", example="viết"),
-     *             @OA\Property(property="anh", type="string", example="image.jpg"),
+     *             @OA\Property(property="Hinh", type="string", example="image.jpg"),
      *             @OA\Property(property="NoiDung", type="string", example="Nội dung bài viết"),
      *             @OA\Property(property="ChiTiet", type="string", example="Chi tiết bài viết"),
      *             @OA\Property(property="LuotXem", type="integer", example=100),
@@ -275,7 +275,7 @@ class NewsApiController extends Controller
                 'Mataikhoan' => 'required|exists:users,Mataikhoan', // Kiểm tra mã tài khoản tồn tại
                 'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV', // Kiểm tra mã danh mục tồn tại
                 'TieuDe' => 'required|string',
-                'anh' => 'nullable|string',
+                'Hinh' => 'nullable|string',
                 'NoiDung' => 'required|string', // Nội dung phải là chuỗi ký tự
                 'ChiTiet' => 'required|string', // Chi tiết bài viết phải là chuỗi ký tự
             ], [
@@ -285,8 +285,8 @@ class NewsApiController extends Controller
                 'MaDMBV.exists' => 'Mã danh mục không tồn tại',
                 'TieuDe.required' => 'Vui lòng nhập tiêu đề bài viết',
                 'TieuDe.string' => 'Tiêu đề phải là chuỗi ký tự',
-                'anh.nullable' => 'Ảnh không bắt buộc',
-                'anh.string' => 'Ảnh phải là chuỗi ký tự',
+                'Hinh.nullable' => 'Ảnh không bắt buộc',
+                'Hinh.string' => 'Ảnh phải là chuỗi ký tự',
                 'NoiDung.required' => 'Vui lòng nhập nội dung bài viết',
                 'NoiDung.string' => 'Nội dung phải là chuỗi ký tự',
                 'ChiTiet.required' => 'Vui lòng nhập chi tiết bài viết',
@@ -299,7 +299,7 @@ class NewsApiController extends Controller
                 'Mataikhoan' => $validatedData['Mataikhoan'],
                 'MaDMBV' => $validatedData['MaDMBV'],
                 'TieuDe' => $validatedData['TieuDe'],
-                'anh' => $validatedData['anh'],
+                'Hinh' => $validatedData['Hinh'],
                 'NoiDung' => $validatedData['NoiDung'],
                 'ChiTiet' => $validatedData['ChiTiet'],
                 'LuotXem' => $validatedData['LuotXem'] ?? 0,

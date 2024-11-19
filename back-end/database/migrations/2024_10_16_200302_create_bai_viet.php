@@ -16,11 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('Mataikhoan'); // Khóa ngoại đến bảng TaiKhoan
             $table->unsignedBigInteger('MaDMBV'); // Khóa ngoại đến bảng DMBaiViet
             $table->string('TieuDe');
+            $table->string('Hinh');
             $table->text('NoiDung');
             $table->text('ChiTiet');
             $table->integer('LuotXem')->default(0);
             $table->text('BinhLuan')->nullable();
-            $table->string('TrangThai')->default('0'); // Ví dụ về trạng thái bài viết
+            $table->string('TrangThai')->default('1'); // Ví dụ về trạng thái bài viết
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại

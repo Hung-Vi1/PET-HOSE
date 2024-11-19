@@ -19,7 +19,7 @@ class NewsResource extends JsonResource
             'ma_tai_khoan'=>$this->Mataikhoan,
             'ma_danh_muc_bv'=>$this->MaDMBV,
             'tieu_de'=>$this->TieuDe,
-            'anh'=>$this->anh,
+            'Hinh'=>$this->Hinh,
             'noi_dung'=>$this->NoiDung,
             'chi_tiet'=>$this->ChiTiet,
             'luot_xem'=>$this->LuotXem,
