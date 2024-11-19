@@ -13,17 +13,15 @@ return new class extends Migration
     {
         Schema::create('lien_he', function (Blueprint $table) {
             $table->id('MaLienHe'); // Khóa chính
-            $table->unsignedBigInteger('Mataikhoan'); // Khóa ngoại đến bảng TaiKhoan
             $table->string('TieuDe');
             $table->string('HoVaTen');
             $table->string('SoDienThoai');
             $table->string('Email');
             $table->text('NoiDung');
-            $table->timestamp('ThoiGian')->nullable(); // Cho phép null
             $table->timestamps(); // Tự động tạo cột created_at và updated_at
 
             // Định nghĩa khóa ngoại
-            $table->foreign('Mataikhoan')->references('Mataikhoan')->on('users');
+
         });
     }
 

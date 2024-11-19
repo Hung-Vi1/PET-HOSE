@@ -84,3 +84,10 @@ Route::post('/News/store', [NewsApiController::class, 'store']);
 Route::put('/News/{id}', [NewsApiController::class, 'update']);
 Route::delete('/News/{id}', [NewsApiController::class, 'destroy']);
 
+use App\Http\Controllers\ContactApiController;
+Route::get('/contacts', [ContactApiController::class, 'index']);
+Route::get('/contacts/{MaLienHe}', [ContactApiController::class, 'show']);
+Route::post('/contacts/store', [ContactApiController::class, 'store']);
+Route::put('/contacts/update/{MaLienHe}', [ContactApiController::class, 'update']);
+Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'destroy']);
+

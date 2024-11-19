@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\DanhMuc;
 use App\Models\SanPham;
 use App\Models\DonHang;
+use App\Models\LienHe;
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -1059,8 +1060,8 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
             User::create($user); // Sử dụng mô hình User để chèn dữ liệu
         }
 
-         // Tạo dữ liệu mẫu cho đơn hàng
-         $donHangs = [
+        // Tạo dữ liệu mẫu cho đơn hàng
+        $donHangs = [
             [
                 'MaTaiKhoan' => 1,
                 'TongTien' => 500000,
@@ -1135,6 +1136,45 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
 
         foreach ($donHangs as $donHang) {
             DonHang::create($donHang);
+        }
+
+        $contacts = [
+            [
+                'MaLienHe' => 1,
+                'TieuDe' => 'Hỏi về cách chăm sóc thú cưng',
+                'HoVaTen' => 'Nguyễn Văn A',
+                'SoDienThoai' => '0912345678',
+                'Email' => 'nguyenvana@example.com',
+                'NoiDung' => 'Tôi muốn biết cách chăm sóc và cho ăn đúng cách cho chó.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'MaLienHe' => 2,
+                'TieuDe' => 'Yêu cầu hỗ trợ kỹ thuật',
+                'HoVaTen' => 'Trần Thị B',
+                'SoDienThoai' => '0987654321',
+                'Email' => 'tranthib@example.com',
+                'NoiDung' => 'Xin hỗ trợ về việc cài đặt phần mềm mới cho máy tính.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'MaLienHe' => 3,
+                'TieuDe' => 'Phản hồi về dịch vụ',
+                'HoVaTen' => 'Lê Văn C',
+                'SoDienThoai' => '0901234567',
+                'Email' => 'levanc@example.com',
+                'NoiDung' => 'Dịch vụ chăm sóc khách hàng của bạn rất tốt, tôi rất hài lòng.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Bạn có thể thêm nhiều mẫu liên hệ khác ở đây
+        ];
+
+        foreach ($contacts as $contact) {
+            LienHe::create($contact); // Sử dụng mô hình LienHe để chèn dữ liệu
         }
     }
 }
