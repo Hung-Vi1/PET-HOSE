@@ -1,16 +1,23 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTaiKhoan() {
   const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const [listTK, ganListTK] = useState([]);
+  const navigate= useNavigate();
+
+  // Lấy danh sách tài khoản
+  
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
     return <Navigate to="/login" />;
   }
+
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
