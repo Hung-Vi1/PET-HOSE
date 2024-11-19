@@ -14,7 +14,7 @@ class BaiViet extends Model
         'Mataikhoan',
         'MaDMBV',
         'TieuDe',
-        'anh',
+        'Hinh',
         'NoiDung',
         'ChiTiet',
         'LuotXem',
