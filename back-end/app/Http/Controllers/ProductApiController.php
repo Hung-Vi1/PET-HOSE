@@ -8,6 +8,7 @@ use OpenApi\Annotations as OA;
 use App\Models\SanPham;
 use App\Models\DanhMuc;
 use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @OA\Schema(
@@ -55,7 +56,6 @@ class ProductApiController extends Controller
                 ->whereHas('danhMuc', function ($query) {
                     $query->where('loai', '0');
                 })
-                ->where('Loai', '1')
                 ->get();
 
 
@@ -122,9 +122,7 @@ class ProductApiController extends Controller
     {
         try {
             // Kiểm tra nếu danh mục có parent_id khác null
-            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)
-            ->whereNotNull('parent_id')
-            ->first();
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
 
             // Nếu không tìm thấy danh mục hoặc không có parent_id
             if (!$danhMuc) {
@@ -136,9 +134,7 @@ class ProductApiController extends Controller
             }
 
             // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
-            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)
-            ->where('Loai', '1')
-            ->get();
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
 
             return response()->json([
                 'status' => 'success',
@@ -155,92 +151,8 @@ class ProductApiController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/products/locSanPhamTheoGia",
-     *     summary="Lọc sản phẩm theo khoảng giá",
-     *     description="API này lọc danh sách sản phẩm dựa trên khoảng giá được cung cấp.",
-     *     tags={"SanPham"},
-     *     @OA\Parameter(
-     *         name="min_price",
-     *         in="query",
-     *         description="Giá tối thiểu để lọc sản phẩm (mặc định là 0)",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="number",
-     *             format="float"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="max_price",
-     *         in="query",
-     *         description="Giá tối đa để lọc sản phẩm (mặc định là 1,000,000,000)",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="number",
-     *             format="float"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Dữ liệu sản phẩm được lọc thành công",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="Dữ liệu sản phẩm được lọc thành công"),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/ProductResource")
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Lỗi hệ thống",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="status", type="string", example="fail"),
-     *             @OA\Property(property="message", type="string", example="Thông báo lỗi"),
-     *             @OA\Property(property="data", type="null")
-     *         )
-     *     )
-     * )
+     * Store a newly created resource in storage.
      */
-
-    public function locSanPhamTheoGia(Request $request)
-    {
-        try {
-            // Lấy giá trị min và max từ request
-            $minPrice = $request->input('min_price', 0); // Giá trị mặc định là 0
-            $maxPrice = $request->input('max_price', 1000000000); // Giá trị mặc định rất lớn
-
-            // Truy vấn sản phẩm theo khoảng giá
-            $products = SanPham::whereBetween('GiaSP', [$minPrice, $maxPrice])->get();
-
-            // Kiểm tra nếu không có sản phẩm nào được tìm thấy
-            if ($products->isEmpty()) {
-                return response()->json([
-                    'status' => 'fail',
-                    'message' => 'Không tìm thấy sản phẩm nào trong khoảng giá này',
-                    'data' => null
-                ], 404);
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Dữ liệu sản phẩm được lọc thành công',
-                'data' => ProductResource::collection($products)
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
-    }
-
-
 
 
     /**
@@ -305,7 +217,6 @@ class ProductApiController extends Controller
             $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
             $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
             $validatedData['TrangThai'] = 1;       // Trạng thái mặc định là 1
-            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
             $validatedData['ThoiGian'] = now();    // Thời gian hiện tại
 
             $product = SanPham::create($validatedData);
@@ -323,6 +234,9 @@ class ProductApiController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     */
 
     /**
      * @OA\Get(
@@ -354,7 +268,7 @@ class ProductApiController extends Controller
     {
         //GET
         try {
-            $product = SanPham::where('Loai', 1)->findOrFail($MaSP);
+            $product = SanPham::findOrFail($MaSP);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
@@ -369,7 +283,17 @@ class ProductApiController extends Controller
         }
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
     /**
      * @OA\Put(
      *     path="/api/products/update/{MaSP}",
@@ -412,7 +336,65 @@ class ProductApiController extends Controller
      *     @OA\Response(response=404, description="Sản phẩm không tìm thấy")
      * )
      */
+
+    // Tú sửa
     public function update(Request $request, $MaSP)
+    {
+        // PUT
+        try {
+            $validatedData = $request->validate([
+                'MaDanhMuc' => 'required|exists:danh_muc,MaDanhMuc',
+                'TenSanPham' => 'required',
+                'GiaSP' => 'required|numeric',
+                'GiamGia' => 'nullable|numeric',
+                'HinhAnh' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Chỉ cần hình ảnh
+                'MoTa' => 'required',
+                'SoLuong' => 'required|integer',
+                'LuotXem' => 'nullable|integer',
+                'LuotBan' => 'nullable|integer',
+                'ThoiGian' => 'nullable|date',
+                'TrangThai' => 'nullable|integer'
+            ], [
+                'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
+                'MaDanhMuc.exists' => 'Danh mục không tồn tại',
+                'TenSanPham.required' => 'Vui lòng nhập tên sản phẩm',
+                'GiaSP.required' => 'Vui lòng nhập giá sản phẩm',
+                'HinhAnh.image' => 'Hình ảnh không hợp lệ',
+                'HinhAnh.mimes' => 'Hình ảnh phải là kiểu: jpeg, png, jpg, gif',
+                'MoTa.required' => 'Vui lòng nhập mô tả'
+            ]);
+
+            $product = SanPham::findOrFail($MaSP);
+
+            // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
+            if ($request->hasFile('HinhAnh')) {
+                // Xóa hình ảnh cũ nếu có
+                if ($product->HinhAnh) {
+                    Storage::disk('public')->delete($product->HinhAnh);
+                }
+                // Lưu hình ảnh mới
+                $path = $request->file('HinhAnh')->store('image/product', 'public');
+                $validatedData['HinhAnh'] = $path;
+            }
+
+            // Cập nhật thông tin sản phẩm
+            $product->update($validatedData);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cập nhật thành công',
+                'data' => new ProductResource($product)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 400);
+        }
+    }
+    // Hết phần Tú sửa
+    /* public function update(Request $request, $MaSP)
     {
         // PUT
         try {
@@ -452,8 +434,11 @@ class ProductApiController extends Controller
                 'data' => null
             ], 400);
         }
-    }
+    } */
 
+    /**
+     * Remove the specified resource from storage.
+     */
 
     /**
      * @OA\Delete(

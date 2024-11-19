@@ -2247,7 +2247,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "MaDanhMuc": {
@@ -2278,7 +2278,7 @@
                                     },
                                     "HinhAnh": {
                                         "type": "string",
-                                        "example": "hinh_anh_a.jpg"
+                                        "format": "binary"
                                     },
                                     "LuotXem": {
                                         "type": "integer",
