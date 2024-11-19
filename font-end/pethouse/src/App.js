@@ -409,6 +409,7 @@ function App() {
               </div>
             }
           />
+
           {/* Admin */}
           <Route
             path="/admin"
@@ -423,34 +424,42 @@ function App() {
           <Route
             path="/admintaikhoanthem"
             exact
-            element={<AdminTaiKhoanThem />}
+            element={<BaoVeRoute element={<AdminTaiKhoanThem />} />}
           />
           <Route
             path="/admintaikhoansua"
             exact
-            element={<AdminTaiKhoanSua />}
+            element={<BaoVeRoute element={<AdminTaiKhoanSua />} />}
           />
-          <Route path="/adminsanpham" exact element={<AdminSanPham />} />
+          <Route
+            path="/adminsanpham"
+            exact
+            element={<BaoVeRoute element={<AdminSanPham />} />}
+          />
           <Route
             path="/adminsanphamthem"
             exact
-            element={<AdminSanPhamThem />}
+            element={<BaoVeRoute element={<AdminSanPhamThem />} />}
           />
           <Route
             path="/adminsanphamsua/:ma_san_pham"
             exact
-            element={<AdminSanPhamSua />}
+            element={<BaoVeRoute element={<AdminSanPhamSua />} />}
           />
-          <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
+          <Route
+            path="/admindanhmuc"
+            exact
+            element={<BaoVeRoute element={<AdminDanhMuc />} />}
+          />
           <Route
             path="/admindanhmucsua/:ma_danh_muc"
             exact
-            element={<AdminDanhMucSua />}
+            element={<BaoVeRoute element={<AdminDanhMucSua />} />}
           />
           <Route
             path="/admindanhmucthem"
             exact
-            element={<AdminDanhMucThem />}
+            element={<BaoVeRoute element={<AdminDanhMucThem />} />}
           />
         </Routes>
       </BrowserRouter>

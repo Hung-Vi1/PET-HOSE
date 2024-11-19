@@ -25,7 +25,10 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
       sessionStorage.setItem("user", JSON.stringify(userData)); // Lưu vào sessionStorage
-      console.log("Thông tin người dùng đã được lưu vào sessionStorage Compoment AuthContext.js:", sessionStorage.getItem("user"));
+      console.log(
+        "Thông tin người dùng đã được lưu vào sessionStorage:",
+        sessionStorage.getItem("user")
+      );
     } catch (error) {
       setError("Đăng nhập không thành công");
       console.error("Lỗi đăng nhập:", error);

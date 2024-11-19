@@ -99,16 +99,18 @@ function Header() {
 
               {isDropdownOpen && (
                 <ul className="submenu px-2">
-                  {hasPermission && (
-                    <li className="m-0">
-                      <Link className="text-nowrap" to="/admin">
-                        Trang quản trị
-                      </Link>
-                    </li>
+                  {user && hasPermission(1) && (
+                    <>
+                      <li className="m-0">
+                        <Link className="text-nowrap" to="/admin">
+                          Trang quản trị
+                        </Link>
+                      </li>
+                      <li>
+                        <hr />
+                      </li>
+                    </>
                   )}
-                  <li>
-                    <hr />
-                  </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
                       Tài khoản của tôi
