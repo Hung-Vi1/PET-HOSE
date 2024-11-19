@@ -193,7 +193,53 @@ class ProductApiController extends Controller
      *     )
      * )
      */
+    // Tú sửa
     public function store(Request $request)
+    {
+        // Xác thực dữ liệu
+        $request->validate([
+            'MaDanhMuc' => 'required|integer',
+            'TenSanPham' => 'required|string|max:255',
+            'GiaSP' => 'required|integer',
+            'GiamGia' => 'nullable|integer',
+            'MoTa' => 'required|string',
+            'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'SoLuong' => 'required|integer',
+            'LuotXem' => 'nullable|integer',
+            'LuotBan' => 'nullable|integer',
+            'TrangThai' => 'nullable|string',
+        ]);
+
+        // Lưu hình ảnh
+        if ($request->file('HinhAnh')) {
+            $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+            $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
+            $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+        }
+
+
+        // Tạo sản phẩm
+        $product = SanPham::create([
+            'MaDanhMuc' => $request->MaDanhMuc,
+            'TenSanPham' => $request->TenSanPham,
+            'GiaSP' => $request->GiaSP,
+            'GiamGia' => $request->GiamGia,
+            'MoTa' => $request->MoTa,
+            'HinhAnh' => $imageName, // Chỉ lưu tên hình ảnh
+            'SoLuong' => $request->SoLuong,
+            'LuotXem' => $request->LuotXem ?? 0,
+            'LuotBan' => $request->LuotBan ?? 0,
+            'TrangThai' => $request->TrangThai ?? '1',
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thêm sản phẩm thành công',
+            'data' => $product,
+        ], 201);
+    }
+    // Hết phần Tú sửa
+    /* public function store(Request $request)
     {
         //POST 
         try {
@@ -232,7 +278,7 @@ class ProductApiController extends Controller
                 'data' => null
             ], 400);
         }
-    }
+    } */
 
     /**
      * Display the specified resource.

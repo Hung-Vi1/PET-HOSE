@@ -31,6 +31,7 @@ import AdminDanhMuc from "./AdminDanhMuc";
 import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
 import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
+import AdminSanPhamThem from "./AdminSanPhamThem";
 
 function App() {
   return (
@@ -406,7 +407,16 @@ function App() {
             element={<AdminTaiKhoanSua />}
           />
           <Route path="/adminsanpham" exact element={<AdminSanPham />} />
-          <Route path="/adminsanphamsua/:ma_san_pham" exact element={<AdminSanPhamSua />} />
+          <Route
+            path="/adminsanphamthem"
+            exact
+            element={<AdminSanPhamThem />}
+          />
+          <Route
+            path="/adminsanphamsua/:ma_san_pham"
+            exact
+            element={<AdminSanPhamSua />}
+          />
           <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
           <Route
             path="/admindanhmucsua/:ma_danh_muc"
