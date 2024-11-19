@@ -989,7 +989,7 @@
                                     "Mataikhoan",
                                     "MaDMBV",
                                     "TieuDe",
-                                    "anh",
+                                    "Hinh",
                                     "NoiDung",
                                     "ChiTiet"
                                 ],
@@ -1006,7 +1006,7 @@
                                         "type": "string",
                                         "example": "Tiêu đề bài viết"
                                     },
-                                    "anh": {
+                                    "Hinh": {
                                         "type": "string",
                                         "example": "abc.jpg"
                                     },
@@ -1153,6 +1153,7 @@
                                     "Mataikhoan",
                                     "MaDMBV",
                                     "TieuDe",
+                                    "Hinh",
                                     "NoiDung",
                                     "ChiTiet"
                                 ],
@@ -1169,7 +1170,7 @@
                                         "type": "string",
                                         "example": "viết"
                                     },
-                                    "anh": {
+                                    "Hinh": {
                                         "type": "string",
                                         "example": "image.jpg"
                                     },
@@ -3584,7 +3585,7 @@
                         "type": "string",
                         "example": "Bài viết về công nghệ"
                     },
-                    "anh": {
+                    "Hinh": {
                         "type": "string",
                         "example": "https://example.com/image.jpg"
                     },
