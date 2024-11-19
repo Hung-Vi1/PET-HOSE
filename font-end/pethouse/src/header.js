@@ -80,7 +80,14 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
+
               <span className="m-2">{typeof user === "string" ? user.slice(0, 4) : user?.Hovaten || "Người dùng"}</span>
+
+              {/* <span className="m-2">
+                {typeof user === "string"
+                  ? user.slice(0, 4)
+                  : user?.Hovaten || "Người dùng"}
+              </span> */}
               {isDropdownOpen && (
                 <ul className="submenu px-2">
                   {hasPermission && (

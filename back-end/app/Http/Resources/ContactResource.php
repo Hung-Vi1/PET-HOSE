@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewsResource extends JsonResource
+class ContactResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,16 +15,12 @@ class NewsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return[
-            'bai_viet'=>$this->id,
-            'ma_tai_khoan'=>$this->Mataikhoan,
-            'ma_danh_muc_bv'=>$this->MaDMBV,
+            'ma_lien_he'=>$this->MaLienHe,
             'tieu_de'=>$this->TieuDe,
-            'Hinh'=>$this->Hinh,
+            'ho_ten'=>$this->HoVaTen,
+            'loai'=>$this->SoDienThoai,
+            'email'=>$this->Email,
             'noi_dung'=>$this->NoiDung,
-            'chi_tiet'=>$this->ChiTiet,
-            'luot_xem'=>$this->LuotXem,
-            'binh_luan'=>$this->BinhLuan,
-            'trang_thai'=>$this->TrangThai,
             'ngay_tao' => $this->created_at ? $this->created_at->format('d/m/Y') : null,
             'ngay_cap_nhat' => $this->updated_at ? $this->updated_at->format('d/m/Y') : null,
             ];

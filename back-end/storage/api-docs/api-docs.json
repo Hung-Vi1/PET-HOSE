@@ -594,6 +594,343 @@
                 }
             }
         },
+        "/api/contacts": {
+            "get": {
+                "tags": [
+                    "LienHe"
+                ],
+                "summary": "Lấy danh sách liên hệ",
+                "description": "Trả về danh sách tất cả các liên hệ.",
+                "operationId": "3dfd105fd1a3ddfdcf0708bb58abe0da",
+                "responses": {
+                    "200": {
+                        "description": "Dữ liệu được lấy thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ContactResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
+        "/api/contacts/store": {
+            "post": {
+                "tags": [
+                    "LienHe"
+                ],
+                "summary": "Thêm liên hệ mới",
+                "description": "Tạo một liên hệ mới và trả về thông tin của liên hệ vừa được tạo.",
+                "operationId": "7d36ae29d703ff8db581c9827d8214f5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "TieuDe": {
+                                        "type": "string",
+                                        "example": "Hỏi về sản phẩm"
+                                    },
+                                    "HoVaTen": {
+                                        "type": "string",
+                                        "example": "Nguyễn Văn A"
+                                    },
+                                    "SoDienThoai": {
+                                        "type": "string",
+                                        "example": "0912345678"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "example": "nguyenvana@example.com"
+                                    },
+                                    "NoiDung": {
+                                        "type": "string",
+                                        "example": "Xin cho tôi biết thêm thông tin về sản phẩm."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ContactResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{MaLienHe}": {
+            "get": {
+                "tags": [
+                    "LienHe"
+                ],
+                "summary": "Lấy thông tin chi tiết liên hệ",
+                "description": "Trả về thông tin chi tiết của một liên hệ cụ thể.",
+                "operationId": "aea57b555671961141f78867dc03f50a",
+                "parameters": [
+                    {
+                        "name": "MaLienHe",
+                        "in": "path",
+                        "description": "ID của liên hệ cần lấy thông tin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ContactResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            }
+        },
+        "/api/contacts/update/{MaLienHe}": {
+            "put": {
+                "tags": [
+                    "LienHe"
+                ],
+                "summary": "Cập nhật thông tin liên hệ",
+                "description": "Cập nhật thông tin của một liên hệ theo mã liên hệ đã cho.",
+                "operationId": "62dccf6c3ca4d046d19d7216dd1e339a",
+                "parameters": [
+                    {
+                        "name": "MaLienHe",
+                        "in": "path",
+                        "description": "Mã liên hệ cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "TieuDe": {
+                                        "type": "string",
+                                        "example": "Hỏi về dịch vụ"
+                                    },
+                                    "HoVaTen": {
+                                        "type": "string",
+                                        "example": "Nguyễn Văn B"
+                                    },
+                                    "SoDienThoai": {
+                                        "type": "string",
+                                        "example": "0987654321"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "example": "nguyenvanb@example.com"
+                                    },
+                                    "NoiDung": {
+                                        "type": "string",
+                                        "example": "Tôi muốn biết thêm thông tin chi tiết."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ContactResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Chi tiết lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy liên hệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy liên hệ"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/destroy/{MaLienHe}": {
+            "delete": {
+                "tags": [
+                    "LienHe"
+                ],
+                "summary": "Xóa liên hệ",
+                "description": "Xóa một liên hệ theo ID.",
+                "operationId": "6c00dbfa78ba0fa0af63221def3f00e3",
+                "parameters": [
+                    {
+                        "name": "MaLienHe",
+                        "in": "path",
+                        "description": "ID của liên hệ cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công"
+                    },
+                    "500": {
+                        "description": "Lỗi server"
+                    }
+                }
+            }
+        },
         "/api/News": {
             "get": {
                 "tags": [
@@ -652,7 +989,7 @@
                                     "Mataikhoan",
                                     "MaDMBV",
                                     "TieuDe",
-                                    "anh",
+                                    "Hinh",
                                     "NoiDung",
                                     "ChiTiet"
                                 ],
@@ -669,7 +1006,7 @@
                                         "type": "string",
                                         "example": "Tiêu đề bài viết"
                                     },
-                                    "anh": {
+                                    "Hinh": {
                                         "type": "string",
                                         "example": "abc.jpg"
                                     },
@@ -816,6 +1153,7 @@
                                     "Mataikhoan",
                                     "MaDMBV",
                                     "TieuDe",
+                                    "Hinh",
                                     "NoiDung",
                                     "ChiTiet"
                                 ],
@@ -832,7 +1170,7 @@
                                         "type": "string",
                                         "example": "viết"
                                     },
-                                    "anh": {
+                                    "Hinh": {
                                         "type": "string",
                                         "example": "image.jpg"
                                     },
@@ -1638,89 +1976,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Lỗi máy chủ"
-                                        },
-                                        "data": {
-                                            "type": "null"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/products/locSanPhamTheoGia": {
-            "get": {
-                "tags": [
-                    "SanPham"
-                ],
-                "summary": "Lọc sản phẩm theo khoảng giá",
-                "description": "API này lọc danh sách sản phẩm dựa trên khoảng giá được cung cấp.",
-                "operationId": "5dad7c6a515b9348392439661faedb00",
-                "parameters": [
-                    {
-                        "name": "min_price",
-                        "in": "query",
-                        "description": "Giá tối thiểu để lọc sản phẩm (mặc định là 0)",
-                        "required": false,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
-                    {
-                        "name": "max_price",
-                        "in": "query",
-                        "description": "Giá tối đa để lọc sản phẩm (mặc định là 1,000,000,000)",
-                        "required": false,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Dữ liệu sản phẩm được lọc thành công",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Dữ liệu sản phẩm được lọc thành công"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ProductResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Lỗi hệ thống",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "fail"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Thông báo lỗi"
                                         },
                                         "data": {
                                             "type": "null"
@@ -3200,6 +3455,35 @@
                 },
                 "type": "object"
             },
+            "ContactResource": {
+                "properties": {
+                    "MaLienHe": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "TieuDe": {
+                        "type": "string",
+                        "example": "Liên hệ 1"
+                    },
+                    "HoVaTen": {
+                        "type": "string",
+                        "example": "Võ Hùng Vĩ"
+                    },
+                    "SoDienThoai": {
+                        "type": "string",
+                        "example": "0962491715"
+                    },
+                    "Email": {
+                        "type": "string",
+                        "example": "vohungvi24@gmail.com"
+                    },
+                    "NoiDung": {
+                        "type": "string",
+                        "example": "Nội dung liên hệ"
+                    }
+                },
+                "type": "object"
+            },
             "NewsResource": {
                 "properties": {
                     "id": {
@@ -3218,7 +3502,7 @@
                         "type": "string",
                         "example": "Bài viết về công nghệ"
                     },
-                    "anh": {
+                    "Hinh": {
                         "type": "string",
                         "example": "https://example.com/image.jpg"
                     },
@@ -3439,6 +3723,10 @@
         {
             "name": "DanhMuc",
             "description": "DanhMuc"
+        },
+        {
+            "name": "LienHe",
+            "description": "LienHe"
         },
         {
             "name": "BaiViet",
