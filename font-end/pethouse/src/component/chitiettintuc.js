@@ -1,6 +1,6 @@
 import React from "react";
 
-const BlogDetail = () => {
+const ChiTietTinTuc = () => {
   return (
     <section className="blog posts">
       <div className="container">
@@ -299,4 +299,4 @@ const BlogDetail = () => {
   );
 };
 
-export default BlogDetail;
+export default ChiTietTinTuc;

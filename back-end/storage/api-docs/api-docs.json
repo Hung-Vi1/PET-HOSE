@@ -1988,89 +1988,6 @@
                 }
             }
         },
-        "/api/products/locSanPhamTheoGia": {
-            "get": {
-                "tags": [
-                    "SanPham"
-                ],
-                "summary": "Lọc sản phẩm theo khoảng giá",
-                "description": "API này lọc danh sách sản phẩm dựa trên khoảng giá được cung cấp.",
-                "operationId": "5dad7c6a515b9348392439661faedb00",
-                "parameters": [
-                    {
-                        "name": "min_price",
-                        "in": "query",
-                        "description": "Giá tối thiểu để lọc sản phẩm (mặc định là 0)",
-                        "required": false,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    },
-                    {
-                        "name": "max_price",
-                        "in": "query",
-                        "description": "Giá tối đa để lọc sản phẩm (mặc định là 1,000,000,000)",
-                        "required": false,
-                        "schema": {
-                            "type": "number",
-                            "format": "float"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Dữ liệu sản phẩm được lọc thành công",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Dữ liệu sản phẩm được lọc thành công"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/ProductResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Lỗi hệ thống",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "fail"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Thông báo lỗi"
-                                        },
-                                        "data": {
-                                            "type": "null"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/products/store": {
             "post": {
                 "tags": [
@@ -2247,7 +2164,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "MaDanhMuc": {
@@ -2278,7 +2195,7 @@
                                     },
                                     "HinhAnh": {
                                         "type": "string",
-                                        "format": "binary"
+                                        "example": "hinh_anh_a.jpg"
                                     },
                                     "LuotXem": {
                                         "type": "integer",
