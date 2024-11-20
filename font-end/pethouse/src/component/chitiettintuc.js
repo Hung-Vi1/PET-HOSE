@@ -1,21 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ChiTietTinTuc = () => {
+  const { id } = useParams(); // Lấy ID bài viết từ URL
+  const [article, setArticle] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/News/${id}`);
+        if (!response.ok) {
+          throw new Error("Không thể lấy bài viết.");
+        }
+        const data = await response.json();
+        setArticle(data.data); // Điều chỉnh dựa trên cấu trúc phản hồi của API
+
+        // Gọi hàm lấy bài viết liên quan
+        if (data.data) {
+          fetchRelatedArticles(data.data.ma_danh_muc_bv);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchRelatedArticles = async (categoryId) => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/News?ma_danh_muc_bv=${categoryId}`);
+        if (!response.ok) {
+          throw new Error("Không thể lấy bài viết liên quan.");
+        }
+        const data = await response.json();
+        setRelatedArticles(data.data); // Lưu danh sách bài viết liên quan
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchArticle();
+  }, [id]);
+
+  // Chọn ngẫu nhiên một số bài viết liên quan
+  const getRandomArticles = (articles, count) => {
+    const shuffled = [...articles].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  if (loading) {
+    return <p>Đang tải...</p>;
+  }
+
+  if (error) {
+    return <p>Lỗi: {error}</p>;
+  }
+
+  if (!article) {
+    return <p>Bài viết không tồn tại.</p>;
+  }
+
+  // Lấy 3 bài viết liên quan ngẫu nhiên
+  const randomRelatedArticles = getRandomArticles(relatedArticles, 3);
+
   return (
-    <section className="blog posts">
+    <section className="blog posts" style={{ paddingTop: '20px' }}>
       <div className="container">
         <div className="row">
           <div className="col-md-9">
             <div className="post-wrap detail">
               <article className="post clearfix">
                 <div className="title-post">
-                  <h2>
-                    <a href="blog-detail.html">
-                      Anya Hindmarch Changes Strategy
-                    </a>
-                  </h2>
+                  <h2>{article.tieu_de}</h2>
                 </div>
-                {/* /.title-post */}
                 <div className="content-post">
                   <ul className="meta-post">
                     <li className="author padding-left-2">
@@ -23,276 +83,59 @@ const ChiTietTinTuc = () => {
                       <a href="#">Admin</a>
                     </li>
                     <li className="comment">
-                      <a href="#">10 Comment</a>
+                      <span>Lượt xem: {article.luot_xem}</span>
                     </li>
                     <li className="date">
-                      <span>Date 10/10/2018 </span>
+                      <span>Ngày: {article.ngay_tao}</span>
                     </li>
                   </ul>
-                  {/* /.meta-post */}
+                  <div className="entry-post">
+                    <p>{article.noi_dung}</p>
+                  
+                  </div>
                   <div className="featured-post">
-                    <img src="images/blog/21.jpg" alt="image" />
+                    <img src={`../image/News/${article.Hinh}`} alt="bài viết" />
                   </div>
                   <div className="entry-post">
-                    <p>
-                      Earlier this month, the Selfridges Wonder Room welcomed a
-                      new addition to its star-studded and sparkling roster:
-                      Bucherer Fine Jewellery. Bucherer is a brand steeped in
-                      history; it was founded nearly 130 years ago in 1888 in
-                      Switzerland, the home of jewellery, and has been creating
-                      modern pieces with a rich heritage ever since. From the
-                      younger Peekaboo collection to the high design of the Viv-
-                      elle line, there’s something for everyone here.
-                    </p>
-                    <p>
-                      Diamond connoisseurs will fall for the carats nestled
-                      within Bucherer’s designs, whether they’re in the market
-                      for an engagement ring, a statement necklace or the
-                      perfect pear drop earrings to offset any evening look. But
-                      the collection we’re most excited for is Peekaboo. Think
-                      Marie Antoinette meets Glossier with a smattering of
-                      stones thrown in for good measure.
-                    </p>
-                    <p>
-                      It’s feminine and bold, innocent but statement-making, and
-                      romantic in all the right ways. With a fondant fancy
-                      colour palette of brilliant-cut stones set in gold and
-                      decorated with dinky diamonds to bring another level to
-                      the pieces, it hits the right notes every time.
-                    </p>
-                    <div className="box-detail">
-                      <h3>The best Jewellery 2018</h3>
-                      <p>
-                        This is jewellery to aspire to – pieces that will last a
-                        lifetime and be imbued with the kind of sentimentality
-                        that only jewellery can achieve. And Bucherer Fine
-                        Jeweller’s stellar work doesn’t stop there. For a more
-                        graphic and structural take on jewellery-box delights,
-                        look no further than the pear-shaped modern elegance of
-                        Lacrima – dainty, architectural and opulent in one fell
-                        swoop.
-                      </p>
-                    </div>
-                    <blockquote>
-                      <p>
-                        “Bucherer has a range of lines that will appeal to a
-                        range of women – and men – in this loud, busy modern
-                        world and cut through the noise with jewellery steeped
-                        in heritage and crafted by the best artisans Europe has
-                        to offer.”
-                      </p>
-                      <div className="name">
-                        <span>Ollie Schneider </span>-CEO DeerCreative
-                      </div>
-                    </blockquote>
+                    
+                    <p>{article.chi_tiet}</p>
                   </div>
                 </div>
-                {/* /.content-post */}
-                <div className="direction">
-                  <ul className="tags-share clearfix">
-                    <li className="float-left">
-                      <div className="tags">
-                        <span>Tags:</span>
-                        <a href="#">Decoration</a>, <a href="#">Fashion</a>,{" "}
-                        <a href="#">Bags</a>
-                      </div>
-                      {/* /.tags */}
-                    </li>
-                    <li className="float-right">
-                      <div className="social-icon">
-                        <ul className="social-list">
-                          <li className="share">Share:</li>
-                          <li>
-                            <a href="#">
-                              <i className="fa fa-facebook" />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i className="fa fa-twitter" />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i className="fa fa-google-plus" />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i className="fa fa-linkedin" />
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <i className="fa fa-envelope" />
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* /.social-icon */}
-                    </li>
-                  </ul>
-                  <ul className="next-pre clearfix">
-                    <li>
-                      <div className="pre-content">
-                        <div className="btn-default btn-pre">
-                          <a href="#">
-                            <i className="fa fa-chevron-left" />
-                          </a>
-                        </div>
-                        <div className="text text-pre">
-                          <span>Previous Reading</span>
-                          <h4>
-                            <a href="#">
-                              Upto 50% offer For Men’s Bag – Black...
-                            </a>
-                          </h4>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="next-content">
-                        <div className="btn-default btn-next">
-                          <a href="#">
-                            <i className="fa fa-chevron-right" />
-                          </a>
-                        </div>
-                        <div className="text text-next text-right">
-                          <span>Next Reading</span>
-                          <h4>
-                            <a href="#">Fall Summer Fashion Trends 2018</a>
-                          </h4>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                {/* /.direction */}
               </article>
-              {/* /.post */}
             </div>
-            {/* /.post-wrap */}
 
             <div className="main-single">
               <div className="comments-area">
                 <ol className="comment-list">
-                  <li className="comment">
-                    <article className="comment-body">
-                      <div className="comment-author">
-                        <img src="images/blog/comment1.png" alt="image" />
-                      </div>
-                      {/* .comment-author */}
-                      <div className="comment-text">
-                        <div className="comment-metadata clearfix">
-                          <h5>
-                            <a href="#">Jennifer Aniston</a>
-                          </h5>
-                          <span className="date">October 19,2018</span>
-                        </div>
-                        {/* .comment-metadata */}
-                        <div className="comment-content">
-                          <p>
-                            There are many variations of passages of Lorem Ipsum
-                            available, but the majority have alteration in some
-                            form, by injected humour, or randomised words which
-                            don't look even slightly believable. If you are
-                            going to use a passage of Lorem Ipsum, you need to
-                            be sure there isn't anything barrassing hidden in
-                            the middle of text.
-                          </p>
-                        </div>
-                        {/* .comment-content */}
-                        <div className="reply">
-                          <a href="#" className="comment-like-link">
-                            <i className="fa fa-thumbs-up" />
-                            108
-                          </a>
-                          <a href="#" className="comment-reply-link">
-                            <i className="fa fa-pencil-square-o" />
-                            Reply
-                          </a>
-                        </div>
-                        <ol className="children">
-                          <li className="comment style1" id="comment-2">
-                            <article
-                              className="comment-body"
-                              id="div-comment-2"
-                            >
-                              <div className="comment-author">
-                                <img
-                                  src="images/blog/comment1-1.png"
-                                  alt="image"
-                                />
-                              </div>
-                              {/* .comment-author */}
-                              <div className="comment-text">
-                                <div className="comment-metadata clearfix">
-                                  <h5>
-                                    <a href="#">John Smith</a>
-                                  </h5>
-                                  <span className="date">October 19,2018</span>
-                                </div>
-                                {/* .comment-metadata */}
-                                <div className="comment-content">
-                                  <p>
-                                    There are many variations of passages of
-                                    Lorem Ipsum available, but the majority have
-                                    alteration in some form, by injected humour,
-                                    or randomised words which don't look even
-                                    slightly believable. If you are going to use
-                                    a passage of Lorem Ipsum, you need to be
-                                    sure there isn't anything barrassing hidden
-                                    in the middle of text.
-                                  </p>
-                                </div>
-                                {/* .comment-content */}
-                                <div className="reply">
-                                  <a href="#" className="comment-like-link">
-                                    <i className="fa fa-thumbs-up" />
-                                    108
-                                  </a>
-                                  <a href="#" className="comment-reply-link">
-                                    <i className="fa fa-pencil-square-o" />
-                                    Reply
-                                  </a>
-                                </div>
-                              </div>
-                              {/* .comment-text */}
-                            </article>
-                          </li>
-                        </ol>
-                      </div>
-                      {/* .comment-text */}
-                    </article>
-                  </li>
+                  {/* Bình luận sẽ được thêm ở đây */}
                 </ol>
-                {/* .comment-list */}
               </div>
-              {/* /.comments-area */}
             </div>
           </div>
-          {/* /.col-md-9 */}
+
           <div className="col-md-3">
             <div className="widget widget_categories">
-              <h3 className="widget-title">Categories</h3>
+              <h3 className="widget-title">Bài viết liên quan</h3>
               <ul>
-                <li>
-                  <a href="#">Fashion</a>
-                </li>
-                <li>
-                  <a href="#">Decoration</a>
-                </li>
-                <li>
-                  <a href="#">Bags</a>
-                </li>
-                <li>
-                  <a href="#">Jewellery</a>
-                </li>
+                {randomRelatedArticles.length > 0 ? (
+                  randomRelatedArticles.map((related) => (
+                    <li key={related.bai_viet}>
+                      <a href={`/chitiettintuc/${related.bai_viet}`}>
+                        <img
+                          src={`../image/News/${related.Hinh}`}
+                          alt={related.tieu_de}
+                          style={{ width: '100%', height: 'auto', marginBottom: '5px' }}
+                        />
+                        {related.tieu_de}
+                      </a>
+                    </li>
+                  ))
+                ) : (
+                  <li><p>Không có bài viết liên quan.</p></li>
+                )}
               </ul>
             </div>
-            {/* /.widget_categories */}
           </div>
-          {/* /.col-md-3 */}
         </div>
       </div>
     </section>

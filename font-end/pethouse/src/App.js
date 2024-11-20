@@ -43,8 +43,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -52,8 +52,8 @@ function App() {
 
                 <Index />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -67,8 +67,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -76,8 +76,8 @@ function App() {
 
                 <TinTuc />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -91,8 +91,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -100,8 +100,8 @@ function App() {
 
                 <LienHe />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -115,8 +115,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -124,8 +124,8 @@ function App() {
 
                 <SanPham />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -135,21 +135,18 @@ function App() {
 
           <Route
             path="/chitietsanpham/:id"
-            exact
-            element={
+            exact element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
                 </div>
-
                 <ChiTietSanPham />
-
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -158,13 +155,13 @@ function App() {
           />
 
           <Route
-            path="/chitiettintuc"
+            path="/chitiettintuc/:id"
             exact
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -172,8 +169,8 @@ function App() {
 
                 <ChiTietTinTuc />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -187,8 +184,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -196,8 +193,8 @@ function App() {
 
                 <GioHang />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -211,8 +208,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -220,8 +217,8 @@ function App() {
 
                 <ThanhToan />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -271,8 +268,8 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
@@ -280,8 +277,8 @@ function App() {
 
                 <DatLich />
 
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -295,15 +292,15 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
                 </div>
                 <LoginSignupForm />
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -316,15 +313,15 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
                 </div>
                 <Info />
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -337,15 +334,15 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
                 </div>
                 <Password />
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>
@@ -358,15 +355,15 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" class="header header-container clearfix">
-                    <div class="container clearfix" id="site-header-inner">
+                  <header id="header" className="header header-container clearfix">
+                    <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
                   </header>
                 </div>
                 <LichSuMua />
-                <footer class="footer">
-                  <div class="container">
+                <footer className="footer">
+                  <div className="container">
                     <Footer />
                   </div>
                 </footer>

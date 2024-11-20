@@ -61,12 +61,17 @@ function TinTuc() {
           <div className="row">
             <div className="col-md-12">
               <div className="post-wrap margin-bottom-26">
-                <div className="grid three">
+                <div className="grid four">
                   {articles.length > 0 ? (
                     articles.map((article) => (
                       <article className="post clearfix" key={article.bai_viet}>
                         <div className="featured-post">
-                          <img src={article.anh || "default-image.jpg"} alt="hinh" />
+                          <img src={`image/News/${article.Hinh}`} alt="hinh" style={{
+      width: '400px', // Đặt chiều rộng bằng 100% của phần tử chứa
+      height: '300px', // Để chiều cao tự động tính theo tỷ lệ
+      maxHeight: '300px', // Đặt chiều cao tối đa nếu cần
+      objectFit: 'cover' // Đảm bảo hình ảnh không bị biến dạng
+    }}/>
                         </div>
                         <div className="content-post">
                           <div className="title-post">
