@@ -709,7 +709,9 @@ function AdminSanPhamSua() {
     const formattedNgayTao = convertDateToISO(ngay_tao);
     const formattedNgayCapNhat = convertDateToISO(ngay_cap_nhat);
 
-    const updatedProduct = new FormData();
+    let updatedProduct = new FormData();
+    updatedProduct.append("aa", "bb");
+
     updatedProduct.append("TenSanPham", ten_san_pham);
     updatedProduct.append("ThoiGian", formattedNgayTao);
     updatedProduct.append("MaDanhMuc", String(ma_danh_muc)); // Chuyển đổi sang chuỗi
@@ -718,18 +720,18 @@ function AdminSanPhamSua() {
     updatedProduct.append("SoLuong", so_luong);
     updatedProduct.append("GiaSP", gia);
     updatedProduct.append("GiamGia", giam_gia);
-
     if (fileHinhAnh) {
       updatedProduct.append("HinhAnh", fileHinhAnh);
     }
-
     // Gửi yêu cầu cập nhật
+    console.log(`http://localhost:8000/api/products/update/${ma_san_pham}`);
     fetch(`http://localhost:8000/api/products/update/${ma_san_pham}`, {
       method: "PUT",
       body: updatedProduct,
     })
       .then((res) => {
         if (!res.ok) {
+          console.log(res.statusText);
           return res.json().then((err) => {
             throw new Error(err.message || "Cập nhật sản phẩm thất bại");
           });
