@@ -237,7 +237,12 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>{dh.ngay_giao}</td>
               <td>{dh.ho_ten}</td>
               <td className="text-center">{TrangThaiDonHang}</td>
-              <td className="text-center">{dh.tong_tien}</td>
+              <td className="text-center">
+                {parseInt(dh.tong_tien).toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </td>
               <td className="text-center" style={{ width: "150px" }}>
                 <Link
                   onClick={() => fetchOrderById(dh.ma_san_pham)}
