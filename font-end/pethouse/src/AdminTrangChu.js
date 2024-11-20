@@ -5,7 +5,8 @@ import { Navigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTrangChu() {
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -104,7 +105,7 @@ function AdminTrangChu() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
+                      Xin chào, {user.Hovaten || "Không có tên"}
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">

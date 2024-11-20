@@ -4378,7 +4378,7 @@ tbody.collapse.show {
 }
 
 .navbar-inverse .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(77, 44, 44, 0.1);
 }
 
 .navbar-inverse .navbar-toggler-icon {
@@ -4401,7 +4401,7 @@ tbody.collapse.show {
       -ms-flex-direction: column;
           flex-direction: column;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(143, 30, 30, 0.125);
   border-radius: 0.25rem;
 }
 
