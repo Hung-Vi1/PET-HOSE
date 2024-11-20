@@ -33,6 +33,8 @@ import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
 import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
 import AdminSanPhamThem from "./AdminSanPhamThem";
+import AdminDonHang from "./AdminDonHang";
+import AdminDonHangSua from "./AdminDonHangSua";
 
 function App() {
   return (
@@ -45,7 +47,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -69,7 +74,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -93,7 +101,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -117,7 +128,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -137,10 +151,14 @@ function App() {
 
           <Route
             path="/chitietsanpham/:id"
-            exact element={
+            exact
+            element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -162,7 +180,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -186,7 +207,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -210,7 +234,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -270,7 +297,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -294,7 +324,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -315,7 +348,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -336,7 +372,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -357,7 +396,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -449,14 +491,24 @@ function App() {
             element={<BaoVeRoute element={<AdminDanhMuc />} />}
           />
           <Route
+            path="/admindanhmucthem"
+            exact
+            element={<BaoVeRoute element={<AdminDanhMucThem />} />}
+          />
+          <Route
             path="/admindanhmucsua/:ma_danh_muc"
             exact
             element={<BaoVeRoute element={<AdminDanhMucSua />} />}
           />
           <Route
-            path="/admindanhmucthem"
+            path="/admindonhang"
             exact
-            element={<BaoVeRoute element={<AdminDanhMucThem />} />}
+            element={<BaoVeRoute element={<AdminDonHang />} />}
+          />
+          <Route
+            path="/admindonhangsua/:ma_don_hang"
+            exact
+            element={<BaoVeRoute element={<AdminDonHangSua />} />}
           />
         </Routes>
       </BrowserRouter>

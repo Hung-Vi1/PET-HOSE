@@ -66,12 +66,12 @@ function AdminDanhMuc() {
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <a
-              href="/#"
+            <Link
+              to={"/admindonhang"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </a>
+            </Link>
             <a
               href="/#"
               className="list-group-item list-group-item-action my-0 rounded-0"

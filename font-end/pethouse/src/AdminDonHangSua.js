@@ -1,10 +1,44 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./App.css";
+import { useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
-function AdminTaiKhoanThem() {
+function AdminDonHangSua() {
+  const { ma_don_hang } = useParams();
+
+  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+  // Lấy thông tin đơn hàng theo mã đơn hàng
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/orders/${ma_don_hang}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Không thể lấy thông tin danh mục");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        // Kiểm tra trạng thái và lấy dữ liệu
+        if (data.status === "success") {
+          const dm = data.data; // Lấy dữ liệu danh mục
+        } else {
+          throw new Error(data.message); // Thông báo lỗi nếu không thành công
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [ma_don_hang]);
+
+  if (!isLoggedIn) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    return <Navigate to="/login" />;
+  }
+
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -12,9 +46,9 @@ function AdminTaiKhoanThem() {
           style={{ minHeight: "100vh" }}
         >
           <img
-            src="image/Nen_trong_suot.png"
+            src="http://localhost:8000/image/Nen_trong_suot.png"
             className="d-block w-75 mx-auto"
-            alt="image/Nen_trong_suot.png"
+            alt="http://localhost:8000/image/Nen_trong_suot.png"
           />
 
           <div className="list-group list-group-item-primary">
@@ -39,13 +73,13 @@ function AdminTaiKhoanThem() {
             </Link>
             <Link
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
             <Link
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
@@ -125,39 +159,31 @@ function AdminTaiKhoanThem() {
             </div>
           </nav>
           <div className="container">
-            <h2 className="my-3">Thêm tài khoản</h2>
+            <Link
+              to={"/admindonhangthem"}
+              className="btn btn-success float-end"
+            >
+              Thêm đơn hàng
+            </Link>
 
-            <form>
-              <div className="mb-3">
-                <label for="SoDienThoai" className="form-label">
-                  Số điện thoại
-                </label>
-                <input type="text" className="form-control" id="SoDienThoai" />
-              </div>
-              <div className="mb-3">
-                <label for="HoTen" className="form-label">
-                  Họ và tên
-                </label>
-                <input type="text" className="form-control" id="HoTen" />
-              </div>
-              <div className="mb-3">
-                <label for="Quyền" className="form-label">
-                  Quyền
-                </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                >
-                  <option value="0" selected>
-                    Người dùng
-                  </option>
-                  <option value="1">Quản trị viên</option>
-                </select>
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Xác nhận
-              </button>
-            </form>
+            <h2 className="my-3">Chi tiết đơn hàng</h2>
+            <table className="table align-middle table-borderless">
+              <thead>
+                <tr>
+                  <th className="fw-bold text-center">STT</th>
+                  <th className="fw-bold">Mã đơn hàng</th>
+                  <th className="fw-bold">Ngày tạo</th>
+                  <th className="fw-bold">Ngày hoàn thành</th>
+                  <th className="fw-bold">Tên khách hàng</th>
+                  <th className="fw-bold text-center text-nowrap">
+                    Trạng thái
+                  </th>
+                  <th className="fw-bold text-center">Khách phải trả</th>
+                  <th className="fw-bold text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -165,4 +191,4 @@ function AdminTaiKhoanThem() {
   );
 }
 
-export default AdminTaiKhoanThem;
+export default AdminDonHangSua;
