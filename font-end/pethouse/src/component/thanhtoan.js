@@ -42,6 +42,22 @@ function ThanhToan() {
     }, 0);
   };
 
+  const handleQuantityChange = (index, newQuantity) => {
+    if (newQuantity < 1) return;
+
+    const updatedCart = [...cart];
+    updatedCart[index].quantity = newQuantity;
+    setCart(updatedCart);
+
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const handleRemoveItem = (index) => {
+    const updatedCart = cart.filter((_, i) => i !== index);
+    setCart(updatedCart);
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
   const handleSubmit = async () => {
     if (!userData.Mataikhoan) {
       alert("Vui lòng nhập mã tài khoản để đặt hàng.");
@@ -72,13 +88,10 @@ function ThanhToan() {
       if (response.ok) {
         alert("Đơn hàng đã được gửi thành công!");
 
-        // Xoá giỏ hàng khỏi sessionStorage
         sessionStorage.removeItem("cart");
+        window.dispatchEvent(new Event('cartUpdated')); // Phát sự kiện để cập nhật giỏ hàng
 
-        // Cập nhật state cart về mảng rỗng
         setCart([]);
-
-        // Chuyển hướng người dùng về trang chủ
         navigate("/");
       } else {
         console.error("Lỗi khi đặt hàng:", result.message);
@@ -102,6 +115,7 @@ function ThanhToan() {
                 <th style={{ width: "20%", textAlign: "center" }}>Tên sản phẩm</th>
                 <th style={{ textAlign: "center" }}>Số lượng</th>
                 <th style={{ textAlign: "center" }}>Giá</th>
+                <th style={{ textAlign: "center" }}>Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -114,25 +128,24 @@ function ThanhToan() {
                       style={{ width: "100px", height: "auto" }}
                     />
                   </td>
-                  <td style={{ textAlign: "center" }}>{item.ten_san_pham}</td>
-                  <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                  <td style={{ textAlign: "center" }}>
-                    {parseInt(item.gia).toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                  <td className="align-middle" style={{ width: "40%" }}>{item.ten_san_pham}</td>
+                  <td className="text-center align-middle">
+                    <button className="btn btn-sm btn-outline-primary" onClick={() => handleQuantityChange(index, item.quantity - 1)}>-</button>
+                    <span className="mx-2">{item.quantity}</span>
+                    <button className="btn btn-sm btn-outline-primary" onClick={() => handleQuantityChange(index, item.quantity + 1)}>+</button>
+                  </td>
+                  <td className="text-center align-middle">
+                    {parseInt(item.gia).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+                  </td>
+                  <td className="text-center align-middle">
+                    <button className="btn btn-sm btn-danger" onClick={() => handleRemoveItem(index)}>Xóa</button>
                   </td>
                 </tr>
               ))}
               <tr>
-                <td colSpan="3" style={{ textAlign: "right", fontWeight: "bold" }}>
-                  Tổng cộng:
-                </td>
+                <td colSpan="4" style={{ textAlign: "right", fontWeight: "bold" }}>Tổng cộng:</td>
                 <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                  {calculateTotal().toLocaleString("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  })}
+                  {calculateTotal().toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
                 </td>
               </tr>
             </tbody>
@@ -143,57 +156,24 @@ function ThanhToan() {
           <h4 className="mb-4">Thông tin giao hàng</h4>
           <div className="mb-3">
             <label className="form-label">Tên</label>
-            <input
-              type="text"
-              className="form-control"
-              value={userData.name}
-              name="name"
-              onChange={handleInputChange}
-            />
+            <input type="text" className="form-control" value={userData.name} name="name" onChange={handleInputChange} />
           </div>
           <div className="mb-3">
             <label className="form-label">Số điện thoại</label>
-            <input
-              type="text"
-              className="form-control"
-              value={userData.phone}
-              name="phone"
-              onChange={handleInputChange}
-            />
+            <input type="text" className="form-control" value={userData.phone} name="phone" onChange={handleInputChange} />
           </div>
           <div className="mb-3">
             <label className="form-label">Địa chỉ</label>
-            <input
-              type="text"
-              className="form-control"
-              value={userData.address}
-              name="address"
-              onChange={handleInputChange}
-            />
+            <input type="text" className="form-control" value={userData.address} name="address" onChange={handleInputChange} />
           </div>
           <form>
             <div className="mb-3">
               <label className="form-label">Ghi chú</label>
-              <textarea
-                name="note"
-                className="form-control"
-                placeholder="Ghi chú (tuỳ chọn)"
-                value={formData.note}
-                onChange={(e) =>
-                  setFormData({ ...formData, note: e.target.value })
-                }
-              ></textarea>
+              <textarea name="note" className="form-control" placeholder="Ghi chú (tuỳ chọn)" value={formData.note} onChange={(e) => setFormData({ ...formData, note: e.target.value })}></textarea>
             </div>
             <div className="mb-3">
               <label className="form-label">Phương thức thanh toán</label>
-              <select
-                name="paymentMethod"
-                className="form-control"
-                value={formData.paymentMethod}
-                onChange={(e) =>
-                  setFormData({ ...formData, paymentMethod: e.target.value })
-                }
-              >
+              <select name="paymentMethod" className="form-control" value={formData.paymentMethod} onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}>
                 <option value="cod">Ship COD</option>
                 <option value="bank">Chuyển khoản</option>
               </select>
@@ -203,9 +183,7 @@ function ThanhToan() {
       </div>
 
       <div className="text-right py-3">
-        <button className="btn btn-success btn-lg" onClick={handleSubmit}>
-          Thanh toán
-        </button>
+        <button className="btn btn-success btn-lg" onClick={handleSubmit}>Thanh toán</button>
       </div>
     </div>
   );

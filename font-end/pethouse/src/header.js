@@ -6,7 +6,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
   const [cart, setCart] = useState([]);
-  const { user, hasPermission, logout } = useAuth(); // Nhập user và logout từ AuthContext
+  const { user, hasPermission, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -27,13 +27,9 @@ function Header() {
       setCart(parsedCart);
     };
 
-    // Gọi hàm updateCart khi component load lần đầu
     updateCart();
-
-    // Lắng nghe sự kiện 'cartUpdated' để cập nhật giỏ hàng khi có thay đổi
     window.addEventListener("cartUpdated", updateCart);
 
-    // Cleanup event listener khi component bị unmount
     return () => {
       window.removeEventListener("cartUpdated", updateCart);
     };
@@ -44,8 +40,8 @@ function Header() {
   };
 
   const handleLogout = () => {
-    logout(); // Gọi hàm logout
-    setIsDropdownOpen(false); // Đóng dropdown sau khi đăng xuất
+    logout();
+    setIsDropdownOpen(false);
   };
 
   const truncateProductName = (name, maxLength = 20) => {
@@ -56,15 +52,7 @@ function Header() {
     <>
       <div id="logo" className="logo float-left">
         <Link to="/" title="logo">
-          <img
-            src="logo-ngang.png"
-            alt="anh"
-            width={107}
-            height={24}
-            data-retina="logo-ngang.png"
-            data-width={107}
-            data-height={24}
-          />
+          <img src="logo-ngang.png" alt="anh" width={107} height={24} />
         </Link>
       </div>
 
@@ -92,7 +80,7 @@ function Header() {
               className="header-search-submit"
               title="Search"
             >
-              Search
+              Tìm kiếm
             </button>
           </form>
         </li>
@@ -108,18 +96,21 @@ function Header() {
                   ? user.slice(0, 4)
                   : user?.Hovaten || "Người dùng"}
               </span>
+
               {isDropdownOpen && (
                 <ul className="submenu px-2">
-                  {hasPermission && (
-                    <li className="m-0">
-                      <Link className="text-nowrap" to="/admin">
-                        Trang quản trị
-                      </Link>
-                    </li>
+                  {user && hasPermission(1) && (
+                    <>
+                      <li className="m-0">
+                        <Link className="text-nowrap" to="/admin">
+                          Trang quản trị
+                        </Link>
+                      </li>
+                      <li>
+                        <hr />
+                      </li>
+                    </>
                   )}
-                  <li>
-                    <hr />
-                  </li>
                   <li className="m-0">
                     <Link className="text-nowrap" to="/info">
                       Tài khoản của tôi

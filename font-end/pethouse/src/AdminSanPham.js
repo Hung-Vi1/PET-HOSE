@@ -164,6 +164,9 @@ function AdminSanPham() {
                   <th className="fw-bold">Tên sản phẩm</th>
                   <th className="fw-bold text-center">Danh mục</th>
                   <th className="fw-bold text-center">Ngày tạo</th>
+                  <th className="fw-bold text-center text-nowrap">
+                    Trạng thái
+                  </th>
                   <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
@@ -234,7 +237,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">{fromIndex + i + 1}</td>
               <td className="text-center">
                 <img
-                  src={`image/product/${sp.hinh_anh}`}
+                  src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
                   alt={`image/product/${sp.hinh_anh}`}
                   style={{ width: "100px" }}
                 />
@@ -242,6 +245,9 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>{sp.ten_san_pham}</td>
               <td className="text-center">{sp.tenDM}</td>
               <td className="text-center">{sp.ngay_tao}</td>
+              <td className="text-center">
+                {sp.trang_thai === 1 ? "Ẩn" : "Hiện"}
+              </td>
               <td className="text-center" style={{ width: "150px" }}>
                 <Link
                   onClick={() => fetchProductById(sp.ma_san_pham)}

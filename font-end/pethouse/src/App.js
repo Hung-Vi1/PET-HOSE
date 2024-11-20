@@ -19,6 +19,7 @@ import LoginSignupForm from "./component/login";
 import Info from "./component/info";
 import Password from "./component/Password";
 import LichSuMua from "./component/lichsumua";
+import ChiTietDonHang from "./component/chitietdonhang";
 
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
@@ -31,6 +32,7 @@ import AdminDanhMuc from "./AdminDanhMuc";
 import AdminDanhMucSua from "./AdminDanhMucSua";
 import AdminDanhMucThem from "./AdminDanhMucThem";
 import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
+import AdminSanPhamThem from "./AdminSanPhamThem";
 
 function App() {
   return (
@@ -370,6 +372,29 @@ function App() {
               </div>
             }
           />
+
+          <Route
+            path="/donhang/:MaDH"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <ChiTietDonHang />
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
           <Route
             path="/chitietsanpham"
             exact
@@ -381,6 +406,7 @@ function App() {
               </div>
             }
           />
+
           {/* Admin */}
           <Route
             path="/admin"
@@ -395,25 +421,42 @@ function App() {
           <Route
             path="/admintaikhoanthem"
             exact
-            element={<AdminTaiKhoanThem />}
+            element={<BaoVeRoute element={<AdminTaiKhoanThem />} />}
           />
           <Route
             path="/admintaikhoansua"
             exact
-            element={<AdminTaiKhoanSua />}
+            element={<BaoVeRoute element={<AdminTaiKhoanSua />} />}
           />
-          <Route path="/adminsanpham" exact element={<AdminSanPham />} />
-          <Route path="/adminsanphamsua/:ma_san_pham" exact element={<AdminSanPhamSua />} />
-          <Route path="/admindanhmuc" exact element={<AdminDanhMuc />} />
+          <Route
+            path="/adminsanpham"
+            exact
+            element={<BaoVeRoute element={<AdminSanPham />} />}
+          />
+          <Route
+            path="/adminsanphamthem"
+            exact
+            element={<BaoVeRoute element={<AdminSanPhamThem />} />}
+          />
+          <Route
+            path="/adminsanphamsua/:ma_san_pham"
+            exact
+            element={<BaoVeRoute element={<AdminSanPhamSua />} />}
+          />
+          <Route
+            path="/admindanhmuc"
+            exact
+            element={<BaoVeRoute element={<AdminDanhMuc />} />}
+          />
           <Route
             path="/admindanhmucsua/:ma_danh_muc"
             exact
-            element={<AdminDanhMucSua />}
+            element={<BaoVeRoute element={<AdminDanhMucSua />} />}
           />
           <Route
             path="/admindanhmucthem"
             exact
-            element={<AdminDanhMucThem />}
+            element={<BaoVeRoute element={<AdminDanhMucThem />} />}
           />
         </Routes>
       </BrowserRouter>
