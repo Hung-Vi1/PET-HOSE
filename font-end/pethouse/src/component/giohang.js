@@ -43,7 +43,7 @@ function GioHang() {
             <table className="table table-hover align-middle">
               <thead className="thead-dark">
                 <tr>
-                  <th style={{ width: "5%", textAlign: "center", verticalAlign: "middle" }}>#</th>
+                  <th style={{ width: "5%", textAlign: "center", verticalAlign: "middle" }}>STT</th>
                   <th style={{ width: "20%", verticalAlign: "middle" }}>Sản phẩm</th>
                   <th style={{ width: "15%", textAlign: "center", verticalAlign: "middle" }}>Hình ảnh</th>
                   <th style={{ width: "15%", textAlign: "center", verticalAlign: "middle" }}>Đơn giá</th>
