@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 
 const ChiTietDonHang = () => {
   const { MaDH } = useParams(); // Lấy mã đơn hàng từ URL
@@ -39,6 +40,16 @@ const ChiTietDonHang = () => {
     fetchOrderDetails(); // Gọi API khi component mount
   }, [MaDH]);
 
+  const handlePrintInvoice = () => {
+    const invoiceElement = document.getElementById('invoice'); // Lấy phần tử hóa đơn
+    html2canvas(invoiceElement).then((canvas) => {
+      const link = document.createElement('a');
+      link.download = 'invoice.png'; // Tên file tải xuống
+      link.href = canvas.toDataURL(); // Chuyển đổi canvas thành dữ liệu URL
+      link.click();
+    });
+  };
+
   if (loading) {
     return <div>Loading...</div>; // Hiển thị khi đang tải
   }
@@ -53,37 +64,46 @@ const ChiTietDonHang = () => {
 
   return (
     <div className="container mt-3">
-      <h2>Chi Tiết Đơn Hàng</h2>
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th className="text-center align-middle">STT</th>
-            <th className="text-center align-middle">Sản Phẩm</th>
-            <th className="text-center align-middle">Hình Ảnh</th>
-            <th className="text-center align-middle">Số Lượng</th>
-            <th className="text-center align-middle">Đơn Giá</th>
-            <th className="text-center align-middle">Tổng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orderDetails.map((detail, index) => (
-            <tr key={detail.MaCTDH}>
-              <td className="text-center align-middle">{index + 1}</td>
-              <td className=" align-middle">{detail.SanPham.TenSP}</td>
-              <td className="text-center align-middle">
-                <img
-                  src={`../image/product/${detail.SanPham.HinhAnh}`}
-                  alt={detail.SanPham.TenSP}
-                  style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                />
-              </td>
-              <td className="text-center align-middle">{detail.SoLuong}</td>
-              <td className="text-center align-middle">{detail.DonGia.toLocaleString()} VND</td>
-              <td className="text-center align-middle">{(detail.SoLuong * detail.DonGia).toLocaleString()} VND</td>
+      <div id="invoice"> {/* Phần tử hóa đơn */}
+        <h2 className="float-start">Chi Tiết Đơn Hàng</h2>
+        <button 
+          type="button" 
+          className="btn btn-outline-success btn-sm float-end" 
+          onClick={handlePrintInvoice} // Thêm sự kiện click
+        >
+          In hóa đơn
+        </button>
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th className="text-center align-middle">STT</th>
+              <th className="text-center align-middle">Sản Phẩm</th>
+              <th className="text-center align-middle">Hình Ảnh</th>
+              <th className="text-center align-middle">Số Lượng</th>
+              <th className="text-center align-middle">Đơn Giá</th>
+              <th className="text-center align-middle">Tổng</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orderDetails.map((detail, index) => (
+              <tr key={detail.MaCTDH}>
+                <td className="text-center align-middle">{index + 1}</td>
+                <td className="align-middle">{detail.SanPham.TenSP}</td>
+                <td className="text-center align-middle">
+                  <img
+                    src={`../image/product/${detail.SanPham.HinhAnh}`}
+                    alt={detail.SanPham.TenSP}
+                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                  />
+                </td>
+                <td className="text-center align-middle">{detail.SoLuong}</td>
+                <td className="text-center align-middle">{detail.DonGia.toLocaleString()} VND</td>
+                <td className="text-center align-middle">{(detail.SoLuong * detail.DonGia).toLocaleString()} VND</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

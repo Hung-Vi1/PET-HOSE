@@ -36,7 +36,7 @@ function Header() {
   }, []);
 
   const toggleMenu = () => {
-    if (isMobile) setIsMenuOpen(!isMenuOpen);
+    if (isMobile) setIsMenuOpen((prev) => !prev);
   };
 
   const handleLogout = () => {
@@ -52,7 +52,7 @@ function Header() {
     <>
       <div id="logo" className="logo float-left">
         <Link to="/" title="logo">
-          <img src="logo-ngang.png" alt="anh" width={107} height={24} />
+          <img src="logo-ngang.png" alt="Logo" width={107} height={24} />
         </Link>
       </div>
 
@@ -63,23 +63,14 @@ function Header() {
       <ul className="menu-extra menu">
         <li className="box-search">
           <a className="icon_search header-search-icon" href="/#" />
-          <form
-            role="search"
-            method="get"
-            className="header-search-form"
-            action="#"
-          >
+          <form role="search" method="get" className="header-search-form" action="#">
             <input
               type="text"
               name="s"
               className="header-search-field"
-              placeholder="Search..."
+              placeholder="Tìm kiếm..."
             />
-            <button
-              type="submit"
-              className="header-search-submit"
-              title="Search"
-            >
+            <button type="submit" className="header-search-submit" title="Search">
               Tìm kiếm
             </button>
           </form>
@@ -91,35 +82,25 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <h7 className="m-2">
-                {typeof user === "string"
-                  ? user.slice(0, 4)
-                  : user?.Hovaten || "Người dùng"}
-              </h7>
+              <span className="m-2">
+                {typeof user === "string" ? user.slice(0, 6) : user?.Hovaten || "Người dùng"}
+              </span>
 
               {isDropdownOpen && (
                 <ul className="submenu px-2">
                   {user && hasPermission(1) && (
                     <>
                       <li className="m-0">
-                        <Link className="text-nowrap" to="/admin">
-                          Trang quản trị
-                        </Link>
+                        <Link className="text-nowrap" to="/admin">Trang quản trị</Link>
                       </li>
-                      <li>
-                        <hr />
-                      </li>
+                      <li><hr /></li>
                     </>
                   )}
                   <li className="m-0">
-                    <Link className="text-nowrap" to="/info">
-                      Tài khoản của tôi
-                    </Link>
+                    <Link className="text-nowrap" to="/info">Tài khoản của tôi</Link>
                   </li>
                   <li>
-                    <Link className="text-nowrap" to="/lichsumua">
-                      Lịch sử mua hàng
-                    </Link>
+                    <Link className="text-nowrap" to="/lichsumua">Lịch sử mua hàng</Link>
                   </li>
                   <li>
                     <a
@@ -134,7 +115,7 @@ function Header() {
               )}
             </div>
           ) : (
-            <Link className="icon_login" to="/login"></Link>
+            <Link className="icon_login" to="/login" />
           )}
         </li>
         <li className="box-cart nav-top-cart-wrapper">
@@ -147,11 +128,7 @@ function Header() {
                 {cart.length > 0 ? (
                   <ul className="woocommerce-mini-cart cart_list product_list_widget">
                     {cart.map((item, index) => (
-                      <li
-                        key={index}
-                        className="woocommerce-mini-cart-item mini_cart_item"
-                        style={{ fontSize: "14px" }}
-                      >
+                      <li key={index} className="woocommerce-mini-cart-item mini_cart_item" style={{ fontSize: "14px" }}>
                         <span>{truncateProductName(item.ten_san_pham)}</span> -{" "}
                         <span>Số lượng: {item.quantity}</span>
                       </li>

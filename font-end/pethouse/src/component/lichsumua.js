@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; // Sử dụng để điều hướng
 import { useAuth } from '../contexts/AuthContext'; // Lấy thông tin người dùng từ AuthContext
 
@@ -56,47 +57,52 @@ const LichSuMua = () => {
 
   return (
     <div className="container mt-3">
-      <h2>Lịch sử mua hàng</h2>
-      {orders.length === 0 ? (
-        <p>Chưa có đơn hàng nào.</p> // Nếu không có đơn hàng
-      ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="text-center align-middle" scope="col">STT</th>
-              <th className="text-center align-middle" scope="col">Mã Đơn Hàng</th>
-              <th className="text-center align-middle" scope="col">Số Lượng</th>
-              <th className="text-center align-middle" scope="col">Tổng Tiền</th>
-              <th className="text-center align-middle" scope="col">Trạng Thái</th>
-              <th className="text-center align-middle" scope="col">Ngày Đặt</th>
-              <th className="text-center align-middle" scope="col">Ngày Giao</th>
-              <th className="text-center align-middle" scope="col">Xem Chi Tiết</th>
+  <h2>Lịch sử mua hàng</h2>
+  {orders.length === 0 ? (
+    <p>Chưa có đơn hàng nào.</p> // Nếu không có đơn hàng
+  ) : (
+    <>
+      <table className="table">
+        <thead>
+          <tr>
+            <th className="text-center align-middle" scope="col">STT</th>
+            <th className="text-center align-middle" scope="col">Mã Đơn Hàng</th>
+            <th className="text-center align-middle" scope="col">Số Lượng</th>
+            <th className="text-center align-middle" scope="col">Tổng Tiền</th>
+            <th className="text-center align-middle" scope="col">Trạng Thái</th>
+            <th className="text-center align-middle" scope="col">Ngày Đặt</th>
+            <th className="text-center align-middle" scope="col">Ngày Giao</th>
+            <th className="text-center align-middle" scope="col">Xem Chi Tiết</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <tr key={order.ma_don_hang}>
+              <td className="text-center align-middle">{index + 1}</td>
+              <td className="text-center align-middle">{order.ma_don_hang}</td>
+              <td className="text-center align-middle">{order.so_luong}</td>
+              <td className="text-center align-middle">{order.tong_tien} VND</td>
+              <td className="text-center align-middle">{order.trang_thai}</td>
+              <td className="text-center align-middle">{new Date(order.ngay_dat).toLocaleDateString()}</td>
+              <td className="text-center align-middle">{new Date(order.ngay_giao).toLocaleDateString()}</td>
+              <td className="text-center align-middle">
+                <button
+                  className="btn btn-outline-success"
+                  onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}
+                >
+                  Xem Chi Tiết
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={order.ma_don_hang}>
-                <td className="text-center align-middle">{index + 1}</td>
-                <td className="text-center align-middle">{order.ma_don_hang}</td>
-                <td className="text-center align-middle">{order.so_luong}</td>
-                <td className="text-center align-middle">{order.tong_tien} VND</td>
-                <td className="text-center align-middle">{order.trang_thai}</td>
-                <td className="text-center align-middle">{new Date(order.ngay_dat).toLocaleDateString()}</td>
-                <td className="text-center align-middle">{new Date(order.ngay_giao).toLocaleDateString()}</td>
-                <td className="text-center align-middle">
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}
-                  >
-                    Xem Chi Tiết
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+          ))}
+        </tbody>
+      </table>
+      <Link to="/sanpham">
+        <button className="btn btn-outline-danger  mt-3">Tiếp tục mua sắm</button>
+      </Link>
+    </>
+  )}
+</div>
   );
 };
 

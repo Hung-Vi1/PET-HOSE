@@ -92,7 +92,7 @@ function ThanhToan() {
         window.dispatchEvent(new Event('cartUpdated')); // Phát sự kiện để cập nhật giỏ hàng
 
         setCart([]);
-        navigate("/");
+        navigate("/lichsumua");
       } else {
         console.error("Lỗi khi đặt hàng:", result.message);
         alert("Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại.");
