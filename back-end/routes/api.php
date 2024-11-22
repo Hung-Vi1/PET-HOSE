@@ -91,3 +91,7 @@ Route::post('/contacts/store', [ContactApiController::class, 'store']);
 Route::put('/contacts/update/{MaLienHe}', [ContactApiController::class, 'update']);
 Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'destroy']);
 
+use App\Http\Controllers\CouponController;
+Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
+Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
+

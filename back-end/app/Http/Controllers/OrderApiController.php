@@ -22,6 +22,7 @@ use App\Models\SanPham;
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
  *     @OA\Property(property="Mataikhoan", type="integer", example=1),
  *     @OA\Property(property="TongTien", type="integer", example=500000),
+ *     @OA\Property(property="Discount", type="integer", example=500000),
  *     @OA\Property(property="SoLuong", type="integer", example=1),
  *     @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
  *     @OA\Property(property="SDT", type="string", example="0123456789"),
@@ -190,14 +191,14 @@ class OrderApiController extends Controller
      */
     public function store(Request $request)
     {
-        //POST 
         try {
             // Validate dữ liệu đầu vào
             $validatedData = $request->validate([
                 'Mataikhoan' => 'required|integer|exists:users,Mataikhoan', // Kiểm tra tồn tại
                 'PTTT' => 'required|string|max:50',
                 'GhiChu' => 'nullable|string|max:255',
-
+                'Discount' => 'nullable|numeric|min:0', // Kiểm tra giảm giá (nếu có)
+        
                 'chi_tiet' => 'required|array', // Đảm bảo rằng 'chi_tiet' là một mảng
                 'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
                 'chi_tiet.*.SoLuong' => 'required|integer|min:1|max:50',
@@ -205,79 +206,89 @@ class OrderApiController extends Controller
                 'Mataikhoan.required' => 'Vui lòng nhập mã tài khoản',
                 'Mataikhoan.integer' => 'Mã tài khoản phải là số',
                 'Mataikhoan.exists' => 'Mã tài khoản không tồn tại',
-
+        
                 'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
                 'PTTT.string' => 'Phương thức thanh toán phải là chuỗi ký tự',
                 'PTTT.max' => 'Phương thức thanh toán không được vượt quá 50 ký tự',
-
+        
                 'GhiChu.string' => 'Ghi chú phải là chuỗi ký tự',
                 'GhiChu.max' => 'Ghi chú không được vượt quá 255 ký tự',
-
+        
                 'chi_tiet.required' => 'Vui lòng cung cấp chi tiết đơn hàng',
                 'chi_tiet.array' => 'Chi tiết đơn hàng phải là một mảng',
                 'chi_tiet.*.MaSP.required' => 'Vui lòng nhập mã sản phẩm',
                 'chi_tiet.*.SoLuong.required' => 'Vui lòng nhập số lượng',
             ]);
-
-
+        
             // Lấy thông tin người dùng từ bảng users
             $user = User::findOrFail($validatedData['Mataikhoan']);
-            // Khởi tạo trạng thái và ngày đặt
-            $validatedData['TrangThai'] = 'dang_xu_ly';
-            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
-            $validatedData['NgayDat'] = now();    // Thời gian hiện tại
-            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày
-
+        
+            // Khởi tạo thông tin đơn hàng
+            $validatedData['TrangThai'] = 'dang_xu_ly'; // Trạng thái đơn hàng
+            $validatedData['Loai'] = 1;       // Loại 1 là sản phẩm
+            $validatedData['NgayDat'] = now();    // Ngày đặt đơn
+            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao đơn (cộng 4 ngày)
+        
+            // Xử lý giảm giá, nếu có
+            $discount = $validatedData['Discount'] ?? 0; // Nếu không có discount thì gán mặc định là 0
+        
             // Tạo đơn hàng
             $order = DonHang::create([
                 'Mataikhoan' => $validatedData['Mataikhoan'],
-                'TongTien' => 0, // Tổng tiền sẽ được tính sau
-                'SoLuong' => 0,   // Khởi tạo SoLuong
+                'TongTien' => 0, // Tổng tiền sẽ tính sau
+                'SoLuong' => 0,   // Số lượng sẽ tính sau
                 'Ten' => $user->Hovaten,       // Lấy tên từ bảng users
-                'SDT' => $user->SDT,       // Lấy SDT từ bảng users
-                'DiaChi' => $user->DiaChi, // Lấy địa chỉ từ bảng users
+                'SDT' => $user->SDT,           // Lấy SDT từ bảng users
+                'DiaChi' => $user->DiaChi,     // Lấy địa chỉ từ bảng users
                 'PTTT' => $validatedData['PTTT'],
                 'GhiChu' => $validatedData['GhiChu'],
                 'Loai' => $validatedData['Loai'],
                 'TrangThai' => $validatedData['TrangThai'],
                 'NgayDat' => $validatedData['NgayDat'],
                 'NgayGiao' => $validatedData['NgayGiao'],
+                'Discount' => $discount, // Lưu discount vào cơ sở dữ liệu
             ]);
-
+        
+            // Khởi tạo tổng tiền và tổng số lượng
+            $tongTien = 0; // Tổng tiền
+            $tongSoLuong = 0; // Tổng số lượng
+        
             // Lưu chi tiết đơn hàng và tính tổng tiền & số lượng
-            $tongTien = 0; // Khởi tạo tổng tiền
-            $tongSoLuong = 0; // Khởi tạo tổng số lượng
             foreach ($validatedData['chi_tiet'] as $item) {
-                // Lấy giá của sản phẩm từ bảng san_pham
+                // Lấy thông tin sản phẩm từ bảng san_pham
                 $sanPham = SanPham::findOrFail($item['MaSP']);
-                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia;
+                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia; // Tính giá sản phẩm (giá gốc trừ giảm giá)
+        
                 // Tạo chi tiết đơn hàng
                 $ctDonHang = ChiTietDonHang::create([
                     'MaDH' => $order->MaDH,
                     'MaSP' => $item['MaSP'],
-                    'DonGia' => $DonGia,  // Sử dụng giá từ bảng san_pham
+                    'DonGia' => $DonGia,  // Sử dụng giá sản phẩm đã tính
                     'SoLuong' => $item['SoLuong'],
                 ]);
-
-                // Cập nhật tổng tiền
+        
+                // Cập nhật tổng tiền và số lượng
                 $tongTien += $ctDonHang->DonGia * $ctDonHang->SoLuong;
                 $tongSoLuong += $ctDonHang->SoLuong; // Cộng dồn số lượng
             }
-
-            // Cập nhật tổng tiền và số lượng cho đơn hàng
+        
+            // Trừ giảm giá vào tổng tiền
+            $tongTien -= $discount; // Trừ vào tổng tiền nếu có giảm giá
+        
+            // Cập nhật lại tổng tiền và số lượng cho đơn hàng
             $order->update([
                 'TongTien' => $tongTien,
-                'SoLuong' => $tongSoLuong // Cập nhật số lượng
+                'SoLuong' => $tongSoLuong, // Cập nhật tổng số lượng
             ]);
-
+        
             // Trả về thông tin đơn hàng vừa tạo
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thêm đơn hàng thành công',
-                'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng vừa tạo
+                'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng và chi tiết
             ], 201);
         } catch (\Exception $e) {
-
+            // Nếu có lỗi, trả về thông báo lỗi chi tiết
             return response()->json([
                 'status' => 'fail',
                 'message' => $e->getMessage(),
@@ -285,6 +296,8 @@ class OrderApiController extends Controller
             ], 500);
         }
     }
+    
+    
 
 
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('MaDH'); // Khóa chính
             $table->unsignedBigInteger('Mataikhoan'); // Khóa ngoại đến bảng TaiKhoan
             $table->decimal('TongTien', 10, 2); 
+            $table->decimal('Discount', 10, 2)->default(0); // Thêm trường Discount với kiểu dữ liệu phù hợp
             $table->integer('SoLuong');
             $table->string('Ten'); // Có thể là tên người nhận
             $table->string('SDT');

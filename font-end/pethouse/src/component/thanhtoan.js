@@ -12,7 +12,10 @@ function ThanhToan() {
   const [formData, setFormData] = useState({
     note: "",
     paymentMethod: "cod",
+    couponCode: "", // Thêm mã giảm giá
   });
+  const [discount, setDiscount] = useState(0); // Giá trị giảm giá
+  const [couponError, setCouponError] = useState(""); // Lỗi mã giảm giá
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,9 +40,10 @@ function ThanhToan() {
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, item) => {
-      return total + item.quantity * parseInt(item.gia);
+    const total = cart.reduce((sum, item) => {
+      return sum + item.quantity * parseInt(item.gia);
     }, 0);
+    return total; // Tổng cộng sau khi trừ giảm giá
   };
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -58,6 +62,51 @@ function ThanhToan() {
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  const handleApplyCoupon = async () => {
+    if (!formData.couponCode) {
+      setCouponError("Vui lòng nhập mã giảm giá.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/coupons/validate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: formData.couponCode }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (calculateTotal() < result.min_order_value) {
+          setCouponError(`Đơn hàng cần tối thiểu ${result.min_order_value.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })} để áp dụng mã.`);
+        } else {
+          const discountValue =
+            result.type === "percentage"
+              ? (calculateTotal() * result.value) / 100
+              : result.value;
+
+          setDiscount(discountValue);
+          setCouponError(""); // Xóa lỗi nếu thành công
+          alert(`Áp dụng mã giảm giá thành công: Giảm ${discountValue.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          })}`);
+        }
+      } else {
+        setCouponError(result.error || "Mã giảm giá không hợp lệ.");
+      }
+    } catch (error) {
+      console.error("Lỗi kết nối:", error);
+      setCouponError("Không thể xác minh mã giảm giá. Vui lòng thử lại.");
+    }
+  };
+
   const handleSubmit = async () => {
     if (!userData.Mataikhoan) {
       alert("Vui lòng nhập mã tài khoản để đặt hàng.");
@@ -68,11 +117,17 @@ function ThanhToan() {
       Mataikhoan: userData.Mataikhoan,
       PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "Chuyển khoản",
       GhiChu: formData.note,
+      TongTien: calculateTotal() - discount, // Tổng tiền sau khi trừ giảm giá
+      Discount: discount, // Giá trị giảm giá
       chi_tiet: cart.map((item) => ({
         MaSP: item.ma_san_pham,
         SoLuong: item.quantity,
       })),
     };
+
+    // Kiểm tra orderData
+    console.log(orderData);
+
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/orders", {
@@ -89,10 +144,10 @@ function ThanhToan() {
         alert("Đơn hàng đã được gửi thành công!");
 
         sessionStorage.removeItem("cart");
-        window.dispatchEvent(new Event('cartUpdated')); // Phát sự kiện để cập nhật giỏ hàng
+        window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện để cập nhật giỏ hàng
 
         setCart([]);
-        navigate("/");
+        navigate("/lichsumua");
       } else {
         console.error("Lỗi khi đặt hàng:", result.message);
         alert("Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại.");
@@ -130,22 +185,69 @@ function ThanhToan() {
                   </td>
                   <td className="align-middle" style={{ width: "40%" }}>{item.ten_san_pham}</td>
                   <td className="text-center align-middle">
-                    <button className="btn btn-sm btn-outline-primary" onClick={() => handleQuantityChange(index, item.quantity - 1)}>-</button>
+                    <button
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => handleQuantityChange(index, item.quantity - 1)}
+                    >
+                      -
+                    </button>
                     <span className="mx-2">{item.quantity}</span>
-                    <button className="btn btn-sm btn-outline-primary" onClick={() => handleQuantityChange(index, item.quantity + 1)}>+</button>
+                    <button
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => handleQuantityChange(index, item.quantity + 1)}
+                    >
+                      +
+                    </button>
                   </td>
                   <td className="text-center align-middle">
-                    {parseInt(item.gia).toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+                    {parseInt(item.gia).toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </td>
                   <td className="text-center align-middle">
-                    <button className="btn btn-sm btn-danger" onClick={() => handleRemoveItem(index)}>Xóa</button>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleRemoveItem(index)}
+                    >
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               ))}
               <tr>
-                <td colSpan="4" style={{ textAlign: "right", fontWeight: "bold" }}>Tổng cộng:</td>
+                <td colSpan="4" style={{ textAlign: "right", fontWeight: "bold" }}>
+                  Tổng tiền:
+                </td>
                 <td style={{ textAlign: "center", fontWeight: "bold" }}>
-                  {calculateTotal().toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+                  {(calculateTotal()).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="4" style={{ textAlign: "right", fontWeight: "bold" }}>
+                  Giảm giá:
+                </td>
+                <td style={{ textAlign: "center", fontWeight: "bold" }}>
+                  {discount > 0
+                    ? `-${discount.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}`
+                    : "0 VND"}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="4" style={{ textAlign: "right", fontWeight: "bold" }}>
+                  Thanh toán:
+                </td>
+                <td style={{ textAlign: "center", fontWeight: "bold", color: "red" }}>
+                  {(calculateTotal() - discount).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </td>
               </tr>
             </tbody>
@@ -156,34 +258,80 @@ function ThanhToan() {
           <h4 className="mb-4">Thông tin giao hàng</h4>
           <div className="mb-3">
             <label className="form-label">Tên</label>
-            <input type="text" className="form-control" value={userData.name} name="name" onChange={handleInputChange} />
+            <input
+              type="text"
+              className="form-control"
+              value={userData.name}
+              name="name"
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Số điện thoại</label>
-            <input type="text" className="form-control" value={userData.phone} name="phone" onChange={handleInputChange} />
+            <input
+              type="text"
+              className="form-control"
+              value={userData.phone}
+              name="phone"
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Địa chỉ</label>
-            <input type="text" className="form-control" value={userData.address} name="address" onChange={handleInputChange} />
+            <input
+              type="text"
+              className="form-control"
+              value={userData.address}
+              name="address"
+              onChange={handleInputChange}
+            />
           </div>
-          <form>
-            <div className="mb-3">
-              <label className="form-label">Ghi chú</label>
-              <textarea name="note" className="form-control" placeholder="Ghi chú (tuỳ chọn)" value={formData.note} onChange={(e) => setFormData({ ...formData, note: e.target.value })}></textarea>
+          <div className="mb-3">
+            <label className="form-label">Mã giảm giá</label>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                value={formData.couponCode}
+                name="couponCode"
+                onChange={(e) => setFormData({ ...formData, couponCode: e.target.value })}
+                placeholder="Nhập mã giảm giá"
+              />
+              <button className="btn btn-primary" onClick={handleApplyCoupon}>
+                Áp dụng
+              </button>
             </div>
-            <div className="mb-3">
-              <label className="form-label">Phương thức thanh toán</label>
-              <select name="paymentMethod" className="form-control" value={formData.paymentMethod} onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}>
-                <option value="cod">Ship COD</option>
-                <option value="bank">Chuyển khoản</option>
-              </select>
-            </div>
-          </form>
+            {couponError && <small className="text-danger">{couponError}</small>}
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Ghi chú</label>
+            <textarea
+              name="note"
+              className="form-control"
+              placeholder="Ghi chú (tuỳ chọn)"
+              value={formData.note}
+              onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+            ></textarea>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Phương thức thanh toán</label>
+            <select
+              name="paymentMethod"
+              className="form-control"
+              value={formData.paymentMethod}
+              onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+            >
+              <option value="cod">Ship COD</option>
+              <option value="bank">Chuyển khoản</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div className="text-right py-3">
-        <button className="btn btn-success btn-lg" onClick={handleSubmit}>Thanh toán</button>
+        <button className="btn btn-success btn-lg" onClick={handleSubmit}>
+          Thanh toán
+        </button>
       </div>
     </div>
   );

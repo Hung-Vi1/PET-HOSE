@@ -28,6 +28,7 @@ class DonHang extends Model
     protected $fillable = [
         'Mataikhoan',
         'TongTien',
+        'Discount',
         'SoLuong',
         'Ten',
         'SDT',

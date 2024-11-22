@@ -931,6 +931,189 @@
                 }
             }
         },
+        "/api/coupons/validate": {
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Validate a coupon code",
+                "operationId": "93d93652dcb6201932b083ac045eac68",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "DISCOUNT10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valid coupon details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "example": "percentage"
+                                        },
+                                        "value": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 10
+                                        },
+                                        "min_order_value": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid coupon (expired or limit exceeded)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/apply": {
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Apply a coupon code to calculate the discount",
+                "operationId": "b1340200ca87c06676da2186a9a66570",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "order_total"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "vi"
+                                    },
+                                    "order_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Discount applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "original_total": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 200
+                                        },
+                                        "discount": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 20
+                                        },
+                                        "discounted_total": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 180
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Order total does not meet the minimum requirement",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Order value is less than the minimum required"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/News": {
             "get": {
                 "tags": [
@@ -3543,6 +3726,10 @@
                         "type": "integer",
                         "example": 500000
                     },
+                    "Discount": {
+                        "type": "integer",
+                        "example": 500000
+                    },
                     "SoLuong": {
                         "type": "integer",
                         "example": 1
@@ -3727,6 +3914,10 @@
         {
             "name": "LienHe",
             "description": "LienHe"
+        },
+        {
+            "name": "Coupons",
+            "description": "Coupons"
         },
         {
             "name": "BaiViet",

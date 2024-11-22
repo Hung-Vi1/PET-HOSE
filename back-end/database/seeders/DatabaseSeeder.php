@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
                 'MaDanhMuc' => 3, // iPhone
                 'TenSanPham' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy',
                 'GiaSP' => 250000,
-                'GiamGia' => 20000,
+                'GiamGia' => 0,
                 'MoTa' => 'Thức ăn cho chó con cỡ nhỏ ROYAL CANIN Mini Puppy dành cho các giống chó con dưới 10 tháng tuổi. Với công thức đặc chế riêng cho nhu cầu dinh dưỡng của chó con thuộc các giống cỡ nhỏ. Thức ăn cho chó con (các giống chó cỡ nhỏ) được nghiên cứu để cung cấp dinh dưỡng theo nhu cầu thực tế của chó con.
                             Duy trì sức đề kháng cho chó con: chất chống oxy hóa CELT. Hỗ trợ hệ tiêu hóa hoạt động ổn định: L.I.P, đường FOS. Cung cấp dinh dưỡng toàn diện cho chó: chế biến theo công thức cung cấp năng lượng cao.',
                 'SoLuong' => 100,
@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
                 'MaDanhMuc' => 3, // iPhone
                 'TenSanPham' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef',
                 'GiaSP' => 25000,
-                'GiamGia' => 4000,
+                'GiamGia' => 0,
                 'MoTa' => 'Bánh thưởng cho chó vị thịt bò VEGEBRAND Orgo Freshening Biscuit Bacon Beef có tác dụng làm sạch răng cho chó vị thịt bò. Sản phẩm có chứa các thành phần bạc hà tự nhiên kết hợp với hương vị thịt bò, có khả năng loại bỏ các vi khuẩn gây hôi miệng cho chú chó của bạn một cách nhanh chóng. Sản phẩm có thể kết hợp dùng để huấn luyện.',
                 'SoLuong' => 100,
                 'HinhAnh' => 'banh-thuong-cho-cho-vi-thit-bo-vegebrand-orgo-freshening-biscuit-bacon-beef-400x400.jpg',
@@ -1038,7 +1038,7 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'Email' => 'tranthib@example.com',
                 'ThuCung' => 'Mèo',
                 'DiaChi' => '456 Đường DEF, Quận 2, TP.HCM',
-                'Quyen' => 2, // Ví dụ: 2 cho user
+                'Quyen' => 1, // Ví dụ: 2 cho user
                 'Matkhau' => bcrypt('password2'), // Mã hóa mật khẩu
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1050,8 +1050,20 @@ Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng k�
                 'Email' => 'levanc@example.com',
                 'ThuCung' => 'Chó',
                 'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
-                'Quyen' => 2, // Ví dụ: 2 cho user
+                'Quyen' => 1, // Ví dụ: 2 cho user
                 'Matkhau' => bcrypt('password3'), // Mã hóa mật khẩu
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'MaTaiKhoan' => 4,
+                'Hovaten' => 'Võ Hùng Vĩ',
+                'SDT' => '0962491715',
+                'Email' => 'vohungvi24@gmail.com',
+                'ThuCung' => 'Chó',
+                'DiaChi' => '789 Đường GHI, Quận 3, TP.HCM',
+                'Quyen' => 1, // Ví dụ: 2 cho user
+                'Matkhau' => bcrypt('0'), // Mã hóa mật khẩu
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -1359,7 +1371,7 @@ Qua bài viết, chúng ta đã cùng nhau tìm hiểu sâu rộng về những 
                 'Mataikhoan' => 1,
                 'MaDMBV' => 2,
                 'TieuDe' => '7 mẹo cách trị rận cho mèo tại nhà cực hiệu quả',
-                'Hinh' => 'bi_ran_meo_can_5_bf52b4cb0e.jpg',
+                'Hinh' => 'bi_ran_meo_can_5_bf52b4cb0e.webp',
                 'NoiDung' => 'Trong cuộc sống hàng ngày của người nuôi mèo, việc áp dụng cách trị rận cho mèo tại nhà là một thách thức không nhỏ. Ve rận và bọ chét không chỉ khiến mèo khó chịu mà còn có nguy cơ lây lan bệnh tật. Đặc biệt, ở mèo con với sức đề kháng còn yếu, việc phòng tránh và điều trị ký sinh trùng trở nên cần thiết hơn bao giờ hết.',
                 'ChiTiet' => 'Câu hỏi đặt ra là làm thế nào để trị rận một cách hiệu quả? Bài viết này từ Pet Mart sẽ giới thiệu đến bạn những mẹo và phương pháp cách trị rận cho mèo hiệu quả, giúp đảm bảo sức khỏe tốt nhất cho những người bạn bốn chân của chúng ta.
 
@@ -1437,7 +1449,7 @@ Sentry PurrScriptions Plus Flea & Tick Shampoo: Cung cấp một công thức m�
                 'Mataikhoan' => 1,
                 'MaDMBV' => 2,
                 'TieuDe' => 'Cách sử dụng thuốc tẩy giun cho mèo hiệu quả',
-                'Hinh' => 'meo-nhiem-giun-san_77d242b088cc400fac75abe2ef3bfd93_grande.jpg',
+                'Hinh' => 'meo-nhiem-giun-san_77d242b088cc400fac75abe2ef3bfd93_grande.webp',
                 'NoiDung' => 'Việc hiểu rõ về tẩy giun cho mèo, dấu hiệu, cách sử dụng thuốc tẩy giun cho mèo giúp điều trị, ngăn ngừa nhiễm giun ở mèo là điều quan trọng đối với mọi chủ nhân. Trong bài viết này, Pet Mart sẽ giải đáp mọi thắc mắc về xổ giun cho mèo, từ việc xác định loại giun đến chọn lựa thuốc phù hợp và lên lịch tẩy giun hiệu quả, đảm bảo sức khỏe tốt nhất cho thú cưng yêu quý của bạn.',
                 'ChiTiet' => 'Mèo thường bị nhiễm những loại giun nào?
 Việc nhận biết và điều trị kịp thời các loại giun nhiễm trùng ở mèo là rất quan trọng để đảm bảo sức khỏe và phúc lợi cho chúng. Các chủ nhân mèo nên thường xuyên thăm thú y để kiểm tra và điều trị tẩy giun cho mèo định kỳ, giúp ngăn chặn sự lây lan và ảnh hưởng của các loại giun này.
@@ -1538,6 +1550,473 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 1,
+                'TieuDe' => '10 điều cần biết về chó Alaskan Malamute (chó Alaska)',
+                'Hinh' => 'cho-alaska-khong-lo-3.jpg',
+                'NoiDung' => 'Chó Alaskan Malamute không chỉ nổi tiếng với vẻ ngoại hình bề thế và sức mạnh, mà chó Alaska còn là biểu tượng của sự thông minh và lòng trung thành. Nếu Olympic có một môn thể thao dành riêng cho giống chó cảnh này, thì chắc chắn chó Alaska sẽ là quán quân. Không chỉ hoạt bát và thông minh, chúng còn rất yêu thích sự tương tác và luôn sẵn lòng tham gia vào mọi hoạt động. Mỗi chú chó Alaska là một đồng hành đáng tin cậy, luôn sẵn sàng đồng hành cùng bạn trong mọi cuộc phiêu lưu. Cùng Pet Mart tìm hiểu thêm về giống chó Alaska này nhé!',
+                'ChiTiet' => 'Lịch sử nguồn gốc chó Alaskan Malamute
+Giống chó Alaskan Malamute không chỉ nổi tiếng với vẻ đẹp ngoại hình mà còn vì lịch sử và nguồn gốc rất phong phú. Để có một chú chó Alaska khỏe mạnh và vui vẻ, hãy đảm bảo bạn có đủ kiến thức và sẵn lòng dành thời gian cho việc huấn luyện, tập luyện và cách chăm sóc chúng.
+
+Bắt nguồn từ Bắc Cực: Alaskan Malamute là giống chó kéo xe trượt tuyết cổ xưa từ vùng Bắc Cực, với lịch sử kéo dài hàng ngàn năm. Khác với giống chó Siberian Husky, chó Alaskan Malamute với sức mạnh và sức chịu đựng đã giúp chúng vận chuyển phục vụ cho những công việc kéo tải trọng nặng hơn với những quãng đường xa.
+Công dụng trong lịch sử: Những chú chó Alaska đã giúp con người trong nhiều sự kiện lịch sử, từ cuộc sốt vàng ở Alaska, thám hiểm Nam Cực, cho đến việc hỗ trợ quân đội trong Thế chiến thứ II.
+Tên gọi: Giống chó này được đặt theo tên của người Mahlemut, người đã yêu thích và nuôi dưỡng chúng ở Alaska.
+Công nhận và phổ biến: Mặc dù giống chó này đã gặp nhiều khó khăn sau chiến tranh, nhưng hiện tại, chúng vẫn được yêu thích và đứng ở vị trí thứ 67 trên danh sách các giống chó phổ biến của Câu lạc bộ Chó kiểng Hoa Kỳ (AKC). Năm 2010, chó Alaskan Malamute trở thành biểu tượng của tiểu bang Alaska.
+Đặc điểm vật lý: Ban đầu, chó Alaska chỉ có kích thước trung bình. Nhưng qua thời gian và quá trình lai giống, chúng trở nên to lớn hơn, với lớp lông dày và đa dạng màu sắc. Chúng có nhiều điểm tương đồng với chó sói và thường dễ bị nhầm lẫn.
+Tuổi thọ và chăm sóc: Dù tuổi thọ trung bình chỉ khoảng 10-12 năm, nhưng môi trường sống và chế độ tập luyện có thể tác động lớn đến sức khỏe và tuổi thọ của giống chó Alaska này.
+Đặc điểm hình dáng của chó Alaska
+Trong bài viết này, hãy cùng chúng tôi tìm hiểu sâu hơn về những đặc điểm nổi bật và tính cách đáng yêu của giống chó này.
+
+Ngoại hình tổng quát: Giống chó Alaskan Malamute tỏa sáng bởi vẻ ngoại hình ấn tượng, dáng vững chắc, xương cơ đều phát triển mạnh mẽ. Đặc biệt, với ngực sâu và vai rộng, chó Alaska thể hiện sự mạnh mẽ và khí phách. Đầu của chúng to và uy nghi, tạo nên một khuôn mặt hiền lành và thân thiện. Đôi mắt hình hạnh nhân, thường sáng và linh hoạt, luôn tràn đầy sự tò mò và hứng thú với mọi thứ xung quanh. Tai của chó Alaska đứng thẳng, không quá to so với khuôn mặt, tạo nên một vẻ đẹp cân đối. Răng của chúng chắc khỏe và đều nhau. Dẫu rằng, bước đi của Alaskan Malamute thể hiện sự uyển chuyển. Điểm nhấn là bộ lông đa dạng màu sắc, trong đó, màu xám trắng là màu phổ biến nhất. Chiếc đuôi to, xù xì là biểu tượng không thể nhầm lẫn của giống chó này.
+Đầu và mặt: Hình dạng đầu rộng và sâu, biểu cảm trên khuôn mặt cho thấy sự dịu dàng và tính cách yêu thương. Mắt hình hạnh nhân, màu nâu và luôn tỏ ra tò mò, thân thiện. Đôi khi, chó Alaskan Malamute và chó Husky bị nhầm lẫn với nhau vì nhiều điểm tương đồng. Tuy nhiên, chỉ cần chú ý, bạn có thể dễ dàng phân biệt: Đầu rộng hơn, với lông dày và xù. Mặt của chúng mang một vẻ thân thiện và tình cảm.
+Kích thước và tỉ lệ cơ thể: Chó đực – Cao 64cm, nặng 39kg. Chó cái – Cao 58cm, nặng 34kg. Những chú chó Alaska sở hữu một thân hình dài hơn chiều cao của chúng, với sự cân đối giữa kích thước và xương cốt. Những cá thể vượt quá 54kg được gọi là “Giant Alaska”. Tuy AKC và FCI không đặt ra kích thước cụ thể, nhưng vấn đề sức khỏe tiềm ẩn khiến việc nuôi chó kích thước quá lớn không được khuyến khích.
+Màu mắt: Về mắt, chó Alaska thuần chủng chỉ chấp nhận hai màu: nâu và nâu đen. Bất kỳ màu mắt nào khác, dễ biết chúng đã được lai tạp.
+Bộ lông: Lớp lông bảo vệ của chúng khá dày và có kháng nước tốt, bảo vệ chúng khỏi thời tiết khắc nghiệt của vùng Bắc Cực. Bộ lông của Alaska là điểm đặc trưng nổi bật nhất. Với hai lớp lông: lớp ngoài dài và thô cùng lớp trong mềm và mượt, chúng giữ nhiệt rất tốt. Bạn có thể gặp nhiều màu sắc từ đen trắng, xám trắng cho tới nâu đỏ trắng và đôi khi là màu đỏ hoặc vàng.
+Tai và mũi: Tai có hình tam giác, dựng đứng khi chúng đang quan sát hoặc tò mò. Mũi thường có màu đen, trừ những chú chó có màu lông đỏ có thể có chiếc mũi màu nâu.
+Tính cách: Alaskan Malamute không chỉ đẹp về ngoại hình mà còn thân thiện, trung thành và thông minh. Chúng rất nhạy cảm, dễ bị stress nếu bị giam lỏng. Sở hữu năng lượng dồi dào, giống chó Alaska cần được vận động hàng ngày. Chó Alaska nổi tiếng với tính cách thân thiện, không kén người và đặc biệt thích trẻ con. Chúng là những người bạn đồng hành tuyệt vời, luôn sẵn sàng tham gia các trò chơi và hoạt động dã ngoại.
+Môi trường sống: Nếu bạn đang ở một nơi có khí hậu nóng, hãy cân nhắc kỹ trước khi quyết định nuôi một chú chó Alaska Malamute. Chúng cần không gian rộng lớn và thời gian vận động đều đặn.
+', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 1,
+                'TieuDe' => 'Phải làm sao khi chó bị đau chân và đi khập khiễng?',
+                'Hinh' => '2-kiem-tra-ky-luong-de-biet-be-cho-bi-nga-dau-chan-hay-khong.jpg',
+                'NoiDung' => 'Chó bị đau chân cà nhắc có thể do nhiều nguyên nhân bởi loài chó rất hiếu động, chúng luôn muốn được chạy nhảy và vui đùa mọi lúc mọi nơi. Và đó cũng chính là một trong những lý do khiến chúng gặp những chấn thương về chân ngoài ý muốn. Nhiều chú chó đau chân không thể đi được, bao gồm cả chân trước và 2 chân sau. Chó bị đau chân sẽ làm cản trở mọi hoạt động của những chú cún. Khi đó, bạn sẽ làm thế nào? Cùng Pet Mart tìm hiểu thêm nhé',
+                'ChiTiet' => 'Nguyên nhân khiến chó bị đau chân
+Có khá nhiều nguyên nhân khiến chân chó bị chấn thương như: chó bị trật khớp, căng cơ, sai khớp hay gãy xương… Nghiêm trọng hơn là chúng bị bệnh thấp khớp khiến chó bị viêm khớp. Cụ thể là:
+
+Chó bị đau chân do tổn thương ngoài da: như móng chân, đá, kính cỡ đâm vào chân.
+Chó bị đau chân do căng cơ
+Chân chó bị bong gân hoặc trật khớp: do bị tai nạn hoặc do leo cầu thang, khi chạy nhảy mạnh… Bong gân nặng có thể gãy xương hoặc sai khớp
+Chó bị đau chân do bệnh còi xương: Biểu hiện chủ yếu là rối loạn tiêu hóa, xương bị dị dạng, đau chân, đi lại cà nhắc.
+Chó bị thấp khớp: các khớp và các mô xung quanh bị phù nề, các khớp sưng to, đi lại, di chuyển khó khăn.
+Chó hay chạy nhảy, hoạt động mạnh: có thể dẫn đến ngã gãy xương. Đặc biệt là những chú chó nhỏ có xương mảnh như Poodle, Chihuahua, Maltese…
+Chó bị đau chân do kí sinh trùng: Các loại kí sinh trùng như bọ chó, ve, rận cắn ở bề mặt da làm loét da, vi khuẩn dễ xâm nhập làm vết loét lan rộng. Để lâu có thể bị liệt, yếu cơ cùng các triệu chứng khác.
+Chó bị đau chân cà nhắc có biểu hiện gì?
+Trong nhiều trường hợp, cún cưng khi bị đau chân cà nhắc sẽ đi khập khiễng. Chân lúc nào cũng co lên, ít muốn hoạt động hay đi lại nhiều. Đôi chân chân có biểu hiện sưng tấy hoặc chảy máu. Lúc này cần kiếm tra toàn bộ phần chân cún cưng xem chúng có bị đá, thủy tinh hay vật gì đâm vào gây chảy máu không. Nếu da không chảy máu có thể kiểm tra xem chân chúng có bị sưng hay phù nề không. Trạng thái, màu sắc da như thế nào.
+
+Cần giữ cún cưng nằm im. Không cho chúng hoạt động hay di chuyển. Tuyệt đối không di chuyển và cố gắng giữ và an ủi để chúng không giãy giụa. Cho cún cưng ăn đồ ăn dễ tiêu hóa. Chăm sóc để các vùng xung quanh không bị lây nhiễm và vết thương không bị nhiễm trùng.
+
+Nếu chúng bị đau chân cà nhắc mức độ nặng có thể dùng một miếng gạc lạnh dán và khớp chân để giảm viêm. Sau đó đưa cún đến bác sĩ thú y ngay lập tức. Nếu chó bị đau chân do bệnh thấp khớp hay do chó bị thiếu canxi, phải đưa chúng đến bác sĩ thú y để thăm khám, chẩn đoán và đưa ra cách điều trị thích hợp. Chẩn đoán nhanh và chính xác là cơ sở giúp quá trình điều trị có nhanh chóng và thành công hay không.
+
+Cách phòng tránh vấn đề chó bị đau chân
+Bổ sung canxi cho chó phù hợp và đầy đủ cho cún cưng trong những khẩu phần ăn hàng ngày.
+Cho cún cưng tắm nắng và sáng sớm để bổ sung vitamin D. Bạn có thể mua sản phẩm thuốc chữa trị xương, cơ, khớp tại hệ thống các cửa hàng dành cho chó mèo Pet Mart.
+Không để cún cưng hoạt động quá nhiều hoặc quá mạnh. Tránh cho chúng chơi những trò chơi với cường độ mạnh. Ví dụ như chạy quá nhanh, nhảy từ trên cao xuống, bật nhảy liên tục…
+Dắt cún đi dạo hoặc chạy bộ chậm để các khớp chân linh hoạt, dẻo dai. Nếu chó bị đau chân thì không cho tập thể dục nữa. Phải để chúng nghỉ ngơi trong vài ngày hoặc vài tuần. Sau đó mới cho chúng tập thể dục một cách nhẹ nhàng
+Tránh để chúng tiếp xúc với các vật sắc nhọn như thủy tinh, đinh ốc, sỏi có cạnh sắc, bụi cây có gai, lá nhọn…
+Cách nhận biết chó bị gãy chân
+Dựa theo những dấu hiệu khi chó bị gãy xương như chân biến dạng, không di chuyển được hoặc di chuyển khó khăn. Kèm theo đó là bị sưng, bong gân hoặc các cơ năng gặp trở ngại. Cún cưng thường sẽ có những hoạt động khác thường.
+
+Chó bị gãy xương, bên ngoài sẽ có những thay đổi rõ ràng. Tùy theo vị trí gãy xương chân, chậu, sườn hay xương sống… Tuy nhiên, đối với chó bị gãy chân thì chân bị biến dạng, tư thế bốn chân bất thường. Chân bị ngắn lại, dài ra hoặc cong cong lại.
+
+Thông thường chúng bị tình trạng này là do hoạt động nặng hoặc bị chịu tác động ngoại lực. Khi phát hiện ra chó bị gãy chân cần quan sát luôn phần mềm xem xung quanh có vết thương hay không. Tránh để vết thương hở bị nhiễm trùng rất nguy hiểm.
+
+Chó bị gãy chân phải làm sao?
+Đầu tiên, cần phân tích tình trạng xương bằng hình ảnh chụp X- quang. Đồng thời có thể xác định rõ phần xương bị gãy ở đâu. Qua đó bác sĩ thú y sẽ tìm phương pháp điều trị phù hợp. Hình ảnh cụ thể sẽ đóng vai trò quan trọng trong việc chữa trị và băng bó.
+
+Phim sẽ chụp chiếu trong một phạm vi nhất định. Bao gồm phần đầu xương và các khớp ngoại biên. Chỉ bao gồm hai mặt là mặt chính diện và mặt bên. Nên nếu chỉ dựa vào phim chụp, có thể bạn sẽ không thể nhìn thấy chỗ gãy. Tốt nhất là nên chụp các góc, đối chiếu và xác định phần gãy.
+
+Đường gãy giữa các đoạn xương có thể tương đối thấp. Trong nhiều trường hợp, thông thường gãy xương sẽ đi liền với việc sưng phần mềm. Đối với trường hợp chụp X- quang mà vẫn không xác định được phần xương gãy, vài ngày sau có thể kiểm tra một lần nữa các khu vực bị ảnh hưởng.
+
+Chó bị gãy chân có tự lành không? Chữa trị ra sao?
+Để hồi phục xương cho chó khi bị gãy cần làm theo các chỉ dẫn của bác sĩ thú y. Tùy vào mức độ, nhẹ của vết thương mà có phương pháp điều trị riêng. Nếu chỉ là vết bầm và bong gân chỉ cần chườm nước đá và chai nước nóng vào chỗ bầm. Bong gân và sai gân sẽ đỡ nhiều. Cần phải cho chó con nghỉ ngơi hoàn toàn.
+
+Nếu chó bị gãy xương do bị ngã, bị đá hay bị các con vật khác cắn hoặc do nơi vết thương bị vật nhọn đâm vào trước khi muốn cứu thương, cần lấy rọ mõm cho chó bịt miệng chúng lại. Sau đó, đặt chó nằm nghiêng và khám kỹ chân để xem thương tích.
+
+Nếu thấy rõ là chân bị gãy, thì lấy hai mảnh gỗ dẹt rộng và dài đủ vừa chân chó. Đặt một mảnh gỗ bên mặt trong và một mảnh gỗ bên mặt ngoài chân chó rồi buộc cả hai mảnh gỗ lại nguyên chỗ bằng một dải băng gạc. Xong đem chó đến bác sĩ thú y. Nếu không bó đỡ được chỗ xương gãy, đặt chó vào một cái cáng chắc chắn và đem chúng tới cơ sở thú y. Thông thường có 2 cách cố định xương cho chó:
+
+Cố định bên ngoài: bao gồm cố định bằng thạch cao, nẹp và băng. Nẹp và băng không điều trị gãy xương mà chỉ giúp cố định phần bị gãy. Tránh việc cún cưng hoạt động nhiều.
+Cố định bên trong: là dùng đinh, ốc… cố định, nối vết nứt rạn của xương.
+Tùy thuộc vào tình trạng của cún cưng mà lựa chọn phương pháp để đạt được kết quả tốt nhất. Ngoài các phương pháp trên, cũng có thể sử dụng giá cố định bên ngoài. Tuy nhiên phương pháp này khá tốn kém.  Hiện nay vẫn chưa áp dụng nhiều tại các cơ sở thú y.', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 1,
+                'TieuDe' => '5 bước hướng dẫn cách đỡ đẻ cho chó ngay tại nhà',
+                'Hinh' => 'bieu-hien-cho-sap-de-5.jpg',
+                'NoiDung' => 'Quá trình đỡ đẻ cho chó bao gồm nhiều trình tự khác nhau. Nếu bạn chưa từng chăm sóc chó mang thai, chó sắp sinh, đã sinh và sau sinh thì không nên bỏ qua bài viết này. Những kinh nghiệm được chia sẻ dưới đây sẽ giúp bạn hạn chế thấp nhất những rủi ro có thể xảy ra với cún cưng trong khoảng thời gian nhạy cảm này. Pet Mart sẽ hướng dẫn các bạn có thể áp dụng trong lúc khẩn cấp nếu bác sĩ thú y không đến kịp thời hoặc chó đã vỡ ối.',
+                'ChiTiet' => 'Tại sao cần phải đỡ đẻ cho chó khi sắp vỡ ối?
+Chó mang thai tới thời điểm sinh nở rất cần sự chú ý đặc biệt của chủ nhân. Và đôi khi chủ nhân phải đỡ đẻ cho chó để bảo đảm “Mẹ tròn con vuông”. Phần lớn chó tự “đỡ đẻ” theo bản năng. Nhưng chủ nhân nên quan tâm để tránh sự cố đáng tiếc.
+
+Có những giống chó rất khó đẻ: chó Bull Dog, Boxer, Chihuahua, Pug, Corgi, Phốc hươu, Poodle, Lạp xưởng… Hoặc chó được nuôi chăm “quá cẩn thận” hoặc bị còi cọc ốm yếu cũng rất khó đẻ. Trong một ca đẻ cũng có con sinh ra dễ, con ra khó do tư thế ngôi thai hoặc tình trạng sức khỏe chó mẹ.
+
+Trường hợp chó mẹ bị mất sức, nếu không được đỡ đẻ rất dễ xảy ra biến chứng. Chó con ở quá lâu trong bụng mẹ có thể bị ngạt nếu không được can thiệp. Thai chết lưu gây nhiễm trùng ở chó, làm chết cả chó mẹ lẫn con.
+
+Vì vậy đỡ đẻ cho chó là sự hỗ trợ rất cần thiết. Tuy nhiên chỉ dựa vào kinh nghiệm về sinh sản của chủ chó là chưa đủ mà còn cần hướng dẫn của chuyên gia. Tốt nhất bạn nên tìm sự hỗ trợ của các nhà chuyên môn nhân giống hoặc các bác sĩ thú y.
+
+Dự kiến ngày sẽ sinh đẻ của chó
+Cần dự kiến trước thời gian sinh để có kế hoạch chuẩn bị đỡ đẻ cho chó, bạn cần căn cứ vào thời điểm phối giống chó lần đầu. Thống kê được chính xác số lần và thời gian phối. Quan sát độ to nhỏ của bụng và đi siêu âm để biết được số lượng thai. Nếu như không siêu âm thì để ý bụng. Càng nhỏ số lượng thai ít thì thời gian mang bầu càng dài. Phần lớn trên 64 ngày mới sinh, gọi là “lên ngày”. Thậm chí có trường hợp chửa đến 68 – 70 ngày.
+
+Ngược lại thai càng nhiều sẽ đẻ càng sớm. Có con 57 – 58 ngày đã sinh. Cứ quá 55 ngày thai là con sẽ sống được. Còn trước là không thể hoặc rất khó. Vì thế chó con mở mắt nhanh hay chậm phụ thuộc vào số lượng con do ít thai nên khi sinh chó con “già ngày hơn”.
+
+Tỷ lệ chó mẹ sinh vào nửa đêm rất lớn, không tiện để đưa đến bệnh viên. Bạn có thể di chuyển từ từ, mát xa từ trên xuống dưới phần bụng của chó mẹ. Đồng thời chó chúng ăn một ít thức ăn bổ sung thế lực, để giúp chúng thuận lợi sinh sản.
+
+Chuẩn bị cho quá trình sinh sản của chó mẹ
+Chó mẹ trong quá trình sinh sợ rằng sẽ rơi vào tinh trạng mệt mỏi. Để có thể bổ sung năng lượng kịp thời, có thể chuẩn bị những thức ăn cho chó dễ tiêu hóa mà có đủ dinh dưỡng. Cho chó ăn trước khi sinh.
+
+Trước khi sinh phải làm sạch núm vú của chó mẹ. Cạo lông xung quanh và lau sạch cơ quan sinh dục. Quá trình đỡ đẻ cho chó có thể co những cơn co giãn tử cung kèm theo cơn đau. Chó mẹ thở hổn hển, sau đó rất nhanh, hậu môn và bộ phận sinh dục to ra.
+
+Lúc này chỉ thấy chó mẹ dùng lực co bụng lại, chó con trong lớp màng bọc được ra đời. Trong quá trình sinh, tốt nhất chủ nhân nên ở bên đồng hành cùng chúng. Để chó mẹ tự chăm sóc chó con, chủ nhân chỉ cần ở bên để giúp đỡ khi cần thiết là được.
+
+Chuẩn bị dụng cụ hỗ trợ đỡ đẻ cho chó
+Đầu tiên, chúng ta phải chuẩn bị một cái ổ lớn hoặc nệm cho chó mẹ, tốt nhất là bằn gỗ hoặc giấy. Ổ đẻ cần đặt trong góc yên tĩnh, ấm áp và tránh gió. Trong ổ lót một ít vải, nhưng không được nhiều quá để tránh chó con bị mắc kẹt. Có thể đóng khay gỗ cho chó đẻ kích thước phụ thuộc độ to nhỏ của chó mẹ. Độ cao tối đa 20cm, lót vải sạch phía dưới. Nhiệt độ ổ chó đẻ dao động ở mức 26-27°C, độ ẩm < 80%. Nên có nhiệt kế, ẩm kế để đo nhiệt độ và độ ẩm tại nơi chó đẻ. Nếu dùng máy sưởi mà không có nhiệt kế kiểm tra có thể gây chết do quá nóng.
+
+Chuẩn bị công cụ trước khi đỡ đẻ cho chó gồm: vài miếng khăn sạch, kéo, chỉ, vải bông, thuốc khử trùng, chậu rửa, báo cũ. Tốt nhất nên có thiết bị cách nhiệt (bóng đèn, chăn điện, khăn dày,…) vào mùa đông.
+
+Nếu không quá hiểu biết quá trình sinh sản của chó cái, tốt nhất liên hệ với bác sĩ thú y hoặc hỏi những người có kinh nghiệm. Nếu bạn nuôi giống chó có tỷ lệ khó sinh tương đối lớn, tốt nhất để bác sĩ tiếp nhận đỡ đẻ. Nếu là chủ nhân đỡ đẻ, tốt nhất nên hiểu biết toàn bộ quá trình sinh, để tránh xảy ra tai nạn khi sinh.
+
+Các bước chuẩn bị để đỡ đẻ cho chó
+Trước khi đẻ 24 giờ Đã có sữa màu trắng đặc trưng. Chó ăn ít, bỏ ăn, bụng sa, cơ bụng giãn mềm (sụt bụng). Có phản xạ ỉa đái nhiều lần (ỉa són, đái giắt). Nếu trước đó chó ăn no, có thể nôn ra thức ăn do sự chèn ép của dạ con vào dạ dày.
+Từ 12-2 giờ trước khi đỡ đẻ cho chó: Kiểm tra thân nhiệt (trực tràng), nhiệt độ hạ thấp dao động từ 36.7- 37.5°C chó có thể run rẩy đặc biệt vào mùa rét lạnh hoặc bị ướt mưa lũ. Chó đi lại, đứng nằm không yên, có phản xạ cào bới tìm ổ đẻ, hay chui rúc xó tối, nơi yên tĩnh. Mắt mở to nhìn chủ cầu xin, không muốn xa rời chủ. Âm hộ sưng phù nề, có dịch lỏng trong suốt chảy ra.
+Nhận biết các dấu hiệu sắp đẻ
+Sau khi chó phối giống khoảng 59 đến 63 ngày sẽ sinh. Triệu chứng chó sắp sinh là đái rắt, thỉnh thoảng nôn, bỏ ăn hoặc giảm ăn. Chó mẹ thở nhiều và nhìn mặt mũi căng thẳng, đờ đẫn, nước mắt chảy ra và thở bằng mồm. Đo thân nhiệt thấy hạ xuống dưới 37 độ.
+
+Người nuôi cần quan sát kĩ để có biện pháp can thiệp cần thiết. Nếu vỡ ối hoặc có cơn rặn đẻ quá 15 phút mà không thấy sinh thì cần gọi ngay cho bác sĩ để được tư vấn và tìm giải pháp tốt nhất. Đặc biệt chú ý ở những chó mẹ có tiền sử khó sinh hoặc tiền sử mổ đẻ.
+
+Chó sắp đẻ sẽ có sữa trước khi sinh khoảng 3 – 4 ngày. Tuy nhiên cũng có con đến lúc đẻ mới có sữa. Bạn có thể nhìn, sờ thấy thai nhi động phía ngoài bụng. Chó mẹ có thể ăn ít hơn, tiểu nhiều lần hơn. Thậm chí có con đi tiểu không chủ động được do bàng quang bị chèn ép.
+
+Trước sinh 2 – 4 giờ chó mẹ bỏ ăn, ỉa “xón”, đái “giắt”, kêu rít, thở gấp bồn chồn. Chó mẹ cào bới có phản xạ làm để làm “ổ đẻ”. Lúc này cần chuẩn bị chỗ đẻ thoáng, mát, ấm, yên tĩnh, đủ ánh sáng chó chó cưng. Cần hạn chế tiếp xúc với người và con vật khác.
+
+Lưu ý: không ép chó mẹ ăn uống nhiều trước khi sinh. Nếu có dấu hiệu nghi đẻ khó: thai to, đau đẻ dữ dội nhưng sau 4 – 6 tiếng không đẻ, không có cơn rặn… cần gọi cho bác sĩ thú y ngay. Luôn luôn chuẩn bị sẵn nước uống sạch có pha chút muối.
+
+Tốt nhất để chó đẻ tự nhiên. Chỉ quan sát phát hiện những trục trặc trong khi sinh để xử lý. Đặc biệt với chó mẹ thay đổi tính tình, dữ tợn thì không nên can thiệp nhiều tránh stress tâm lý. Điều này có thể gây shock, vỡ động mạch tử cung trong khi rặn đẻ, mất máu và tử vong.', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 1,
+                'TieuDe' => 'Chó Poodle: 7 lý do để nuôi và cách chăm sóc hoàn hảo',
+                'Hinh' => 'Cho-poodle-1.jpg',
+                'NoiDung' => 'Chó Poodle nổi tiếng với bộ lông xoăn dày, ít rụng lông, và tính cách thân thiện, thông minh. Thế giới này không có tình yêu nào là vô duyên vô cớ, việc nuôi chó Poodle ngày càng trở nên phổ biến và được ưa thích. Hãy cùng khám phá những điều thú vị và bí quyết nuôi dưỡng một chú chó Poodle một cách tốt nhất. Bài viết này Pet Mart sẽ mang đến cho bạn cái nhìn toàn diện và sâu rộng về giống chó nhỏ đáng yêu này.',
+                'ChiTiet' => 'Tiêu chuẩn nguồn gốc của chó Poodle
+Chó Poodle có nguồn gốc từ Đức và Pháp, không chỉ là một giống chó săn vịt xuất sắc mà còn là một thú cưng được yêu thích trên toàn thế giới. Với bộ lông xoăn đặc trưng và trí thông minh sắc sảo, chó Poodle thuần chủng mang một vẻ đẹp và nét cá tính riêng.
+
+Được biết đến từ thế kỷ 15 và 16 ở Đức, Poodle chủ yếu được nuôi dưới dạng chó săn. Chúng được huấn luyện để săn vịt trên mặt nước, nơi mà bộ lông đặc trưng của chúng giúp chúng giữ ấm. Tên “Poodle” xuất phát từ từ tiếng Đức “pudeln”, nghĩa là “lội nước”. Poodle thuần chủng được AKC chính thức công nhận vào năm 1887.
+
+Đầu và mặt: Đầu nhỏ, tỉ lệ đẹp với cơ thể. Mắt hình trám, màu đen hoặc nâu sẫm tùy màu lông. Tai dài, rủ xuống, phủ đầy lông.
+Cơ thể: Dáng vẻ cân đối, không quá cơ bắp. Lưng thẳng, ngực vừa phải rộng.
+Chân: Chân thẳng, song song, bàn chân nhỏ, móng màu sẫm.
+Đuôi: Được giữ ở độ cao, thường được cắt tỉa để tạo dáng đẹp.
+Bộ lông: Lông xoăn, mềm và dày. Có thể có màu trắng, đen, xám, nâu đỏ, kem, vàng mơ hoặc hỗn hợp. Để tạo dáng đẹp, nhiều chủ nhân thường cắt tỉa lông cho Poodle của mình.
+Tính cách: Poodle được biết đến với tính cách thân thiện, thông minh và lanh lợi. Chúng dễ dàng hòa mình vào môi trường gia đình và rất yêu trẻ con. Với trí thông minh cao, Poodle dễ dàng được huấn luyện và thích tham gia các hoạt động ngoại khóa.
+Phân loại và kích thước chó Poodle
+Chó Poodle có mấy loại? Giống chó Poodle có 3 kích thước (size) phổ biến. Thường được biết đến với tên gọi Toy (siêu nhỏ), Miniature (nhỏ) và Standard (lớn). Ngoài các kích thước trên Poodle còn Teacup. Về kích thước cụ thể:
+
+Toy Poodle: Có chiều cao tối đa khoảng 25 cm khi đứng. Nặng từ 2 – 5kg khi trưởng thành. Vì rất nhỏ nhắn xinh xắn nên Toy hầu như chỉ được nuôi để làm thú cưng. Toy Poodle có thể sống ở thành thị hoặc nông thôn. Tuy nhiên chúng cũng khá thụ động. Chúng thích nằm bên cạnh bạn. Chúng có thể thoải mái mà không cần ra ngoài sân. Tuy nhiên thỉnh thoảng bạn cũng nên đưa chúng ra ngoài đi dạo hoặc bày trò chơi với chúng.
+Miniature Poodle: Chó Poodle mini có chiều cao tối đa khoảng 40cm và nặng tối đa 9kg.
+Standard Poodle: Lớn nhất trong họ Poodle với chiều cao phổ biến khoảng 40cm. Những con cao nhất có thể cao tới 50cm và nặng tới 30kg. Loại này thường được mọi người hay gọi là chó Poodle khổng lồ.
+Ngoài ra, Teacup và Tini Poodle là 2 dòng nhỏ nhất trong họ nhà giống chó Poodle. Chúng không được công nhận là dòng chính thức và bị coi là những cá thể đột biến. Chúng bị coi là một lỗi khiếm khuyết và không được khuyến khích nhân giống. Tini Poodle thường có chiều cao dưới 20cm, cân nặng 2-3kg. Teacup Poodle thường có chiều cao dưới 15cm, cân nặng 1-2kg.', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 2,
+                'TieuDe' => 'Cách tính và kéo dài tuổi thọ của mèo sống lâu hơn',
+                'Hinh' => 'meo.jpg',
+                'NoiDung' => 'Khi mèo đã trở thành thành viên không thể thiếu trong gia đình, việc hiểu rõ tuổi thọ của mèo trở nên cực kỳ quan trọng. Tuổi thọ trung bình của mèo không chỉ dựa vào giống loài, mà còn phụ thuộc vào chế độ dinh dưỡng, môi trường sống và nhiều yếu tố khác. Đến với bài viết này, Pet Mart sẽ giúp bạn tìm hiểu sâu hơn về cách tính tuổi của mèo và kinh nghiệm chăm sóc giúp tăng tuổi thọ cho mèo.',
+                'ChiTiet' => 'Các giai đoạn tuổi thọ của mèo
+Giai đoạn con mèo (0-1 tuổi): Đây là giai đoạn chúng phát triển nhanh chóng. Chỉ trong vòng 3 tuần sau khi sinh, mèo con chỉ được nuôi dựa vào sữa mẹ. Với cân nặng trung bình sau 3 tháng là 1-1,5kg, lúc 4 tháng khoảng 2kg và tăng lên 3-3,5kg vào tháng thứ 8. Khi đạt đến 1 tuổi và cân nặng ổn định trong khoảng 3,5-5,5kg, mèo con có thể được coi là đã phát triển đầy đủ. Đặc biệt, từ tuần thứ 2 đến tuần thứ 9 sau sinh, chúng trải qua “giai đoạn xã hội hóa”. Việc giúp mèo trải nghiệm nhiều trong giai đoạn này giúp chúng trở nên dễ thân và dễ nuôi. Tuy nhiên, vào khoảng 4-5 tháng tuổi, mèo bước vào giai đoạn dục vọng, nên việc cân nhắc phẫu thuật triệt sản trước khi mèo có dấu hiệu dục vọng đầu tiên là rất quan trọng.
+Giai đoạn mèo trưởng thành (1-7 tuổi): Trong giai đoạn này, cân nặng trung bình của chúng dao động từ 3-5kg. Đây cũng là thời điểm mèo trở nên năng động nhất. Để đảm bảo sức khỏe tốt, việc chuyển từ thức ăn cho mèo con sang thức ăn cho mèo trưởng thành và quản lý chế độ ăn uống là rất cần thiết. Đồng thời, việc tạo điều kiện cho mèo vận động đủ mức cũng không kém phần quan trọng.
+Giai đoạn mèo già (7 tuổi trở lên): Dấu hiệu lão hóa dần xuất hiện. Trong giai đoạn này, chế độ ăn uống và việc chăm sóc sức khỏe trở nên quan trọng hơn bao giờ hết.
+Trên 8 tuổi: Dấu hiệu lão hóa rõ ràng hơn. Mèo có thể trở nên ít vận động hơn và tăng cân. Răng của chúng bắt đầu mất màu và cần chăm sóc đặc biệt.
+Trên 12 tuổi: Sức khỏe của mèo bắt đầu giảm sút đáng kể. Răng có thể bị rụng và việc chăm sóc sức khỏe trở nên cần thiết hơn.
+Từ 15-18 tuổi: Đây là giai đoạn cuối của tuổi thọ mèo. Sức khỏe của chúng yếu dần và việc kiểm tra định kỳ là không thể thiếu.
+Cách tính tuổi mèo so với con người
+Thực tế, quy tắc cách tính tuổi mèo thành tuổi người giống như cách tính Tuổi thọ của chó bằng cách nhân với 7 là không chính xác. Thay vào đó, tuổi đầu tiên của mèo tương đương với 15 tuổi người. Sau đó, mỗi năm tiếp theo tương đương với khoảng bốn tuổi người.
+
+Mèo trưởng thành khi nào? Mèo phát triển rất nhanh chóng mặc dù có sự khác biệt giữa các giống, nhưng sau 1-1,5 năm chúng sẽ trở thành một con mèo trưởng thành. Khi mới sinh 1 tháng, mèo tương đương với “1 tuổi” của con người, 2 tháng tuổi tương đương “3 tuổi”, và 3 tháng tuổi là “5 tuổi”. Có thể coi như mỗi tháng, mèo tăng khoảng 2 tuổi.
+Công thức tính tuổi mèo: Trong năm đầu tiên, mèo phát triển nhanh chóng và tương đương với 18 tuổi của con người. Vào năm thứ 2, chúng tương đương 24 tuổi, và từ năm thứ 3 trở đi, mỗi năm tăng 4 tuổi. Vì vậy, để chuyển đổi tuổi mèo thành tuổi người, từ năm thứ hai trở đi, công thức là: 24 + (tuổi mèo – 2 tuổi) x 4. Tuy nhiên, tuổi thọ của mèo còn phụ thuộc vào giống mèo và điều kiện nuôi dưỡng, nên công thức này chỉ là một chỉ số tham khảo.
+Bảng chuyển đổi tuổi mèo sang người: Dưới đây là bảng chuyển đổi tuổi dựa trên công thức dưới đây. Tuy nhiên, nhớ rằng mỗi mèo là một cá thể riêng biệt và tuổi thọ có thể khác biệt dựa trên giống và môi trường nuôi dưỡng.Tuổi thọ của mèo ảnh hưởng bởi yếu tố nào?
+Những yếu tố dưới đây đều đóng góp vào việc xác định tuổi thọ của mèo. Tuy nhiên, cũng giống như con người, mỗi chú mèo là một cá thể riêng biệt và tuổi thọ cụ thể có thể khác nhau dựa trên một loạt các yếu tố khác nhau như:
+
+Giống loài: Có một số giống mèo có tuổi thọ dài hơn các giống khác. Ví dụ, giống mèo Ragdoll có thể sống đến 25 tuổi.
+Môi trường sống: Một mèo nuôi trong nhà thường có tuổi thọ từ 12-15 tuổi, trong khi mèo hoang chỉ sống khoảng 4-6 tuổi.
+Chế độ dinh dưỡng: Việc cung cấp thức ăn chất lượng cao là yếu tố quan trọng để kéo dài tuổi thọ của mèo.
+Chăm sóc tổng quát: Ngoài việc cung cấp thức ăn tốt, việc chăm sóc hàng ngày cũng quan trọng không kém.
+Triệt sản: Theo nhiều nghiên cứu, việc triệt sản có thể giúp mèo sống lâu hơn do giảm thiểu các nguy cơ liên quan đến bệnh tật và xung đột.
+Răng: Răng của mèo có thể cung cấp thông tin quý giá về tuổi của chúng.
+Mắt: Độ trong và sáng của mắt cũng là một yếu tố cho thấy tuổi của mèo.
+Bộ lông: Lớp lông mượt và bóng là dấu hiệu của một mèo trẻ, trong khi lớp lông khô và có dấu hiệu lão hóa thì ngược lại.
+Cách chăm sóc để kéo dài tuổi thọ cho mèo
+Mỗi giai đoạn trong cuộc đời mèo đều cần sự quan tâm và chăm sóc đặc biệt. Từ giây phút đầu tiên mở mắt đến khi trưởng thành và già đi, việc chăm sóc mèo đúng cách giúp tăng tuổi thọ và sức khỏe cho chúng. Hãy yêu thương và chăm sóc mèo cưng của bạn như một thành viên trong gia đình.
+
+Giai đoạn quan trọng của mèo con
+0-2 ngày sau khi sinh: Mèo con hoàn toàn dựa vào sữa mẹ.
+5-12 ngày: Mắt bắt đầu mở và nhận biết ánh sáng.
+16-20 ngày: Bắt đầu di chuyển và phát triển các bộ phận cơ bản.
+6 tuần tuổi: Mèo con bắt đầu ăn thức ăn cứng và học hỏi từ mẹ.', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 2,
+                'TieuDe' => 'Cách đặt tên cho mèo Tiếng Việt ý nghĩa phong thủy',
+                'Hinh' => 'dat-ten-cho-meo-yody-vn1.webp',
+                'NoiDung' => 'Đặt tên cho mèo Tiếng Việt là nghệ thuật kết hợp sở thích cá nhân với nền văn hóa Việt Nam. Mỗi cái tên mang ý nghĩa riêng, phản ánh tính cách và quan điểm của chủ nhân, đồng thời ẩn sau đó là bí mật của phong thủy và chữ số. Với sự kết hợp tinh tế, đặt tên cho mèo Tiếng Việt không chỉ là xu hướng mà còn là cẩm nang cho những ai muốn tìm tên phù hợp và may mắn cho thú cưng. Hãy cùng PetHouse tìm hiểu sâu hơn về cách đặt tên cho mèo chứa đựng sức mạnh và tình yêu cho chúng nhé!',
+                'ChiTiet' => 'Ý nghĩa cách đặt tên cho mèo theo tổng chữ số
+Tên của mèo con là sự phản ánh quan điểm, giá trị và dấu ấn cá nhân của chủ nhân. Mỗi chủ nhân có cách nhìn và giá trị riêng, và việc chọn tên cho mèo cảnh là cơ hội để thể hiện bản thân. Đặt tên cho mèo tiếng Việt có thể là biểu tượng của sự tự do, tình yêu, hoặc sự hy sinh và nó có thể nói lên nhiều điều về người chủ.
+
+Số cuối cùng sẽ là tổng cộng của từng chữ cái trong tên của mèo. Sau khi cộng tổng số tròn chục sẽ tách ra và cộng tiếp vào nhau. Ví dụ nếu bạn đặt tên cho mèo tiếng Việt là Chuột. Vậy con số biểu hiện sẽ là: C(3) + H(8) + U(3) + O(6) + T(2) = 22 → 2+2=4 → Số 4
+
+A, J, S = 1 : Chú mèo này rất khó tính và nhiều khi có thể tấn công bạn vì tính cách của nó khá độc lập. Ngoài ra, nó còn cứng đầu và nếu muốn huấn luyện nó ư, bạn sẽ khá là vất vả đấy.
+B, K, T = 2 : Chú mèo này giàu tình cảm và trung thành. Nó rất yêu thương chủ nhân và do đó khá dễ đào tạo. Điều duy nhất có thể gây đôi chút phiền phức là nó quá ư là không độc lập, muốn gần gũi chủ từng giây từng phút và lúc nào cũng lượn lờ quanh bạn.
+C, L, U = 3 : Khá dễ để huấn luyện mèo số 3 này vì nó luôn trở thành một nhân vật vượt trội tại các cuộc thi. Nếu là chủ, bạn ắt hẳn lúc nào cũng rất tự hào vì con vật bạn yêu quý chưa bao giờ quên mang chiến thắng trở về. “Hoàng thượng” này ngoài ra cũng được nhiều người yêu quý.
+D, M, V = 4 : Số 4 đối với mèo không phải là con số may mắn. Bởi chúng sẽ dễ dàng bị mắc bệnh hoặc hay gặp nhiều thử thách trong đời. Tốt nhất, hãy cố gắng tránh đặt tên cho mèo của mình mang số này.
+E, N, W = 5 : Chú mèo này là kẻ khoẻ mạnh, thích rong chơi và mạo hiểm. Nó ít khi ở nhà, luôn đòi đi dạo và thường ở nhà…hàng xóm. Điều này có thể khiến cho khả năng hoàng thượng này… “đi luôn” sẽ rất cao.
+F, O, X = 6 : Chú mèo mang số 6 luôn được xem là mắn đẻ. Nếu bạn muốn có thật nhiều mèo con để vui nhà vui cửa hoặc để kinh doanh.
+G, P, Y = 7 : Chú mèo này là kẻ cô đơn, nhiều khi là do nó tự thích vậy. Và hay tạo nên không khí bí ẩn. Bạn sẽ thấy nó chẳng giao du với bất kì loài động vật nào. Chú mèo này tốt nhất nên là chỉ nằm trông nhà và hưởng thụ.
+H, Q, Z = 8 : Chú mèo này là một chú mèo ngoan ngoãn và thật sự khoẻ mạnh. Đây ngoài ra cũng là một trong những chú mèo hạnh phúc nhất.
+I, R = 9 : Chú mèo này là một vật nuôi trung thành và có sự kết nối tốt với con người.
+Xu hướng đặt tên cho mèo Tiếng Việt
+Tiếng Việt là một ngôn ngữ phong phú và đa dạng, mở ra vô số khả năng khi đặt tên cho mèo. Các từ ngữ và biểu hiện của Tiếng Việt mang đầy ắp ý nghĩa, giúp chúng ta có thể tìm ra cách đặt tên cho mèo phù hợp và độc đáo nhất.
+
+Việc tìm hiểu sâu về ý nghĩa có thể giúp chúng ta đặt tên cho mèo tiếng Việt không chỉ phản ánh đúng bản chất của mèo mà còn mang lại may mắn và hạnh phúc. Ví dụ như: Mun, Miu, Meo, Mimi, Môn, Mướp, Vàng, Đốm, Đen, Béo, Nhon, Lợn, Trắng, Chuột, Chó…
+
+Xu hướng hiện đại: Trong cộng đồng yêu mèo, có những cái tên đang trở nên phổ biến và thịnh hành. Những cái tên như “Mèo” hay “My” đều được nhiều người ưa chuộng do sự dễ thương và độc đáo. Tuy nhiên, để tạo ra sự khác biệt, việc kết hợp xu hướng và sự sáng tạo là rất quan trọng.
+Sự kết hợp và sáng tạo: Chúng ta có thể kết hợp các từ Tiếng Việt để tạo ra cái tên độc đáo và phù hợp với mèo. Sự kết hợp của màu sắc, tính cách, và sở thích có thể tạo nên cái tên đặc biệt và duy nhất. Sự sáng tạo trong việc đặt tên có thể phản ánh sự độc lập và tinh thần của cả mèo và chủ nhân.
+Theo tính cách: Tìm tên phù hợp với tính cách của mèo là một phần quan trọng của quá trình đặt tên. Mèo hiếu kỳ và năng động có thể phù hợp với tên như “Léo” hay “Động“, trong khi mèo dịu dàng và trầm lắng có thể hợp với “An” hay “Mây“.
+Theo màu sắc: Màu sắc của mèo cũng có thể là nguồn cảm hứng cho việc đặt tên. Mèo màu đen có thể mang tên “Đêm” để phản ánh sự huyền bí và quyến rũ, trong khi mèo màu trắng có thể gọi là “Tuyết” để thể hiện sự thuần khiết và trong trắng.
+Đặt tên cho mèo đực
+Đặt tên cho mèo đực là gì bằng tiếng Việt thì hay? Bạn có thể lựa chọn từ các tên có ý nghĩa mạnh mẽ, dũng cảm, hoặc có liên quan đến tính cách, hình dáng, màu sắc của mèo. Dưới đây là một số gợi ý:
+
+Bảo Bảo: Biểu tượng cho sự quý giá và may mắn
+Sư Tử: Tượng trưng cho sức mạnh và lòng can đảm
+Hải Đăng: Đại diện cho ánh sáng và hướng dẫn
+Rồng: Biểu tượng của quyền lực và sự bảo vệ
+Gió: Sự linh hoạt và mạnh mẽ
+Mèo Vàng: May mắn và giàu có
+Hổ: Sức mạnh và can đảm
+Cái Bang: Sự nhanh nhẹn và linh hoạt
+Đá: Sự vững chãi và bền bỉ
+Chim Ưng: Sự tự do và cao quý
+Leo: Sự leo trèo, tượng trưng cho sự tò mò và nhanh nhẹn
+Bách: Sự trăm năm, tượng trưng cho sự sống lâu và khỏe mạnh
+Rừng: Sự hoang dã và tự nhiên
+Sói: Sự dũng cảm và trung thành
+Ong: Sự chăm chỉ và mạnh mẽ
+Tùng: Sự vững chãi và kiên trì
+Lửa: Sự nhiệt huyết và mãnh liệt
+Sơn: Sự mạnh mẽ và vững chắc
+Đặt tên cho mèo cái
+Khi đặt tên cho mèo cái bằng tiếng Việt, bạn có thể chọn những tên mang ý nghĩa dễ thương, quý phái hoặc liên quan đến tính cách, hình dáng, màu sắc của mèo. Dưới đây là một số gợi ý:
+
+Mai: Tượng trưng cho sự tươi mới và đẹp đẽ
+Bông: Biểu tượng của sự mềm mại và dễ thương
+Ngọc: Quý giá và thuần khiết
+Lúa: Mạnh mẽ và nuôi dưỡng
+Nắng: Ấm áp và rạng ngời
+Tiểu Ly: Dễ thương và nhỏ nhắn
+Hoa: Đẹp và thơm ngát
+Mèo Nhi: Dễ thương và trẻ trung
+Bướm: Nhẹ nhàng và linh hoạt
+Tuyết: Trắng và thuần khiết
+Hồng: Đẹp và quý phái
+Mây: Nhẹ nhàng và bay bổng
+Sao: Sáng ngời và cao quý
+Đào: Sức sống và hạnh phúc
+Sen: Thuần khiết và bình yên
+Nhi: Trẻ trung và vui tươi
+Giọt Lệ: Quý giá và trong trắng
+Đặt tên cho mèo trắng
+Khi đặt tên cho mèo trắng bằng tiếng Việt, bạn có thể lựa chọn những cái tên liên quan đến màu sắc, tính cách, hoặc đặt tên mèo theo những đặc điểm nổi bật khác của chúng. Dưới đây là một số gợi ý cái tên cho mèo lông trắng:
+
+Tuyết: Tượng trưng cho sự thuần khiết và màu trắng của tuyết
+Ngọc: Quý giá và trong trắng
+Bông: Mềm mại và trắng muốt
+Mây: Nhẹ nhàng và bay bổng, màu trắng của mây
+Trắng: Đơn giản và trực tiếp, mô tả màu lông của mèo
+Sữa: Ngọt ngào và màu trắng tinh khôi
+Minh: Sáng sủa và trong trắng
+Bạch Kim: Quý phái và màu trắng sáng
+Ngà: Màu trắng của ngà voi
+Mai Trắng: Hoa mai trắng, tượng trưng cho sự tinh khôi
+Vân: Màu trắng có họa tiết, như mây vân
+Kem: Mềm mại và màu kem
+Hồng Trắng: Màu hồng pha trắng, dễ thương
+Lúa: Màu trắng của hạt gạo
+Tiên: Tượng trưng cho sự thuần khiết và cao quý
+Mộng: Ảo mộng và diệu kỳ
+Thiên Thần: Tình khôi và thuần khiết
+Linh: Tinh linh và trong sáng
+Đặt tên cho mèo tam thể
+Mèo tam thể (mèo có 3 màu sắc trên cơ thể: trắng, đen và vàng hoặc nâu) thường mang theo nhiều ý nghĩa may mắn và bí ẩn. Khi đặt tên cho mèo bằng tiếng Việt, bạn có thể chọn tên phản ánh sự đa dạng màu sắc, tính cách, hoặc liên quan đến sự may mắn và bí mật. Dưới đây là một số gợi ý:
+
+Cầu Vồng: Tượng trưng cho sự đa màu sắc và hòa quyện
+May Mắn: Vì mèo tam thể thường được coi là biểu tượng của may mắn
+Bí Mật: Tượng trưng cho sự bí ẩn và đa dạng
+Tam Màu: Mô tả trực tiếp về sự kết hợp màu sắc
+Hòa Quyện: Sự kết hợp hài hòa của các màu sắc
+Mỹ Mỹ: Biểu hiện sự dễ thương và tinh tế
+Lãng Đãng: Phản ánh sự tự do và không ràng buộc
+Thần Tiên: Mang ý nghĩa bí ẩn và diệu kỳ
+Huyền Bí: Biểu thị sự kỳ bí và huyền ảo
+Hồn Nhiên: Sự trong sáng và vô tư
+Ngũ Sắc: Phản ánh sự đa dạng và phong phú
+Ngọc Ngà: Sự quý phái và đa dạng
+Vui Vẻ: Tượng trưng cho sự vui vẻ và lạc quan
+Tinh Nghịch: Cho mèo có tính cách nghịch ngợm, tò mò
+Diệu Kỳ: Phản ánh sự kỳ diệu và độc đáo
+Thiên Đàng: Mang ý nghĩa của sự thuần khiết và hạnh phúc
+Pháp Sư: Cho mèo có vẻ bí ẩn và huyền bí
+Hoàng Hôn: Sự kết hợp của ánh sáng và bóng tối
+Kỳ Diệu: Sự diệu kỳ và đặc biệt
+Thần May Mắn: Tượng trưng cho sự may mắn và tốt lành
+Đặt tên cho mèo lông xám
+Khi đặt tên cho mèo lông xám, bạn có thể chọn những cái tên liên quan đến đặc điểm nổi bật của mèo. Dưới đây là một số gợi ý cái tên bằng tiếng Việt cho mèo lông màu xám:
+
+Bạc: Màu bạc, tượng trưng cho sự quý phái
+Xám Xám: Mô tả trực tiếp màu sắc của mèo
+Sương: Màu xám của sương mù, nhẹ nhàng và mơ màng
+Mây Xám: Tượng trưng cho sự bí ẩn và dịu dàng
+Đá: Màu xám của các loại đá, vững chãi và kiên cố
+Thủy Tinh: Màu xám trong suốt, tinh tế và đẹp đẽ
+Kẽm: Màu xám của kim loại kẽm, mạnh mẽ và bền bỉ
+Ghi: Một từ khác để mô tả màu xám, đơn giản và dễ nhớ
+Chì: Màu xám của chì, mềm mại và linh hoạt
+Hàn: Màu xám lạnh, tượng trưng cho sự bình tĩnh
+Nguyệt: Màu xám của mặt trăng, bí ẩn và huyền bí
+Cóc: Màu xám của chú cóc, dễ thương và nhanh nhẹn
+Rồng Xám: Sự kết hợp của sức mạnh và màu xám
+Cuốn Sách: Màu xám của trang sách cũ, tượng trưng cho tri thức
+Sắt: Màu xám của kim loại sắt, chắc chắn và bền vững
+Huyền Bí: Màu xám mang đến sự kỳ bí và huyền ảo
+Biển Xám: Màu xám của biển cả, bao la và hùng vĩ
+Ma Mị: Màu xám tượng trưng cho sự ma mị và bí ẩn
+Thuỷ Chung: Màu xám biểu tượng cho sự chung thủy và kiên trì
+Cát Xám: Màu xám của cát, mềm mại và dễ thương', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 2,
+                'TieuDe' => '39 bộ phim về mèo rất hay nên xem một lần trong đời',
+                'Hinh' => 'b80250lgtcomp1046-1535197590100495122894-0-236-838-1577-crop-15351976948122075628934.webp',
+                'NoiDung' => ' Sauce
+25.000₫
+Mèo cảnh
+39 bộ phim về mèo rất hay nên xem một lần trong đời
+Posted on 19/08/2023 by Pet Mart - Cửa Hàng Thú Cưng
+39 bộ phim về mèo rất hay nên xem một lần trong đời19
+Th8
+Những bộ phim về mèo tạo ra những cảm nhận tuyệt vời cho con người và có thể cải thiện tâm trạng của chúng ta. Vì vậy, không có gì ngạc nhiên khi những chú mèo cảnh của chúng ta đã trở thành nguồn cảm hứng cho rất nhiều bộ phim về mèo hay ho. Tuy nhiên không hiểu sao trong nhiều bộ phim mèo thường đóng vai phản diện hoặc là thú cưng của nhân vật phản diện.',
+                'ChiTiet' => 'Chúng ta có đủ cả mèo to, mèo nhỏ, mèo biết nói, mèo dễ thương, mèo xấu xa, mèo cứng đầu và mèo cáu kỉnh. Thật không may, những chú mèo độc đáo và hơi có phần cá tính điên rồ này dường như không nhận được sự chú ý bằng chó khi nói đến phim ảnh. Dưới đây là danh sách những bộ phim hay về mèo mà bạn có thể xem trực tuyến trên Netflix, Amazon Prime, Disney+ và Youtube. Chúng tôi đã cố gắng chọn những bộ phim mà mèo là nhân vật chính và là cốt truyện.
+
+Bộ phim hoạt hình về mèo đáng để xem
+Cats in the Museum – Mèo siêu quậy ở vện bảo tàng (Nga 2023): Vincent là một mèo con và bạn chuột Maurice cùng nhau đến Hermecca, St. Petersburg, nơi những con mèo ưu tú nhất đang bảo vệ các tác phẩm nghệ thuật giá trị. Tất cả chúng đều không biết rằng các bức tranh sắp bị đánh cắp, tạo nên câu chuyện vô cùng ly kỳ. (1 giờ 23 phút)
+Tom & Jerry – Quậy tung New York (Mỹ 2021): Phim về mèo Tom và Jerry trở lại, và lần này, họ chiến đấu trong thế giới thực. Một người tổ chức sự kiện thuê Tom để loại bỏ Jerry khỏi một khách sạn sang trọng, nhưng mọi chuyện chỉ trở nên tồi tệ hơn. (1 giờ 41 phút)
+Khi muốn khóc tôi đeo mặt nạ mèo (Nhật 2020): Một cô gái kỳ lạ biến thành mèo để thu hút sự chú ý của người cô thầm thích. Nhưng ranh giới giữa người và động vật bắt đầu bị xóa nhòa trước khi cô kịp nhận ra điều đó. (1 giờ 45 phút)
+A Cat in Paris (Pháp 2012): Zoé, một cô bé sống ở Paris, phát hiện ra rằng chú mèo của mình đang sống một cuộc sống kép. Vào ban ngày, anh ta là thú cưng của cô, và vào ban đêm, anh ta là đồng minh của một tên trộm. (1 giờ 5 phút)
+Puss in Boots – Mèo đi hia (Mỹ 2011): Phim kể về chú mèo diện mạo suôn sẻ trước khi xuất hiện trong Shrek 2. Bộ phim phải hợp tác với Humpty Dumpty và Kitty Softpaws để lấy lại con ngỗng đẻ trứng vàng và khôi phục danh dự của mình. (1 giờ 30 phút)
+Tom and Jerry: A Nutcracker Tale – Vũ điệu đêm giáng sinh (Mỹ 2007): Phim về mèo Jerry đang sống trong một thế giới kỳ diệu đầy niềm vui, nhưng mọi thứ thay đổi khi Tom và đồng bọn xuất hiện. Jerry phải chiến đấu để lấy lại vương quốc của mình. (49 phút)
+Chú mèo ú Garfield (Mỹ 2004): Hãy theo dõi phim hoạt hình về mèo da cam nổi tiếng này khi anh ta cùng bạn bè mình cứu chủ nhân khỏi một con chó bỏ trốn. (1 giờ 20 phút)
+The cat returns – Loài mèo trả ơn (Nhật 2002): Thiếu nữ Haru cứu một chú mèo khỏi bị xe tông, nhưng sớm phát hiện ra đó không phải là chú mèo bình thường mà là Hoàng tử của loài mèo. (1 giờ 15 phút)
+Delivery Service – Cô bé phù thủy KiKi (Nhật 1989): Bộ phim về mèo này mô tả mối quan hệ giữa mèo và con người. Nó theo dõi Kiki, một phù thủy trẻ và chú mèo đen biết nói của cô, Jiji, khi họ bắt đầu một dịch vụ giao hàng ma thuật. (1 giờ 42 phút)
+Bộ phim về mèo hay nhất do Mỹ sản xuất
+Cat Daddies – Bố mèo (2023): Phim là bức chân dung về những người đàn ông từ mọi tầng lớp xã hội ở Mỹ, và cuộc sống của họ bị thay đổi bởi những chú mèo. Phim khám phá mối liên giữa con người và mèo, bất chấp sự khác biệt và xã hội. Những “bố mèo” này, từ lính cứu hỏa đến người sống trên đường phố, đều có những câu chuyện riêng biệt và tình yêu vô điều kiện dành cho mèo, đề xuất một cái nhìn mới về tình bạn giữa loài người và thú cưng. (1 giờ 29 phút)
+A Whisker Away (2020): Một cô bé học trung học được tặng một chiếc mặt nạ ma thuật có thể biến cô thành một con mèo. Cô sử dụng chiếc mặt nạ này để thu hút sự chú ý của bạn cùng lớp. (1 giờ 45 phút)
+Don’t Fuck with cats: Hunting an internet killer – Đừng đùa với mèo: Săn lùng kẻ sát nhân trên mạng (2019): Bộ phim tài liệu này thu hút sự chú ý với việc theo đuổi và khám phá sự thật đen tối và ghê rợn về một kẻ sát nhân đã giết hại 2 con mèo trên mạng, nói về sự mất mát và tìm kiếm công lý.
+Keanu – Kế hoạch liều lĩnh (2016): Bộ phim xoay quanh hai anh chàng Rell và Clarence trong hành trình tìm lại chú mèo cưng Keanu của Rell. Họ phải làm việc cho kẻ trộm, một tên tội phạm nguy hiểm, để cứu lại Keanu. Các tình huống hài hước và rối bời tự nhiên xuất hiện, khiến khán giả không khỏi cười. (1 giờ 40 phút)
+Kedi – Thế giới loài mèo (2016): Bộ phim tài liệu này tập trung vào bảy chú mèo sống tự do tại Istanbul, Thổ Nhĩ Kỳ và những cuộc phỏng vấn sâu rộng với những người giao tiếp với chúng, mang lại hiểu biết sâu sắc về cuộc sống của chúng. (1 giờ 15 phút)
+The Voices – Giọng nói ám ảnh (2015): Bộ phim về mèo Jerry, một chàng trai kỳ cục, người bắt đầu theo đuổi một mối quan hệ tình cảm và rơi vào tình huống nguy hiểm khi lắng nghe lời khuyên từ chú mèo và chú chó của mình. (1 giờ 43 phút)
+Grumpy Cat’s Worst Christmas Ever (2014): Bạn còn nhớ chú mèo nổi tiếng của internet không? Bộ phim kể về chú mèo có vẻ mặt cầu kỳ này. (1 giờ 26 phút)
+Cats & Dogs (2001): Phim là cuộc chiến giữa mèo và chó để chiếm lĩnh lòng người. Bộ phim kể về cuộc chiến giữa hai loài vật để chiếm được tình cảm của con người. (1 giờ 27 phút)
+Stuart Little (1999): Phim kể về một chú chuột trắng dễ thương được một gia đình nhận nuôi, nhưng chú mèo Persian của họ, Snowbell, không hề vui về điều này. (1 giờ 24 phút)
+Hocus Pocus – Ma lang thang (1993): Dù không hoàn toàn xoay quanh mèo, nhưng chú mèo đen Thackery Binx đóng vai trò quan trọng trong việc giúp các nhân vật chính sống sót và cứu thị trấn khỏi ba phù thủy. (1 giờ 36 phút)
+Homeward Bound: The Incredible Journey (1993): Bạn đang cần một bộ phim chạm đến trái tim và nói về gia đình? Bạn đã đến đúng chỗ. Bộ phim mang đến câu chuyện về một gia đình yêu quý con mèo và hai con chó của mình. Họ bắt đầu cuộc hành trình đầy thách thức để tìm lại chủ nhân của mình khi cảm thấy bị bỏ rơi trong kỳ nghỉ của gia đình. (1 giờ 24 phút)
+Oliver & Company (1988): Bộ phim của Disney này kể về một chú mèo vô gia cư tên Oliver, tham gia vào một băng đảng chó hoang và giúp chúng cướp để sống sót. Khi Oliver gặp Jenny, mọi thứ đều thay đổi. (1 giờ 17 phút)
+Pet Sematary (1989): Bộ phim kinh dị dựa trên tác phẩm của Stephen King. Gia đình Creed chuyển đến một ngôi nhà ở Maine và gặp phải nghĩa trang thú cưng bí ẩn. (1 giờ 43 phút)
+The Cat from Outer Space – Con mèo đến từ ngoài vũ trụ (1978): Chú mèo ngoài hành tinh bị mắc kẹt trên Trái Đất và phải nhờ sự giúp đỡ của các nhà khoa học để trở về nhà. Tuy nhiên, do sự can thiệp của chính phủ và các gián điệp nước ngoài, mọi thứ không hề dễ dàng. (1 giờ 43 phút)
+Harry và Tonto (1974): Phim xoay quanh một giáo sư đã nghỉ hưu ở New York, người quyết định cùng con mèo cưng của mình bắt đầu một cuộc phiêu lưu đầu tiên, đi khắp đất nước và kết nối với mọi người. (1 giờ 55 phút)
+The Aristocats – Mèo quý tộc (1970): Bộ phim về mèo quý tộc bị một quản gia xấu xa bắt cóc. Liệu chúng có thể trở về nhà không? (1 giờ 23 phút)
+That Darn Cat! – Điệp viên mèo (1965): Khi một nhân viên ngân hàng bị bắt cóc, cô đã gửi tin nhắn cầu cứu bằng cách sử dụng con mèo của hàng xóm. May mắn thay, hàng xóm của cô đã nhận được thông điệp và một đặc vụ mắc bệnh dị ứng mèo của F.B.I đã được phái để tìm kiếm người phụ nữ mất tích. (1 giờ 56 phút)
+Bộ phim về mèo hay nhất do Nhật sản xuất
+Koneko no kimochi (2011): Với ánh sáng tươi sáng và không khí ấm áp, Phim đã chạm đến trái tim của nhiều người hâm mộ phim và mèo. Bộ phim không chỉ là câu chuyện về sự hồi phục và tìm thấy hạnh phúc của một cô gái trẻ và một chú mèo con lang thang, mà còn là biểu tượng của sự kiên nhẫn và tình yêu không điều kiện. (1 giờ 12 phút)
+Cats & Dogs: The revenge of kitty galore (2010) – Đại chiến chó mèo: Kitty Galore báo thù: Khi phải đối mặt với mối đe dọa lớn, hai kỳ phùng địch thủ chó và mèo buộc phải hợp thành một liên minh kì quặc chưa từng có trong lịch sử để cứu chính họ và cả loài người. (1 giờ 22 phút)
+Nekonade (2008): Bộ phim thể hiện mối quan hệ đặc biệt và sự thay đổi nội tâm của một vị giám đốc công ty lạnh lùng thông qua mối liên kết với một chú mèo con. Nó khám phá sức mạnh của tình yêu và sự hiểu biết, mang lại niềm vui và hạnh phúc cho những người xem yêu thú cưng và thích câu chuyện cảm động về mèo. (1 giờ 24 phút)
+Gou Gou, the Cat – Chú mèo Goo Goo (2008): Phim về mèo này là câu chuyện về mối quan hệ giữa một nữ họa sĩ truyện tranh và chú mèo Sawa, nói về tình bạn, mất mát và sự kết thúc. Bộ phim không chỉ nói về mèo mà còn về con người và tình yêu của họ đối với thú cưng. (1 giờ 56 phút)
+The Adventures of Milo and Otis – Cuộc phiêu lưu của chú mèo Milo (1986): Bộ phim kể về Milo (mèo) và Otis (chó), hai người bạn thân nhất. Tuy nhiên, một sự cố tình cờ đã tách rời họ và họ phải trải qua một hành trình hoang dã để tìm lại nhau. (1 giờ 15 phút)', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'Mataikhoan' => 1,
+                'MaDMBV' => 2,
+                'TieuDe' => '10 điều cần biết về giống mèo Munchkin chân ngắn',
+                'Hinh' => 'meo-chan-ngan-mau-xam-04-3-3330.jpg',
+                'NoiDung' => 'Mèo Munchkin chân ngắn, cái tên đáng yêu thể hiện không chỉ qua hình dáng mà còn ẩn sau mỗi đặc điểm riêng biệt của giống mèo này. Có lẽ bạn sẽ ngạc nhiên khi biết, chúng có đôi chân ngắn hơn khoảng 7-8 cm so với những giống mèo thông thường khác. Điều này, kết hợp với thân hình kích thước trung bình – thường nặng khoảng 3-4 kg, tạo nên một vẻ ngoại hình độc đáo và khá dễ nhận biết.',
+                'ChiTiet' => 'Nhưng không chỉ vì vẻ bề ngoại đặc trưng mà giống mèo này còn được yêu thích nhờ tính cách thân thiện, dễ thương. Hãy cùng Pet Mart tìm hiểu sâu hơn về giống mèo Munchkin chân ngắn, một biểu tượng đáng nhớ trong thế giới mèo!
+
+Nguồn gốc lịch sử giống mèo Munchkin
+Giống mèo Munchkin với đôi chân ngắn đặc trưng đã trở thành một hiện tượng thú vị trên thế giới. Nhưng câu chuyện về nguồn gốc của chúng có lẽ còn thú vị hơn nhiều. Mèo Munchkin không phải xuất hiện lần đầu ở Mỹ. Thực ra, vào những năm 1940, giống mèo này đã được biết đến tại Anh. Nhưng sau một thời gian, chúng bất ngờ biến mất, cho đến khi một số cá thể tương tự xuất hiện ở Stalingrad, Nga.
+
+Lịch sử của Munchkin tiếp tục mở ra một trang mới vào năm 1983. Một con mèo mẹ mang thai với chân ngắn được phát hiện dưới một xe tải tại Rayville, Louisiana. Chủ sở hữu xe tải quyết tâm nuôi con mèo này và đặt cho nó cái tên Blackberry. Con mèo này không chỉ là một biểu tượng cho giống mèo Munchkin mà còn là một phần quan trọng của lịch sử giống mèo này.
+
+Với sự quảng cáo thông qua Dr.Solveig Pflueger và chương trình truyền hình Mỹ, mèo Munchkin đã bước ra ánh sáng và thu hút sự quan tâm của cộng đồng. Tên giống “Munchkin” được chọn là một tưởng nhớ đến nhân vật trong bộ phim nổi tiếng “The Wizard of Oz“.
+
+Dù chưa được công nhận bởi mọi tổ chức mèo trên thế giới, nhưng sự chấp nhận của The International Cat Association (TICA) đã giúp giống mèo này có một vị trí chính thức trong cộng đồng mèo. Mặc dù được yêu thích, nhưng việc biến đổi gen tạo ra chân ngắn của Munchkin vẫn đang gây ra nhiều tranh cãi. Một số tổ chức mèo quốc tế vẫn chưa công nhận giống mèo này, đặc biệt là khi nói đến vấn đề sức khỏe liên quan đến gen chân ngắn.
+
+Dù bắt nguồn từ nơi nào, lịch sử và sự phát triển của mèo Munchkin đã chứng minh sự độc đáo và đặc biệt của giống mèo này. Một bản dạ khúc về sự kiên trì, phát triển và yêu thương – mèo Munchkin chắc chắn sẽ tiếp tục thu hút trái tim của nhiều người yêu mèo trên toàn thế giới.
+
+Đặc điểm của mèo Munchkin chân ngắn
+Khi nói đến mèo Munchkin, hình ảnh đầu tiên hiện ra trong tâm trí nhiều người chắc chắn là đôi chân ngắn đáng yêu của chúng. Nhưng ngoài đặc điểm nổi bật này, giống mèo này còn sở hữu nhiều đặc điểm và tính cách thú vị khác.
+
+Hình thể và kích thước: Có thân hình nhỏ nhắn, cân đối. Đặc biệt, chân trước của chúng chỉ dài khoảng 8 – 10cm, trong khi chân sau lại dài hơn một chút. Cân nặng chỉ dao động từ 2,2 – 4kg, và chiều cao 18 – 20cm. Bất chấp chiều cao khiêm tốn, chúng vẫn rất linh hoạt và nhanh nhẹn.
+Đầu và mặt: Phần đầu tròn trịa với đôi mắt to, long lanh, thường mở rộng ra trước mọi sự tò mò xung quanh. Đôi tai vừa phải của chúng giúp tạo nên tổng thể hài hòa, dễ thương.
+Bộ lông và màu sắc: Một điểm thu hút chính là bộ lông của chúng. Mèo này có thể sở hữu bất kỳ màu lông nào như: trắng, xám, đen, bicolor, tabby, sliver, tam thể, vàng, tuxedo, xám trắng, xám xanh… Bất kể kiểu lông nào, việc chăm sóc chúng đều không quá phức tạp.
+Tính cách và thông minh: Dù có đôi chân ngắn, Munchkin vẫn là một trong những giống mèo năng động và tinh nghịch nhất. Chúng rất thông minh, dễ huấn luyện và thích tham gia vào các trò chơi giáo dục. Sự lanh lợi và tò mò của chúng thường khiến chủ nhân không thể ngừng yêu thương.
+Tuổi thọ: Một tin vui cho những ai đang nuôi hoặc có ý định nuôi Munchkin: tuổi thọ trung bình của chúng khá cao, từ 12 – 14 năm. Với sự chăm sóc đúng cách, chúng có thể là bạn đồng hành trong suốt thời gian dài.
+Mèo Munchkin không chỉ thu hút bởi đôi chân ngắn dễ thương. Từ vẻ ngoại hình đến tính cách, tất cả đều tạo nên một giống mèo độc đáo và đáng yêu. Dù bạn là một người yêu mèo lâu năm hay chỉ mới bắt đầu tìm hiểu, chắc chắn mèo Munchkin sẽ không làm bạn thất vọng.
+
+Dinh dưỡng thức ăn cho mèo Munchkin
+Khi bạn nuôi một chú mèo Munchkin, không chỉ là trách nhiệm về việc cung cấp tình yêu và quan tâm, mà còn là việc đảm bảo chúng có một chế độ ăn uống đầy đủ và cân đối.
+
+Bổ sung protein: Mèo là động vật ăn thịt, và Munchkin không phải là ngoại lệ. Đảm bảo thức ăn của chúng chứa protein từ nguồn thực phẩm chất lượng cao như thịt gia cầm, thịt bò hoặc cá.
+Hạn chế thức ăn của người: Mặc dù một vài loại thực phẩm từ bàn ăn của chúng ta có thể an toàn cho mèo, nhưng hầu hết không phù hợp và có thể gây hại. Tránh cho mèo ăn thực phẩm giàu gia vị, đường, muối hoặc chất bảo quản.
+Tránh sữa và thực phẩm khác: Ngược lại với hình ảnh truyền thống, sữa có thể gây tiêu chảy cho mèo. Ngoài ra, tránh cho chúng ăn rau, trái cây và thực phẩm khác không phù hợp.
+Chọn thức ăn chất lượng: Dựa vào thành phần và nhãn hiệu, chọn thức ăn giàu dinh dưỡng và không chứa hóa chất hoặc chất bảo quản gây hại.
+Lưu ý lứa tuổi: Mèo Munchkin ở mỗi giai đoạn phát triển có nhu cầu dinh dưỡng riêng. Đảm bảo chọn thức ăn dành riêng cho mèo con (Kitten), mèo trưởng thành (Adult), hoặc mèo già để cung cấp đủ chất dinh dưỡng cho chúng.
+Tư vấn bác sĩ: Khi thay đổi chế độ ăn hoặc nếu bạn không chắc chắn về thực phẩm nào tốt nhất cho mèo Munchkin của mình, hãy tìm kiếm lời khuyên từ bác sĩ thú y.
+Mèo Munchkin xứng đáng được chăm sóc tốt nhất từ chủ của mình. Một chế độ ăn uống cân đối không chỉ giúp chúng có sức khỏe tốt, mà còn giúp bộ lông của chúng luôn bóng lộn và mềm mại. Hãy đầu tư vào chế độ ăn uống phù hợp và chất lượng để đảm bảo mèo Munchkin của bạn luôn mạnh mẽ và khỏe mạnh.
+
+Đào tạo huấn luyện mèo Munchkin
+Giống mèo Munchkin, nổi tiếng với đôi chân ngắn và thân hình dễ thương, không chỉ là những con mèo thú vị về hình dáng mà còn về tính cách và sự năng động.
+
+Khả năng huấn luyện: Khác biệt so với nhiều giống mèo khác, mèo Munchkin có khả năng tiếp thu rất tốt. Dù đôi khi chúng có thể hiển thị sự cứng đầu, nhưng với sự kiên nhẫn và yêu thương, chúng sẽ trở thành bạn đồng hành lý tưởng. Huấn luyện từ khi chúng còn là mèo con sẽ giúp quá trình này trở nên dễ dàng hơn.
+Mức độ năng động: Mèo Munchkin có sự đa dạng trong tính cách. Một số mèo Munchkin rất năng động, trong khi một số khác lại ưa thích sự yên bình. Tuy nhiên, nhìn chung, mức độ năng động của chúng đều ở mức trung bình so với các giống mèo khác.
+Kích thích hoạt động: Việc giữ cho mèo Munchkin luôn hoạt động không chỉ giúp chúng giữ gìn sức khỏe mà còn giảm nguy cơ béo phì. Để kích thích sự năng động, một nhà cây mèo nhiều tầng hay những đồ chơi có khả năng thúc đẩy sự tò mò và tính chơi đùa của chúng sẽ là lựa chọn tuyệt vời.
+Bí quyết huấn luyện: Bắt đầu sớm! Khi bạn bắt đầu huấn luyện mèo Munchkin từ khi chúng còn nhỏ, chúng sẽ dễ dàng hòa nhập và tiếp thu huấn luyện hơn. Sử dụng phần thưởng và lời khen ngợi để khích lệ chúng, giúp việc huấn luyện trở nên hiệu quả hơn.
+Mèo Munchkin, với đôi chân ngắn và tình cách đáng yêu, không chỉ làm chúng trở thành một giống mèo phổ biến mà còn làm cho việc huấn luyện trở nên dễ dàng và thú vị. Để có một mèo Munchkin khỏe mạnh và hạnh phúc, hãy đảm bảo rằng chúng có đủ hoạt động và được huấn luyện đúng cách.', 
+                'LuotXem' => 0, 
+                'BinhLuan' => 0, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             
             // Bạn có thể thêm nhiều người dùng khác ở đây
         ];
@@ -1551,6 +2030,7 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
             [
                 'MaTaiKhoan' => 1,
                 'TongTien' => 500000,
+                'Discount' => 20,
                 'SoLuong' => 2,
                 'Ten' => 'Nguyễn Văn A',
                 'SDT' => '0123456789',
@@ -1564,6 +2044,7 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
             [
                 'MaTaiKhoan' => 2,
                 'TongTien' => 250000,
+                'Discount' => 20,
                 'SoLuong' => 1,
                 'Ten' => 'Trần Thị B',
                 'SDT' => '0987654321',
@@ -1577,6 +2058,7 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
             [
                 'MaTaiKhoan' => 3,
                 'TongTien' => 750000,
+                'Discount' => 20,
                 'SoLuong' => 3,
                 'Ten' => 'Lê Văn C',
                 'SDT' => '0912345678',
@@ -1594,6 +2076,7 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
             [
                 'MaTaiKhoan' => 1,
                 'TongTien' => 500000,
+                'Discount' => 20,
                 'SoLuong' => 1,
                 'Ten' => 'Nguyễn Văn A',
                 'SDT' => '0123456789',
@@ -1608,6 +2091,7 @@ Lưu ý quan trọng: Xem xét tình trạng sức khỏe hiện tại của mè
             [
                 'MaTaiKhoan' => 3,
                 'TongTien' => 750000,
+                'Discount' => 20,
                 'SoLuong' => 3,
                 'Ten' => 'Lê Văn C',
                 'SDT' => '0912345678',
