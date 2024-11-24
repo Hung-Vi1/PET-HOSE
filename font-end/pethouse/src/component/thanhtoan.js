@@ -115,7 +115,7 @@ function ThanhToan() {
 
     const orderData = {
       Mataikhoan: userData.Mataikhoan,
-      PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "Chuyển khoản",
+      PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "VNPAY",
       GhiChu: formData.note,
       TongTien: calculateTotal() - discount, // Tổng tiền sau khi trừ giảm giá
       Discount: discount, // Giá trị giảm giá
@@ -322,7 +322,7 @@ function ThanhToan() {
               onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
             >
               <option value="cod">Ship COD</option>
-              <option value="bank">Chuyển khoản</option>
+              <option value="bank">Thanh toán VNPAY</option>
             </select>
           </div>
         </div>

@@ -2036,6 +2036,137 @@
                 }
             }
         },
+        "/api/order/VnPay": {
+            "post": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Thanh toán đơn hàng qua VNPAY",
+                "description": "Tạo một đơn hàng mới và thực hiện thanh toán qua VNPAY.",
+                "operationId": "700f62e67bca87ce809d41d9491252b2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Thanh toán vnpay"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Đơn hàng đã thanh toán"
+                                    },
+                                    "chi_tiet": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo đơn hàng và chuyển hướng thanh toán thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đơn hàng đã được tạo thành công và chuyển đến VNPAY."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu yêu cầu không hợp lệ"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi trong quá trình xử lý",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi hệ thống"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/products": {
             "get": {
                 "tags": [
@@ -3600,6 +3731,147 @@
                     }
                 }
             }
+        },
+        "/api/Store/VnPay": {
+            "post": {
+                "tags": [
+                    "VNPAY"
+                ],
+                "summary": "Thanh toán đơn hàng qua VNPAY",
+                "description": "Tiến hành thanh toán đơn hàng qua cổng VNPAY, sau khi tạo đơn hàng thành công.",
+                "operationId": "404c6ead59d5d32593917f7790711699",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Chuyển khoản"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Ghi chú đơn hàng"
+                                    },
+                                    "Discount": {
+                                        "description": "Giảm giá (nếu có)",
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "chi_tiet": {
+                                        "description": "Chi tiết các sản phẩm trong đơn hàng",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thanh toán thành công, chuyển hướng đến VNPAY",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm đơn hàng thành công"
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "example": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?..."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý trong quá trình thanh toán",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thanh toán thất bại"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -3942,6 +4214,10 @@
         {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "VNPAY",
+            "description": "VNPAY"
         }
     ]
 }

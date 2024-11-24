@@ -62,6 +62,7 @@ Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
+Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
 
 use App\Http\Controllers\ServiceOrderApiController;
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
@@ -94,4 +95,10 @@ Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'des
 use App\Http\Controllers\CouponController;
 Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
 Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
+
+use App\Http\Controllers\VnpayApiController;
+Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);
+Route::get('/vnpay/callback', [VnpayApiController::class, 'callback'])->name('vnpay.callback');
+
+
 
