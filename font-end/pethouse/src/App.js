@@ -37,6 +37,7 @@ import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
 import AdminSanPhamThem from "./AdminSanPhamThem";
 import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
+import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 
 function App() {
   return (
@@ -553,6 +554,11 @@ function App() {
             path="/admindonhang"
             exact
             element={<BaoVeRoute element={<AdminDonHang />} />}
+          />
+          <Route
+            path="/admindonhangchitiet/:ma_don_hang"
+            exact
+            element={<BaoVeRoute element={<AdminDonHangChiTiet />} />}
           />
           <Route
             path="/admindonhangsua/:ma_don_hang"
