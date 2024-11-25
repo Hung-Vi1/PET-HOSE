@@ -163,7 +163,7 @@ function AdminDonHangChiTiet() {
           </nav>
 
           <div className="container mt-3 mb-5">
-            <div className="row align-items-center">
+            <div className="d-flex align-items-center">
               <div className="col-md-auto">
                 <Link
                   to={"/admindonhang"}
@@ -175,18 +175,28 @@ function AdminDonHangChiTiet() {
               <div className="col-md-auto">
                 <h1 className="mb-0">#{ma_don_hang}</h1>
               </div>
-              <div className="col-md-auto p-2">
-                <span className="badge text-bg-secondary my-auto">
-                  &#8226; Đã thanh toán
-                </span>
+              <div className="col-md-auto ms-auto px-3">
+                <Link
+                  className="text-success"
+                  to={`/admindonhangsua/${ma_don_hang}`}
+                >
+                  <strong>
+                    <i class="bi bi-pencil-square"></i> Sửa đơn
+                  </strong>
+                </Link>
               </div>
-              <div className="col-md-auto p-2">
-                <span className="badge text-bg-secondary my-auto">
-                  &#8226; Đã xử lý giao hàng
-                </span>
+              <div className="col-md-auto px-3 text-primary">
+                <strong>
+                  <i class="bi bi-printer"></i> In đơn
+                </strong>
               </div>
-              <p className="col-md-12 m-0">20/11/2024 03:03</p>
+              <div className="col-md-auto ps-3 pe-2 text-danger">
+                <strong>
+                  <i class="bi bi-x-circle"></i> Hủy đơn
+                </strong>
+              </div>
             </div>
+            <p className="col-md-12 m-0">20/11/2024 03:03</p>
 
             <form>
               <div className="d-flex flex-wrap">
@@ -321,18 +331,74 @@ function AdminDonHangChiTiet() {
                           })}
                         </td>
                       </tr>
+                      <tr>
+                        <td className="text-center">2</td>
+                        <td style={{ width: "6%" }}>
+                          <img
+                            src="http://localhost:8000/image/product/test.jpg"
+                            alt="http://localhost:8000/image/product/test.jpg"
+                            className="w-100 h-auto"
+                          />
+                        </td>
+                        <td>Sản phẩm test2</td>
+                        <td className="text-center">1</td>
+                        <td className="text-end">
+                          {parseInt(159000).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {parseInt(159000 * 1).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="text-center">3</td>
+                        <td style={{ width: "6%" }}>
+                          <img
+                            src="http://localhost:8000/image/product/test.jpg"
+                            alt="http://localhost:8000/image/product/test.jpg"
+                            className="w-100 h-auto"
+                          />
+                        </td>
+                        <td>Sản phẩm test3</td>
+                        <td className="text-center">3</td>
+                        <td className="text-end">
+                          {parseInt(99000).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                        <td className="text-end">
+                          {parseInt(99000 * 3).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                      </tr>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td className="text-center">Ghi chú</td>
+                        <td colSpan={3}>
+                          <div className="">
+                            <textarea className="form-control h-50"></textarea>
+                          </div>
+                        </td>
+                        <td className="text-end fw-bold">Tổng hóa đơn</td>
+                        <td className="text-end fw-bold">
+                          {parseInt(854000).toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
-              </div>
-
-              <div className="d-flex justify-content-end">
-                <button type="button" className="btn btn-outline-danger me-2">
-                  Hủy
-                </button>
-                <button type="submit" className="btn btn-primary ms-2">
-                  Lưu
-                </button>
               </div>
             </form>
           </div>

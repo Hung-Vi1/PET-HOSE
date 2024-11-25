@@ -179,7 +179,7 @@ function AdminDonHang() {
                   <th className="fw-bold text-center text-nowrap">
                     Trạng thái
                   </th>
-                  <th className="fw-bold text-center">Khách phải trả</th>
+                  <th className="fw-bold text-end">Khách phải trả</th>
                 </tr>
               </thead>
               <tbody>
@@ -215,13 +215,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
           let TrangThaiDonHang;
 
           if (dh.trang_thai === "cho_xac_nhan") {
-            TrangThaiDonHang = "Chờ xác nhận";
+            TrangThaiDonHang = <span class="badge text-bg-warning">Chờ xác nhận</span>;
           } else if (dh.trang_thai === "dang_xu_ly") {
-            TrangThaiDonHang = "Đang xử lý";
+            TrangThaiDonHang = <span class="badge text-bg-info">Đang xử lý</span>;
           } else if (dh.trang_thai === "hoan_thanh") {
-            TrangThaiDonHang = "Hoàn thành";
+            TrangThaiDonHang = <span class="badge text-bg-success">Hoàn thành</span>;
           } else {
-            TrangThaiDonHang = "Đã hủy";
+            TrangThaiDonHang = <span class="badge text-bg-danger">Đã hủy</span>;
           }
 
           return (
@@ -233,7 +233,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
                   to={`/admindonhangchitiet/${dh.ma_don_hang}`}
                   className="text-primary"
                 >
-                  DH{dh.ma_don_hang}
+                  #{dh.ma_don_hang}
                 </Link>
               </td>
               <td>
@@ -248,7 +248,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               </td>
               <td>{dh.ho_ten}</td>
               <td className="text-center">{TrangThaiDonHang}</td>
-              <td className="text-center">
+              <td className="text-end">
                 {parseInt(dh.tong_tien).toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
