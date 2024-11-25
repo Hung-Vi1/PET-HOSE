@@ -931,6 +931,189 @@
                 }
             }
         },
+        "/api/coupons/validate": {
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Validate a coupon code",
+                "operationId": "93d93652dcb6201932b083ac045eac68",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "DISCOUNT10"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Valid coupon details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "example": "percentage"
+                                        },
+                                        "value": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 10
+                                        },
+                                        "min_order_value": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid coupon (expired or limit exceeded)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/apply": {
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Apply a coupon code to calculate the discount",
+                "operationId": "b1340200ca87c06676da2186a9a66570",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "order_total"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "vi"
+                                    },
+                                    "order_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 50000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Discount applied successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "original_total": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 200
+                                        },
+                                        "discount": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 20
+                                        },
+                                        "discounted_total": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 180
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coupon not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Coupon not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Order total does not meet the minimum requirement",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Order value is less than the minimum required"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/News": {
             "get": {
                 "tags": [
@@ -1843,6 +2026,137 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Lỗi: Không tìm thấy đơn hàng."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/order/VnPay": {
+            "post": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Thanh toán đơn hàng qua VNPAY",
+                "description": "Tạo một đơn hàng mới và thực hiện thanh toán qua VNPAY.",
+                "operationId": "700f62e67bca87ce809d41d9491252b2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Thanh toán vnpay"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Đơn hàng đã thanh toán"
+                                    },
+                                    "chi_tiet": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Tạo đơn hàng và chuyển hướng thanh toán thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đơn hàng đã được tạo thành công và chuyển đến VNPAY."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu yêu cầu không hợp lệ"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi trong quá trình xử lý",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi hệ thống"
+                                        },
+                                        "data": {
+                                            "type": "null"
                                         }
                                     },
                                     "type": "object"
@@ -3417,6 +3731,147 @@
                     }
                 }
             }
+        },
+        "/api/Store/VnPay": {
+            "post": {
+                "tags": [
+                    "VNPAY"
+                ],
+                "summary": "Thanh toán đơn hàng qua VNPAY",
+                "description": "Tiến hành thanh toán đơn hàng qua cổng VNPAY, sau khi tạo đơn hàng thành công.",
+                "operationId": "404c6ead59d5d32593917f7790711699",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người đặt hàng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "Chuyển khoản"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú cho đơn hàng",
+                                        "type": "string",
+                                        "example": "Ghi chú đơn hàng"
+                                    },
+                                    "Discount": {
+                                        "description": "Giảm giá (nếu có)",
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "chi_tiet": {
+                                        "description": "Chi tiết các sản phẩm trong đơn hàng",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thanh toán thành công, chuyển hướng đến VNPAY",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm đơn hàng thành công"
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "example": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?..."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi xác thực hoặc dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi chi tiết"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi xử lý trong quá trình thanh toán",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thanh toán thất bại"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -3540,6 +3995,10 @@
                         "example": 1
                     },
                     "TongTien": {
+                        "type": "integer",
+                        "example": 500000
+                    },
+                    "Discount": {
                         "type": "integer",
                         "example": 500000
                     },
@@ -3729,6 +4188,10 @@
             "description": "LienHe"
         },
         {
+            "name": "Coupons",
+            "description": "Coupons"
+        },
+        {
             "name": "BaiViet",
             "description": "BaiViet"
         },
@@ -3751,6 +4214,10 @@
         {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "VNPAY",
+            "description": "VNPAY"
         }
     ]
 }

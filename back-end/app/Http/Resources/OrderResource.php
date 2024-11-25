@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'ma_don_hang'=>$this->MaDH,
             'ma_tai_khoan'=>$this->Mataikhoan,
             'tong_tien'=>$this->TongTien,
+            'giam_gia'=>$this->Discount,
             'so_luong'=>$this->SoLuong,
             'ho_ten'=>$this->Ten,
             'so_dien_thoai'=>$this->SDT,
