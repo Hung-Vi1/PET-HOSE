@@ -27,13 +27,13 @@ const LichSuMua = () => {
       setLoading(false);
       return;
     }
-  
+
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/orders/${user.Mataikhoan}`);
       if (!response.ok) {
         throw new Error('Không thể tải đơn hàng. Vui lòng thử lại.');
       }
-  
+
       const data = await response.json();
       if (data.status === 'success' && Array.isArray(data.data)) {
         setOrders(data.data); // Chỉ lưu vào state mà không lưu vào localStorage
@@ -47,7 +47,7 @@ const LichSuMua = () => {
       setLoading(false);
     }
   };
-  
+
 
   // Hàm in đơn hàng
   const handlePrintOrder = async (order) => {
@@ -167,35 +167,64 @@ const LichSuMua = () => {
           <thead>
             <tr>
               <th className="text-center align-middle">STT</th>
-              <th className="text-center align-middle">Mã Đơn Hàng</th>
               <th className="text-center align-middle">Số Lượng</th>
-              <th className="text-center align-middle">Tổng Tiền</th>
               <th className="text-center align-middle">Trạng Thái</th>
+              <th className="text-center align-middle">PTTT</th>
               <th className="text-center align-middle">Ngày Đặt</th>
-              <th className="text-center align-middle">Ngày Giao</th>
+              <th className="text-center align-middle">Tổng Tiền</th>
               <th className="text-center align-middle">Xem Chi Tiết</th>
               <th className="text-center align-middle">In Đơn Hàng</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
-              <tr key={order.ma_don_hang}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{order.ma_don_hang}</td>
-                <td className="text-center">{order.so_luong}</td>
-                <td className="text-center">{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(order.tong_tien)}</td>
-                <td className="text-center">{order.trang_thai}</td>
-                <td className="text-center">{new Date(order.ngay_dat).toLocaleDateString("vi-VN")}</td>
-                <td className="text-center">{new Date(order.ngay_giao).toLocaleDateString("vi-VN")}</td>
-                <td className="text-center">
-                  <button className="btn btn-primary btn-sm" onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}>Chi Tiết</button>
-                </td>
-                <td className="text-center">
-                  <button className="btn btn-secondary btn-sm" onClick={() => handlePrintOrder(order)}>In hóa đơn</button>
-                </td>
-              </tr>
-            ))}
+            {orders.map((order, index) => {
+              // Xử lý trạng thái
+              const orderStatus =
+                order.trang_thai === "da_thanh_toan" ? "Đã thanh toán" :
+                  order.trang_thai === "cho_xac_nhan" ? "Chờ xác nhận" :
+                    order.trang_thai === "da_xac_nhan" ? "Đã xác nhận" :
+                      order.trang_thai === "hoan_thanh" ? "Hoàn thành" :
+                        order.trang_thai === "dang_van_chuyen" ? "Đang vận chuyển" :
+                          order.trang_thai === "huy" ? "Hủy" :
+                            order.trang_thai;
+
+              // Xử lý màu nền và màu chữ theo trạng thái
+              const rowStyle = order.trang_thai === "da_thanh_toan"
+                ? { backgroundColor: "#28a745", color: "white" } // Màu xanh lá
+                : order.trang_thai === "cho_xac_nhan"
+                  ? { backgroundColor: "#ffc107", color: "black" } // Màu vàng
+                  : order.trang_thai === "da_xac_nhan"
+                    ? { backgroundColor: "blue", color: "white" } // Màu xanh biển
+                    : order.trang_thai === "dang_van_chuyen"
+                      ? { backgroundColor: "#e2da14", color: "white" } // Màu vàng
+                      : order.trang_thai === "hoan_thanh"
+                        ? { backgroundColor: "#28a745", color: "yellow" } // Màu xanh lá chữ vàng
+                        : order.trang_thai === "huy"
+                          ? { backgroundColor: "red", color: "black" } // Màu đỏ
+                          : {};
+
+
+              return (
+                <tr key={order.ma_don_hang}>
+                  <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{order.so_luong}</td>
+                  <td className="text-center" style={rowStyle}>{orderStatus}</td>
+                  <td className="text-center">{order.phuong_thuc_tt}</td>
+                  <td className="text-center">{new Date(order.ngay_dat).toLocaleDateString("vi-VN")}</td>
+                  <td className="text-center text-danger fw-bold">
+                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(order.tong_tien)}
+                  </td>
+                  <td className="text-center">
+                    <button className="btn btn-primary btn-sm" onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}>Chi Tiết</button>
+                  </td>
+                  <td className="text-center">
+                    <button className="btn btn-secondary btn-sm" onClick={() => handlePrintOrder(order)}>In hóa đơn</button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
+
         </table>
       )}
     </div>

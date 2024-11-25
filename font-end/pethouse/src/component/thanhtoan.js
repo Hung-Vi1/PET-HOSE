@@ -108,8 +108,8 @@ function ThanhToan() {
   };
 
   const handleSubmit = async () => {
-    if (!userData.Mataikhoan) {
-      alert("Vui lòng nhập mã tài khoản để đặt hàng.");
+    if (!userData.Mataikhoan || !userData.name || !userData.phone || !userData.address) {
+      alert("Vui lòng điền đầy đủ thông tin.");
       return;
     }
 
@@ -117,7 +117,7 @@ function ThanhToan() {
       Mataikhoan: userData.Mataikhoan,
       PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "VNPAY",
       GhiChu: formData.note,
-      TongTien: calculateTotal() - discount, // Tổng tiền sau khi trừ giảm giá
+      TongTien: calculateTotal(), // Tổng tiền sau khi trừ giảm giá
       Discount: discount, // Giá trị giảm giá
       chi_tiet: cart.map((item) => ({
         MaSP: item.ma_san_pham,
@@ -125,38 +125,56 @@ function ThanhToan() {
       })),
     };
 
-    // Kiểm tra orderData
-    console.log(orderData);
-
-
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+      if (formData.paymentMethod === "cod") {
+        // Process normal order with COD
+        const response = await fetch("http://127.0.0.1:8000/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        });
 
-      const result = await response.json();
+        const result = await response.json();
 
-      if (response.ok) {
-        alert("Đơn hàng đã được gửi thành công!");
+        if (response.ok) {
+          alert("Đơn hàng đã được gửi thành công!");
+          sessionStorage.removeItem("cart");
+          setCart([]);
+          navigate("/lichsumua");
+        } else {
+          alert("Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại.");
+        }
+      } else if (formData.paymentMethod === "bank") {
+        // Call VNPAY API if the payment method is VNPAY
+        const response = await fetch("http://127.0.0.1:8000/api/Store/VnPay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        });
 
-        sessionStorage.removeItem("cart");
-        window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện để cập nhật giỏ hàng
+        const result = await response.json();
+        console.log("Response status:", response.status);
+        console.log("Response data:", result);
 
-        setCart([]);
-        navigate("/lichsumua");
-      } else {
-        console.error("Lỗi khi đặt hàng:", result.message);
-        alert("Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại.");
+        if (response.ok && result.status === "success") {
+          sessionStorage.removeItem("cart");
+          setCart([]);
+          // Redirect to VNPAY payment page
+          window.location.href = result.url; // Điều hướng người dùng đến URL thanh toán của VNPAY
+        } else {
+          alert("Lỗi khi kết nối với VNPAY. Vui lòng thử lại.");
+        }
       }
     } catch (error) {
-      console.error("Lỗi kết nối tới API:", error);
+      console.error("Lỗi kết nối:", error);
       alert("Không thể kết nối tới máy chủ, vui lòng thử lại sau.");
     }
   };
+
 
   return (
     <div className="container py-5">

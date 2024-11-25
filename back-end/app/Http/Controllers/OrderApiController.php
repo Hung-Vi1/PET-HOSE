@@ -226,7 +226,7 @@ class OrderApiController extends Controller
             $user = User::findOrFail($validatedData['Mataikhoan']);
 
             // Khởi tạo thông tin đơn hàng
-            $validatedData['TrangThai'] = 'dang_xu_ly'; // Trạng thái đơn hàng
+            $validatedData['TrangThai'] = 'cho_xac_nhan'; // Trạng thái đơn hàng
             $validatedData['Loai'] = 1;       // Loại 1 là sản phẩm
             $validatedData['NgayDat'] = now();    // Ngày đặt đơn
             $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao đơn (cộng 4 ngày)

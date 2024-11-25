@@ -98,7 +98,7 @@ Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
 
 use App\Http\Controllers\VnpayApiController;
 Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);
-Route::get('/vnpay/callback', [VnpayApiController::class, 'callback'])->name('vnpay.callback');
+Route::get('/vnpay/callback', [VnpayApiController::class, 'handleVNPayCallback']);
 
 
 

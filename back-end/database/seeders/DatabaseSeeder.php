@@ -11,6 +11,7 @@ use App\Models\LienHe;
 use App\Models\BaiViet;
 use App\Models\DanhMucBaiViet;
 use App\Models\User;
+use App\Models\Coupon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -2145,6 +2146,45 @@ Mèo Munchkin, với đôi chân ngắn và tình cách đáng yêu, không ch�
 
         foreach ($contacts as $contact) {
             LienHe::create($contact); // Sử dụng mô hình LienHe để chèn dữ liệu
+        }
+
+        $coupons = [   
+            [
+                'code' => 'giam10',
+                'type' => 'percentage',
+                'value' => '10',
+                'min_order_value' => '20000',
+                'expiry_date' => '2025-11-12',
+                'usage_limit' => '20',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'code' => 'giam20',
+                'type' => 'percentage',
+                'value' => '20',
+                'min_order_value' => '20000',
+                'expiry_date' => '2025-11-12',
+                'usage_limit' => '20',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'code' => 'giam30',
+                'type' => 'fixed',
+                'value' => '100000',
+                'min_order_value' => '500000',
+                'expiry_date' => '2025-11-12',
+                'usage_limit' => '20',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            // Bạn có thể thêm nhiều mẫu liên hệ khác ở đây
+        ];
+
+        foreach ($coupons as $coupon) {
+            Coupon::create($coupon); // Sử dụng mô hình LienHe để chèn dữ liệu
         }
     }
 }

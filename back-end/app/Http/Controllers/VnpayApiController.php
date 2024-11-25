@@ -79,7 +79,7 @@ class VnpayApiController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/Store/VnPay";
+        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay/callback";
         $vnp_TmnCode = "WRPOFVZJ"; // Mã website tại VNPAY
         $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC"; // Thay bằng mã bí mật của bạn
 
@@ -110,7 +110,10 @@ class VnpayApiController extends Controller
 
             $tongTien -= $discount; // Áp dụng giảm giá
 
-            $vnp_TxnRef = uniqid(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+
+
+
+            
             $vnp_OrderInfo = 'Thanh toán VNPAY';
             $vnp_OrderType = 'billpayment';
             $vnp_Amount = $tongTien * 100;
@@ -120,7 +123,44 @@ class VnpayApiController extends Controller
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
 
 
+            $validatedData['TrangThai'] = 'da_thanh_toan'; // Trạng thái đơn hàng
+            $validatedData['Loai'] = 1;       // Loại 1 là sản phẩm
+            $validatedData['NgayDat'] = now();    // Ngày đặt đơn
+            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao đơn (cộng 4 ngày)
+            // Tạo đơn hàng
+            $order = DonHang::create([
+                'Mataikhoan' => $validatedData['Mataikhoan'],
+                'TongTien' => $tongTien, // Tổng tiền sẽ tính sau
+                'SoLuong' => $tongSoLuong,   // Số lượng sẽ tính sau
+                'Ten' => $user->Hovaten,       // Lấy tên từ bảng users
+                'SDT' => $user->SDT,           // Lấy SDT từ bảng users
+                'DiaChi' => $user->DiaChi,     // Lấy địa chỉ từ bảng users
+                'PTTT' => $validatedData['PTTT'],
+                'GhiChu' => $validatedData['GhiChu'],
+                'Loai' => $validatedData['Loai'],
+                'TrangThai' => $validatedData['TrangThai'],
+                'NgayDat' => $validatedData['NgayDat'],
+                'NgayGiao' => $validatedData['NgayGiao'],
+                'Discount' => $discount, // Lưu discount vào cơ sở dữ liệu
+            ]);
 
+
+            // Lưu chi tiết đơn hàng và tính tổng tiền & số lượng
+            foreach ($validatedData['chi_tiet'] as $item) {
+                // Lấy thông tin sản phẩm từ bảng san_pham
+                $sanPham = SanPham::findOrFail($item['MaSP']);
+                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia; // Tính giá sản phẩm (giá gốc trừ giảm giá)
+
+                // Tạo chi tiết đơn hàng
+                ChiTietDonHang::create([
+                    'MaDH' => $order->MaDH,
+                    'MaSP' => $item['MaSP'],
+                    'DonGia' => $DonGia,  // Sử dụng giá sản phẩm đã tính
+                    'SoLuong' => $item['SoLuong'],
+                ]);
+            }
+
+            $vnp_TxnRef = $order->MaDH;
             $vnp_Bill_Country = 'VN';
             $vnp_Bill_State = 2;
             // Invoice
@@ -205,17 +245,35 @@ class VnpayApiController extends Controller
 
     public function handleVNPayCallback(Request $request)
     {
-        $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC"; // Thay bằng mã bí mật của bạn
+        $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC"; // Mã bí mật
         $inputData = $request->all();
 
-        // Lấy chữ ký từ request
+        // Kiểm tra giá trị của dữ liệu nhận được
+        Log::info('Input data:', $inputData);
+
+        // Lấy và loại bỏ vnp_SecureHash để tính lại chữ ký
         $vnp_SecureHash = $inputData['vnp_SecureHash'] ?? '';
         unset($inputData['vnp_SecureHash']);
+
+        // Sắp xếp lại các tham số
         ksort($inputData);
 
-        // Tạo hashdata để kiểm tra chữ ký
-        $hashdata = urldecode(http_build_query($inputData));
-        $secureHash = hash_hmac('sha256', $hashdata, $vnp_HashSecret);
+        // Xây dựng dữ liệu hash (chuỗi yêu cầu tính chữ ký)
+        $hashdata = "";
+        $i = 0;
+        foreach ($inputData as $key => $value) {
+            if ($i == 0) {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            }
+            $i = 1;
+        }
+
+        Log::info('Hash data for signature:', ['data' => $hashdata]);
+
+        // Tính toán lại chữ ký sử dụng hash_hmac sha512
+        $secureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
 
         // Kiểm tra chữ ký
         if ($secureHash !== $vnp_SecureHash) {
@@ -223,10 +281,13 @@ class VnpayApiController extends Controller
                 'status' => 'fail',
                 'message' => 'Chữ ký không hợp lệ',
             ], 400);
+        } else {
+            // Chữ ký hợp lệ
+            Log::info("Chữ ký hợp lệ");
         }
 
-        // Lưu thông tin giao dịch vào bảng vnpay
-        try {
+        if ($inputData['vnp_TransactionStatus'] == '00') {
+            // Lưu thông tin giao dịch vào bảng vnpay
             vnpay::create([
                 'vnp_Amount' => $inputData['vnp_Amount'] ?? null,
                 'vnp_BankCode' => $inputData['vnp_BankCode'] ?? null,
@@ -242,29 +303,20 @@ class VnpayApiController extends Controller
                 'vnp_SecureHash' => $vnp_SecureHash,
             ]);
 
-            // Kiểm tra mã phản hồi
-            if ($inputData['vnp_ResponseCode'] == '00') {
-                // Cập nhật trạng thái đơn hàng thành "hoàn thành"
-                $order = DonHang::where('MaDH', $inputData['vnp_TxnRef'])->first();
-                if ($order) {
-                    $order->update(['TrangThai' => 'hoan_thanh']);
-                }
 
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Thanh toán thành công',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'fail',
-                    'message' => 'Thanh toán thất bại',
-                ]);
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Lỗi khi lưu giao dịch: ' . $e->getMessage(),
-            ], 500);
+            return redirect('http://localhost:3000/lichsumua');
+        } else {
+            $MaDH = $inputData['vnp_TxnRef'];
+            // Tìm đơn hàng theo ID
+            $order = DonHang::findOrFail($MaDH);
+
+            // Xóa tất cả chi tiết đơn hàng liên quan
+            $order->orderDetails()->delete();
+
+            // Xóa đơn hàng
+            $order->delete();
+            
+            return redirect('http://localhost:3000/giohang');
         }
     }
 }
