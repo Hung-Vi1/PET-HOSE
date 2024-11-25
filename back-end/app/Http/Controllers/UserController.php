@@ -248,7 +248,7 @@ class UserController extends Controller
      * Cập nhật thông tin người dùng
      * 
      * @OA\Put(
-     *     path="/api/capnhat/{id}",
+     *     path="/api/users/{id}",
      *     summary="Cập nhật thông tin người dùng",
      *     tags={"Users"},
      *     @OA\Parameter(
@@ -261,17 +261,20 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"name", "email"},
-     *             @OA\Property(property="name", type="string", example="Jane Doe"),
-     *             @OA\Property(property="email", type="string", format="email", example="jane@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="password123", nullable=true)
+     *             required={"ThuCung", "Hovaten", "Email", "DiaChi", "SDT", "Matkhau",},
+     *             @OA\Property(property="Hovaten", type="string", example="Trương Minh Thiện"),
+     *             @OA\Property(property="Email", type="string", format="email", example="truongminhthien222004@gmail.com"),
+     *             @OA\Property(property="ThuCung", type="string", example="Chó"),
+     *             @OA\Property(property="SDT", type="string", example="0354895845"),
+     *             @OA\Property(property="DiaChi", type="string", example="294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Người dùng đã được cập nhật thành công",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User updated successfully"),
+     *             @OA\Property(property="message", type="string", example="Cập nhật thành công"),
+     *             @OA\Property(property="status", type="boolean", example=true),
      *             @OA\Property(property="user", type="object")
      *         )
      *     ),
@@ -296,25 +299,30 @@ class UserController extends Controller
 
         // Validate dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:6',
+            'Hovaten' => 'required|string|max:255',
+            'ThuCung' => 'required|string|max:255',
+            'SDT' => 'required|string|max:255',
+            'DiaChi' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
-        }
-
-        // Cập nhật thông tin người dùng
-        $user->name = $request->name;
-        $user->email = $request->email;
+        } else {
+            // Cập nhật thông tin người dùng
+        $user->Hovaten = $request->Hovaten;
+        $user->SDT = $request->SDT;
+        $user->DiaChi = $request->DiaChi;
+        $user->Email = $request->Email;
+        $user->ThuCung = $request->ThuCung;
 
         $user->save();
 
         return response()->json([
-            'message' => 'User updated successfully',
+            'message' => 'Cập nhật tài khoản thành công!',
+            'status' => true,
             'user' => $user
         ], 200);
+        }
     }
 
     /**

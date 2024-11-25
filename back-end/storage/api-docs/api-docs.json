@@ -3563,6 +3563,97 @@
             }
         },
         "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cập nhật thông tin người dùng",
+                "description": "Cập nhật thông tin người dùng",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ThuCung",
+                                    "Hovaten",
+                                    "Email",
+                                    "DiaChi",
+                                    "SDT",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "Hovaten": {
+                                        "type": "string",
+                                        "example": "Trương Minh Thiện"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "truongminhthien222004@gmail.com"
+                                    },
+                                    "ThuCung": {
+                                        "type": "string",
+                                        "example": "Chó"
+                                    },
+                                    "SDT": {
+                                        "type": "string",
+                                        "example": "0354895845"
+                                    },
+                                    "DiaChi": {
+                                        "type": "string",
+                                        "example": "294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã được cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ"
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "Users"
@@ -3600,85 +3691,6 @@
                     },
                     "404": {
                         "description": "Không tìm thấy người dùng"
-                    }
-                }
-            }
-        },
-        "/api/capnhat/{id}": {
-            "put": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Cập nhật thông tin người dùng",
-                "description": "Cập nhật thông tin người dùng",
-                "operationId": "796fa036d22f8b51a742fe343488d8b3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID của người dùng",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "email"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Jane Doe"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "jane@example.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "password123",
-                                        "nullable": true
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Người dùng đã được cập nhật thành công",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User updated successfully"
-                                        },
-                                        "user": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Không tìm thấy người dùng"
-                    },
-                    "400": {
-                        "description": "Dữ liệu không hợp lệ"
                     }
                 }
             }
