@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 
-const ChiTietDonHang = () => {
+const ChiTietDV = () => {
   const { MaDH } = useParams(); // Lấy mã đơn hàng từ URL
   const [orderDetails, setOrderDetails] = useState([]); // Lưu danh sách chi tiết đơn hàng
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
@@ -11,7 +11,7 @@ const ChiTietDonHang = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/orderDetails/${MaDH}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/orderDetailServices/${MaDH}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -77,9 +77,9 @@ const ChiTietDonHang = () => {
           <thead>
             <tr>
               <th className="text-center align-middle">STT</th>
-              <th className="text-center align-middle">Sản Phẩm</th>
-              <th className="text-center align-middle">Hình Ảnh</th>
-              <th className="text-center align-middle">Số Lượng</th>
+              <th className="text-center align-middle">Dịch vụ</th>
+              {/* <th className="text-center align-middle">Hình Ảnh</th> */}
+              {/* <th className="text-center align-middle">Số Lượng</th> */}
               <th className="text-center align-middle">Đơn Giá</th>
               <th className="text-center align-middle">Tổng</th>
             </tr>
@@ -88,15 +88,15 @@ const ChiTietDonHang = () => {
             {orderDetails.map((detail, index) => (
               <tr key={detail.MaCTDH}>
                 <td className="text-center align-middle">{index + 1}</td>
-                <td className="align-middle">{detail.SanPham.TenSP}</td>
-                <td className="text-center align-middle">
+                <td className="text-center align-middle">{detail.SanPham.TenSP}</td>
+                {/* <td className="text-center align-middle">
                   <img
                     src={`../image/product/${detail.SanPham.HinhAnh}`}
                     alt={detail.SanPham.TenSP}
                     style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                   />
-                </td>
-                <td className="text-center align-middle">{detail.SoLuong}</td>
+                </td> */}
+                {/* <td className="text-center align-middle">{detail.SoLuong}</td> */}
                 <td className="text-center align-middle">{detail.DonGia.toLocaleString()} VND</td>
                 <td className="text-center align-middle">{(detail.SoLuong * detail.DonGia).toLocaleString()} VND</td>
               </tr>
@@ -108,4 +108,4 @@ const ChiTietDonHang = () => {
   );
 };
 
-export default ChiTietDonHang;
+export default ChiTietDV;

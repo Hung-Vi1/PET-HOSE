@@ -2,27 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function TinTuc() {
-  const [articles, setArticles] = useState([]);
+  const [tintuc, setTinTuc] = useState([]);
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchTinTuc = async () => {
       try {
         const response = await fetch("http://localhost:8000/api/News");
         const data = await response.json();
 
         if (Array.isArray(data.data)) {
-          setArticles(data.data);
+          setTinTuc(data.data);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          setArticles([]);
+          setTinTuc([]);
         }
       } catch (error) {
         console.error("Lỗi khi lấy bài viết:", error);
-        setArticles([]);
+        setTinTuc([]);
       }
     };
 
-    fetchArticles();
+    fetchTinTuc();
   }, []);
 
   const truncateContent = (content, limit) => {
@@ -62,8 +62,8 @@ function TinTuc() {
             <div className="col-md-12">
               <div className="post-wrap margin-bottom-26">
                 <div className="grid four">
-                  {articles.length > 0 ? (
-                    articles.map((article) => (
+                  {tintuc.length > 0 ? (
+                    tintuc.map((article) => (
                       <article className="post clearfix" key={article.bai_viet}>
                         <div className="featured-post">
                           <img src={`image/News/${article.Hinh}`} alt="hinh" style={{
