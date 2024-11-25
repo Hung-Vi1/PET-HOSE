@@ -254,68 +254,68 @@ function SanPham() {
           </section>
 
           <section className="flat-row mail-chimp">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="text">
-                    <h3>Sign up for Send Newsletter</h3>
-                  </div>
-                </div>
-                <div className="col-md-8">
-                  <div className="subscribe clearfix">
-                    <form
-                      action="#"
-                      method="post"
-                      acceptCharset="utf-8"
-                      id="subscribe-form"
-                    >
-                      <div className="subscribe-content">
-                        <div className="input">
-                          <input
-                            type="email"
-                            name="subscribe-email"
-                            placeholder="Your Email"
-                          />
-                        </div>
-                        <div className="button">
-                          <button type="button">SUBCRIBE</button>
-                        </div>
-                      </div>
-                    </form>
-                    <ul className="flat-social">
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-facebook" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-twitter" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-google" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-behance" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-linkedin" />
-                        </a>
-                      </li>
-                    </ul>
-                    {/* /.flat-social */}
-                  </div>
-                  {/* /.subscribe */}
-                </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="text">
+                <h3>Gửi mail để nhận ưu đãi</h3>
               </div>
             </div>
-          </section>
+            <div className="col-md-8">
+              <div className="subscribe clearfix">
+                <form
+                  action="#"
+                  method="post"
+                  acceptCharset="utf-8"
+                  id="subscribe-form"
+                >
+                  <div className="subscribe-content">
+                    <div className="input">
+                      <input
+                        type="email"
+                        name="subscribe-email"
+                        placeholder="Nhập Email của bạn"
+                      />
+                    </div>
+                    <div className="button">
+                      <button type="button">Gửi</button>
+                    </div>
+                  </div>
+                </form>
+                <ul className="flat-social">
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-facebook" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-twitter" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-google" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-behance" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-linkedin" />
+                    </a>
+                  </li>
+                </ul>
+                {/* /.flat-social */}
+              </div>
+              {/* /.subscribe */}
+            </div>
+          </div>
+        </div>
+      </section>
         </div>
       </div>
     </>

@@ -58,7 +58,7 @@ function LienHe() {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="title-section">
-                                <h2 className="title">Get In Touch</h2>
+                                <h2 className="title">Liên hệ</h2>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ function LienHe() {
                                     </div>
                                 </div>
                                 <div className="box-content">
-                                    <p>203, Envato Labs, Behind Alis Steet</p>
+                                    <p>Tô ký, phường Trung Mỹ Tây, quận 12, TP.HCM</p>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ function LienHe() {
                                     </div>
                                 </div>
                                 <div className="box-content">
-                                    <p>+12 345 678 910 / +23 122 345 678</p>
+                                    <p>0789482587</p>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@ function LienHe() {
                                     </div>
                                 </div>
                                 <div className="box-content">
-                                    <p>Infor.deercreative@gmail.com</p>
+                                    <p>pethose@gmail.com</p>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@ function LienHe() {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="title-section margin_bottom_17">
-                                <h2 className="title">Send Us Email</h2>
+                                <h2 className="title">Gửi Email cho chúng tôi</h2>
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ function LienHe() {
                                         <label />
                                         <input
                                             type="text"
-                                            placeholder="Name"
+                                            placeholder="Nhập tên của bạn"
                                             aria-required="true"
                                             size={30}
                                             name="author"
@@ -140,7 +140,7 @@ function LienHe() {
                                         <input
                                             type="email"
                                             size={30}
-                                            placeholder="Email"
+                                            placeholder="Nhập Email của bạn"
                                             name="email"
                                             id="email"
                                         />
@@ -149,7 +149,7 @@ function LienHe() {
                                         <label />
                                         <input
                                             type="text"
-                                            placeholder="Subject"
+                                            placeholder="Nhập yêu cầu của bạn"
                                             aria-required="true"
                                             size={30}
                                             name="subject"
@@ -160,13 +160,13 @@ function LienHe() {
                                 <div className="contact-message clearfix">
                                     <label />
                                     <textarea
-                                        placeholder="Message"
+                                        placeholder="Ghi chú"
                                         name="message"
                                         required=""
                                     />
                                 </div>
                                 <div className="form-submit">
-                                    <button className="contact-submit">SEND</button>
+                                    <button className="contact-submit">Gửi</button>
                                 </div>
                             </form>
                         </div>
