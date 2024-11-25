@@ -65,13 +65,13 @@ function DatLich() {
 
     // Xây dựng dữ liệu gửi lên API
     const orderData = {
-      Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
-      PTTT: userData.paymentMethod,      // Phương thức thanh toán
-      GhiChu: userData.notes,            // Ghi chú (nếu có)
+      Mataikhoan: userData.Mataikhoan, // Mã tài khoản từ userData
+      PTTT: userData.paymentMethod, // Phương thức thanh toán
+      GhiChu: userData.notes, // Ghi chú (nếu có)
       chi_tiet: [
         {
-          MaSP: userData.selectedService,  // Mã sản phẩm từ dịch vụ đã chọn
-          SoLuong: 1,                      // Số lượng sản phẩm
+          MaSP: userData.selectedService, // Mã sản phẩm từ dịch vụ đã chọn
+          SoLuong: 1, // Số lượng sản phẩm
         },
       ],
     };
@@ -82,7 +82,7 @@ function DatLich() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(orderData),  // Gửi dữ liệu dưới dạng JSON
+      body: JSON.stringify(orderData), // Gửi dữ liệu dưới dạng JSON
     })
       .then((response) => {
         if (!response.ok) {
@@ -93,7 +93,7 @@ function DatLich() {
       .then((data) => {
         if (data.status === "success") {
           alert("Đặt lịch thành công!");
-          navigate("/ ");  // Chuyển hướng tới trang lịch hẹn hoặc trang khác
+          navigate("/ "); // Chuyển hướng tới trang lịch hẹn hoặc trang khác
         } else {
           alert("Có lỗi xảy ra. Vui lòng thử lại.");
         }
