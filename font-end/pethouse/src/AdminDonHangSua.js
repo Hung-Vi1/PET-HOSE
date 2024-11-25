@@ -205,109 +205,12 @@ function AdminDonHangSua() {
 
                       <div className="mb-3">
                         <label className="form-label">Địa chỉ</label>
-                        <textarea
-                          className="form-control"
-                          rows={1}
-                          // value={mo_ta}
-                          // onChange={(e) => setMoTa(e.target.value)}
-                          required
-                        ></textarea>
-                      </div>
-
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label className="form-label">Mã danh mục</label>
-                          <select
-                            className="form-select"
-                            // value={ma_danh_muc}
-                            // onChange={(e) => setMaDanhMuc(e.target.value)}
-                            required
-                          >
-                            <option value="" disabled>
-                              Chọn loại sản phẩm
-                            </option>
-                            {/* {danhMuc.map((loaiSP) => (
-                              <option
-                                key={loaiSP.ma_danh_muc}
-                                value={loaiSP.ma_danh_muc}
-                              >
-                                {loaiSP.ten_danh_muc}
-                              </option>
-                            ))} */}
-                          </select>
-                        </div>
-                        <div className="col-md">
-                          <label className="form-label">Số lượng</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            // value={so_luong}
-                            // onChange={(e) => setSoLuong(Number(e.target.value))}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label className="form-label">Lượt xem</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            // value={luot_xem}
-                            // onChange={(e) => setLuotXem(Number(e.target.value))}
-                            readOnly // Lượt xem mặc định là 0
-                          />
-                        </div>
-                        <div className="col-md">
-                          <label className="form-label">Lượt bán</label>
-                          <input
-                            type="number"
-                            className="form-control"
-                            // value={luot_ban}
-                            // onChange={(e) => setLuotBan(Number(e.target.value))}
-                            readOnly // Lượt bán mặc định là 0
-                          />
-                        </div>
-                      </div>
-
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label id="TrangThai" className="form-label">
-                            Trạng thái
-                          </label>
-                          <select
-                            type="number"
-                            className="form-select"
-                            // value={trang_thai}
-                            // onChange={(e) =>
-                            //   setTrangThai(Number(e.target.value))
-                            // }
-                          >
-                            <option value="0">Ẩn</option>
-                            <option value="1">Hiện</option>
-                          </select>
-                        </div>
-                        <div className="col-md">
-                          <label className="form-label">Ngày tạo</label>
-                          <input
-                            type="date"
-                            className="form-control"
-                            // value={ngay_tao}
-                            // onChange={(e) => setNgayTao(e.target.value)}
-                            readOnly // Ngày tạo mặc định là ngày hiện tại
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mb-3">
-                        <label className="form-label">Mô tả</label>
-                        <textarea
+                        <input
                           className="form-control"
                           // value={mo_ta}
                           // onChange={(e) => setMoTa(e.target.value)}
                           required
-                        ></textarea>
+                        ></input>
                       </div>
                     </div>
                   </div>
@@ -316,54 +219,60 @@ function AdminDonHangSua() {
                 <div className="col-md px-0">
                   <div className="d-flex flex-wrap">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
+                      <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
 
-                      <div className="text-center">
-                        <div className="d-flex justify-content-center py-2">
-                          <input
-                            type="file"
-                            className="form-control"
-                            accept="image/*"
-                            // onChange={(e) => setHinhAnh(e.target.files[0])}
-                            required
-                          />
-                        </div>
+                      <div>
+                        <select
+                          type="number"
+                          className="form-select"
+                          // value={trang_thai}
+                          // onChange={(e) =>
+                          //   setTrangThai(Number(e.target.value))
+                          // }
+                        >
+                          <option value="0">Chờ xác nhận</option>
+                          <option value="1">Đang xử lý</option>
+                          <option value="1">Đã xử lý</option>
+                          <option value="1">Đã hủy</option>
+                        </select>
                       </div>
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Thông tin giá</h5>
+                      <h5 className="mb-2 py-1">Phương thức thanh toán</h5>
 
-                      <div className="mb-3">
-                        <label className="form-label">Giá sản phẩm</label>
-                        <input
+                      <div>
+                        <select
                           type="number"
-                          className="form-control"
-                          // value={gia}
-                          // onChange={(e) => setGia(Number(e.target.value))}
-                          required
-                        />
-                      </div>
-                      <div className="mb-3">
-                        <label className="form-label">Giảm giá</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          // value={giam_gia}
-                          // onChange={(e) => setGiamGia(Number(e.target.value))}
-                        />
+                          className="form-select"
+                          // value={trang_thai}
+                          // onChange={(e) =>
+                          //   setTrangThai(Number(e.target.value))
+                          // }
+                        >
+                          <option value="0">Thanh toán khi nhận hàng</option>
+                          <option value="1">Thanh toán chuyển khoản</option>
+                        </select>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+              <div className="d-flex flex-wrap">
+                <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                  <h5 className="mb-2 py-1">Chi tiết đơn hàng</h5>
+
+                  <table className="table"></table>
+                </div>
+              </div>
+
               <div className="d-flex justify-content-end">
                 <button type="button" className="btn btn-outline-danger me-2">
-                  Xóa
+                  Hủy
                 </button>
                 <button type="submit" className="btn btn-primary ms-2">
-                  Thêm sản phẩm
+                  Lưu
                 </button>
               </div>
             </form>
