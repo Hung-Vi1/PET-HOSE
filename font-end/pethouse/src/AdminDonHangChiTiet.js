@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./App.css";
-import { useEffect } from "react";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 // Định dạng ngày giờ
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+// import { format } from "date-fns";
+// import { vi } from "date-fns/locale";
+// In hóa đơn
+import Invoice from "./Invoice";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function AdminDonHangChiTiet() {
   const { ma_don_hang } = useParams();
-
   const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const [order, setOrder] = useState(null); // State để lưu thông tin đơn hàng
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {

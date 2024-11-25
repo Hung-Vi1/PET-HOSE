@@ -38,6 +38,8 @@ import AdminSanPhamThem from "./AdminSanPhamThem";
 import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
+// In hóa đơn
+import PdfCard from "./PdfCard";
 
 function App() {
   return (
