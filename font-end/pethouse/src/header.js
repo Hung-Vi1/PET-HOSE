@@ -103,6 +103,11 @@ function Header() {
                     <Link className="text-nowrap" to="/lichsumua">Lịch sử mua hàng</Link>
                   </li>
                   <li>
+                    <Link className="text-nowrap" to="/lichsuDV">
+                      Lịch sử dịch vụ
+                    </Link>
+                  </li>
+                  <li>
                     <a
                       style={{ cursor: "pointer" }}
                       onClick={handleLogout}

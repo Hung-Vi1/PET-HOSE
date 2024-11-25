@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+// Định dạng ngày giờ
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 function AdminDonHang() {
   const [list_dh, ganDH] = useState([]);
@@ -177,7 +180,6 @@ function AdminDonHang() {
                     Trạng thái
                   </th>
                   <th className="fw-bold text-center">Khách phải trả</th>
-                  <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
               <tbody>
@@ -234,8 +236,16 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
                   DH{dh.ma_don_hang}
                 </Link>
               </td>
-              <td>{dh.ngay_dat}</td>
-              <td>{dh.ngay_giao}</td>
+              <td>
+                {format(new Date(dh.ngay_dat), "dd/MM/yyyy HH:mm", {
+                  locale: vi,
+                })}
+              </td>
+              <td>
+                {format(new Date(dh.ngay_giao), "dd/MM/yyyy HH:mm", {
+                  locale: vi,
+                })}
+              </td>
               <td>{dh.ho_ten}</td>
               <td className="text-center">{TrangThaiDonHang}</td>
               <td className="text-center">
@@ -243,18 +253,6 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
                   style: "currency",
                   currency: "VND",
                 })}
-              </td>
-              <td className="text-center" style={{ width: "150px" }}>
-                <Link
-                  onClick={() => fetchOrderById(dh.ma_san_pham)}
-                  to={`/adminsanphamsua/${dh.ma_san_pham}`}
-                  className="btn btn-outline-warning m-1"
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </Link>
-                <button className="btn btn-outline-danger m-1">
-                  <i className="bi bi-trash"></i>
-                </button>
               </td>
             </tr>
           );

@@ -1,7 +1,108 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-// import "../App.css";
 
 function DatLich() {
+  const [services, setServices] = useState([]);
+  const [userData, setUserData] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    email: "",
+    Mataikhoan: "",
+    paymentMethod: "", // Thêm thuộc tính paymentMethod
+    selectedService: "", // Thêm thuộc tính selectedService
+    notes: "", // Ghi chú
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      setUserData({
+        name: parsedUser.Hovaten,
+        phone: parsedUser.SDT,
+        address: parsedUser.DiaChi,
+        email: parsedUser.Email,
+        Mataikhoan: parsedUser.Mataikhoan || "",
+        paymentMethod: "", // Mặc định là không có phương thức thanh toán
+        selectedService: "", // Dịch vụ mặc định chưa chọn
+        notes: "", // Ghi chú mặc định
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    // Lấy danh sách dịch vụ từ API
+    fetch("http://127.0.0.1:8000/api/services")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data && data.data) {
+          setServices(data.data);
+        } else {
+          console.error("Dữ liệu không đúng định dạng!");
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gọi API:", error);
+      });
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Xây dựng dữ liệu gửi lên API
+    const orderData = {
+      Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
+      PTTT: userData.paymentMethod,      // Phương thức thanh toán
+      GhiChu: userData.notes,            // Ghi chú (nếu có)
+      chi_tiet: [
+        {
+          MaSP: userData.selectedService,  // Mã sản phẩm từ dịch vụ đã chọn
+          SoLuong: 1,                      // Số lượng sản phẩm
+        },
+      ],
+    };
+
+    // Gửi dữ liệu lên API
+    fetch("http://127.0.0.1:8000/api/orderServices", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),  // Gửi dữ liệu dưới dạng JSON
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Đặt lịch thành công!");
+          navigate("/ ");  // Chuyển hướng tới trang lịch hẹn hoặc trang khác
+        } else {
+          alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gửi yêu cầu:", error);
+        alert(`Lỗi khi gửi yêu cầu: ${error.message}`);
+      });
+  };
 
   return (
     <>
@@ -18,7 +119,7 @@ function DatLich() {
                     <Link to="/">Trang chủ</Link>
                   </li>
                   <li>
-                    <Link to="/datlich  ">Đặt lịch</Link>
+                    <Link to="/datlich">Đặt lịch</Link>
                   </li>
                 </ul>
               </div>
@@ -26,9 +127,10 @@ function DatLich() {
           </div>
         </div>
       </div>
-        {/* Booking */}
-        <div className="container booking-form mt-5 p-4">
-          <h2 className="text-center mb-4">Đăng ký lịch hẹn</h2>
+
+      <div className="container booking-form mt-5 p-4">
+        <h2 className="text-center mb-4">Đăng ký lịch hẹn</h2>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-md-5">
               <div className="form-group">
@@ -36,9 +138,9 @@ function DatLich() {
                 <input
                   type="text"
                   className="form-control"
-                  id="name"
-                  placeholder="Nhập họ và tên của bạn"
-                  required
+                  value={userData.name}
+                  name="name"
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="form-group">
@@ -46,58 +148,67 @@ function DatLich() {
                 <input
                   type="text"
                   className="form-control"
-                  id="email"
-                  placeholder="Nhập email của bạn"
-                  required
+                  value={userData.email}
+                  name="email"
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="phone">Số điện thoại:</label>
                 <input
-                  type="tel"
+                  type="text"
                   className="form-control"
-                  id="phone"
-                  placeholder="Nhập số điện thoại"
-                  required
+                  value={userData.phone}
+                  name="phone"
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="service">Dịch vụ:</label>
-                <select className="form-control" id="service" required>
+                <select
+                  className="form-control"
+                  id="service"
+                  name="selectedService"
+                  required
+                  value={userData.selectedService}
+                  onChange={handleInputChange}
+                >
                   <option value="">Chọn dịch vụ</option>
-                  <option value="grooming">Grooming</option>
-                  <option value="vet">Khám bệnh</option>
-                  <option value="boarding">Trông giữ thú cưng</option>
+                  {services.map((service) => (
+                    <option key={service.ma_dich_vu} value={service.ma_dich_vu}>
+                      {service.ten_dich_vu} - {service.gia} VND
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="col-md-4">
               <div className="form-group">
-                <label htmlFor="time">Giờ đặt lịch:</label>
-                <input
-                  type="time"
-                  className="form-control"
-                  id="time"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="date">Ngày đặt lịch:</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="date"
-                  required
-                />
-              </div>
-              <div className="form-group">
                 <label htmlFor="notes">Ghi chú:</label>
                 <textarea
                   className="form-control"
                   id="notes"
+                  name="notes"
                   rows="3"
+                  value={userData.notes}
+                  onChange={handleInputChange}
                   placeholder="Nhập ghi chú nếu có"
                 ></textarea>
+              </div>
+              <div className="form-group">
+                <label htmlFor="paymentMethod">Phương thức thanh toán:</label>
+                <select
+                  className="form-control"
+                  id="paymentMethod"
+                  name="paymentMethod"
+                  value={userData.paymentMethod}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Chọn phương thức thanh toán</option>
+                  <option value="cash">Tiền mặt</option>
+                  <option value="transfer">Chuyển khoản</option>
+                </select>
               </div>
               <button type="submit" className="btn btn-danger mt-3">
                 Xác nhận đặt lịch
@@ -113,222 +224,10 @@ function DatLich() {
               </div>
             </div>
           </div>
-        </div>
-        {/* end booking */}
-        <div className="container booking-form mt-5 p-4">
-  <h2 className="mb-4">Bài viết liên quan</h2>
-  <div className="row">
-    {/* Bài viết 1 */}
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/11.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc">
-                Grenfell Remembered, Six Months On
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              A deep dive into the causes and impacts of climate change on
-              our planet...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    {/* Bài viết 2 */}
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/12.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc2">
-                Understanding the Climate Crisis
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              A deep dive into the causes and impacts of climate change on
-              our planet...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc2">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    {/* Bài viết 3 */}
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/13.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc3">
-                Advances in Renewable Energy
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              Exploring the latest breakthroughs in solar and wind energy
-              technologies...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc3">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-
-    {/* Bài viết 4 */}
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc4">
-                The Future of Urban Development
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              How cities are evolving to meet the challenges of the modern
-              world...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc4">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc4">
-                The Future of Urban Development
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              How cities are evolving to meet the challenges of the modern
-              world...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc4">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc4">
-                The Future of Urban Development
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              How cities are evolving to meet the challenges of the modern
-              world...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc4">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc4">
-                The Future of Urban Development
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              How cities are evolving to meet the challenges of the modern
-              world...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc4">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div className="col-md-3">
-      <article className="post clearfix">
-        <div className="featured-post">
-          <img src="images/blog/14.jpg" alt="hinh" className="img-fluid" />
-        </div>
-        <div className="content-post">
-          <div className="title-post">
-            <h4>
-              <a href="chitiettintuc4">
-                The Future of Urban Development
-              </a>
-            </h4>
-          </div>
-          <div className="entry-post">
-            <p>
-              How cities are evolving to meet the challenges of the modern
-              world...
-            </p>
-            <div className="more-link">
-              <a href="chitiettintuc4">Read More</a>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>  
-  </div>
-</div>
-
+        </form>
+      </div>
     </>
   );
 }
+
 export default DatLich;
