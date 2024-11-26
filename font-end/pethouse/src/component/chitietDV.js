@@ -40,15 +40,7 @@ const ChiTietDV = () => {
     fetchOrderDetails(); // Gọi API khi component mount
   }, [MaDH]);
 
-  const handlePrintInvoice = () => {
-    const invoiceElement = document.getElementById('invoice'); // Lấy phần tử hóa đơn
-    html2canvas(invoiceElement).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = 'invoice.png'; // Tên file tải xuống
-      link.href = canvas.toDataURL(); // Chuyển đổi canvas thành dữ liệu URL
-      link.click();
-    });
-  };
+
 
   if (loading) {
     return <div>Loading...</div>; // Hiển thị khi đang tải
@@ -66,13 +58,7 @@ const ChiTietDV = () => {
     <div className="container mt-3">
       <div id="invoice"> {/* Phần tử hóa đơn */}
         <h2 className="float-start">Chi Tiết Đơn Hàng</h2>
-        <button 
-          type="button" 
-          className="btn btn-outline-success btn-sm float-end" 
-          onClick={handlePrintInvoice} // Thêm sự kiện click
-        >
-          In hóa đơn
-        </button>
+
         <table className="table table-bordered">
           <thead>
             <tr>

@@ -90,6 +90,7 @@ function Header() {
               Tìm kiếm
             </button>
           </form>
+
         </li>
         <li className="box-login">
           {user ? (
@@ -173,22 +174,16 @@ function Header() {
           }}
         >
           <ul className="menu">
-            <li className="active">
+            <li>
+              {/* className="active" */}
               <Link to="/">Trang chủ</Link>
             </li>
             <li>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
             <li>
-              <Link to="/datlich">Đặt lịch</Link>
-              <ul className="submenu">
-                <li>
-                  <a href="coming-soon.html">Dịch vụ 1</a>
-                </li>
-                <li>
-                  <a href="404.html">Dịch vụ 2</a>
-                </li>
-              </ul>
+              <Link to="/datlich">Dịch vụ</Link>
+
             </li>
             <li>
               <Link to="/tintuc">Tin thú cưng</Link>
