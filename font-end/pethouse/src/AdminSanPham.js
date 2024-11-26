@@ -57,6 +57,12 @@ function AdminSanPham() {
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+            </Link>
+            <Link
               to={"/admindanhmuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
@@ -75,22 +81,16 @@ function AdminSanPham() {
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
             <Link
-              to={"/admindichvuchamsoc"}
+              to={"/admindatlich"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+              <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
               to={"/admintintuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
-              to={"/admindichvu"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ</h5>
             </Link>
           </div>
         </div>
