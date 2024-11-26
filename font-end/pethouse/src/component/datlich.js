@@ -89,15 +89,9 @@ function DatLich() {
     console.log(dateTime);
     // Xây dựng dữ liệu gửi lên API
     const orderData = {
-<<<<<<< HEAD
       Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
       NgayGiao: dateTime,
       GhiChu: userData.notes,            // Ghi chú (nếu có)
-=======
-      Mataikhoan: userData.Mataikhoan, // Mã tài khoản từ userData
-      PTTT: userData.paymentMethod, // Phương thức thanh toán
-      GhiChu: userData.notes, // Ghi chú (nếu có)
->>>>>>> Tu
       chi_tiet: [
         {
           MaSP: userData.selectedService, // Mã sản phẩm từ dịch vụ đã chọn
@@ -123,11 +117,7 @@ function DatLich() {
       .then((data) => {
         if (data.status === "success") {
           alert("Đặt lịch thành công!");
-<<<<<<< HEAD
           navigate("/lichsuDV");  // Chuyển hướng tới trang lịch hẹn hoặc trang khác
-=======
-          navigate("/ "); // Chuyển hướng tới trang lịch hẹn hoặc trang khác
->>>>>>> Tu
         } else {
           alert("Có lỗi xảy ra. Vui lòng thử lại.");
         }

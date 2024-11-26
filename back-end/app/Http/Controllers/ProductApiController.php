@@ -125,7 +125,7 @@ class ProductApiController extends Controller
     {
         try {
             // Kiểm tra nếu danh mục có parent_id khác null
-            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->where('Loai', '1')->whereNotNull('parent_id')->first();
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
 
             // Nếu không tìm thấy danh mục hoặc không có parent_id
             if (!$danhMuc) {
@@ -137,7 +137,7 @@ class ProductApiController extends Controller
             }
 
             // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
-            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->where('Loai', '1')->get();
 
             return response()->json([
                 'status' => 'success',
