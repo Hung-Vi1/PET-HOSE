@@ -9,6 +9,7 @@ use App\Models\SanPham;
 use App\Models\DanhMuc;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @OA\Schema(
@@ -486,6 +487,7 @@ class ProductApiController extends Controller
      * Remove the specified resource from storage.
      */
 
+
     /**
      * @OA\Delete(
      *     path="/api/products/destroy/{MaSP}",
@@ -538,4 +540,53 @@ class ProductApiController extends Controller
             ], 500);
         }
     }
+
+        /**
+     * @OA\Post(
+     *     path="/api/products/reseach",
+     *     tags={"SanPham"},
+     *     summary="Tìm kiếm sản phẩm",
+     *     description="Tìm kiếm sản phẩm từ danh sách.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"TenSanPham"},
+     *             @OA\Property(property="TenSanPham", type="string", example="Thức ăn cho chó"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Kết quả tìm kiếm",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="products", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Lỗi khi tìm kiếm sản phẩm",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *         )
+     *     )
+     * )
+     */
+    public function reseachproduct(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'TenSanPham' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        } else {
+        $products = SanPham::search($request->TenSanPham);
+        return response()->json([
+            'status' => "success",
+            'products' => $products,
+        ], 200);
+        }
+    }
+
+
 }
