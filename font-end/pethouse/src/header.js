@@ -192,11 +192,6 @@ function Header() {
             </li>
             <li>
               <Link to="/tintuc">Tin thú cưng</Link>
-              <ul className="submenu">
-                <li>
-                  <a href="blog-list.html">Blog List Full</a>
-                </li>
-              </ul>
             </li>
             <li>
               <Link to="/lienhe">Liên hệ</Link>

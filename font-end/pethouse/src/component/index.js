@@ -5,20 +5,20 @@ import "../App.css";
 
 function Index() {
   const [NewProduct, ListNewProduct] = useState([]);
-
+  const [tintuc, setTinTuc] = useState([]);
   const [cart, setCart] = useState(() => {
     const savedCart = sessionStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  
+
   const addToCart = (product) => {
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
     const existingProductIndex = cart.findIndex(
       (item) => item.ma_san_pham === product.ma_san_pham
     );
-    
+
     let updatedCart;
-  
+
     if (existingProductIndex !== -1) {
       // Nếu sản phẩm đã có, cập nhật số lượng
       updatedCart = [...cart];
@@ -27,25 +27,54 @@ function Index() {
       // Nếu sản phẩm chưa có, thêm mới vào giỏ
       updatedCart = [...cart, { ...product, quantity: 1 }];
     }
-  
+
     // Cập nhật lại trạng thái giỏ hàng
     setCart(updatedCart);
-    
+
     // Lưu giỏ hàng vào sessionStorage
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    
+
     // Phát ra sự kiện để các component khác lắng nghe và cập nhật (bao gồm Header)
     window.dispatchEvent(new Event("cartUpdated"));
-  
+
     alert("Đã thêm vào giỏ hàng");
   };
-  
+
 
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/products")
       .then((response) => ListNewProduct(response.data.data || []));
   }, []);
+
+
+  useEffect(() => {
+    const fetchTinTuc = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/News");
+        const data = await response.json();
+
+        if (Array.isArray(data.data)) {
+          setTinTuc(data.data);
+        } else {
+          console.error("Dữ liệu không phải là mảng:", data);
+          setTinTuc([]);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy bài viết:", error);
+        setTinTuc([]);
+      }
+    };
+
+    fetchTinTuc();
+  }, []);
+
+  const truncateContent = (content, limit) => {
+    if (content.length > limit) {
+      return content.substring(0, limit) + "...";
+    }
+    return content;
+  };
 
   return (
     <>
@@ -542,179 +571,115 @@ function Index() {
           <h2 className="title">Tin Thú Cưng</h2>
         </div>
         <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="post-wrap margin-bottom-26">
-                <div className="grid four">
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/11.jpg" alt="Hình ảnh bài viết 1" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Grenfell Remembered, Six Months On
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          MARKING exactly six months since the devastating blaze
-                          at Grenfell Tower, in which 71 people died and
-                          hundreds more lost...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/12.jpg" alt="Hình ảnh bài viết 2" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            The Design Museum Honours...
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          When the Tunisian-born couturier Azzedine Alaïa passed
-                          away in Paris on November 18, tributes began pouring
-                          in...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/13.jpg" alt="Hình ảnh bài viết 3" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Is Adriana Lima Hanging Up Her Wings?
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          It is a long established fact that a reader will be
-                          distracted by the readable content of a page when
-                          looking at its layout...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/14.jpg" alt="Hình ảnh bài viết 4" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Looking For A New Statement Piece?
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          There’s nothing more personal in anyone’s wardrobe
-                          than their jewellery. It tells a story beyond the
-                          possibilities of most clothes...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
+  <div className="row">
+    <div className="col-md-12">
+      <div className="post-wrap margin-bottom-26">
+        <div className="grid four">
+          {tintuc.length > 0 ? (
+            tintuc.slice(0, 4).map((article) => (
+              <article className="post clearfix" key={article.bai_viet}>
+                <div className="featured-post">
+                  <img
+                    src={`image/News/${article.Hinh}`}
+                    alt="hinh"
+                    style={{
+                      width: '400px',
+                      height: '300px',
+                      maxHeight: '300px',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
+                <div className="content-post">
+                  <div className="title-post">
+                    <h2>
+                      <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                        {article.tieu_de}
+                      </Link>
+                    </h2>
+                  </div>
+                  <div className="entry-post">
+                    <p>{truncateContent(article.noi_dung, 100)}</p>
+                    <div className="more-link">
+                      <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p>Không có bài viết nào.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </section>
+
+      <section className="flat-row mail-chimp">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="text">
+                <h3>Gửi mail để nhận ưu đãi</h3>
               </div>
+            </div>
+            <div className="col-md-8">
+              <div className="subscribe clearfix">
+                <form
+                  action="#"
+                  method="post"
+                  acceptCharset="utf-8"
+                  id="subscribe-form"
+                >
+                  <div className="subscribe-content">
+                    <div className="input">
+                      <input
+                        type="email"
+                        name="subscribe-email"
+                        placeholder="Nhập Email của bạn"
+                      />
+                    </div>
+                    <div className="button">
+                      <button type="button">Gửi</button>
+                    </div>
+                  </div>
+                </form>
+                <ul className="flat-social">
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-facebook" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-twitter" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-google" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-behance" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-linkedin" />
+                    </a>
+                  </li>
+                </ul>
+                {/* /.flat-social */}
+              </div>
+              {/* /.subscribe */}
             </div>
           </div>
         </div>
       </section>
-
-      <section className="flat-row mail-chimp">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="text">
-                    <h3>Sign up for Send Newsletter</h3>
-                  </div>
-                </div>
-                <div className="col-md-8">
-                  <div className="subscribe clearfix">
-                    <form
-                      action="#"
-                      method="post"
-                      acceptCharset="utf-8"
-                      id="subscribe-form"
-                    >
-                      <div className="subscribe-content">
-                        <div className="input">
-                          <input
-                            type="email"
-                            name="subscribe-email"
-                            placeholder="Your Email"
-                          />
-                        </div>
-                        <div className="button">
-                          <button type="button">SUBCRIBE</button>
-                        </div>
-                      </div>
-                    </form>
-                    <ul className="flat-social">
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-facebook" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-twitter" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-google" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-behance" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-linkedin" />
-                        </a>
-                      </li>
-                    </ul>
-                    {/* /.flat-social */}
-                  </div>
-                  {/* /.subscribe */}
-                </div>
-              </div>
-            </div>
-          </section>
     </>
   );
 }

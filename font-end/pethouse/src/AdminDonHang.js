@@ -11,8 +11,7 @@ import { vi } from "date-fns/locale";
 
 function AdminDonHang() {
   const [list_dh, ganDH] = useState([]);
-
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
@@ -139,8 +138,8 @@ function AdminDonHang() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

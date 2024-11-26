@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTaiKhoan() {
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
   const [listTK, ganListTK] = useState([]);
   const navigate = useNavigate();
 
@@ -118,8 +118,8 @@ function AdminTaiKhoan() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

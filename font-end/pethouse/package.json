@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
+    "font-awesome": "^4.7.0",
     "formik": "^2.4.6",
     "html2canvas": "^1.4.1",
     "isotope-layout": "^3.0.6",

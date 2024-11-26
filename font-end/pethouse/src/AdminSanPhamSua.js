@@ -1,8 +1,10 @@
 // import React, { useState, useEffect } from "react";
 // import { useParams, Link } from "react-router-dom";
+//import { useAuth } from "./contexts/AuthContext";
 // import "./App.css";
 
 // function AdminSanPhamSua() {
+ // const { user} = useAuth(); 
 //   // Xóa sản phẩm
 //   /*   const [ganSP] = useState([]);
 //   const xoaSanPham = (maSP) => {
@@ -306,7 +308,7 @@
 //                       data-bs-toggle="dropdown"
 //                       aria-expanded="false"
 //                     >
-//                       Xin chào, Trần Thanh Tú
+//Xin chào, {user.Hovaten || "Không có tên"}
 //                     </a>
 //                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
 //                       <li className="rounded-0">

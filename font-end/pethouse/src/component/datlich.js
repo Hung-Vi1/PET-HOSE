@@ -183,7 +183,7 @@ function DatLich() {
               </div>
             </div>
             <div className="col-md-4">
-              <div className="form-group">
+            <div className="form-group">
                 <label htmlFor="notes">Ghi chú:</label>
                 <textarea
                   className="form-control"
