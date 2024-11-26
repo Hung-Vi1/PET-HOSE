@@ -2637,6 +2637,72 @@
                 }
             }
         },
+        "/api/products/reseach": {
+            "post": {
+                "tags": [
+                    "SanPham"
+                ],
+                "summary": "Tìm kiếm sản phẩm",
+                "description": "Tìm kiếm sản phẩm từ danh sách.",
+                "operationId": "f5b0229f10e5bf480852a516a8570a6a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "TenSanPham"
+                                ],
+                                "properties": {
+                                    "TenSanPham": {
+                                        "type": "string",
+                                        "example": "Thức ăn cho chó"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Kết quả tìm kiếm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "products": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi tìm kiếm sản phẩm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/services": {
             "get": {
                 "tags": [
