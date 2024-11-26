@@ -4,14 +4,9 @@ import { useAuth } from "./contexts/AuthContext";
 import Select from "react-select";
 import "./App.css";
 
-function AdminDonHangSua() {
+function AdminDonHangThem() {
   const { ma_don_hang } = useParams();
-<<<<<<< HEAD
-
-  const { isLoggedIn, user } = useAuth(); // Lấy trạng thái đăng nhập
-=======
   const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
->>>>>>> ebde7e54fef237ec6b4478fd6ac2f1f5968894fb
 
   const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
   const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
@@ -82,7 +77,6 @@ function AdminDonHangSua() {
     }
   };
 
-  // Kiểm tra trạng thái đăng nhập
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
@@ -194,8 +188,8 @@ function AdminDonHangSua() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                      Xin chào, Trần Thanh Tú
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -231,7 +225,7 @@ function AdminDonHangSua() {
               >
                 <i className="bi bi-arrow-left"></i>
               </Link>
-              <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
+              <h1 className="mb-0">Thêm đơn hàng</h1>
             </div>
 
             <form>
@@ -276,7 +270,7 @@ function AdminDonHangSua() {
                             onChange={handleAreaChange}
                             placeholder="Chọn Tỉnh / Thành phố"
                             isClearable
-                            styles={{ minHeight: "550px" }}
+                            styles={{ minHeight: "50px" }}
                           />
                         </div>
                         <div className="col-md">
@@ -392,109 +386,7 @@ function AdminDonHangSua() {
                       </tr>
                     </thead>
 
-                    <tbody>
-                      <tr>
-                        <td className="text-center">1</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test1</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="2"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(199000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(199000 * 2).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-center">2</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test2</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="1"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(159000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(159000 * 1).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-center">3</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test3</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="3"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(99000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(99000 * 3).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
-                    </tbody>
+                    <tbody></tbody>
 
                     <tfoot>
                       <tr>
@@ -506,7 +398,7 @@ function AdminDonHangSua() {
                         </td>
                         <td className="text-end fw-bold">Tổng hóa đơn</td>
                         <td className="text-end fw-bold">
-                          {parseInt(854000).toLocaleString("vi-VN", {
+                          {parseInt(0).toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}
@@ -538,4 +430,4 @@ function AdminDonHangSua() {
   );
 }
 
-export default AdminDonHangSua;
+export default AdminDonHangThem;

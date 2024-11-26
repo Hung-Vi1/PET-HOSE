@@ -39,7 +39,23 @@ function Header() {
     if (isMobile) setIsMenuOpen((prev) => !prev);
   };
 
+  const clearAllStorage = () => {
+    // Xóa tất cả cookies
+    const cookies = document.cookie.split(";");
+    cookies.forEach((cookie) => {
+      const cookieName = cookie.split("=")[0].trim();
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+    });
+
+    // Xóa dữ liệu trong localStorage
+    localStorage.clear();
+
+    // Xóa dữ liệu trong sessionStorage
+    sessionStorage.clear();
+  };
+
   const handleLogout = () => {
+    clearAllStorage();
     logout();
     setIsDropdownOpen(false);
   };

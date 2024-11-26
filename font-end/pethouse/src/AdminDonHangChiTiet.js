@@ -50,11 +50,13 @@ function AdminDonHangChiTiet() {
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
           style={{ minHeight: "100vh" }}
         >
-          <img
-            src="http://localhost:8000/image/Nen_trong_suot.png"
-            className="d-block w-75 mx-auto"
-            alt="http://localhost:8000/image/Nen_trong_suot.png"
-          />
+          <Link to={"/"}>
+            <img
+              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              className="d-block w-75 mx-auto"
+              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+            />
+          </Link>
 
           <div className="list-group list-group-item-primary">
             <Link
@@ -88,18 +90,30 @@ function AdminDonHangChiTiet() {
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <a
-              href="/#"
+            <Link
+              to={"/admindichvuchamsoc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </a>
-            <a
-              href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+            </Link>
+            <Link
+              to={"/admintintuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </a>
+            </Link>
+            <Link
+              to={"/adminbaiviet"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Bài viết</h5>
+            </Link>
+            <Link
+              to={"/admindichvu"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ</h5>
+            </Link>
           </div>
         </div>
 
@@ -183,18 +197,18 @@ function AdminDonHangChiTiet() {
                   to={`/admindonhangsua/${ma_don_hang}`}
                 >
                   <strong>
-                    <i class="bi bi-pencil-square"></i> Sửa đơn
+                    <i className="bi bi-pencil-square"></i> Sửa đơn
                   </strong>
                 </Link>
               </div>
               <div className="col-md-auto px-3 text-primary">
                 <strong>
-                  <i class="bi bi-printer"></i> In đơn
+                  <i className="bi bi-printer"></i> In đơn
                 </strong>
               </div>
               <div className="col-md-auto ps-3 pe-2 text-danger">
                 <strong>
-                  <i class="bi bi-x-circle"></i> Hủy đơn
+                  <i className="bi bi-x-circle"></i> Hủy đơn
                 </strong>
               </div>
             </div>
@@ -299,7 +313,7 @@ function AdminDonHangChiTiet() {
                     <thead>
                       <tr>
                         <th className="text-center fw-bold">STT</th>
-                        <th colSpan={2} className="fw-bold">
+                        <th colSpan={2} className="fw-bold w-50">
                           Sản phẩm
                         </th>
                         <th className="text-center fw-bold">Số lượng</th>
@@ -333,6 +347,7 @@ function AdminDonHangChiTiet() {
                           })}
                         </td>
                       </tr>
+
                       <tr>
                         <td className="text-center">2</td>
                         <td style={{ width: "6%" }}>
@@ -357,6 +372,7 @@ function AdminDonHangChiTiet() {
                           })}
                         </td>
                       </tr>
+
                       <tr>
                         <td className="text-center">3</td>
                         <td style={{ width: "6%" }}>
@@ -382,6 +398,7 @@ function AdminDonHangChiTiet() {
                         </td>
                       </tr>
                     </tbody>
+
                     <tfoot>
                       <tr>
                         <td className="text-center">Ghi chú</td>

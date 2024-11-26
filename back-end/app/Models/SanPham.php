@@ -54,4 +54,10 @@ class SanPham extends Model
     {
         return $this->hasMany(ChiTietDonHang::class, 'MaSanPham');
     }
+
+    public static function search($keyword)
+    {
+        return self::where('TenSanPham', 'like', '%' . $keyword . '%')
+                    ->get();
+    }
 }

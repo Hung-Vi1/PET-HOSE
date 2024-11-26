@@ -41,6 +41,7 @@ Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'd
 use App\Http\Controllers\ProductApiController;
 Route::get('/products', [ProductApiController::class, 'index']);
 Route::post('/products/store', [ProductApiController::class, 'store']);
+Route::post('/products/reseach', [ProductApiController::class, 'reseachproduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
@@ -62,6 +63,7 @@ Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
+Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
 
 use App\Http\Controllers\ServiceOrderApiController;
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
@@ -90,4 +92,14 @@ Route::get('/contacts/{MaLienHe}', [ContactApiController::class, 'show']);
 Route::post('/contacts/store', [ContactApiController::class, 'store']);
 Route::put('/contacts/update/{MaLienHe}', [ContactApiController::class, 'update']);
 Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'destroy']);
+
+use App\Http\Controllers\CouponController;
+Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
+Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
+
+use App\Http\Controllers\VnpayApiController;
+Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);
+Route::get('/vnpay/callback', [VnpayApiController::class, 'handleVNPayCallback']);
+
+
 

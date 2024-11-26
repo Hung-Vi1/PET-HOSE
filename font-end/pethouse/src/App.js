@@ -38,8 +38,9 @@ import AdminSanPhamThem from "./AdminSanPhamThem";
 import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
+import AdminDonHangThem from "./AdminDonHangThem";
 // In hóa đơn
-import PdfCard from "./PdfCard";
+// import PdfCard from "./PdfCard";
 
 function App() {
   return (
@@ -566,6 +567,12 @@ function App() {
             path="/admindonhangsua/:ma_don_hang"
             exact
             element={<BaoVeRoute element={<AdminDonHangSua />} />}
+          />
+
+          <Route
+            path="/admindonhangthem"
+            exact
+            element={<BaoVeRoute element={<AdminDonHangThem />} />}
           />
         </Routes>
       </BrowserRouter>

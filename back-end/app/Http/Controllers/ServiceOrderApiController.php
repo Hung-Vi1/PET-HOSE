@@ -212,7 +212,7 @@ class ServiceOrderApiController extends Controller
             // Lấy thông tin người dùng từ bảng users
             $user = User::findOrFail($validatedData['Mataikhoan']);
             // Khởi tạo trạng thái và ngày đặt
-            $validatedData['TrangThai'] = 'dang_xu_ly';
+            $validatedData['TrangThai'] = 'cho_xac_nhan';
             $validatedData['Loai'] = 0;       // loại 1 là dịch vụ
             $validatedData['NgayDat'] = now();    // Thời gian hiện tại
             $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày

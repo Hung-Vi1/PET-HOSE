@@ -36,11 +36,13 @@ function AdminSanPham() {
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
           style={{ minHeight: "100vh" }}
         >
-          <img
-            src="image/Nen_trong_suot.png"
-            className="d-block w-75 mx-auto"
-            alt="image/Nen_trong_suot.png"
-          />
+          <Link to={"/"}>
+            <img
+              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              className="d-block w-75 mx-auto"
+              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+            />
+          </Link>
 
           <div className="list-group list-group-item-primary">
             <Link
@@ -52,7 +54,7 @@ function AdminSanPham() {
             </Link>
             <Link
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
@@ -74,18 +76,30 @@ function AdminSanPham() {
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <a
-              href="/#"
+            <Link
+              to={"/admindichvuchamsoc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </a>
-            <a
-              href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+            </Link>
+            <Link
+              to={"/admintintuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </a>
+            </Link>
+            <Link
+              to={"/adminbaiviet"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Bài viết</h5>
+            </Link>
+            <Link
+              to={"/admindichvu"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ</h5>
+            </Link>
           </div>
         </div>
 

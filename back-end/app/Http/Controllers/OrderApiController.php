@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderDetailResource;
 use App\Models\SanPham;
+use Illuminate\Support\Facades\Session;
+use App\Models\vnpay; // Thay YourModel bằng tên thực của model
 
 
 
@@ -22,6 +24,7 @@ use App\Models\SanPham;
  *     @OA\Property(property="MaDonHang", type="integer", example=1),
  *     @OA\Property(property="Mataikhoan", type="integer", example=1),
  *     @OA\Property(property="TongTien", type="integer", example=500000),
+ *     @OA\Property(property="Discount", type="integer", example=500000),
  *     @OA\Property(property="SoLuong", type="integer", example=1),
  *     @OA\Property(property="Ten", type="string", example="Nguyễn Văn A"),
  *     @OA\Property(property="SDT", type="string", example="0123456789"),
@@ -124,8 +127,8 @@ class OrderApiController extends Controller
         //GET
         try {
             $order = DonHang::where('Mataikhoan', $Mataikhoan)
-            ->where('Loai', '1')
-            ->get();
+                ->where('Loai', '1')
+                ->get();
 
             if ($order->isEmpty()) {
                 return response()->json([
@@ -190,13 +193,13 @@ class OrderApiController extends Controller
      */
     public function store(Request $request)
     {
-        //POST 
         try {
             // Validate dữ liệu đầu vào
             $validatedData = $request->validate([
                 'Mataikhoan' => 'required|integer|exists:users,Mataikhoan', // Kiểm tra tồn tại
                 'PTTT' => 'required|string|max:50',
                 'GhiChu' => 'nullable|string|max:255',
+                'Discount' => 'nullable|numeric|min:0', // Kiểm tra giảm giá (nếu có)
 
                 'chi_tiet' => 'required|array', // Đảm bảo rằng 'chi_tiet' là một mảng
                 'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
@@ -219,65 +222,75 @@ class OrderApiController extends Controller
                 'chi_tiet.*.SoLuong.required' => 'Vui lòng nhập số lượng',
             ]);
 
-
             // Lấy thông tin người dùng từ bảng users
             $user = User::findOrFail($validatedData['Mataikhoan']);
-            // Khởi tạo trạng thái và ngày đặt
-            $validatedData['TrangThai'] = 'dang_xu_ly';
-            $validatedData['Loai'] = 1;       // loại 1 là sản phẩm
-            $validatedData['NgayDat'] = now();    // Thời gian hiện tại
-            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày
+
+            // Khởi tạo thông tin đơn hàng
+            $validatedData['TrangThai'] = 'cho_xac_nhan'; // Trạng thái đơn hàng
+            $validatedData['Loai'] = 1;       // Loại 1 là sản phẩm
+            $validatedData['NgayDat'] = now();    // Ngày đặt đơn
+            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao đơn (cộng 4 ngày)
+
+            // Xử lý giảm giá, nếu có
+            $discount = $validatedData['Discount'] ?? 0; // Nếu không có discount thì gán mặc định là 0
 
             // Tạo đơn hàng
             $order = DonHang::create([
                 'Mataikhoan' => $validatedData['Mataikhoan'],
-                'TongTien' => 0, // Tổng tiền sẽ được tính sau
-                'SoLuong' => 0,   // Khởi tạo SoLuong
+                'TongTien' => 0, // Tổng tiền sẽ tính sau
+                'SoLuong' => 0,   // Số lượng sẽ tính sau
                 'Ten' => $user->Hovaten,       // Lấy tên từ bảng users
-                'SDT' => $user->SDT,       // Lấy SDT từ bảng users
-                'DiaChi' => $user->DiaChi, // Lấy địa chỉ từ bảng users
+                'SDT' => $user->SDT,           // Lấy SDT từ bảng users
+                'DiaChi' => $user->DiaChi,     // Lấy địa chỉ từ bảng users
                 'PTTT' => $validatedData['PTTT'],
                 'GhiChu' => $validatedData['GhiChu'],
                 'Loai' => $validatedData['Loai'],
                 'TrangThai' => $validatedData['TrangThai'],
                 'NgayDat' => $validatedData['NgayDat'],
                 'NgayGiao' => $validatedData['NgayGiao'],
+                'Discount' => $discount, // Lưu discount vào cơ sở dữ liệu
             ]);
 
+            // Khởi tạo tổng tiền và tổng số lượng
+            $tongTien = 0; // Tổng tiền
+            $tongSoLuong = 0; // Tổng số lượng
+
             // Lưu chi tiết đơn hàng và tính tổng tiền & số lượng
-            $tongTien = 0; // Khởi tạo tổng tiền
-            $tongSoLuong = 0; // Khởi tạo tổng số lượng
             foreach ($validatedData['chi_tiet'] as $item) {
-                // Lấy giá của sản phẩm từ bảng san_pham
+                // Lấy thông tin sản phẩm từ bảng san_pham
                 $sanPham = SanPham::findOrFail($item['MaSP']);
-                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia;
+                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia; // Tính giá sản phẩm (giá gốc trừ giảm giá)
+
                 // Tạo chi tiết đơn hàng
                 $ctDonHang = ChiTietDonHang::create([
                     'MaDH' => $order->MaDH,
                     'MaSP' => $item['MaSP'],
-                    'DonGia' => $DonGia,  // Sử dụng giá từ bảng san_pham
+                    'DonGia' => $DonGia,  // Sử dụng giá sản phẩm đã tính
                     'SoLuong' => $item['SoLuong'],
                 ]);
 
-                // Cập nhật tổng tiền
+                // Cập nhật tổng tiền và số lượng
                 $tongTien += $ctDonHang->DonGia * $ctDonHang->SoLuong;
                 $tongSoLuong += $ctDonHang->SoLuong; // Cộng dồn số lượng
             }
 
-            // Cập nhật tổng tiền và số lượng cho đơn hàng
+            // Trừ giảm giá vào tổng tiền
+            $tongTien -= $discount; // Trừ vào tổng tiền nếu có giảm giá
+
+            // Cập nhật lại tổng tiền và số lượng cho đơn hàng
             $order->update([
                 'TongTien' => $tongTien,
-                'SoLuong' => $tongSoLuong // Cập nhật số lượng
+                'SoLuong' => $tongSoLuong, // Cập nhật tổng số lượng
             ]);
 
             // Trả về thông tin đơn hàng vừa tạo
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thêm đơn hàng thành công',
-                'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng vừa tạo
+                'data' => new OrderResource($order->load('orderDetails')) // Trả về đơn hàng và chi tiết
             ], 201);
         } catch (\Exception $e) {
-
+            // Nếu có lỗi, trả về thông báo lỗi chi tiết
             return response()->json([
                 'status' => 'fail',
                 'message' => $e->getMessage(),
@@ -285,6 +298,8 @@ class OrderApiController extends Controller
             ], 500);
         }
     }
+
+
 
 
 
@@ -541,6 +556,282 @@ class OrderApiController extends Controller
                 'status' => 'fail',
                 'message' => 'Lỗi: ' . $e->getMessage()
             ], 400);
+        }
+    }
+
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/order/VnPay",
+     *     tags={"DonHang"},
+     *     summary="Thanh toán đơn hàng qua VNPAY",
+     *     description="Tạo một đơn hàng mới và thực hiện thanh toán qua VNPAY.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"Mataikhoan", "PTTT", "chi_tiet"},
+     *             @OA\Property(
+     *                 property="Mataikhoan",
+     *                 type="integer",
+     *                 example=1,
+     *                 description="Mã tài khoản của người đặt hàng"
+     *             ),
+     *             @OA\Property(
+     *                 property="PTTT",
+     *                 type="string",
+     *                 example="Thanh toán vnpay",
+     *                 description="Phương thức thanh toán"
+     *             ),
+     *             @OA\Property(
+     *                 property="GhiChu",
+     *                 type="string",
+     *                 example="Đơn hàng đã thanh toán",
+     *                 description="Ghi chú cho đơn hàng"
+     *             ),
+     *             @OA\Property(
+     *                 property="chi_tiet",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="MaSP",
+     *                         type="integer",
+     *                         example=1,
+     *                         description="Mã sản phẩm"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="SoLuong",
+     *                         type="integer",
+     *                         example=2,
+     *                         description="Số lượng sản phẩm"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Tạo đơn hàng và chuyển hướng thanh toán thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="success"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Đơn hàng đã được tạo thành công và chuyển đến VNPAY."
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 ref="#/components/schemas/OrderResource"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Lỗi xác thực hoặc dữ liệu không hợp lệ",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="fail"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Dữ liệu yêu cầu không hợp lệ"
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="null"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Lỗi trong quá trình xử lý",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="fail"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Lỗi hệ thống"
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="null"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
+    public function vnpay_payment(Request $request)
+    {
+        // Cấu hình ngày giờ
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+        // Thông tin cấu hình VNPAY
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://127.0.0.1:8000/Store/VnPay";  // Địa chỉ trả về sau khi thanh toán
+        $vnp_TmnCode = "WRPOFVZJ";  // Mã website tại VNPAY
+        $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC";  // Chuỗi bí mật của bạn từ VNPAY
+
+        try {
+            // Xác thực dữ liệu đầu vào
+            $validatedData = $request->validate([
+                'Mataikhoan' => 'required|integer|exists:users,Mataikhoan', // Kiểm tra tài khoản người dùng
+                'PTTT' => 'required|string|max:50', // Phương thức thanh toán
+                'GhiChu' => 'nullable|string|max:255', // Ghi chú
+                'Discount' => 'nullable|numeric|min:0', // Giảm giá
+                'chi_tiet' => 'required|array', // Chi tiết đơn hàng
+                'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
+                'chi_tiet.*.SoLuong' => 'required|integer|min:1|max:50', // Kiểm tra số lượng
+            ]);
+
+            // Lấy thông tin người dùng
+            $user = User::findOrFail($validatedData['Mataikhoan']);
+
+            // Tạo đơn hàng trong cơ sở dữ liệu
+            $order = DonHang::create([
+                'Mataikhoan' => $validatedData['Mataikhoan'],
+                'TongTien' => 0, // Tổng tiền sẽ tính sau
+                'SoLuong' => 0,   // Số lượng sẽ tính sau
+                'Ten' => $user->Hovaten,
+                'SDT' => $user->SDT,
+                'DiaChi' => $user->DiaChi,
+                'PTTT' => $validatedData['PTTT'],
+                'GhiChu' => $validatedData['GhiChu'],
+                'TrangThai' => 'dang_xu_ly', // Trạng thái đơn hàng
+                'Loai' => 1, // Loại đơn hàng (sản phẩm)
+                'NgayDat' => now(),
+                'NgayGiao' => now()->addDays(4), // Ngày giao đơn hàng
+                'Discount' => $validatedData['Discount'] ?? 0, // Giảm giá
+            ]);
+
+            // Tính tổng tiền và số lượng từ chi tiết đơn hàng
+            $tongTien = 0;
+            $tongSoLuong = 0;
+
+            foreach ($validatedData['chi_tiet'] as $item) {
+                $sanPham = SanPham::findOrFail($item['MaSP']);
+                $DonGia = $sanPham->GiaSP - $sanPham->GiamGia; // Tính giá sản phẩm (giá gốc - giảm giá)
+
+                // Thêm chi tiết đơn hàng vào cơ sở dữ liệu
+                ChiTietDonHang::create([
+                    'MaDH' => $order->MaDH,
+                    'MaSP' => $item['MaSP'],
+                    'DonGia' => $DonGia,
+                    'SoLuong' => $item['SoLuong'],
+                ]);
+
+                // Cập nhật tổng tiền và số lượng
+                $tongTien += $DonGia * $item['SoLuong'];
+                $tongSoLuong += $item['SoLuong'];
+            }
+
+            // Trừ giảm giá vào tổng tiền
+            $tongTien -= $order->Discount;
+
+            // Cập nhật lại tổng tiền và số lượng cho đơn hàng
+            $order->update([
+                'TongTien' => $tongTien,
+                'SoLuong' => $tongSoLuong,
+            ]);
+
+            // Tạo dữ liệu thanh toán VNPAY
+            $vnp_TxnRef = uniqid(); // Mã đơn hàng ngẫu nhiên
+            $vnp_OrderInfo = 'Thanh toán VNPAY';
+            $vnp_OrderType = 'billpayment';
+            $vnp_Amount = $request->input('amount') * 100; // Số tiền thanh toán (vnpay yêu cầu tính bằng đồng)
+
+            $vnp_Locale = 'vn';
+            $vnp_BankCode = 'NCB';
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+            // Thông tin thanh toán
+            $vnp_Bill_Mobile = $user->SDT;
+            $vnp_Bill_Email =  $user->Email;
+            $fullName = $user->Hovaten;
+            $vnp_Bill_Address = $user->DiaChi;
+            $vnp_Bill_City = $user->DiaChi;
+            $vnp_Bill_Country = 'VN';
+            $vnp_Bill_State = 2;
+
+            // Invoice
+            $vnp_Inv_Phone = $vnp_Bill_Mobile;
+            $vnp_Inv_Email = $vnp_Bill_Email;
+            $vnp_Inv_Customer = $fullName;
+            $vnp_Inv_Address = $vnp_Bill_Address;
+
+            // Tạo URL thanh toán VNPAY
+            $inputData = [
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+                "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
+                "vnp_Bill_Email" => $vnp_Bill_Email,
+                "vnp_Bill_Address" => $vnp_Bill_Address,
+                "vnp_Bill_City" => $vnp_Bill_City,
+                "vnp_Bill_Country" => $vnp_Bill_Country,
+                "vnp_Inv_Phone" => $vnp_Inv_Phone,
+                "vnp_Inv_Email" => $vnp_Inv_Email,
+                "vnp_Inv_Customer" => $vnp_Inv_Customer,
+                "vnp_Inv_Address" => $vnp_Inv_Address,
+            ];
+
+            ksort($inputData);
+            $query = '';
+            $i = 0;
+            $hashdata = '';
+
+            // Tạo chuỗi hash dữ liệu
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            // Sinh mã bảo mật
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+                $vnp_Url .= '?vnp_SecureHash=' . $vnpSecureHash;
+            }
+
+            // Trả về URL thanh toán
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Tạo đơn hàng và chuyển đến VNPAY thành công.',
+                'data' => [
+                    'vnp_Url' => $vnp_Url,
+                    'order' => new OrderResource($order->load('orderDetails'))  // Trả về thông tin đơn hàng
+                ]
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
         }
     }
 }
