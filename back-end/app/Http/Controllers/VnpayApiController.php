@@ -304,7 +304,7 @@ class VnpayApiController extends Controller
             ]);
 
 
-            return redirect('http://localhost:3000/lichsumua');
+            return redirect('http://localhost:3000/sanpham');
         } else {
             $MaDH = $inputData['vnp_TxnRef'];
             // Tìm đơn hàng theo ID

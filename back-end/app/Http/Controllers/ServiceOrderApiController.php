@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Http\Resources\ServiceOrderResource;
 use App\Http\Resources\OrderDetailResource;
 use App\Models\SanPham;
+use Carbon\Carbon;
 
 /**
  * @OA\Schema(
@@ -147,10 +148,10 @@ class ServiceOrderApiController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"Mataikhoan", "PTTT", "chi_tiet"},
+     *             required={"Mataikhoan", "NgayGiao", "chi_tiet"},
      *             @OA\Property(property="Mataikhoan", type="integer", example=1, description="Mã tài khoản của người đặt hàng"),
-     *             @OA\Property(property="PTTT", type="string", example="Chuyển khoản", description="Phương thức thanh toán"),
      *             @OA\Property(property="GhiChu", type="string", example="Ghi chú đơn hàng", description="Ghi chú cho đơn hàng"),
+     *             @OA\Property(property="NgayGiao", type="string", format="date-time", example="2024-11-30 15:30:00", description="Ngày giờ sử dụng đơn hàng"),
      *             @OA\Property(property="chi_tiet", type="array", @OA\Items(
      *                 @OA\Property(property="MaSP", type="integer", example=60, description="Mã dịch vụ"),
      *                 @OA\Property(property="SoLuong", type="integer", example=1, description="Số lượng dịch vụ"),
@@ -184,8 +185,8 @@ class ServiceOrderApiController extends Controller
             // Validate dữ liệu đầu vào
             $validatedData = $request->validate([
                 'Mataikhoan' => 'required|integer|exists:users,Mataikhoan', // Kiểm tra tồn tại
-                'PTTT' => 'required|string|max:50',
                 'GhiChu' => 'nullable|string|max:255',
+                'NgayGiao' => 'required|date',
 
                 'chi_tiet' => 'required|array', // Đảm bảo rằng 'chi_tiet' là một mảng
                 'chi_tiet.*.MaSP' => 'required|integer|exists:san_pham,MaSP', // Kiểm tra sản phẩm
@@ -195,12 +196,9 @@ class ServiceOrderApiController extends Controller
                 'Mataikhoan.integer' => 'Mã tài khoản phải là số',
                 'Mataikhoan.exists' => 'Mã tài khoản không tồn tại',
 
-                'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
-                'PTTT.string' => 'Phương thức thanh toán phải là chuỗi ký tự',
-                'PTTT.max' => 'Phương thức thanh toán không được vượt quá 50 ký tự',
-
                 'GhiChu.string' => 'Ghi chú phải là chuỗi ký tự',
                 'GhiChu.max' => 'Ghi chú không được vượt quá 255 ký tự',
+                'NgayGiao.date' => 'Phải là ngày tháng.',
 
                 'chi_tiet.required' => 'Vui lòng cung cấp chi tiết đơn hàng',
                 'chi_tiet.array' => 'Chi tiết đơn hàng phải là một mảng',
@@ -209,14 +207,18 @@ class ServiceOrderApiController extends Controller
             ]);
 
 
+
             // Lấy thông tin người dùng từ bảng users
             $user = User::findOrFail($validatedData['Mataikhoan']);
             // Khởi tạo trạng thái và ngày đặt
             $validatedData['TrangThai'] = 'cho_xac_nhan';
+            $validatedData['PTTT'] = 'Tiền mặt';
             $validatedData['Loai'] = 0;       // loại 1 là dịch vụ
             $validatedData['NgayDat'] = now();    // Thời gian hiện tại
-            $validatedData['NgayGiao'] = now()->addDays(4); // Ngày giao cộng 4 ngày
-
+            // Chuyển đổi 'NgayGiao' từ ISO 8601 sang định dạng MySQL
+            if (!empty($validatedData['NgayGiao'])) {
+                $validatedData['NgayGiao'] = Carbon::parse($validatedData['NgayGiao'])->format('Y-m-d H:i:s');
+            }
             // Tạo đơn hàng
             $order = DonHang::create([
                 'Mataikhoan' => $validatedData['Mataikhoan'],

@@ -3088,7 +3088,7 @@
                             "schema": {
                                 "required": [
                                     "Mataikhoan",
-                                    "PTTT",
+                                    "NgayGiao",
                                     "chi_tiet"
                                 ],
                                 "properties": {
@@ -3097,15 +3097,16 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "PTTT": {
-                                        "description": "Phương thức thanh toán",
-                                        "type": "string",
-                                        "example": "Chuyển khoản"
-                                    },
                                     "GhiChu": {
                                         "description": "Ghi chú cho đơn hàng",
                                         "type": "string",
                                         "example": "Ghi chú đơn hàng"
+                                    },
+                                    "NgayGiao": {
+                                        "description": "Ngày giờ sử dụng đơn hàng",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-11-30 15:30:00"
                                     },
                                     "chi_tiet": {
                                         "type": "array",
