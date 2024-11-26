@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import "./App.css";
 
@@ -11,31 +11,71 @@ Chart.register(...registerables);
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
-  // Dữ liệu cho biểu đồ cột
-  // Dữ liệu cho biểu đồ cột
-  const data = {
+  // Dữ liệu cho biểu đồ cột đôi
+  const barData = {
     labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
     datasets: [
       {
-        label: "Population (millions)",
-        backgroundColor: [
-          "#3e95cd",
-          "#8e5ea2",
-          "#3cba9f",
-          "#e8c3b9",
-          "#c45850",
-        ],
+        label: "Population 2020",
+        backgroundColor: "#3e95cd",
         data: [2478, 5267, 734, 784, 433],
+      },
+      {
+        label: "Population 2050",
+        backgroundColor: "#8e5ea2",
+        data: [3000, 7000, 800, 900, 500],
       },
     ],
   };
 
-  // Tùy chọn cho biểu đồ
-  const options = {
-    legend: { display: false },
+  // Tùy chọn cho biểu đồ cột
+  const barOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    legend: { display: true },
     title: {
       display: true,
-      text: "Predicted world population (millions) in 2050",
+      text: "Predicted world population (millions)",
+    },
+  };
+
+  // Dữ liệu cho biểu đồ tròn
+  const pieData = {
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    datasets: [
+      {
+        label: "Votes",
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+        ],
+        data: [12, 19, 3, 5, 2, 3],
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ tròn
+  const pieOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Vote Distribution",
+      },
     },
   };
 
@@ -213,11 +253,21 @@ function AdminTrangChu() {
             </div>
 
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
-              <div className="col-md-6">
-                <Bar data={data} options={options} />
+              <div
+                className="col-md-6 d-flex align-items-center justify-content-center"
+                style={{ height: "100%" }}
+              >
+                {/* Biểu đồ cột */}
+                <Bar data={barData} options={barOptions} />
               </div>
 
-              <div className="col-md-6">dsvad</div>
+              <div
+                className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
+                style={{ height: "100%" }}
+              >
+                {/* Biểu đồ tròn */}
+                <Pie data={pieData} options={pieOptions} />
+              </div>
 
               <div className="col-md-6"></div>
 
