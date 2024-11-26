@@ -46,11 +46,13 @@ function AdminDonHang() {
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
           style={{ minHeight: "100vh" }}
         >
-          <img
-            src="image/Nen_trong_suot.png"
-            className="d-block w-75 mx-auto"
-            alt="image/Nen_trong_suot.png"
-          />
+          <Link to={"/"}>
+            <img
+              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              className="d-block w-75 mx-auto"
+              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+            />
+          </Link>
 
           <div className="list-group list-group-item-primary">
             <Link
@@ -84,18 +86,30 @@ function AdminDonHang() {
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <a
-              href="/#"
+            <Link
+              to={"/admindichvuchamsoc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </a>
-            <a
-              href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+            </Link>
+            <Link
+              to={"/admintintuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </a>
+            </Link>
+            <Link
+              to={"/adminbaiviet"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Bài viết</h5>
+            </Link>
+            <Link
+              to={"/admindichvu"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ</h5>
+            </Link>
           </div>
         </div>
 
@@ -215,11 +229,17 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
           let TrangThaiDonHang;
 
           if (dh.trang_thai === "cho_xac_nhan") {
-            TrangThaiDonHang = <span class="badge text-bg-warning">Chờ xác nhận</span>;
+            TrangThaiDonHang = (
+              <span class="badge text-bg-warning">Chờ xác nhận</span>
+            );
           } else if (dh.trang_thai === "dang_xu_ly") {
-            TrangThaiDonHang = <span class="badge text-bg-info">Đang xử lý</span>;
+            TrangThaiDonHang = (
+              <span class="badge text-bg-info">Đang xử lý</span>
+            );
           } else if (dh.trang_thai === "hoan_thanh") {
-            TrangThaiDonHang = <span class="badge text-bg-success">Hoàn thành</span>;
+            TrangThaiDonHang = (
+              <span class="badge text-bg-success">Hoàn thành</span>
+            );
           } else {
             TrangThaiDonHang = <span class="badge text-bg-danger">Đã hủy</span>;
           }
