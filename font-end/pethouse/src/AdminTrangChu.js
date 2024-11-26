@@ -253,23 +253,27 @@ function AdminTrangChu() {
             </div>
 
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
-              <div
-                className="col-md-6 d-flex align-items-center justify-content-center"
-                style={{ height: "100%" }}
-              >
-                {/* Biểu đồ cột */}
-                <Bar data={barData} options={barOptions} />
+              <div className="row col-md-12 border-bottom py-2">
+                <div
+                  className="col-md-6 d-flex align-items-center justify-content-center"
+                  style={{ height: "100%" }}
+                >
+                  {/* Biểu đồ cột */}
+                  <Bar data={barData} options={barOptions} />
+                </div>
+
+                <div
+                  className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
+                  style={{ height: "100%" }}
+                >
+                  {/* Biểu đồ tròn */}
+                  <Pie data={pieData} options={pieOptions} />
+                </div>
               </div>
 
-              <div
-                className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
-                style={{ height: "100%" }}
-              >
-                {/* Biểu đồ tròn */}
-                <Pie data={pieData} options={pieOptions} />
+              <div className="col-md-6">
+                <h3>Lựa chọn</h3>
               </div>
-
-              <div className="col-md-6"></div>
 
               <div className="col-md-6"></div>
 
