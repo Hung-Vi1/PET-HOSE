@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import "./App.css";
+// Biểu đồ
+import { Bar } from "react-chartjs-2";
 
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
@@ -178,6 +180,19 @@ function AdminTrangChu() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
+              
+              <div className="col-md-6">vdsav</div>
+
+              <div className="col-md-6">dsvad</div>
+
+              <div className="col-md-6"></div>
+
+              <div className="col-md-6"></div>
+
+              <div className="col-md-12"></div>
             </div>
           </div>
         </div>
