@@ -6,12 +6,7 @@ import "./App.css";
 
 function AdminDonHangSua() {
   const { ma_don_hang } = useParams();
-<<<<<<< HEAD
-
   const { isLoggedIn, user } = useAuth(); // Lấy trạng thái đăng nhập
-=======
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
->>>>>>> ebde7e54fef237ec6b4478fd6ac2f1f5968894fb
 
   const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
   const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
@@ -189,7 +184,7 @@ function AdminDonHangSua() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
