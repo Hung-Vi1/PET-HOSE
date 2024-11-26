@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
+  const { user } = useAuth(); 
 
   // Lấy danh sách danh mục
   useEffect(() => {
@@ -119,8 +121,8 @@ function AdminDanhMuc() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

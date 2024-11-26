@@ -20,6 +20,8 @@ import Info from "./component/info";
 import Password from "./component/Password";
 import LichSuMua from "./component/lichsumua";
 import ChiTietDonHang from "./component/chitietdonhang";
+import ChiTietDV from "./component/chitietDV";
+import Lichsudichvu from "./component/Lichsudichvu";
 
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
@@ -35,6 +37,9 @@ import BaoVeRoute from "./BaoVeRoute"; // Import ProtectedRoute
 import AdminSanPhamThem from "./AdminSanPhamThem";
 import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
+import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
+// In hóa đơn
+import PdfCard from "./PdfCard";
 
 function App() {
   return (
@@ -438,6 +443,53 @@ function App() {
           />
 
           <Route
+            path="/lichsuDV"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <Lichsudichvu />
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
+          <Route
+            path="/dichvu/:MaDH"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <ChiTietDV />
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
+          <Route
             path="/chitietsanpham"
             exact
             element={
@@ -504,6 +556,11 @@ function App() {
             path="/admindonhang"
             exact
             element={<BaoVeRoute element={<AdminDonHang />} />}
+          />
+          <Route
+            path="/admindonhangchitiet/:ma_don_hang"
+            exact
+            element={<BaoVeRoute element={<AdminDonHangChiTiet />} />}
           />
           <Route
             path="/admindonhangsua/:ma_don_hang"

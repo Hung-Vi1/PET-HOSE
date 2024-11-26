@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+// Định dạng ngày giờ
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 function AdminDonHang() {
   const [list_dh, ganDH] = useState([]);
-
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
@@ -128,8 +130,8 @@ function AdminDonHang() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -176,8 +178,7 @@ function AdminDonHang() {
                   <th className="fw-bold text-center text-nowrap">
                     Trạng thái
                   </th>
-                  <th className="fw-bold text-center">Khách phải trả</th>
-                  <th className="fw-bold text-center">Hành động</th>
+                  <th className="fw-bold text-end">Khách phải trả</th>
                 </tr>
               </thead>
               <tbody>
@@ -213,13 +214,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
           let TrangThaiDonHang;
 
           if (dh.trang_thai === "cho_xac_nhan") {
-            TrangThaiDonHang = "Chờ xác nhận";
+            TrangThaiDonHang = <span class="badge text-bg-warning">Chờ xác nhận</span>;
           } else if (dh.trang_thai === "dang_xu_ly") {
-            TrangThaiDonHang = "Đang xử lý";
+            TrangThaiDonHang = <span class="badge text-bg-info">Đang xử lý</span>;
           } else if (dh.trang_thai === "hoan_thanh") {
-            TrangThaiDonHang = "Hoàn thành";
+            TrangThaiDonHang = <span class="badge text-bg-success">Hoàn thành</span>;
           } else {
-            TrangThaiDonHang = "Đã hủy";
+            TrangThaiDonHang = <span class="badge text-bg-danger">Đã hủy</span>;
           }
 
           return (
@@ -228,32 +229,29 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>
                 <Link
                   onClick={() => fetchOrderById(dh.ma_don_hang)}
-                  to={`/admindonhangsua/${dh.ma_don_hang}`}
+                  to={`/admindonhangchitiet/${dh.ma_don_hang}`}
+                  className="text-primary"
                 >
-                  DH{dh.ma_don_hang}
+                  #{dh.ma_don_hang}
                 </Link>
               </td>
-              <td>{dh.ngay_dat}</td>
-              <td>{dh.ngay_giao}</td>
+              <td>
+                {format(new Date(dh.ngay_dat), "dd/MM/yyyy HH:mm", {
+                  locale: vi,
+                })}
+              </td>
+              <td>
+                {format(new Date(dh.ngay_giao), "dd/MM/yyyy HH:mm", {
+                  locale: vi,
+                })}
+              </td>
               <td>{dh.ho_ten}</td>
               <td className="text-center">{TrangThaiDonHang}</td>
-              <td className="text-center">
+              <td className="text-end">
                 {parseInt(dh.tong_tien).toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
-              </td>
-              <td className="text-center" style={{ width: "150px" }}>
-                <Link
-                  onClick={() => fetchOrderById(dh.ma_san_pham)}
-                  to={`/adminsanphamsua/${dh.ma_san_pham}`}
-                  className="btn btn-outline-warning m-1"
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </Link>
-                <button className="btn btn-outline-danger m-1">
-                  <i className="bi bi-trash"></i>
-                </button>
               </td>
             </tr>
           );

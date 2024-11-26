@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminTaiKhoanThem() {
+  const { user } = useAuth(); 
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -96,8 +98,8 @@ function AdminTaiKhoanThem() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

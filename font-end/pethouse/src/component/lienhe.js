@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function LienHe() {
@@ -31,6 +31,61 @@ function LienHe() {
             document.body.appendChild(script);
         }
     }, []);
+
+    // Liên hệ
+    const [formData, setFormData] = useState({
+        MaLienHe: 1, // Bạn có thể cập nhật giá trị này theo cách phù hợp
+        TieuDe: '',  // Trường tiêu đề
+        HoVaTen: '',
+        SoDienThoai: '',
+        Email: '',
+        NoiDung: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:8000/api/contacts/store', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Error details:', data);
+                alert(`Lỗi: ${data.message || 'Có lỗi xảy ra'}`);
+                return;
+            }
+
+            if (data.status === 'success') {
+                alert('Gửi liên hệ thành công!');
+                setFormData({
+                    MaLienHe: 1,
+                    TieuDe: '',
+                    HoVaTen: '',
+                    SoDienThoai: '',
+                    Email: '',
+                    NoiDung: '',
+                });
+            } else {
+                alert('Gửi liên hệ không thành công.');
+            }
+        } catch (error) {
+            console.error('Lỗi:', error);
+            alert('Đã xảy ra lỗi khi gửi biểu mẫu.');
+        }
+    };
+
 
     return (
         <>
@@ -111,12 +166,13 @@ function LienHe() {
                         <div className="col-md-12">
                             <div className="title-section margin_bottom_17">
                                 <h2 className="title">Gửi Email cho chúng tôi</h2>
-                            </div>
+                            </div><br/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="wrap-contact style2">
                             <form
+                                onSubmit={handleSubmit}
                                 noValidate=""
                                 className="contact-form"
                                 id="contactform"
@@ -128,32 +184,52 @@ function LienHe() {
                                         <label />
                                         <input
                                             type="text"
-                                            placeholder="Nhập tên của bạn"
+                                            placeholder="Bạn cần hỗ trợ"
                                             aria-required="true"
                                             size={30}
-                                            name="author"
+                                            name="TieuDe"
                                             id="author"
+                                            value={formData.TieuDe}
+                                            onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="contact-email">
-                                        <label />
-                                        <input
-                                            type="email"
-                                            size={30}
-                                            placeholder="Nhập Email của bạn"
-                                            name="email"
-                                            id="email"
-                                        />
-                                    </div>
-                                    <div className="contact-subject">
+                                    <div className="contact-name">
                                         <label />
                                         <input
                                             type="text"
-                                            placeholder="Nhập yêu cầu của bạn"
+                                            placeholder="Nhập tên của bạn"
                                             aria-required="true"
                                             size={30}
-                                            name="subject"
-                                            id="subject"
+                                            name="HoVaTen"
+                                            id="author"
+                                            value={formData.HoVaTen}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="contact-name">
+                                        <label />
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập số điện thoại của bạn"
+                                            aria-required="true"
+                                            size={30}
+                                            name="SoDienThoai"
+                                            id="author"
+                                            value={formData.SoDienThoai}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="contact-name">
+                                        <label />
+                                        <input
+                                            type="text"
+                                            placeholder="Nhập Email của bạn"
+                                            aria-required="true"
+                                            size={30}
+                                            name="Email"
+                                            id="author"
+                                            value={formData.Email}
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -161,12 +237,14 @@ function LienHe() {
                                     <label />
                                     <textarea
                                         placeholder="Ghi chú"
-                                        name="message"
+                                        name="NoiDung"
                                         required=""
+                                        value={formData.NoiDung}
+                                            onChange={handleChange}
                                     />
                                 </div>
                                 <div className="form-submit">
-                                    <button className="contact-submit">Gửi</button>
+                                    <button type="submit" className="contact-submit">Gửi</button>
                                 </div>
                             </form>
                         </div>
@@ -174,73 +252,11 @@ function LienHe() {
                 </div>
             </section>
 
-            <section className="flat-row flat-map fix-padding" style={{height:'600px'}}>
+            <section className="flat-row flat-map fix-padding" style={{ height: '600px' }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
                             <div id="map" style={{ height: '600px', width: '100%' }}></div> {/* Tăng chiều cao và kích thước của bản đồ */}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="flat-row mail-chimp">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="text">
-                                <h3>Sign up for Send Newsletter</h3>
-                            </div>
-                        </div>
-                        <div className="col-md-8">
-                            <div className="subscribe clearfix">
-                                <form
-                                    action="#"
-                                    method="post"
-                                    acceptCharset="utf-8"
-                                    id="subscribe-form"
-                                >
-                                    <div className="subscribe-content">
-                                        <div className="input">
-                                            <input
-                                                type="email"
-                                                name="subscribe-email"
-                                                placeholder="Your Email"
-                                            />
-                                        </div>
-                                        <div className="button">
-                                            <button type="button">SUBCRIBE</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <ul className="flat-social">
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-facebook" />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-twitter" />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-google" />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-behance" />
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-linkedin" />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>

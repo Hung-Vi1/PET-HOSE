@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminDanhMucThem() {
+  const { user } = useAuth(); 
   const navigate = useNavigate(); // Khởi tạo useNavigate
   const [tenDM, setTenDM] = useState(""); // Trạng thái cho Tên Danh Mục
   const [parentId, setParentId] = useState(null); // Trạng thái cho parent_id
@@ -133,8 +135,8 @@ function AdminDanhMucThem() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

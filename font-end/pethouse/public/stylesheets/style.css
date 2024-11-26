@@ -365,7 +365,7 @@ input[type="color"] {
 	background-color: #ffffff;
 	height: 50px;
 	width: 100%;
-	padding-left: 17px;
+	/* padding-left: 17px; */
 	line-height: 30px;
 	letter-spacing: 0.6px;
 	font-weight: 400;
@@ -491,12 +491,14 @@ input[type="color"],
 .navbar .nav>.active>a,
 .navbar .nav>.active>a:hover,
 .navbar .nav>.active>a:focus {
+	border: none;
 	-webkit-appearance: none;
 	text-shadow: none;
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	-o-box-shadow: none;
 	box-shadow: none;
+	font-size: 18px;
 	/* color: #c5c5c5; */
 }
 
