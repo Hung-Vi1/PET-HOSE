@@ -1,13 +1,43 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { Navigate } from "react-router-dom";
-import "./App.css";
-// Biểu đồ
 import { Bar } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import "./App.css";
+
+// Đăng ký các thành phần cần thiết cho Chart.js
+Chart.register(...registerables);
 
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+  // Dữ liệu cho biểu đồ cột
+  // Dữ liệu cho biểu đồ cột
+  const data = {
+    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+    datasets: [
+      {
+        label: "Population (millions)",
+        backgroundColor: [
+          "#3e95cd",
+          "#8e5ea2",
+          "#3cba9f",
+          "#e8c3b9",
+          "#c45850",
+        ],
+        data: [2478, 5267, 734, 784, 433],
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ
+  const options = {
+    legend: { display: false },
+    title: {
+      display: true,
+      text: "Predicted world population (millions) in 2050",
+    },
+  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -183,8 +213,9 @@ function AdminTrangChu() {
             </div>
 
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
-              
-              <div className="col-md-6">vdsav</div>
+              <div className="col-md-6">
+                <Bar data={data} options={options} />
+              </div>
 
               <div className="col-md-6">dsvad</div>
 
