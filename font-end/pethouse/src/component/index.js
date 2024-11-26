@@ -76,6 +76,47 @@ function Index() {
     return content;
   };
 
+  const [allProducts, setAllProducts] = useState([]); // Sản phẩm tất cả
+  const [dogProducts, setDogProducts] = useState([]); // Sản phẩm cho chó
+  const [catProducts, setCatProducts] = useState([]); // Sản phẩm cho mèo
+
+  const shuffleArray = (array) => {
+    return array
+      .map((item) => ({ ...item, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ sort, ...item }) => item);
+  };
+  
+  // Hàm gọi API
+  const fetchProductsByCategory = async (categoryId, setter) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/products/sanPhamTheoDM/${categoryId}`
+      );
+      const data = await response.json();
+      if (data && data.data) {
+        setter(data.data);
+      }
+    } catch (error) {
+      console.error(`Lỗi khi tải sản phẩm danh mục ${categoryId}:`, error);
+    }
+  };
+
+  useEffect(() => {
+    // Gọi API cho tất cả danh mục
+    fetchProductsByCategory(4, setDogProducts); // Chó
+    fetchProductsByCategory(25, setCatProducts); // Mèo
+    fetch(`http://127.0.0.1:8000/api/products`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.data) {
+          const shuffledProducts = shuffleArray(data.data); // Xáo trộn sản phẩm
+          setAllProducts(shuffledProducts);
+        }
+      })
+      .catch((error) => console.error("Lỗi khi tải sản phẩm tất cả:", error));
+  }, []);
+
   return (
     <>
       <div id="carouselExampleIndicators" className="carousel slide">
@@ -320,178 +361,153 @@ function Index() {
         </div>
       </section>
 
-      <section class="flat-row row-product-project style-1">
-        <div className="title-section margin-bottom-41">
-          <h2 className="title">Sản Phẩm</h2>
-        </div>
-        <ul className="nav nav-tabs d-flex justify-content-center">
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold active"
-              data-bs-toggle="tab"
-              href="#home"
-            >
-              Tất cả
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold"
-              data-bs-toggle="tab"
-              href="#menu1"
-            >
-              Cho chó
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold"
-              data-bs-toggle="tab"
-              href="#menu2"
-            >
-              Cho mèo
-            </a>
-          </li>
-        </ul>
-        {/* Tab panes */}
-        <div className="tab-content">
-          <div className="tab-pane container active" id="home">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
+      <section className="flat-row row-product-project style-1">
+      <div className="title-section margin-bottom-41">
+        <h2 className="title">Sản Phẩm</h2>
+      </div>
+      <ul className="nav nav-tabs d-flex justify-content-center">
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold active"
+            data-bs-toggle="tab"
+            href="#home"
+          >
+            Tất cả
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold"
+            data-bs-toggle="tab"
+            href="#menu1"
+          >
+            Cho chó
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold"
+            data-bs-toggle="tab"
+            href="#menu2"
+          >
+            Cho mèo
+          </a>
+        </li>
+      </ul>
+      {/* Nội dung các tab */}
+      <div className="tab-content">
+        {/* Tab Tất cả */}
+        <div className="tab-pane container active" id="home">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {allProducts.slice(0, 4).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
                       </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="tab-pane container fade" id="menu1">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
-                      </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="tab-pane container fade" id="menu2">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
-                      </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
+
+        {/* Tab Cho chó */}
+        <div className="tab-pane container fade" id="menu1">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {dogProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Tab Cho mèo */}
+        <div className="tab-pane container fade" id="menu2">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {catProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
       <section className="flat-row row-icon-box bg-section bg-color-f5f">
         <div className="container">

@@ -6,12 +6,12 @@ import "./App.css";
 
 function AdminDonHangSua() {
   const { ma_don_hang } = useParams();
-<<<<<<< HEAD
+
 
   const { isLoggedIn, user } = useAuth(); // Lấy trạng thái đăng nhập
-=======
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
->>>>>>> ebde7e54fef237ec6b4478fd6ac2f1f5968894fb
+
+  // const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
 
   const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
   const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
