@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import "./App.css";
+// Biểu đồ
+import { Bar } from "react-chartjs-2";
 
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
@@ -43,6 +45,12 @@ function AdminTrangChu() {
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+            </Link>
+            <Link
               to={"/admindanhmuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
@@ -61,22 +69,16 @@ function AdminTrangChu() {
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
             <Link
-              to={"/admindichvuchamsoc"}
+              to={"/admindatlich"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+              <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
               to={"/admintintuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
-              to={"/admindichvu"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ</h5>
             </Link>
           </div>
         </div>
@@ -178,6 +180,19 @@ function AdminTrangChu() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
+              
+              <div className="col-md-6">vdsav</div>
+
+              <div className="col-md-6">dsvad</div>
+
+              <div className="col-md-6"></div>
+
+              <div className="col-md-6"></div>
+
+              <div className="col-md-12"></div>
             </div>
           </div>
         </div>

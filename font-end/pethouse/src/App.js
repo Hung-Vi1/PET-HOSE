@@ -39,6 +39,7 @@ import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
+import AdminDatLich from "./AdminDichVuChamSoc";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -508,61 +509,73 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminTrangChu />} />}
           />
+
           <Route
             path="/admintaikhoan"
             exact
             element={<BaoVeRoute element={<AdminTaiKhoan />} />}
           />
+
           <Route
             path="/admintaikhoanthem"
             exact
             element={<BaoVeRoute element={<AdminTaiKhoanThem />} />}
           />
+
           <Route
             path="/admintaikhoansua"
             exact
             element={<BaoVeRoute element={<AdminTaiKhoanSua />} />}
           />
+
           <Route
             path="/adminsanpham"
             exact
             element={<BaoVeRoute element={<AdminSanPham />} />}
           />
+
           <Route
             path="/adminsanphamthem"
             exact
             element={<BaoVeRoute element={<AdminSanPhamThem />} />}
           />
+
           <Route
             path="/adminsanphamsua/:ma_san_pham"
             exact
             element={<BaoVeRoute element={<AdminSanPhamSua />} />}
           />
+
           <Route
             path="/admindanhmuc"
             exact
             element={<BaoVeRoute element={<AdminDanhMuc />} />}
           />
+
           <Route
             path="/admindanhmucthem"
             exact
             element={<BaoVeRoute element={<AdminDanhMucThem />} />}
           />
+
           <Route
             path="/admindanhmucsua/:ma_danh_muc"
             exact
             element={<BaoVeRoute element={<AdminDanhMucSua />} />}
           />
+
           <Route
             path="/admindonhang"
             exact
             element={<BaoVeRoute element={<AdminDonHang />} />}
           />
+
           <Route
             path="/admindonhangchitiet/:ma_don_hang"
             exact
             element={<BaoVeRoute element={<AdminDonHangChiTiet />} />}
           />
+
           <Route
             path="/admindonhangsua/:ma_don_hang"
             exact
@@ -573,6 +586,12 @@ function App() {
             path="/admindonhangthem"
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
+          />
+
+          <Route
+            path="/admindatlich"
+            exact
+            element={<BaoVeRoute element={<AdminDatLich />} />}
           />
         </Routes>
       </BrowserRouter>

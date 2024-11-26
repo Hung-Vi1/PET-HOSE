@@ -8,9 +8,12 @@ function AdminDonHangSua() {
   const { ma_don_hang } = useParams();
 
 
+
   const { isLoggedIn, user } = useAuth(); // Lấy trạng thái đăng nhập
 
-  // const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+
+
 
 
   const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
@@ -118,6 +121,12 @@ function AdminDonHangSua() {
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
             <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+            </Link>
+            <Link
               to={"/admindanhmuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
@@ -136,22 +145,16 @@ function AdminDonHangSua() {
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
             <Link
-              to={"/admindichvuchamsoc"}
+              to={"/admindatlich"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
+              <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
               to={"/admintintuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
-              to={"/admindichvu"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ</h5>
             </Link>
           </div>
         </div>
@@ -189,7 +192,7 @@ function AdminDonHangSua() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
