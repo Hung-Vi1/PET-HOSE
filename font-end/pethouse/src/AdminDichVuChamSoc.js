@@ -9,22 +9,23 @@ import { Navigate } from "react-router-dom";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 
-function AdminDonHang() {
-  const [list_dh, ganDH] = useState([]);
-  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
+function AdminDatLich() {
+  const [list_dhdv, ganDHDV] = useState([]);
+
+  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/orders")
+    fetch("http://localhost:8000/api/orderServices")
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganDH(data.data); // Nếu có mảng sản phẩm trong data
+          ganDHDV(data.data); // Nếu có mảng sản phẩm trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganDH([]); // Khởi tạo giá trị mặc định
+          ganDHDV([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
@@ -87,13 +88,13 @@ function AdminDonHang() {
             </Link>
             <Link
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
             <Link
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
@@ -138,8 +139,8 @@ function AdminDonHang() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                      Xin chào, Trần Thanh Tú
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -167,30 +168,27 @@ function AdminDonHang() {
             </div>
           </nav>
           <div className="container">
-            <Link
-              to={"/admindonhangthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm đơn hàng
-            </Link>
-
-            <h2 className="my-3">Đơn hàng</h2>
+            <h2 className="my-3">Dịch vụ</h2>
             <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
                   <th className="fw-bold">Mã đơn hàng</th>
-                  <th className="fw-bold">Ngày tạo</th>
-                  <th className="fw-bold">Ngày hoàn thành</th>
+                  <th className="fw-bold">Ngày đặt</th>
                   <th className="fw-bold">Tên khách hàng</th>
+                  <th className="fw-bold">Số điện thoại</th>
+                  <th className="fw-bold text-end">Khách phải trả</th>
                   <th className="fw-bold text-center text-nowrap">
                     Trạng thái
                   </th>
-                  <th className="fw-bold text-end">Khách phải trả</th>
+                  <th className="fw-bold text-center text-nowrap">
+                    Phương thức thanh toán
+                  </th>
+                  <th className="fw-bold text-nowrap">Ghi chú</th>
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDH={list_dh} pageSize={10} />
+                <PhanTrang listDHDV={list_dhdv} pageSize={10} />
               </tbody>
             </table>
           </div>
@@ -201,35 +199,39 @@ function AdminDonHang() {
 }
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
-  const setSelectedOrder = useState(null);
+  const setSelectedOrderServices = useState(null);
 
   const fetchOrderById = (ma_tai_khoan) => {
-    fetch(`http://localhost:8000/api/orders/${ma_tai_khoan}`)
+    fetch(`http://localhost:8000/api/orderServices/${ma_tai_khoan}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Thông tin sản phẩm:", data);
-        setSelectedOrder(data);
+        console.log("Thông tin đơn hàng dịch vụ:", data);
+        setSelectedOrderServices(data);
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+        console.error("Lỗi khi lấy thông tin đơn hàng dịch vụ:", error);
       });
   };
 
   return (
     <>
       {
-        spTrongTrang.map((dh, i) => {
+        spTrongTrang.map((dhdv, i) => {
           let TrangThaiDonHang;
 
-          if (dh.trang_thai === "cho_xac_nhan") {
+          if (dhdv.trang_thai === "cho_xac_nhan") {
             TrangThaiDonHang = (
-              <span class="badge text-bg-warning">Chờ xác nhận</span>
+              <span class="badge text-bg-secondary">Chờ xác nhận</span>
             );
-          } else if (dh.trang_thai === "dang_xu_ly") {
+          } else if (dhdv.trang_thai === "da_xac_nhan") {
             TrangThaiDonHang = (
-              <span class="badge text-bg-info">Đang xử lý</span>
+              <span class="badge text-bg-info">Đã xác nhận</span>
             );
-          } else if (dh.trang_thai === "hoan_thanh") {
+          } else if (dhdv.trang_thai === "dang_van_chuyen") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-warning">Đang vận chuyển</span>
+            );
+          } else if (dhdv.trang_thai === "hoan_thanh") {
             TrangThaiDonHang = (
               <span class="badge text-bg-success">Hoàn thành</span>
             );
@@ -237,35 +239,49 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
             TrangThaiDonHang = <span class="badge text-bg-danger">Đã hủy</span>;
           }
 
+          let PhuongThucThanhToan;
+          if (dhdv.phuong_thuc_tt === "cash") {
+            PhuongThucThanhToan = "Thanh toán khi nhận hàng";
+          } else PhuongThucThanhToan = "Thanh toán chuyển khoản";
+
           return (
             <tr>
-              <td className="text-center">{fromIndex + i + 1}</td>
-              <td>
+              <td className="text-center align-middle">{fromIndex + i + 1}</td>
+              <td className="align-middle">
                 <Link
-                  onClick={() => fetchOrderById(dh.ma_don_hang)}
-                  to={`/admindonhangchitiet/${dh.ma_don_hang}`}
+                  onClick={() => fetchOrderById(dhdv.ma_don_hang)}
+                  to={`/admindvcschitiet/${dhdv.ma_don_hang}`}
                   className="text-primary"
                 >
-                  #{dh.ma_don_hang}
+                  #{dhdv.ma_don_hang}
                 </Link>
               </td>
-              <td>
-                {format(new Date(dh.ngay_dat), "dd/MM/yyyy HH:mm", {
+              <td className="align-middle">
+                {format(new Date(dhdv.ngay_dat), "dd/MM/yyyy HH:mm", {
                   locale: vi,
                 })}
               </td>
-              <td>
-                {format(new Date(dh.ngay_giao), "dd/MM/yyyy HH:mm", {
-                  locale: vi,
-                })}
-              </td>
-              <td>{dh.ho_ten}</td>
-              <td className="text-center">{TrangThaiDonHang}</td>
-              <td className="text-end">
-                {parseInt(dh.tong_tien).toLocaleString("vi-VN", {
+              <td className="align-middle">{dhdv.ho_ten}</td>
+              <td className="align-middle">{dhdv.so_dien_thoai}</td>
+              <td className="text-end align-middle">
+                {parseInt(dhdv.tong_tien).toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
+              </td>
+              <td className="text-center align-items-center align-middle">
+                {TrangThaiDonHang}
+              </td>
+              <td className="text-center text-nowrap align-middle">
+                {PhuongThucThanhToan}
+              </td>
+              <td className="align-middle">
+                <input
+                  type="text"
+                  className="form-control"
+                  required
+                  placeholder="Nguyễn Văn A"
+                />
               </td>
             </tr>
           );
@@ -275,13 +291,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   );
 } //HienDHTrongMotTrang
 
-function PhanTrang({ listDH, pageSize }) {
+function PhanTrang({ listDHDV, pageSize }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
-  const dhTrong1Trang = listDH.slice(fromIndex, toIndex);
-  const tongSoTrang = Math.ceil(listDH.length / pageSize);
+  const dhTrong1Trang = listDHDV.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listDHDV.length / pageSize);
   const chuyenTrang = (event) => {
-    const newIndex = (event.selected * pageSize) % listDH.length;
+    const newIndex = (event.selected * pageSize) % listDHDV.length;
     setfromIndex(newIndex);
   };
   return (
@@ -303,4 +319,4 @@ function PhanTrang({ listDH, pageSize }) {
   );
 } //PhanTrang
 
-export default AdminDonHang;
+export default AdminDatLich;

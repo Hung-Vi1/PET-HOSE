@@ -2326,28 +2326,37 @@
                                 "properties": {
                                     "MaDanhMuc": {
                                         "description": "Mã danh mục sản phẩm",
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "example": 3
                                     },
                                     "TenSanPham": {
                                         "description": "Tên sản phẩm",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "tên sản phẩm"
                                     },
                                     "GiaSP": {
                                         "description": "Giá sản phẩm",
-                                        "type": "number"
+                                        "type": "number",
+                                        "example": 100000
                                     },
                                     "GiamGia": {
                                         "description": "Giảm giá sản phẩm",
-                                        "type": "number"
+                                        "type": "number",
+                                        "example": 0
                                     },
                                     "MoTa": {
                                         "description": "Mô tả chi tiết sản phẩm",
                                         "type": "string"
                                     },
+                                    "SoLuong": {
+                                        "type": "integer",
+                                        "example": 100,
+                                        "nullable": true
+                                    },
                                     "HinhAnh": {
                                         "description": "URL của hình ảnh sản phẩm",
                                         "type": "string",
-                                        "format": "url"
+                                        "example": "anh.png"
                                     }
                                 },
                                 "type": "object"

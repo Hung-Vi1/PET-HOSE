@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
+  const { user } = useAuth(); 
 
   // Lấy danh sách danh mục
   useEffect(() => {
@@ -34,11 +36,13 @@ function AdminDanhMuc() {
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
           style={{ minHeight: "100vh" }}
         >
-          <img
-            src="image/Nen_trong_suot.png"
-            className="d-block w-75 mx-auto"
-            alt="image/Nen_trong_suot.png"
-          />
+          <Link to={"/"}>
+            <img
+              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              className="d-block w-75 mx-auto"
+              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+            />
+          </Link>
 
           <div className="list-group list-group-item-primary">
             <Link
@@ -53,6 +57,12 @@ function AdminDanhMuc() {
               className="list-group-item list-group-item-action my-0  rounded-0"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
+            </Link>
+            <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
             <Link
               to={"/admindanhmuc"}
@@ -72,18 +82,18 @@ function AdminDanhMuc() {
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <a
-              href="/#"
+            <Link
+              to={"/admindatlich"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </a>
-            <a
-              href="/#"
-              className="list-group-item list-group-item-action mt-0 rounded-0"
+              <h5 className="mb-0 py-1">Đặt lịch</h5>
+            </Link>
+            <Link
+              to={"/admintintuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -119,8 +129,8 @@ function AdminDanhMuc() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
-                    </a>
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                      </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

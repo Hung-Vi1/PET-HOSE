@@ -5,20 +5,20 @@ import "../App.css";
 
 function Index() {
   const [NewProduct, ListNewProduct] = useState([]);
-
+  const [tintuc, setTinTuc] = useState([]);
   const [cart, setCart] = useState(() => {
     const savedCart = sessionStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  
+
   const addToCart = (product) => {
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
     const existingProductIndex = cart.findIndex(
       (item) => item.ma_san_pham === product.ma_san_pham
     );
-    
+
     let updatedCart;
-  
+
     if (existingProductIndex !== -1) {
       // Nếu sản phẩm đã có, cập nhật số lượng
       updatedCart = [...cart];
@@ -27,24 +27,94 @@ function Index() {
       // Nếu sản phẩm chưa có, thêm mới vào giỏ
       updatedCart = [...cart, { ...product, quantity: 1 }];
     }
-  
+
     // Cập nhật lại trạng thái giỏ hàng
     setCart(updatedCart);
-    
+
     // Lưu giỏ hàng vào sessionStorage
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    
+
     // Phát ra sự kiện để các component khác lắng nghe và cập nhật (bao gồm Header)
     window.dispatchEvent(new Event("cartUpdated"));
-  
+
     alert("Đã thêm vào giỏ hàng");
   };
-  
+
 
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/products")
       .then((response) => ListNewProduct(response.data.data || []));
+  }, []);
+
+
+  useEffect(() => {
+    const fetchTinTuc = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/News");
+        const data = await response.json();
+
+        if (Array.isArray(data.data)) {
+          setTinTuc(data.data);
+        } else {
+          console.error("Dữ liệu không phải là mảng:", data);
+          setTinTuc([]);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy bài viết:", error);
+        setTinTuc([]);
+      }
+    };
+
+    fetchTinTuc();
+  }, []);
+
+  const truncateContent = (content, limit) => {
+    if (content.length > limit) {
+      return content.substring(0, limit) + "...";
+    }
+    return content;
+  };
+
+  const [allProducts, setAllProducts] = useState([]); // Sản phẩm tất cả
+  const [dogProducts, setDogProducts] = useState([]); // Sản phẩm cho chó
+  const [catProducts, setCatProducts] = useState([]); // Sản phẩm cho mèo
+
+  const shuffleArray = (array) => {
+    return array
+      .map((item) => ({ ...item, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ sort, ...item }) => item);
+  };
+  
+  // Hàm gọi API
+  const fetchProductsByCategory = async (categoryId, setter) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/products/sanPhamTheoDM/${categoryId}`
+      );
+      const data = await response.json();
+      if (data && data.data) {
+        setter(data.data);
+      }
+    } catch (error) {
+      console.error(`Lỗi khi tải sản phẩm danh mục ${categoryId}:`, error);
+    }
+  };
+
+  useEffect(() => {
+    // Gọi API cho tất cả danh mục
+    fetchProductsByCategory(4, setDogProducts); // Chó
+    fetchProductsByCategory(25, setCatProducts); // Mèo
+    fetch(`http://127.0.0.1:8000/api/products`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.data) {
+          const shuffledProducts = shuffleArray(data.data); // Xáo trộn sản phẩm
+          setAllProducts(shuffledProducts);
+        }
+      })
+      .catch((error) => console.error("Lỗi khi tải sản phẩm tất cả:", error));
   }, []);
 
   return (
@@ -291,178 +361,153 @@ function Index() {
         </div>
       </section>
 
-      <section class="flat-row row-product-project style-1">
-        <div className="title-section margin-bottom-41">
-          <h2 className="title">Sản Phẩm</h2>
-        </div>
-        <ul className="nav nav-tabs d-flex justify-content-center">
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold active"
-              data-bs-toggle="tab"
-              href="#home"
-            >
-              Tất cả
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold"
-              data-bs-toggle="tab"
-              href="#menu1"
-            >
-              Cho chó
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link text-danger fw-bold"
-              data-bs-toggle="tab"
-              href="#menu2"
-            >
-              Cho mèo
-            </a>
-          </li>
-        </ul>
-        {/* Tab panes */}
-        <div className="tab-content">
-          <div className="tab-pane container active" id="home">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
+      <section className="flat-row row-product-project style-1">
+      <div className="title-section margin-bottom-41">
+        <h2 className="title">Sản Phẩm</h2>
+      </div>
+      <ul className="nav nav-tabs d-flex justify-content-center">
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold active"
+            data-bs-toggle="tab"
+            href="#home"
+          >
+            Tất cả
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold"
+            data-bs-toggle="tab"
+            href="#menu1"
+          >
+            Cho chó
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link text-danger fw-bold"
+            data-bs-toggle="tab"
+            href="#menu2"
+          >
+            Cho mèo
+          </a>
+        </li>
+      </ul>
+      {/* Nội dung các tab */}
+      <div className="tab-content">
+        {/* Tab Tất cả */}
+        <div className="tab-pane container active" id="home">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {allProducts.slice(0, 4).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
                       </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="tab-pane container fade" id="menu1">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
-                      </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="tab-pane container fade" id="menu2">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {NewProduct.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
-                      <div className="product-thumb clearfix">
-                        <a href="/" className="product-link">
-                          <img
-                            src={`image/product/${sp.hinh_anh}`}
-                            alt={sp.ten_san_pham}
-                          />
-                        </a>
-                        <span className="new">Mới</span>
-                      </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                      <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
-                          THÊM VÀO GIỎ HÀNG
-                        </Link>
-                      </div>
-                      <a href="/" className="like">
-                        <i className="fa fa-heart-o" />
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
+
+        {/* Tab Cho chó */}
+        <div className="tab-pane container fade" id="menu1">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {dogProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Tab Cho mèo */}
+        <div className="tab-pane container fade" id="menu2">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {catProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
       <section className="flat-row row-icon-box bg-section bg-color-f5f">
         <div className="container">
@@ -542,179 +587,115 @@ function Index() {
           <h2 className="title">Tin Thú Cưng</h2>
         </div>
         <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="post-wrap margin-bottom-26">
-                <div className="grid four">
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/11.jpg" alt="Hình ảnh bài viết 1" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Grenfell Remembered, Six Months On
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          MARKING exactly six months since the devastating blaze
-                          at Grenfell Tower, in which 71 people died and
-                          hundreds more lost...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/12.jpg" alt="Hình ảnh bài viết 2" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            The Design Museum Honours...
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          When the Tunisian-born couturier Azzedine Alaïa passed
-                          away in Paris on November 18, tributes began pouring
-                          in...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/13.jpg" alt="Hình ảnh bài viết 3" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Is Adriana Lima Hanging Up Her Wings?
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          It is a long established fact that a reader will be
-                          distracted by the readable content of a page when
-                          looking at its layout...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article className="post clearfix">
-                    <div className="featured-post">
-                      <img src="images/blog/14.jpg" alt="Hình ảnh bài viết 4" />
-                    </div>
-                    <div className="content-post">
-                      <div className="title-post">
-                        <h2>
-                          <a href="chitiettintuc">
-                            Looking For A New Statement Piece?
-                          </a>
-                        </h2>
-                      </div>
-                      <div className="entry-post">
-                        <p>
-                          There’s nothing more personal in anyone’s wardrobe
-                          than their jewellery. It tells a story beyond the
-                          possibilities of most clothes...
-                        </p>
-                        <div className="more-link">
-                          <a href="chitiettintuc">Read More</a>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
+  <div className="row">
+    <div className="col-md-12">
+      <div className="post-wrap margin-bottom-26">
+        <div className="grid four">
+          {tintuc.length > 0 ? (
+            tintuc.slice(0, 4).map((article) => (
+              <article className="post clearfix" key={article.bai_viet}>
+                <div className="featured-post">
+                  <img
+                    src={`image/News/${article.Hinh}`}
+                    alt="hinh"
+                    style={{
+                      width: '400px',
+                      height: '300px',
+                      maxHeight: '300px',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
+                <div className="content-post">
+                  <div className="title-post">
+                    <h2>
+                      <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                        {article.tieu_de}
+                      </Link>
+                    </h2>
+                  </div>
+                  <div className="entry-post">
+                    <p>{truncateContent(article.noi_dung, 100)}</p>
+                    <div className="more-link">
+                      <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p>Không có bài viết nào.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </section>
+
+      <section className="flat-row mail-chimp">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="text">
+                <h3>Gửi mail để nhận ưu đãi</h3>
               </div>
+            </div>
+            <div className="col-md-8">
+              <div className="subscribe clearfix">
+                <form
+                  action="#"
+                  method="post"
+                  acceptCharset="utf-8"
+                  id="subscribe-form"
+                >
+                  <div className="subscribe-content">
+                    <div className="input">
+                      <input
+                        type="email"
+                        name="subscribe-email"
+                        placeholder="Nhập Email của bạn"
+                      />
+                    </div>
+                    <div className="button">
+                      <button type="button">Gửi</button>
+                    </div>
+                  </div>
+                </form>
+                <ul className="flat-social">
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-facebook" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-twitter" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-google" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-behance" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/#">
+                      <i className="fa fa-linkedin" />
+                    </a>
+                  </li>
+                </ul>
+                {/* /.flat-social */}
+              </div>
+              {/* /.subscribe */}
             </div>
           </div>
         </div>
       </section>
-
-      <section className="flat-row mail-chimp">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="text">
-                    <h3>Sign up for Send Newsletter</h3>
-                  </div>
-                </div>
-                <div className="col-md-8">
-                  <div className="subscribe clearfix">
-                    <form
-                      action="#"
-                      method="post"
-                      acceptCharset="utf-8"
-                      id="subscribe-form"
-                    >
-                      <div className="subscribe-content">
-                        <div className="input">
-                          <input
-                            type="email"
-                            name="subscribe-email"
-                            placeholder="Your Email"
-                          />
-                        </div>
-                        <div className="button">
-                          <button type="button">SUBCRIBE</button>
-                        </div>
-                      </div>
-                    </form>
-                    <ul className="flat-social">
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-facebook" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-twitter" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-google" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-behance" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/#">
-                          <i className="fa fa-linkedin" />
-                        </a>
-                      </li>
-                    </ul>
-                    {/* /.flat-social */}
-                  </div>
-                  {/* /.subscribe */}
-                </div>
-              </div>
-            </div>
-          </section>
     </>
   );
 }

@@ -89,13 +89,19 @@ function DatLich() {
     console.log(dateTime);
     // Xây dựng dữ liệu gửi lên API
     const orderData = {
+<<<<<<< HEAD
       Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
       NgayGiao: dateTime,
       GhiChu: userData.notes,            // Ghi chú (nếu có)
+=======
+      Mataikhoan: userData.Mataikhoan, // Mã tài khoản từ userData
+      PTTT: userData.paymentMethod, // Phương thức thanh toán
+      GhiChu: userData.notes, // Ghi chú (nếu có)
+>>>>>>> Tu
       chi_tiet: [
         {
-          MaSP: userData.selectedService,  // Mã sản phẩm từ dịch vụ đã chọn
-          SoLuong: 1,                      // Số lượng sản phẩm
+          MaSP: userData.selectedService, // Mã sản phẩm từ dịch vụ đã chọn
+          SoLuong: 1, // Số lượng sản phẩm
         },
       ],
     };
@@ -106,7 +112,7 @@ function DatLich() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(orderData),  // Gửi dữ liệu dưới dạng JSON
+      body: JSON.stringify(orderData), // Gửi dữ liệu dưới dạng JSON
     })
       .then((response) => {
         if (!response.ok) {
@@ -117,7 +123,11 @@ function DatLich() {
       .then((data) => {
         if (data.status === "success") {
           alert("Đặt lịch thành công!");
+<<<<<<< HEAD
           navigate("/lichsuDV");  // Chuyển hướng tới trang lịch hẹn hoặc trang khác
+=======
+          navigate("/ "); // Chuyển hướng tới trang lịch hẹn hoặc trang khác
+>>>>>>> Tu
         } else {
           alert("Có lỗi xảy ra. Vui lòng thử lại.");
         }
@@ -208,7 +218,7 @@ function DatLich() {
               </div>
             </div>
             <div className="col-md-4">
-              <div className="form-group">
+            <div className="form-group">
                 <label htmlFor="notes">Ghi chú:</label>
                 <textarea
                   className="form-control"
