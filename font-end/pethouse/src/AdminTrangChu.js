@@ -1,13 +1,83 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Bar, Pie } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
 import "./App.css";
-// Biểu đồ
-import { Bar } from "react-chartjs-2";
+
+// Đăng ký các thành phần cần thiết cho Chart.js
+Chart.register(...registerables);
 
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+  // Dữ liệu cho biểu đồ cột đôi
+  const barData = {
+    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+    datasets: [
+      {
+        label: "Population 2020",
+        backgroundColor: "#3e95cd",
+        data: [2478, 5267, 734, 784, 433],
+      },
+      {
+        label: "Population 2050",
+        backgroundColor: "#8e5ea2",
+        data: [3000, 7000, 800, 900, 500],
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ cột
+  const barOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    legend: { display: true },
+    title: {
+      display: true,
+      text: "Predicted world population (millions)",
+    },
+  };
+
+  // Dữ liệu cho biểu đồ tròn
+  const pieData = {
+    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    datasets: [
+      {
+        label: "Votes",
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+        ],
+        data: [12, 19, 3, 5, 2, 3],
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ tròn
+  const pieOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Vote Distribution",
+      },
+    },
+  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -183,12 +253,27 @@ function AdminTrangChu() {
             </div>
 
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
-              
-              <div className="col-md-6">vdsav</div>
+              <div className="row col-md-12 border-bottom py-2">
+                <div
+                  className="col-md-6 d-flex align-items-center justify-content-center"
+                  style={{ height: "100%" }}
+                >
+                  {/* Biểu đồ cột */}
+                  <Bar data={barData} options={barOptions} />
+                </div>
 
-              <div className="col-md-6">dsvad</div>
+                <div
+                  className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
+                  style={{ height: "100%" }}
+                >
+                  {/* Biểu đồ tròn */}
+                  <Pie data={pieData} options={pieOptions} />
+                </div>
+              </div>
 
-              <div className="col-md-6"></div>
+              <div className="col-md-6">
+                <h3>Lựa chọn</h3>
+              </div>
 
               <div className="col-md-6"></div>
 

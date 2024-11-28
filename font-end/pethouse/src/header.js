@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "./contexts/AuthContext";
 
 function Header() {
+  const location = useLocation(); // Lấy thông tin đường dẫn hiện tại
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
   const [cart, setCart] = useState([]);
@@ -40,17 +41,12 @@ function Header() {
   };
 
   const clearAllStorage = () => {
-    // Xóa tất cả cookies
     const cookies = document.cookie.split(";");
     cookies.forEach((cookie) => {
       const cookieName = cookie.split("=")[0].trim();
       document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
     });
-
-    // Xóa dữ liệu trong localStorage
     localStorage.clear();
-
-    // Xóa dữ liệu trong sessionStorage
     sessionStorage.clear();
   };
 
@@ -144,24 +140,6 @@ function Header() {
           <Link className="icon_cart nav-cart-trigger active" to="/giohang">
             <span>{cart.length}</span>
           </Link>
-          <div className="nav-shop-cart">
-            <div className="widget_shopping_cart_content">
-              <div className="woocommerce-min-cart-wrap">
-                {cart.length > 0 ? (
-                  <ul className="woocommerce-mini-cart cart_list product_list_widget">
-                    {cart.map((item, index) => (
-                      <li key={index} className="woocommerce-mini-cart-item mini_cart_item" style={{ fontSize: "14px" }}>
-                        <span>{truncateProductName(item.ten_san_pham)}</span> -{" "}
-                        <span>Số lượng: {item.quantity}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <span>Chưa có sản phẩm nào trong giỏ hàng</span>
-                )}
-              </div>
-            </div>
-          </div>
         </li>
       </ul>
 
@@ -174,21 +152,19 @@ function Header() {
           }}
         >
           <ul className="menu">
-            <li>
-              {/* className="active" */}
+            <li className={location.pathname === "/" ? "active" : ""}>
               <Link to="/">Trang chủ</Link>
             </li>
-            <li>
+            <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
             <li>
               <Link to="/datlich">Dịch vụ</Link>
-
             </li>
-            <li>
+            <li className={location.pathname === "/tintuc" ? "active" : ""}>
               <Link to="/tintuc">Tin thú cưng</Link>
             </li>
-            <li>
+            <li className={location.pathname === "/lienhe" ? "active" : ""}>
               <Link to="/lienhe">Liên hệ</Link>
             </li>
           </ul>
