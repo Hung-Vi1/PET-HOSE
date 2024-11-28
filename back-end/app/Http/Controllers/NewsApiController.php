@@ -192,6 +192,8 @@ class NewsApiController extends Controller
         //GET
         try {
             $news = BaiViet::findOrFail($id);
+            // Tăng lượt xem lên 1
+            $news->increment('LuotXem');
             return response()->json([
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
