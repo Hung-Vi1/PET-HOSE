@@ -39,6 +39,9 @@ import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
+import Admin_bv from "./Admin_BV";
+import SuaBV from "./Admin_SuaBV";
+import Admin_thembv from "./Admin_ThemBV";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -573,6 +576,22 @@ function App() {
             path="/admindonhangthem"
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
+          />
+
+          <Route
+            path="/Admin_BV"
+            exact
+            element={<BaoVeRoute element={<Admin_bv />} />}
+          />
+           <Route
+            path="/Admin_SuaBV"
+            exact
+            element={<BaoVeRoute element={<SuaBV />} />}
+          />
+          <Route
+            path="/Admin_ThemBV"
+            exact
+            element={<BaoVeRoute element={<Admin_thembv />} />}
           />
         </Routes>
       </BrowserRouter>

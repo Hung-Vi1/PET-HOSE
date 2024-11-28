@@ -3,136 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
-function AdminSanPhamThem() {
+function Admin_thembv() {
   const { user} = useAuth(); 
   const navigate = useNavigate(); // Khởi tạo useNavigate
-  // Xóa sản phẩm
-  /*   const [ganSP] = useState([]);
-  const xoaSanPham = (maSP) => {
-    // Hiển thị thông báo xác nhận
-    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.ok) {
-            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
-            fetch("http://localhost:8000/api/products")
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("Dữ liệu trả về:", data);
-                if (Array.isArray(data.data)) {
-                  ganSP(data.data);
-                } else {
-                  console.error("Dữ liệu không phải là mảng:", data);
-                  ganSP([]); // Khởi tạo giá trị mặc định
-                }
-              })
-              .catch((error) => {
-                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa sản phẩm:", error);
-        });
-    }
-  }; */
-
-  const [ten_san_pham, setTenSanPham] = useState("");
-  const [ma_danh_muc, setMaDanhMuc] = useState("");
-  const [gia, setGia] = useState(0);
-  const [giam_gia, setGiamGia] = useState(0);
-  const [mo_ta, setMoTa] = useState("");
-  const [hinh_anh, setHinhAnh] = useState("");
-  const [so_luong, setSoLuong] = useState(0);
-  const [luot_xem, setLuotXem] = useState(0);
-  const [luot_ban, setLuotBan] = useState(0);
-  const [trang_thai, setTrangThai] = useState(1); // Trạng thái mặc định là 1
-  const [ngay_tao, setNgayTao] = useState(
-    new Date().toISOString().split("T")[0]
-  ); // Ngày hiện tại
-  const [ngay_cap_nhat, setNgayCapNhat] = useState(
-    new Date().toISOString().split("T")[0]
-  ); // Ngày hiện tại
-  const [danhMuc, setDanhMuc] = useState([]);
-  const [error, setError] = useState(null);
-
-  // Lấy danh sách danh mục từ API
-  useEffect(() => {
-    fetch("http://localhost:8000/api/category")
-      .then((res) => {
-        if (!res.ok) throw new Error("Không thể lấy danh sách danh mục");
-        return res.json();
-      })
-      .then((data) => {
-        if (data.status === "success") {
-          setDanhMuc(data.data);
-        } else {
-          throw new Error(data.message || "Không có dữ liệu danh mục");
-        }
-      })
-      .catch((error) => setError(error.message));
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("MaDanhMuc", ma_danh_muc);
-    formData.append("TenSanPham", ten_san_pham);
-    formData.append("GiaSP", gia);
-    formData.append("GiamGia", giam_gia);
-    formData.append("MoTa", mo_ta);
-    formData.append("HinhAnh", hinh_anh);
-    formData.append("SoLuong", so_luong);
-    formData.append("LuotXem", luot_xem);
-    formData.append("LuotBan", luot_ban);
-    formData.append("TrangThai", trang_thai);
-    formData.append("NgayTao", ngay_tao);
-    formData.append("NgayCapNhat", ngay_cap_nhat);
-
-    // Log để kiểm tra file hình ảnh
-    console.log("Hình ảnh:", hinh_anh);
-
-    fetch("http://localhost:8000/api/products/store", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        if (!res.ok) {
-          return res.json().then((err) => {
-            throw new Error(err.message || "Lỗi khi thêm sản phẩm");
-          });
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data.status === "success") {
-          alert("Thêm sản phẩm thành công!");
-          // Reset form
-          setTenSanPham("");
-          setMaDanhMuc("");
-          setGia(0);
-          setGiamGia(0);
-          setMoTa("");
-          setHinhAnh(null);
-          setSoLuong(0);
-          setLuotXem(0);
-          setLuotBan(0);
-          setTrangThai(1);
-          setNgayTao(new Date().toISOString().split("T")[0]);
-          setNgayCapNhat(new Date().toISOString().split("T")[0]);
-          navigate("/adminsanpham"); // Chuyển hướng về trang danh sách danh mục
-        } else {
-          throw new Error(data.message || "Có lỗi xảy ra");
-        }
-      })
-      .catch((error) => {
-        console.error("Lỗi:", error.message);
-        alert(error.message);
-      });
-  };
 
   return (
     <div className="container-fluid admintrangchu">
@@ -273,22 +146,22 @@ function AdminSanPhamThem() {
                 <i className="bi bi-arrow-left"></i>
               </Link>
               <h1 className="mb-0">Thêm sản phẩm</h1>
-              {error && <p className="text-danger">{error}</p>}
+              {/* {error && <p className="text-danger">{error}</p>} */}
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form >
               <div className="d-flex flex-wrap">
                 <div className="col-md-8 px-0">
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
+                      <h5 className="mb-2 py-1">Thông tin tin tức</h5>
 
                       <div className="mb-3">
-                        <label className="form-label">Tên sản phẩm</label>
+                        <label className="form-label">Tên tin tức</label>
                         <input
                           type="text"
                           className="form-control"
-                          value={ten_san_pham}
+                          value={tieu_de}
                           onChange={(e) => setTenSanPham(e.target.value)}
                           required
                         />
@@ -299,7 +172,7 @@ function AdminSanPhamThem() {
                           <label className="form-label">Mã danh mục</label>
                           <select
                             className="form-select"
-                            value={ma_danh_muc}
+                            value={ma_danh_muc_bv}
                             onChange={(e) => setMaDanhMuc(e.target.value)}
                             required
                           >
@@ -322,7 +195,7 @@ function AdminSanPhamThem() {
                             type="number"
                             className="form-control"
                             value={so_luong}
-                            onChange={(e) => setSoLuong(Number(e.target.value))}
+                            //onChange={(e) => setSoLuong(Number(e.target.value))}
                             required
                           />
                         </div>
@@ -335,7 +208,7 @@ function AdminSanPhamThem() {
                             type="number"
                             className="form-control"
                             value={luot_xem}
-                            onChange={(e) => setLuotXem(Number(e.target.value))}
+                            //onChange={(e) => setLuotXem(Number(e.target.value))}
                             readOnly // Lượt xem mặc định là 0
                           />
                         </div>
@@ -345,7 +218,7 @@ function AdminSanPhamThem() {
                             type="number"
                             className="form-control"
                             value={luot_ban}
-                            onChange={(e) => setLuotBan(Number(e.target.value))}
+                            //onChange={(e) => setLuotBan(Number(e.target.value))}
                             readOnly // Lượt bán mặc định là 0
                           />
                         </div>
@@ -360,9 +233,7 @@ function AdminSanPhamThem() {
                             type="number"
                             className="form-select"
                             value={trang_thai}
-                            onChange={(e) =>
-                              setTrangThai(Number(e.target.value))
-                            }
+                            //onChange={(e) => setTrangThai(Number(e.target.value))}
                           >
                             <option value="0">Ẩn</option>
                             <option value="1">Hiện</option>
@@ -374,7 +245,7 @@ function AdminSanPhamThem() {
                             type="date"
                             className="form-control"
                             value={ngay_tao}
-                            onChange={(e) => setNgayTao(e.target.value)}
+                           // onChange={(e) => setNgayTao(e.target.value)}
                             readOnly // Ngày tạo mặc định là ngày hiện tại
                           />
                         </div>
@@ -385,7 +256,7 @@ function AdminSanPhamThem() {
                         <textarea
                           className="form-control"
                           value={mo_ta}
-                          onChange={(e) => setMoTa(e.target.value)}
+                          //onChange={(e) => setMoTa(e.target.value)}
                           required
                         ></textarea>
                       </div>
@@ -404,7 +275,7 @@ function AdminSanPhamThem() {
                             type="file"
                             className="form-control"
                             accept="image/*"
-                            onChange={(e) => setHinhAnh(e.target.files[0])}
+                            //onChange={(e) => setHinhAnh(e.target.files[0])}
                             required
                           />
                         </div>
@@ -420,7 +291,7 @@ function AdminSanPhamThem() {
                           type="number"
                           className="form-control"
                           value={gia}
-                          onChange={(e) => setGia(Number(e.target.value))}
+                          //onChange={(e) => setGia(Number(e.target.value))}
                           required
                         />
                       </div>
@@ -430,7 +301,7 @@ function AdminSanPhamThem() {
                           type="number"
                           className="form-control"
                           value={giam_gia}
-                          onChange={(e) => setGiamGia(Number(e.target.value))}
+                          // onChange={(e) => setGiamGia(Number(e.target.value))}
                         />
                       </div>
                     </div>
@@ -454,4 +325,4 @@ function AdminSanPhamThem() {
   );
 }
 
-export default AdminSanPhamThem;
+export default Admin_thembv;

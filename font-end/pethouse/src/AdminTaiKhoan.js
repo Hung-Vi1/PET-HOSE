@@ -72,7 +72,7 @@ function AdminTaiKhoan() {
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
             <Link
-              to={"/admintintuc"}
+              to={"/admin_Bv"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
