@@ -1,32 +1,42 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useAuth } from "./contexts/AuthContext";
-import ReactPaginate from "react-paginate";
 import "./App.css";
+import { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
+import { useAuth } from "./contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+// Định dạng ngày giờ
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
-function AdminDanhMuc() {
-  const [list_dm, ganDM] = useState([]);
-  const { user } = useAuth(); 
+function AdminDatLich() {
+  const [list_dhdv, ganDHDV] = useState([]);
 
-  // Lấy danh sách danh mục
+  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+
+  // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/category")
+    fetch("http://localhost:8000/api/orderServices")
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganDM(data.data); // Nếu có mảng sản phẩm trong data
+          ganDHDV(data.data); // Nếu có mảng sản phẩm trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganDM([]); // Khởi tạo giá trị mặc định
+          ganDHDV([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
   }, []);
+
+  if (!isLoggedIn) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="container-fluid">
@@ -66,7 +76,7 @@ function AdminDanhMuc() {
             </Link>
             <Link
               to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
@@ -84,12 +94,12 @@ function AdminDanhMuc() {
             </Link>
             <Link
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admin_Bv"}
+              to={"/admintintuc"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
@@ -129,8 +139,8 @@ function AdminDanhMuc() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                      Xin chào, Trần Thanh Tú
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -158,26 +168,27 @@ function AdminDanhMuc() {
             </div>
           </nav>
           <div className="container">
-            <Link
-              to={"/admindanhmucthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm danh mục
-            </Link>
-
-            <h2 className="my-3">Danh mục</h2>
+            <h2 className="my-3">Dịch vụ</h2>
             <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
-                  <th className="fw-bold">Tên danh mục</th>
-                  <th className="fw-bold text-center">Phân loại</th>
-                  <th className="fw-bold text-center">Ngày tạo</th>
-                  <th className="fw-bold text-center">Hành động</th>
+                  <th className="fw-bold">Mã đơn hàng</th>
+                  <th className="fw-bold">Ngày đặt</th>
+                  <th className="fw-bold">Tên khách hàng</th>
+                  <th className="fw-bold">Số điện thoại</th>
+                  <th className="fw-bold text-end">Khách phải trả</th>
+                  <th className="fw-bold text-center text-nowrap">
+                    Trạng thái
+                  </th>
+                  <th className="fw-bold text-center text-nowrap">
+                    Phương thức thanh toán
+                  </th>
+                  <th className="fw-bold text-nowrap">Ghi chú</th>
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDM={list_dm} pageSize={10} ganDM={ganDM} />
+                <PhanTrang listDHDV={list_dhdv} pageSize={10} />
               </tbody>
             </table>
           </div>
@@ -187,128 +198,113 @@ function AdminDanhMuc() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
-  const setSelectedCategory = useState(null);
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
+  const setSelectedOrderServices = useState(null);
 
-  const fetchCategoryById = (ma_danh_muc) => {
-    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+  const fetchOrderById = (ma_tai_khoan) => {
+    fetch(`http://localhost:8000/api/orderServices/${ma_tai_khoan}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Thông tin danh mục:", data);
-        setSelectedCategory(data);
+        console.log("Thông tin đơn hàng dịch vụ:", data);
+        setSelectedOrderServices(data);
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy thông tin danh mục:", error);
+        console.error("Lỗi khi lấy thông tin đơn hàng dịch vụ:", error);
       });
   };
 
-  const xoaDanhMuc = (ma_danh_muc) => {
-    if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/category/destroy/${ma_danh_muc}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.status === 204) {
-            alert("Danh mục đã được xóa thành công");
-            return fetch("http://localhost:8000/api/category");
-          } else {
-            throw new Error("Lỗi khi xóa danh mục");
-          }
-        })
-        .then((res) => {
-          if (res) {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          if (Array.isArray(data.data)) {
-            ganDM(data.data); // Sử dụng ganDM từ props
-          } else {
-            console.error("Dữ liệu không phải là mảng:", data);
-            ganDM([]); // Khởi tạo giá trị mặc định
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa danh mục:", error);
-          alert("Có lỗi xảy ra: " + error.message);
-        });
-    }
-  };
-
   return (
     <>
-      {spTrongTrang.map((dm, i) => {
-        let loaiDanhMuc;
-        const parentId = parseInt(dm.parent_id, 10); // Chuyển đổi parent_id từ chuỗi sang số
+      {
+        spTrongTrang.map((dhdv, i) => {
+          let TrangThaiDonHang;
 
-        // Kiểm tra giá trị parentId để xác định loại danh mục
-        switch (parentId) {
-          case 0:
-            loaiDanhMuc = "Thư mục cha";
-            break;
-          case 1:
-            loaiDanhMuc = "Thư mục cha -> Chó";
-            break;
-          case 2:
-            loaiDanhMuc = "Thư mục cha -> Mèo";
-            break;
-          default:
-            loaiDanhMuc = "Khác"; // Hoặc xử lý cho các trường hợp khác
-            break;
-        }
+          if (dhdv.trang_thai === "cho_xac_nhan") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-secondary">Chờ xác nhận</span>
+            );
+          } else if (dhdv.trang_thai === "da_xac_nhan") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-info">Đã xác nhận</span>
+            );
+          } else if (dhdv.trang_thai === "dang_van_chuyen") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-warning">Đang vận chuyển</span>
+            );
+          } else if (dhdv.trang_thai === "hoan_thanh") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-success">Hoàn thành</span>
+            );
+          } else {
+            TrangThaiDonHang = <span class="badge text-bg-danger">Đã hủy</span>;
+          }
 
-        console.log(
-          `Danh mục: ${dm.ten_danh_muc}, parent_id: ${parentId}, loại: ${loaiDanhMuc}`
-        ); // Kiểm tra thông tin
+          let PhuongThucThanhToan;
+          if (dhdv.phuong_thuc_tt === "cash") {
+            PhuongThucThanhToan = "Thanh toán khi nhận hàng";
+          } else PhuongThucThanhToan = "Thanh toán chuyển khoản";
 
-        return (
-          <tr key={dm.ma_danh_muc}>
-            <td className="text-center">{fromIndex + i + 1}</td>
-            <td>{dm.ten_danh_muc}</td>
-            <td className="text-center">{loaiDanhMuc}</td>
-            <td className="text-center">{dm.ngay_tao}</td>
-            <td className="text-center">
-              <Link
-                onClick={() => fetchCategoryById(dm.ma_danh_muc)}
-                to={`/admindanhmucsua/${dm.ma_danh_muc}`}
-                className="btn btn-outline-warning m-1"
-              >
-                <i className="bi bi-pencil-square"></i>
-              </Link>
-              <button
-                onClick={() => xoaDanhMuc(dm.ma_danh_muc)}
-                className="btn btn-outline-danger m-1"
-              >
-                <i className="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-        );
-      })}
+          return (
+            <tr>
+              <td className="text-center align-middle">{fromIndex + i + 1}</td>
+              <td className="align-middle">
+                <Link
+                  onClick={() => fetchOrderById(dhdv.ma_don_hang)}
+                  to={`/admindvcschitiet/${dhdv.ma_don_hang}`}
+                  className="text-primary"
+                >
+                  #{dhdv.ma_don_hang}
+                </Link>
+              </td>
+              <td className="align-middle">
+                {format(new Date(dhdv.ngay_dat), "dd/MM/yyyy HH:mm", {
+                  locale: vi,
+                })}
+              </td>
+              <td className="align-middle">{dhdv.ho_ten}</td>
+              <td className="align-middle">{dhdv.so_dien_thoai}</td>
+              <td className="text-end align-middle">
+                {parseInt(dhdv.tong_tien).toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </td>
+              <td className="text-center align-items-center align-middle">
+                {TrangThaiDonHang}
+              </td>
+              <td className="text-center text-nowrap align-middle">
+                {PhuongThucThanhToan}
+              </td>
+              <td className="align-middle">
+                <input
+                  type="text"
+                  className="form-control"
+                  required
+                  placeholder="Nguyễn Văn A"
+                />
+              </td>
+            </tr>
+          );
+        }) //map
+      }
     </>
   );
-}
+} //HienDHTrongMotTrang
 
-function PhanTrang({ listDM, pageSize, ganDM }) {
+function PhanTrang({ listDHDV, pageSize }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
-  const spTrong1Trang = listDM.slice(fromIndex, toIndex);
-  const tongSoTrang = Math.ceil(listDM.length / pageSize);
-
+  const dhTrong1Trang = listDHDV.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listDHDV.length / pageSize);
   const chuyenTrang = (event) => {
-    const newIndex = (event.selected * pageSize) % listDM.length;
+    const newIndex = (event.selected * pageSize) % listDHDV.length;
     setfromIndex(newIndex);
   };
-
   return (
     <>
-      <HienSPTrongMotTrang
-        spTrongTrang={spTrong1Trang}
-        fromIndex={fromIndex}
-        ganDM={ganDM}
-      />
+      <HienSPTrongMotTrang spTrongTrang={dhTrong1Trang} fromIndex={fromIndex} />
       <tr>
-        <td colSpan="5">
+        <td colspan="8">
           <ReactPaginate
             nextLabel=">"
             previousLabel="<"
@@ -321,6 +317,6 @@ function PhanTrang({ listDM, pageSize, ganDM }) {
       </tr>
     </>
   );
-}
+} //PhanTrang
 
-export default AdminDanhMuc;
+export default AdminDatLich;

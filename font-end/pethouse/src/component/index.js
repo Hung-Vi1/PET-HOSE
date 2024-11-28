@@ -422,79 +422,79 @@ function Index() {
                               style: "currency",
                               currency: "VND",
                             })}
-                            </span>
-                          </ins>
-                        </div>
+                          </span>
+                        </ins>
                       </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-  
-          {/* Tab Cho chó */}
-          <div className="tab-pane container fade" id="menu1">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {dogProducts.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                      <div className="product-thumb clearfix">
-                        <img
-                          src={`image/product/${sp.hinh_anh}`}
-                          alt={sp.ten_san_pham}
-                        />
-                        <span className="new">Mới</span>
+        </div>
+
+        {/* Tab Cho chó */}
+        <div className="tab-pane container fade" id="menu1">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {dogProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        </ins>
                       </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              })}
-                            </span>
-                          </ins>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-  
-          {/* Tab Cho mèo */}
-          <div className="tab-pane container fade" id="menu2">
-            <div className="divider h54" />
-            <div className="product-content product-fourcolumn clearfix">
-              <ul className="product style2 isotope-product clearfix">
-                {catProducts.slice(0, 8).map((sp, i) => (
-                  <li className="product-item" key={i}>
-                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                      <div className="product-thumb clearfix">
-                        <img
-                          src={`image/product/${sp.hinh_anh}`}
-                          alt={sp.ten_san_pham}
-                        />
-                        <span className="new">Mới</span>
-                      </div>
-                      <div className="product-info text-center clearfix">
-                        <span className="product-title box-title">
-                          {sp.ten_san_pham}
-                        </span>
-                        <div className="price">
-                          <ins>
-                            <span className="amount">
-                              {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
+        </div>
+
+        {/* Tab Cho mèo */}
+        <div className="tab-pane container fade" id="menu2">
+          <div className="divider h54" />
+          <div className="product-content product-fourcolumn clearfix">
+            <ul className="product style2 isotope-product clearfix">
+              {catProducts.slice(0, 8).map((sp, i) => (
+                <li className="product-item" key={i}>
+                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <div className="product-thumb clearfix">
+                      <img
+                        src={`image/product/${sp.hinh_anh}`}
+                        alt={sp.ten_san_pham}
+                      />
+                      <span className="new">Mới</span>
+                    </div>
+                    <div className="product-info text-center clearfix">
+                      <span className="product-title box-title">
+                        {sp.ten_san_pham}
+                      </span>
+                      <div className="price">
+                        <ins>
+                          <span className="amount">
+                            {parseInt(sp.gia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
                             })}
                           </span>
                         </ins>
