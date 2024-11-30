@@ -64,7 +64,7 @@ function Header() {
     <>
       <div id="logo" className="logo float-left">
         <Link to="/" title="logo">
-          <img src="logo-ngang.png" alt="Logo" width={107} height={24} />
+          <img src="image/Nen_trong_suot.png" alt="Logo" width={107} height={24} />
         </Link>
       </div>
 

@@ -92,7 +92,7 @@ function LienHe() {
             <div className="page-title parallax parallax1">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 text-light">
                             <div className="page-title-heading">
                                 <h1 className="title">Liên hệ</h1>
                             </div>
@@ -122,7 +122,7 @@ function LienHe() {
                             <div className="iconbox text-center">
                                 <div className="box-header nomargin">
                                     <div className="icon">
-                                        <i className="fa fa-map-marker" />
+                                        <i className="fa-solid fa-map-marker" />
                                     </div>
                                 </div>
                                 <div className="box-content">
@@ -135,7 +135,8 @@ function LienHe() {
                             <div className="iconbox text-center">
                                 <div className="box-header">
                                     <div className="icon">
-                                        <i className="fa fa-phone" />
+                                        <i className="fa-solid fa-phone" />
+                                        
                                     </div>
                                 </div>
                                 <div className="box-content">
@@ -165,7 +166,7 @@ function LienHe() {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="title-section margin_bottom_17">
-                                <h2 className="title">Gửi Email cho chúng tôi</h2>
+                                <h2 className="title">Liên hệ cho chúng tôi</h2>
                             </div><br/>
                         </div>
                     </div>
@@ -179,8 +180,8 @@ function LienHe() {
                                 method="post"
                                 action="#"
                             >
-                                <div className="form-text-wrap clearfix">
-                                    <div className="contact-name">
+                                <div className="form-text-wrap clearfix row">
+                                    <div className="contact-name col-12">
                                         <label />
                                         <input
                                             type="text"
@@ -193,7 +194,7 @@ function LienHe() {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="contact-name">
+                                    <div className="contact-name col-6">
                                         <label />
                                         <input
                                             type="text"
@@ -206,7 +207,8 @@ function LienHe() {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="contact-name">
+                                    
+                                    <div className="contact-name col-6">
                                         <label />
                                         <input
                                             type="text"
@@ -219,7 +221,7 @@ function LienHe() {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="contact-name">
+                                    <div className="contact-name col-6">
                                         <label />
                                         <input
                                             type="text"
@@ -233,10 +235,10 @@ function LienHe() {
                                         />
                                     </div>
                                 </div>
-                                <div className="contact-message clearfix">
+                                <div className="contact-message clearfix row">
                                     <label />
                                     <textarea
-                                        placeholder="Ghi chú"
+                                        placeholder="Nội dung"
                                         name="NoiDung"
                                         required=""
                                         value={formData.NoiDung}

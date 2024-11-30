@@ -37,7 +37,7 @@ function TinTuc() {
       <div className="page-title parallax parallax1">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 text-light">
               <div className="page-title-heading">
                 <h1 className="title">Tin thú cưng</h1>
               </div>

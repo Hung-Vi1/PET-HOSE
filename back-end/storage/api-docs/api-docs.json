@@ -3225,14 +3225,14 @@
                 }
             }
         },
-        "/api/products/reseach": {
+        "/api/products/search": {
             "post": {
                 "tags": [
                     "SanPham"
                 ],
                 "summary": "Tìm kiếm sản phẩm",
                 "description": "Tìm kiếm sản phẩm từ danh sách.",
-                "operationId": "f5b0229f10e5bf480852a516a8570a6a",
+                "operationId": "eb32dc5a82c6b044a0294b4e93d6885c",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3253,8 +3253,8 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Kết quả tìm kiếm",
+                    "200": {
+                        "description": "Tìm kiếm thành công",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3263,8 +3263,15 @@
                                             "type": "string",
                                             "example": "success"
                                         },
-                                        "products": {
-                                            "type": "object"
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tìm kiếm thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductResource"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -3281,6 +3288,9 @@
                                         "status": {
                                             "type": "string",
                                             "example": "fail"
+                                        },
+                                        "errors": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
