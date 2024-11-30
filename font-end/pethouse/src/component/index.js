@@ -401,7 +401,7 @@ function Index() {
           <div className="divider h54" />
           <div className="product-content product-fourcolumn clearfix">
             <ul className="product style2 isotope-product clearfix">
-              {allProducts.slice(0, 4).map((sp, i) => (
+              {allProducts.slice(0, 8).map((sp, i) => (
                 <li className="product-item" key={i}>
                   <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                     <div className="product-thumb clearfix">
