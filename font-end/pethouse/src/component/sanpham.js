@@ -48,7 +48,7 @@ function SanPham() {
           <div className="page-title parallax parallax1">
             <div className="container">
               <div className="row">
-                <div className="col-md-12">
+                <div className="col-md-12 text-light">
                   <div className="page-title-heading">
                     <h1 className="title">Sản phẩm</h1>
                   </div>
@@ -183,7 +183,7 @@ function HienSPTrongMotTrang({ spTrongTrang }) {
             <span className="product-title">{sp.ten_san_pham}</span>
             <div className="price">
               <ins>
-                <span className="amount">
+                <span className="amount fs-6 fw-bold">
                   {parseInt(sp.gia).toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",

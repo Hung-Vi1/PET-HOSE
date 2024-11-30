@@ -307,7 +307,7 @@ function Index() {
                         </span>
                         <div className="price">
                           <ins>
-                            <span className="amount">
+                            <span className="amount fs-6 fw-bold">
                               {parseInt(sp.gia).toLocaleString("vi-VN", {
                                 style: "currency",
                                 currency: "VND",
@@ -342,8 +342,8 @@ function Index() {
                   <h2 className="title font-size-40 line-height-76">
                     Ưu đãi hấp dẫn khi mua sản phẩm
                   </h2>
-                  <div className="sub-title">
-                    <span>Sản phẩm chính hãng của Pet houe</span>
+                  <div className="sub-title fs-1">
+                    <span className="fs-3 text-light fw-bold">Sản phẩm chính hãng của Pet houe</span>
                   </div>
                 </div>
                 <div className="elm-btn text-center">
@@ -368,7 +368,7 @@ function Index() {
       <ul className="nav nav-tabs d-flex justify-content-center">
         <li className="nav-item">
           <a
-            className="nav-link text-danger fw-bold active"
+            className="nav-link text-dark fw-bold active"
             data-bs-toggle="tab"
             href="#home"
           >
@@ -377,7 +377,7 @@ function Index() {
         </li>
         <li className="nav-item">
           <a
-            className="nav-link text-danger fw-bold"
+            className="nav-link text-dark fw-bold"
             data-bs-toggle="tab"
             href="#menu1"
           >
@@ -386,7 +386,7 @@ function Index() {
         </li>
         <li className="nav-item">
           <a
-            className="nav-link text-danger fw-bold"
+            className="nav-link text-dark fw-bold"
             data-bs-toggle="tab"
             href="#menu2"
           >
@@ -417,7 +417,7 @@ function Index() {
                       </span>
                       <div className="price">
                         <ins>
-                          <span className="amount">
+                          <span className="amount fs-6 fw-bold">
                             {parseInt(sp.gia).toLocaleString("vi-VN", {
                               style: "currency",
                               currency: "VND",
@@ -459,7 +459,7 @@ function Index() {
                       </span>
                       <div className="price">
                         <ins>
-                          <span className="amount">
+                          <span className="amount fs-6 fw-bold">
                             {parseInt(sp.gia).toLocaleString("vi-VN", {
                               style: "currency",
                               currency: "VND",
@@ -501,7 +501,7 @@ function Index() {
                       </span>
                       <div className="price">
                         <ins>
-                          <span className="amount">
+                          <span className="amount fs-6 fw-bold">
                             {parseInt(sp.gia).toLocaleString("vi-VN", {
                               style: "currency",
                               currency: "VND",
@@ -555,7 +555,7 @@ function Index() {
                     <h5 className="heading">
                       <a href="#">Thanh toán khi nhận hàng</a>
                     </h5>
-                    <p className="desc">The Internet Trend To Repeat</p>
+                    <p className="desc">Miễn phí vận chuyển trên toán quốc</p>
                   </div>
                 </div>
               </div>
@@ -625,7 +625,7 @@ function Index() {
                   <div className="title-post">
                     <h2>
                       <Link to={`/chitiettintuc/${article.bai_viet}`}>
-                        {article.tieu_de}
+                        {truncateContent(article.tieu_de, 45)}
                       </Link>
                     </h2>
                   </div>
@@ -653,7 +653,7 @@ function Index() {
           <div className="row">
             <div className="col-md-4">
               <div className="text">
-                <h3>Gửi mail để nhận ưu đãi</h3>
+                <h3>Nhập email để liên hệ với tôi</h3>
               </div>
             </div>
             <div className="col-md-8">
