@@ -41,7 +41,7 @@ Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'd
 use App\Http\Controllers\ProductApiController;
 Route::get('/products', [ProductApiController::class, 'index']);
 Route::post('/products/store', [ProductApiController::class, 'store']);
-Route::post('/products/reseach', [ProductApiController::class, 'reseachproduct']);
+Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);

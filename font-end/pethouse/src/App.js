@@ -23,6 +23,7 @@ import ChiTietDonHang from "./component/chitietdonhang";
 import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
 
+
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
 import AdminTaiKhoan from "./AdminTaiKhoan";
@@ -40,6 +41,7 @@ import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
 import AdminDatLich from "./AdminDichVuChamSoc";
+import TimKiem from "./component/timkiem";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -499,6 +501,28 @@ function App() {
                 <Header />
                 <ChiTietSanPham />
                 <Footer />
+              </div>
+            }
+          />
+
+<Route
+            path="/timkiem"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <TimKiem />
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
               </div>
             }
           />

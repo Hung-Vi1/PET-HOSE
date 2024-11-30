@@ -579,9 +579,9 @@ class ProductApiController extends Controller
     }
     
 
-    /**
+/**
      * @OA\Post(
-     *     path="/api/products/reseach",
+     *     path="/api/products/search",
      *     tags={"SanPham"},
      *     summary="Tìm kiếm sản phẩm",
      *     description="Tìm kiếm sản phẩm từ danh sách.",
@@ -593,11 +593,12 @@ class ProductApiController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
-     *         description="Kết quả tìm kiếm",
+     *         response=200,
+     *         description="Tìm kiếm thành công",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="products", type="object")
+     *             @OA\Property(property="message", type="string", example="Tìm kiếm thành công"),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/ProductResource"))
      *         )
      *     ),
      *     @OA\Response(
@@ -605,24 +606,39 @@ class ProductApiController extends Controller
      *         description="Lỗi khi tìm kiếm sản phẩm",
      *         @OA\JsonContent(
      *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="errors", type="object")
      *         )
      *     )
      * )
      */
-    public function reseachproduct(Request $request)
+    public function searchProduct(Request $request)
     {
         // Validate dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
             'TenSanPham' => 'required|string|max:255',
         ]);
+
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        } else {
-            $products = SanPham::search($request->TenSanPham);
             return response()->json([
-                'status' => "success",
-                'products' => $products,
-            ], 200);
+                'status' => 'fail',
+                'errors' => $validator->errors()
+            ], 400);
         }
+
+        // Tìm kiếm sản phẩm
+        $products = SanPham::where('TenSanPham', 'LIKE', '%' . $request->TenSanPham . '%')->get();
+
+        if ($products->isEmpty()) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Không tìm thấy sản phẩm nào.'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tìm kiếm thành công',
+            'data' => ProductResource::collection($products),
+        ], 200);
     }
 }
