@@ -52,7 +52,7 @@ function TimKiem() {
   const handleSearch = (e) => {
     if (e.key === "Enter" && TimKiem.trim() !== "") {
       setLoading(true); // Bắt đầu tải
-      fetch("http://127.0.0.1:8000/api/products/reseach", {
+      fetch("http://127.0.0.1:8000/api/products/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,12 +64,12 @@ function TimKiem() {
           if (data.status === "success" && Array.isArray(data.data)) {
             // Chuyển đổi dữ liệu từ API thành đúng cấu trúc cho React
             const formattedData = data.data.map((sp) => ({
-              ma_san_pham: sp.MaSP,
-              ten_san_pham: sp.TenSanPham,
-              gia: sp.GiaSP,
-              hinh_anh: sp.HinhAnh,
-              so_luong: sp.SoLuong,
-              mo_ta: sp.MoTa,
+              ma_san_pham: sp.ma_san_pham,
+              ten_san_pham: sp.ten_san_pham,
+              gia: sp.gia,
+              hinh_anh: sp.hinh_anh,
+              so_luong: sp.so_luong,
+              mo_ta: sp.mo_ta,
             }));
 
             DsSanPham(formattedData);

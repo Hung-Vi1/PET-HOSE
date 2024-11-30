@@ -74,7 +74,7 @@ function Header() {
 
       <ul className="menu-extra menu">
         <li className="box-search">
-          <a className="icon_search header-search-icon" href="/#" />
+          <Link className="icon_search header-search-icon" to="/timkiem" />
           <form role="search" method="get" className="header-search-form" action="#">
             <input
               type="text"

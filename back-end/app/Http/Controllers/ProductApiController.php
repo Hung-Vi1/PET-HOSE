@@ -626,7 +626,7 @@ class ProductApiController extends Controller
         }
 
         // Tìm kiếm sản phẩm
-        $products = SanPham::where('TenSanPham', 'LIKE', '%' . $request->TenSanPham . '%')->get();
+        $products = SanPham::where('TenSanPham', 'LIKE', '%' . $request->TenSanPham . '%')->where("Loai", 1)->get();
 
         if ($products->isEmpty()) {
             return response()->json([
