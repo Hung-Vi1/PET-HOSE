@@ -10,6 +10,7 @@ use App\Models\DanhMuc;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * @OA\Schema(
@@ -57,6 +58,7 @@ class ProductApiController extends Controller
                 ->whereHas('danhMuc', function ($query) {
                     $query->where('loai', '0');
                 })
+                ->where('Loai', '1')
                 ->get();
 
 
@@ -135,7 +137,7 @@ class ProductApiController extends Controller
             }
 
             // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
-            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->get();
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->where('Loai', '1')->get();
 
             return response()->json([
                 'status' => 'success',
@@ -166,12 +168,13 @@ class ProductApiController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"MaDanhMuc", "TenSanPham", "GiaSP", "HinhAnh", "MoTa"},
-     *             @OA\Property(property="MaDanhMuc", type="integer", description="Mã danh mục sản phẩm"),
-     *             @OA\Property(property="TenSanPham", type="string", description="Tên sản phẩm"),
-     *             @OA\Property(property="GiaSP", type="number", description="Giá sản phẩm"),
-     *             @OA\Property(property="GiamGia", type="number", description="Giảm giá sản phẩm"),
+     *             @OA\Property(property="MaDanhMuc", type="integer", example=3, description="Mã danh mục sản phẩm"),
+     *             @OA\Property(property="TenSanPham", type="string", example="tên sản phẩm", description="Tên sản phẩm"),
+     *             @OA\Property(property="GiaSP", type="number", example=100000, description="Giá sản phẩm"),
+     *             @OA\Property(property="GiamGia", type="number", example=0, description="Giảm giá sản phẩm"),
      *             @OA\Property(property="MoTa", type="string", description="Mô tả chi tiết sản phẩm"),
-     *             @OA\Property(property="HinhAnh", type="string", format="url",  description="URL của hình ảnh sản phẩm"),
+     *             @OA\Property(property="SoLuong", type="integer", example=100, nullable=true),
+     *             @OA\Property(property="HinhAnh", type="string", example="anh.png",  description="URL của hình ảnh sản phẩm"),
      *         )
      *     ),
      *     @OA\Response(
@@ -195,52 +198,54 @@ class ProductApiController extends Controller
      * )
      */
     // Tú sửa
+    // public function store(Request $request)
+    // {
+    //     // Xác thực dữ liệu
+    //     $request->validate([
+    //         'MaDanhMuc' => 'required|integer',
+    //         'TenSanPham' => 'required|string|max:255',
+    //         'GiaSP' => 'required|integer',
+    //         'GiamGia' => 'nullable|integer',
+    //         'MoTa' => 'required|string',
+    //         'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //         'SoLuong' => 'required|integer',
+    //         'LuotXem' => 'nullable|integer',
+    //         'LuotBan' => 'nullable|integer',
+    //         'TrangThai' => 'nullable|string',
+    //         'Loai' => 'nullable|string',
+    //     ]);
+
+    //     // Lưu hình ảnh
+    //     if ($request->file('HinhAnh')) {
+    //         $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+    //         $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
+    //         $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+    //     }
+
+
+    //     // Tạo sản phẩm
+    //     $product = SanPham::create([
+    //         'MaDanhMuc' => $request->MaDanhMuc,
+    //         'TenSanPham' => $request->TenSanPham,
+    //         'GiaSP' => $request->GiaSP,
+    //         'GiamGia' => $request->GiamGia,
+    //         'MoTa' => $request->MoTa,
+    //         'HinhAnh' => $imageName, // Chỉ lưu tên hình ảnh
+    //         'SoLuong' => $request->SoLuong,
+    //         'LuotXem' => $request->LuotXem ?? 0,
+    //         'LuotBan' => $request->LuotBan ?? 0,
+    //         'TrangThai' => $request->TrangThai ?? 1,
+    //         'Loai' => $request->Loai ?? 1,
+    //     ]);
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Thêm sản phẩm thành công',
+    //         'data' => $product,
+    //     ], 201);
+    // }
+
     public function store(Request $request)
-    {
-        // Xác thực dữ liệu
-        $request->validate([
-            'MaDanhMuc' => 'required|integer',
-            'TenSanPham' => 'required|string|max:255',
-            'GiaSP' => 'required|integer',
-            'GiamGia' => 'nullable|integer',
-            'MoTa' => 'required|string',
-            'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'SoLuong' => 'required|integer',
-            'LuotXem' => 'nullable|integer',
-            'LuotBan' => 'nullable|integer',
-            'TrangThai' => 'nullable|string',
-        ]);
-
-        // Lưu hình ảnh
-        if ($request->file('HinhAnh')) {
-            $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
-            $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
-            $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
-        }
-
-
-        // Tạo sản phẩm
-        $product = SanPham::create([
-            'MaDanhMuc' => $request->MaDanhMuc,
-            'TenSanPham' => $request->TenSanPham,
-            'GiaSP' => $request->GiaSP,
-            'GiamGia' => $request->GiamGia,
-            'MoTa' => $request->MoTa,
-            'HinhAnh' => $imageName, // Chỉ lưu tên hình ảnh
-            'SoLuong' => $request->SoLuong,
-            'LuotXem' => $request->LuotXem ?? 0,
-            'LuotBan' => $request->LuotBan ?? 0,
-            'TrangThai' => $request->TrangThai ?? '1',
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Thêm sản phẩm thành công',
-            'data' => $product,
-        ], 201);
-    }
-    // Hết phần Tú sửa
-    /* public function store(Request $request)
     {
         //POST 
         try {
@@ -249,7 +254,7 @@ class ProductApiController extends Controller
                 'TenSanPham' => 'required',
                 'GiaSP' => 'required|numeric',
                 'GiamGia' => 'nullable|numeric',
-                'HinhAnh' => 'required',
+                'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif',
                 'MoTa' => 'required',
             ], [
                 'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
@@ -264,9 +269,29 @@ class ProductApiController extends Controller
             $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
             $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
             $validatedData['TrangThai'] = 1;       // Trạng thái mặc định là 1
+            $validatedData['Loai'] = 1;       // Trạng thái mặc định là 1
             $validatedData['ThoiGian'] = now();    // Thời gian hiện tại
 
-            $product = SanPham::create($validatedData);
+            // Lưu hình ảnh
+            if ($request->file('HinhAnh')) {
+                $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+                $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
+                $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+            }
+            $product = SanPham::create([
+                'MaDanhMuc' => $validatedData['MaDanhMuc'],
+                'TenSanPham' => $validatedData['TenSanPham'],
+                'GiaSP' => $validatedData['GiaSP'],
+                'GiamGia' => $validatedData['GiamGia'],
+                'MoTa' => $validatedData['MoTa'],
+                'SoLuong' => $validatedData['SoLuong'],
+                'HinhAnh' => $imageName,
+                'LuotXem' => $validatedData['LuotXem'],
+                'LuotBan' => $validatedData['LuotBan'],
+                'ThoiGian' => $validatedData['ThoiGian'],
+                'TrangThai' => $validatedData['TrangThai'],
+                'Loai' => $validatedData['Loai'],
+            ]);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thêm thành công',
@@ -279,7 +304,7 @@ class ProductApiController extends Controller
                 'data' => null
             ], 400);
         }
-    } */
+    }
 
     /**
      * Display the specified resource.
@@ -410,7 +435,7 @@ class ProductApiController extends Controller
                 'HinhAnh.mimes' => 'Hình ảnh phải là kiểu: jpeg, png, jpg, gif',
                 'MoTa.required' => 'Vui lòng nhập mô tả'
             ]);
-
+            $validatedData['SoLuong'] = 100; 
             $product = SanPham::findOrFail($MaSP);
 
             // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
@@ -483,9 +508,7 @@ class ProductApiController extends Controller
         }
     } */
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
 
 
     /**
@@ -521,18 +544,32 @@ class ProductApiController extends Controller
      *     )
      * )
      */
+
+
     public function destroy(string $MaSP)
     {
-        //DELETE
         try {
+            // Tìm sản phẩm theo mã MaSP
             $product = SanPham::findOrFail($MaSP);
+            
+            // Xóa sản phẩm
             $product->delete();
+            
+            // Trả về phản hồi thành công
             return response()->json([
                 'status' => "success",
                 'message' => 'Xóa thành công',
                 'data' => null,
             ], 204);
+        } catch (ModelNotFoundException $e) {
+            // Nếu không tìm thấy sản phẩm, trả về mã lỗi 404
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Sản phẩm không tồn tại',
+                'data' => null
+            ], 404);
         } catch (\Exception $e) {
+            // Xử lý các lỗi khác và trả về mã lỗi 500
             return response()->json([
                 'status' => 'fail',
                 'message' => $e->getMessage(),
@@ -540,8 +577,9 @@ class ProductApiController extends Controller
             ], 500);
         }
     }
+    
 
-        /**
+    /**
      * @OA\Post(
      *     path="/api/products/reseach",
      *     tags={"SanPham"},
@@ -580,13 +618,11 @@ class ProductApiController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         } else {
-        $products = SanPham::search($request->TenSanPham);
-        return response()->json([
-            'status' => "success",
-            'products' => $products,
-        ], 200);
+            $products = SanPham::search($request->TenSanPham);
+            return response()->json([
+                'status' => "success",
+                'products' => $products,
+            ], 200);
         }
     }
-
-
 }

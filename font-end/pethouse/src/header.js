@@ -86,6 +86,7 @@ function Header() {
               Tìm kiếm
             </button>
           </form>
+
         </li>
         <li className="box-login">
           {user ? (
@@ -157,8 +158,8 @@ function Header() {
             <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
-            <li className={location.pathname === "/datlich" ? "active" : ""}>
-              <Link to="/datlich">Đặt lịch</Link>
+            <li>
+              <Link to="/datlich">Dịch vụ</Link>
             </li>
             <li className={location.pathname === "/tintuc" ? "active" : ""}>
               <Link to="/tintuc">Tin thú cưng</Link>

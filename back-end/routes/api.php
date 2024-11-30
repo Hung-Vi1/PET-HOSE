@@ -96,6 +96,11 @@ Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'des
 use App\Http\Controllers\CouponController;
 Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
 Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
+Route::get('/coupons', [CouponController::class, 'index']);
+Route::get('/coupons/{id}', [CouponController::class, 'show']);
+Route::post('/coupons/store', [CouponController::class, 'store']);
+Route::put('/coupons/update/{id}', [CouponController::class, 'update']);
+Route::delete('/coupons/destroy/{id}', [CouponController::class, 'destroy']);
 
 use App\Http\Controllers\VnpayApiController;
 Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);

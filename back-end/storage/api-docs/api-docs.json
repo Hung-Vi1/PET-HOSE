@@ -1114,6 +1114,585 @@
                 }
             }
         },
+        "/api/coupons": {
+            "get": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Lấy danh sách coupon",
+                "description": "API này trả về danh sách các coupon có loại là 1.",
+                "operationId": "getCoupons",
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu được lấy thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi xảy ra khi xử lý dữ liệu"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/{id}": {
+            "get": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Lấy chi tiết mã giảm giá",
+                "description": "API này trả về thông tin chi tiết của một mã giảm giá dựa trên ID.",
+                "operationId": "getCouponById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của mã giảm giá cần lấy",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CouponResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy mã giảm giá",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy mã giảm giá"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi xảy ra khi xử lý dữ liệu"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/store": {
+            "post": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Thêm mã giảm giá mới",
+                "description": "API này thêm một mã giảm giá mới vào hệ thống.",
+                "operationId": "createCoupon",
+                "requestBody": {
+                    "description": "Dữ liệu để tạo mã giảm giá",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "type",
+                                    "value",
+                                    "min_order_value",
+                                    "expiry_date",
+                                    "usage_limit"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "DISCOUNT2024"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "percentage",
+                                            "fixed"
+                                        ],
+                                        "example": "percentage"
+                                    },
+                                    "value": {
+                                        "type": "integer",
+                                        "example": 20
+                                    },
+                                    "min_order_value": {
+                                        "type": "integer",
+                                        "example": 100000
+                                    },
+                                    "expiry_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-31"
+                                    },
+                                    "usage_limit": {
+                                        "type": "integer",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi yêu cầu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thông báo lỗi"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Trường mã giảm giá là bắt buộc."
+                                                    }
+                                                },
+                                                "type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Trường loại chỉ được phép là percentage hoặc fixed."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/update/{id}": {
+            "put": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Cập nhật mã giảm giá",
+                "description": "API này cập nhật thông tin của một mã giảm giá cụ thể.",
+                "operationId": "updateCoupon",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của mã giảm giá cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dữ liệu cập nhật mã giảm giá",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code",
+                                    "type",
+                                    "value",
+                                    "min_order_value",
+                                    "expiry_date",
+                                    "usage_limit"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "type": "string",
+                                        "example": "NEWCODE2024"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "percentage",
+                                            "fixed"
+                                        ],
+                                        "example": "fixed"
+                                    },
+                                    "value": {
+                                        "type": "integer",
+                                        "example": 30
+                                    },
+                                    "min_order_value": {
+                                        "type": "integer",
+                                        "example": 200000
+                                    },
+                                    "expiry_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    },
+                                    "usage_limit": {
+                                        "type": "integer",
+                                        "example": 100
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Coupon updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CouponResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy mã giảm giá",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy mã giảm giá"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dữ liệu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Trường mã giảm giá là bắt buộc."
+                                                    }
+                                                },
+                                                "type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Trường loại chỉ được phép là percentage hoặc fixed."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server error message"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/coupons/destroy/{id}": {
+            "delete": {
+                "tags": [
+                    "Coupons"
+                ],
+                "summary": "Xóa mã giảm giá",
+                "description": "API này xóa một mã giảm giá cụ thể.",
+                "operationId": "deleteCoupon",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của mã giảm giá cần xóa",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Xóa thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Xóa thành công"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mã giảm giá không tồn tại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "mã giảm giá không tồn tại"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Lỗi server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi hệ thống"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/News": {
             "get": {
                 "tags": [
@@ -2326,28 +2905,37 @@
                                 "properties": {
                                     "MaDanhMuc": {
                                         "description": "Mã danh mục sản phẩm",
-                                        "type": "integer"
+                                        "type": "integer",
+                                        "example": 3
                                     },
                                     "TenSanPham": {
                                         "description": "Tên sản phẩm",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "tên sản phẩm"
                                     },
                                     "GiaSP": {
                                         "description": "Giá sản phẩm",
-                                        "type": "number"
+                                        "type": "number",
+                                        "example": 100000
                                     },
                                     "GiamGia": {
                                         "description": "Giảm giá sản phẩm",
-                                        "type": "number"
+                                        "type": "number",
+                                        "example": 0
                                     },
                                     "MoTa": {
                                         "description": "Mô tả chi tiết sản phẩm",
                                         "type": "string"
                                     },
+                                    "SoLuong": {
+                                        "type": "integer",
+                                        "example": 100,
+                                        "nullable": true
+                                    },
                                     "HinhAnh": {
                                         "description": "URL của hình ảnh sản phẩm",
                                         "type": "string",
-                                        "format": "url"
+                                        "example": "anh.png"
                                     }
                                 },
                                 "type": "object"
@@ -3154,7 +3742,7 @@
                             "schema": {
                                 "required": [
                                     "Mataikhoan",
-                                    "PTTT",
+                                    "NgayGiao",
                                     "chi_tiet"
                                 ],
                                 "properties": {
@@ -3163,15 +3751,16 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "PTTT": {
-                                        "description": "Phương thức thanh toán",
-                                        "type": "string",
-                                        "example": "Chuyển khoản"
-                                    },
                                     "GhiChu": {
                                         "description": "Ghi chú cho đơn hàng",
                                         "type": "string",
                                         "example": "Ghi chú đơn hàng"
+                                    },
+                                    "NgayGiao": {
+                                        "description": "Ngày giờ sử dụng đơn hàng",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-11-30 15:30:00"
                                     },
                                     "chi_tiet": {
                                         "type": "array",
@@ -4013,6 +4602,49 @@
                     "NoiDung": {
                         "type": "string",
                         "example": "Nội dung liên hệ"
+                    }
+                },
+                "type": "object"
+            },
+            "CouponResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "magiamgia"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "percentage"
+                    },
+                    "value": {
+                        "type": "integer",
+                        "example": 20
+                    },
+                    "min_order_value": {
+                        "type": "integer",
+                        "example": 100000
+                    },
+                    "expiry_date": {
+                        "type": "string",
+                        "example": "2024-12-29T17:09:04Z"
+                    },
+                    "usage_limit": {
+                        "type": "integer",
+                        "example": "20"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-29T17:09:04Z"
                     }
                 },
                 "type": "object"

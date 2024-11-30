@@ -426,6 +426,11 @@ function Index() {
                         </ins>
                       </div>
                     </div>
+                    <div className="add-to-cart text-center">
+                        <Link onClick={() => addToCart(sp)}>
+                          THÊM VÀO GIỎ HÀNG
+                        </Link>
+                      </div>
                   </Link>
                 </li>
               ))}
@@ -463,6 +468,11 @@ function Index() {
                         </ins>
                       </div>
                     </div>
+                    <div className="add-to-cart text-center">
+                        <Link onClick={() => addToCart(sp)}>
+                          THÊM VÀO GIỎ HÀNG
+                        </Link>
+                      </div>
                   </Link>
                 </li>
               ))}
@@ -500,6 +510,11 @@ function Index() {
                         </ins>
                       </div>
                     </div>
+                    <div className="add-to-cart text-center">
+                        <Link onClick={() => addToCart(sp)}>
+                          THÊM VÀO GIỎ HÀNG
+                        </Link>
+                      </div>
                   </Link>
                 </li>
               ))}
