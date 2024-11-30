@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SanPham extends Model
 {
     use HasFactory;
-    protected $table = 'san_pham'; 
+    protected $table = 'san_pham';
     protected $primaryKey = 'MaSP'; // Chỉ định khóa chính
 
     /**
@@ -36,7 +36,7 @@ class SanPham extends Model
      */
     public function danhMuc()
     {
-        return $this->belongsTo(DanhMuc::class, 'MaDanhMuc');
+        return $this->belongsTo(DanhMuc::class, 'MaDanhMuc', 'MaDanhMuc');
     }
 
     /**
@@ -58,6 +58,6 @@ class SanPham extends Model
     public static function search($keyword)
     {
         return self::where('TenSanPham', 'like', '%' . $keyword . '%')
-                    ->get();
+            ->get();
     }
 }
