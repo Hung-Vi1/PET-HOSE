@@ -42,11 +42,20 @@ function Index() {
 
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/products")
-      .then((response) => ListNewProduct(response.data.data || []));
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/products");
+        const data = await response.json();
+        ListNewProduct(data.data || []);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
+  
 
   useEffect(() => {
     const fetchTinTuc = async () => {
