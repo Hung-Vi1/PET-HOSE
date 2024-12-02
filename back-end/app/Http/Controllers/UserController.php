@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\SendEmail;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\UserResource;
 
@@ -187,11 +188,14 @@ class UserController extends Controller
                 'message' => 'Email không phải email đăng ký tài khoản của bạn!',
             ], 400);
         } else {
-            $token = \Str::random(40);
+            $token = Str::random(40) . bcrypt($user->Mataikhoan);
+            $token = str_replace('/', '', $token);
             $user->update(['remember_token' => $token]);
+
             if ($user->wasChanged('remember_token')) {
                 $subject = 'Đặt lại mật khẩu của bạn';
-                Mail::to($user->Email)->send(new SendEmail($subject, ['name' => $user->Hovaten]));
+                $resetLink = env('FRONTEND_URL') . '/ResetPassword/' . $token;
+                Mail::to($user->Email)->send(new SendEmail($subject, ['name' => $user->Hovaten, 'link' => $resetLink]));
                 return response()->json([
                     'message' => 'Email hoặc mật khẩu không đúng!',
                     'user' => $user,
@@ -200,6 +204,50 @@ class UserController extends Controller
             }
         }
     }
+
+    public function resetPassword(Request $request)
+    {
+        // Lấy token từ URL
+        $token = $request->query('token');
+
+        // Kiểm tra token
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token không hợp lệ hoặc không tồn tại.',
+            ], 400);
+        }
+
+        // Validate password
+        $request->validate([
+            'password' => 'required|confirmed|min:8',
+        ], [
+            'password.required' => 'Mật khẩu là bắt buộc.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+        ]);
+
+        // Tìm user bằng token
+        $user = User::where('remember_token', $token)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token không hợp lệ hoặc đã hết hạn.',
+            ], 400);
+        }
+
+        // Đổi mật khẩu và xóa token
+        $user->password = Hash::make($request->password);
+        $user->remember_token = null; // Xóa token sau khi sử dụng
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Đổi mật khẩu thành công.',
+        ], 200);
+    }
+
 
 
     /**
@@ -309,19 +357,19 @@ class UserController extends Controller
             return response()->json($validator->errors(), 400);
         } else {
             // Cập nhật thông tin người dùng
-        $user->Hovaten = $request->Hovaten;
-        $user->SDT = $request->SDT;
-        $user->DiaChi = $request->DiaChi;
-        $user->Email = $request->Email;
-        $user->ThuCung = $request->ThuCung;
+            $user->Hovaten = $request->Hovaten;
+            $user->SDT = $request->SDT;
+            $user->DiaChi = $request->DiaChi;
+            $user->Email = $request->Email;
+            $user->ThuCung = $request->ThuCung;
 
-        $user->save();
+            $user->save();
 
-        return response()->json([
-            'message' => 'Cập nhật tài khoản thành công!',
-            'status' => true,
-            'user' => $user
-        ], 200);
+            return response()->json([
+                'message' => 'Cập nhật tài khoản thành công!',
+                'status' => true,
+                'user' => $user
+            ], 200);
         }
     }
 

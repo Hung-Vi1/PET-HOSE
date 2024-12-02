@@ -26,13 +26,14 @@ use App\Http\Controllers\UserController;
 Route::post('/dangnhap', [UserController::class, 'dangnhap']);
 Route::post('/dangki', [UserController::class, 'dangki']);
 Route::post('/guiemail', [UserController::class, 'GuiEmail']);
+Route::put('/ResetPassword', [UserController::class, 'resetPassword']);
+
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 
 use App\Http\Controllers\CategoryApiController;
-
 Route::get('/category', [CategoryApiController::class, 'index']);
 Route::get('/category/{MaDanhMuc}', [CategoryApiController::class, 'show']);
 Route::post('/category/store', [CategoryApiController::class, 'store']);

@@ -22,6 +22,7 @@ import LichSuMua from "./component/lichsumua";
 import ChiTietDonHang from "./component/chitietdonhang";
 import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
+import ResetPassword from "./component/ResetPassword";
 
 
 /* Admin */
@@ -400,6 +401,30 @@ function App() {
             }
           />
           <Route
+            path="/ResetPassword/:token"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <ResetPassword />
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+          <Route
             path="/lichsumua"
             exact
             element={
@@ -505,7 +530,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/timkiem"
             exact
             element={
