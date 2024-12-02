@@ -23,10 +23,11 @@ use App\Http\Controllers\UserController;
 
 // Auth::routes(['reset' => true]);
 
+Route::get('/users', [UserController::class, 'index']);
 Route::post('/dangnhap', [UserController::class, 'dangnhap']);
 Route::post('/dangki', [UserController::class, 'dangki']);
 Route::post('/guiemail', [UserController::class, 'GuiEmail']);
-Route::put('/ResetPassword', [UserController::class, 'resetPassword']);
+Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
 
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);

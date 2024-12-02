@@ -21,8 +21,48 @@ use App\Http\Resources\UserResource;
  *     description="API documentation for the application",
  * )
  */
+
 class UserController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/api/users",
+     *     tags={"Users"},
+     *     summary="Lấy danh sách tài khoản",
+     *     description="Trả về danh sách tất cả các tài khoản.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lấy dữ liệu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
+     *          
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Lỗi khi lấy dữ liệu"),
+     *     @OA\Response(response=404, description="Danh mục không tìm thấy")
+     * )
+     */
+    public function index()
+    {
+        // GET
+        try {
+            $users = User::all();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => UserResource::collection($users)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
+
     /**
      * @OA\Post(
      *     path="/api/dangnhap",
@@ -194,7 +234,7 @@ class UserController extends Controller
 
             if ($user->wasChanged('remember_token')) {
                 $subject = 'Đặt lại mật khẩu của bạn';
-                $resetLink = env('FRONTEND_URL') . '/ResetPassword/' . $token;
+                $resetLink = env('FRONTEND_URL') . '/ResetPassword?token=' . $token;
                 Mail::to($user->Email)->send(new SendEmail($subject, ['name' => $user->Hovaten, 'link' => $resetLink]));
                 return response()->json([
                     'message' => 'Email hoặc mật khẩu không đúng!',
@@ -207,10 +247,9 @@ class UserController extends Controller
 
     public function resetPassword(Request $request)
     {
-        // Lấy token từ URL
-        $token = $request->query('token');
+        // Lấy token từ body
+        $token = $request->input('token');
 
-        // Kiểm tra token
         if (!$token) {
             return response()->json([
                 'status' => 'error',
@@ -221,10 +260,6 @@ class UserController extends Controller
         // Validate password
         $request->validate([
             'password' => 'required|confirmed|min:8',
-        ], [
-            'password.required' => 'Mật khẩu là bắt buộc.',
-            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
-            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
         ]);
 
         // Tìm user bằng token
@@ -238,7 +273,7 @@ class UserController extends Controller
         }
 
         // Đổi mật khẩu và xóa token
-        $user->password = Hash::make($request->password);
+        $user->Matkhau = Hash::make($request->password);
         $user->remember_token = null; // Xóa token sau khi sử dụng
         $user->save();
 
@@ -247,6 +282,7 @@ class UserController extends Controller
             'message' => 'Đổi mật khẩu thành công.',
         ], 200);
     }
+
 
 
 
