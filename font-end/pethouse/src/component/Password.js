@@ -43,27 +43,46 @@ const Password = () => {
   });
 
   return (
+
     <div className="forgot-password-container">
-      <h1>Quên Mật Khẩu</h1>
-      {isEmailSent ? (
-        <p>Đã gửi email cấp lại mật khẩu. Vui lòng kiểm tra hộp thư đến của bạn.</p>
-      ) : (
-        <form onSubmit={formik.handleSubmit}>
-          <input
-            type="email"
-            placeholder="Nhập email của bạn"
-            {...formik.getFieldProps("email")}
-            required
-          />
-          {formik.touched.email && formik.errors.email && (
-            <div className="text-danger">{formik.errors.email}</div>
-          )}
-          <button type="submit" disabled={formik.isSubmitting}>
-            {formik.isSubmitting ? "Đang gửi..." : "Gửi Email"}
-          </button>
-          {errorMessage && <p className="text-danger">{errorMessage}</p>}
-        </form>
-      )}
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col-md-4 text-center m-5">
+
+            <div class="card text-center">
+              <div class="card-header">
+                <h1 className="">Quên Mật Khẩu</h1>
+              </div>
+              <div class="card-body">
+              {isEmailSent ? (
+              <p>Đã gửi email cấp lại mật khẩu. Vui lòng kiểm tra hộp thư đến của bạn.</p>
+            ) : (
+              <form onSubmit={formik.handleSubmit}>
+                <input
+                  className="mb-3"
+                  type="email"
+                  placeholder="Nhập email của bạn"
+                  {...formik.getFieldProps("email")}
+                  required
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div className="text-danger">{formik.errors.email}</div>
+                )}
+                <button type="submit" disabled={formik.isSubmitting}>
+                  {formik.isSubmitting ? "Đang gửi..." : "Gửi Email"}
+                </button>
+                {errorMessage && <p className="text-danger">{errorMessage}</p>}
+              </form>
+            )}
+              </div>
+             
+            </div>
+
+
+            
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
