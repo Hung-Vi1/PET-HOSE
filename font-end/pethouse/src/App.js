@@ -401,7 +401,7 @@ function App() {
             }
           />
           <Route
-            path="/ResetPassword/:token"
+            path="/ResetPassword"
             exact
             element={
               <div>

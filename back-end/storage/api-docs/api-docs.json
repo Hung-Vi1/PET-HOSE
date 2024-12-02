@@ -4045,6 +4045,44 @@
                 }
             }
         },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Lấy danh sách tài khoản",
+                "description": "Trả về danh sách tất cả các tài khoản.",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "Lấy dữ liệu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lấy dữ liệu thành công"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi khi lấy dữ liệu"
+                    },
+                    "404": {
+                        "description": "Danh mục không tìm thấy"
+                    }
+                }
+            }
+        },
         "/api/dangnhap": {
             "post": {
                 "tags": [
