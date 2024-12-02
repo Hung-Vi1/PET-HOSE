@@ -23,6 +23,7 @@ import ChiTietDonHang from "./component/chitietdonhang";
 import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
 import ResetPassword from "./component/ResetPassword";
+import UpdateInfo from "./component/chinhsuataikhoan";
 
 
 /* Admin */
@@ -318,6 +319,33 @@ function App() {
                 </div>
 
                 <DatLich />
+
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
+<Route
+            path="/update-info/:id"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+
+                <UpdateInfo />
 
                 <footer className="footer">
                   <div className="container">
