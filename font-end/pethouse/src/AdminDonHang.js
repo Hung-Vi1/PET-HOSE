@@ -204,7 +204,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   const setSelectedOrder = useState(null);
 
   const fetchOrderById = (ma_tai_khoan) => {
-    fetch(`http://localhost:8000/api/orders/${ma_tai_khoan}`)
+    fetch(`http://localhost:8000/api/orderDetails/${ma_tai_khoan}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin sản phẩm:", data);

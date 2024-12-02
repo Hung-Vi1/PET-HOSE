@@ -374,6 +374,9 @@ class OrderApiController extends Controller
             // Eager load bảng 'san_pham' liên quan
             $orderDetails = ChiTietDonHang::where('MaDH', $MaDH)
                 ->with('sanPham') // Đảm bảo có một mối quan hệ 'sanPham' được định nghĩa trong model ChiTietDonHang
+                ->whereHas('donHang', function ($query) {
+                    $query->where('Loai', '1');
+                })
                 ->get();
 
             if ($orderDetails->isEmpty()) {
