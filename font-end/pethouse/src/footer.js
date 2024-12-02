@@ -65,7 +65,7 @@ function Footer() {
                 <div className="widget widget-brand">
                     <div className="logo logo-footer">
                         <a href="index.html">
-                            <img src="image/Nen_trong_suot.png" alt="image" width={107} height={24} />
+                            <img src="/image/Nen_trong_suot.png" alt="image" width={107} height={24} />
                         </a>
                     </div>
                     <ul className="flat-contact">
