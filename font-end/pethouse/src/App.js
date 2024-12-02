@@ -601,14 +601,14 @@ function App() {
             exact
             element={<BaoVeRoute element={<SuaBV />} />}
           />
-          <Route
+          {/* <Route
             path="/Admin_ThemBV"
             exact
             element={<BaoVeRoute element={<Admin_thembv />} />}
             path="/admindatlich"
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
