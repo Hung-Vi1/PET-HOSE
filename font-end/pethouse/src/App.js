@@ -46,6 +46,7 @@ import Admin_bv from "./Admin_BV";
 import Admin_Suabv from "./Admin_SuaBV";
 import Admin_Thembv from "./Admin_ThemBV"
 import AdminDatLich from "./AdminDichVuChamSoc";
+import AdminDichVu from "./AdminDV";
 import TimKiem from "./component/timkiem";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
@@ -332,7 +333,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/update-info/:id"
             exact
             element={
@@ -602,6 +603,8 @@ function App() {
             element={<BaoVeRoute element={<AdminTaiKhoanThem />} />}
           />
 
+
+
           <Route
             path="/admintaikhoansua/:ma_tai_khoan"
             exact
@@ -651,6 +654,12 @@ function App() {
           />
 
           <Route
+            path="/admindichvuchamsoc"
+            exact
+            element={<BaoVeRoute element={<AdminDichVu />} />}
+          />
+
+          <Route
             path="/admindonhangchitiet/:ma_don_hang"
             exact
             element={<BaoVeRoute element={<AdminDonHangChiTiet />} />}
@@ -667,6 +676,7 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
           />
+
           <Route
             path="/admindatlich"
             exact
@@ -675,6 +685,7 @@ function App() {
           <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv/>} />}/>
           <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv/>} />}/>
           <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv/>} />}/>
+
           {/* <Route
             path="/Admin_ThemBV"
             exact
