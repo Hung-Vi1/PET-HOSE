@@ -29,9 +29,9 @@ Route::post('/dangki', [UserController::class, 'dangki']);
 Route::post('/guiemail', [UserController::class, 'GuiEmail']);
 Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
 
-
+Route::post('/users/store', [UserController::class, 'store']);
+Route::put('/users/update/{Mataikhoan}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::put('/users/{id}', [UserController::class, 'update']);
 Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 
 use App\Http\Controllers\CategoryApiController;

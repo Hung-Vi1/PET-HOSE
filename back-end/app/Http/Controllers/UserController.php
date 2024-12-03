@@ -284,6 +284,131 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/api/users/store",
+     *     summary="Thêm mới người dùng",
+     *     description="Thêm một người dùng mới vào hệ thống với thông tin đầy đủ.",
+     *     tags={"Users"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"Hovaten", "ThuCung", "SDT", "DiaChi", "Email", "Quyen", "Matkhau"},
+     *             @OA\Property(property="Hovaten", type="string", example="Nguyen Van Vĩ"),
+     *             @OA\Property(property="ThuCung", type="string", example="Chó"),
+     *             @OA\Property(property="SDT", type="string", example="0362109871"),
+     *             @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM"),
+     *             @OA\Property(property="Email", type="string", format="email", example="vohungvi02@gmail.com"),
+     *             @OA\Property(property="Quyen", type="integer", enum={0, 1}, example=1),
+     *             @OA\Property(property="Matkhau", type="string", format="password", example="0")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Thêm mới thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Thêm thành công"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="Mataikhoan", type="integer", example=1),
+     *                 @OA\Property(property="Hovaten", type="string", example="Nguyen Van Vĩ"),
+     *                 @OA\Property(property="ThuCung", type="string", example="Chó"),
+     *                 @OA\Property(property="SDT", type="string", example="0362189871"),
+     *                 @OA\Property(property="DiaChi", type="string", example="123 Đường ABC, Quận 1, TP.HCM"),
+     *                 @OA\Property(property="Email", type="string", example="vohungvi02@gmail.com"),
+     *                 @OA\Property(property="Quyen", type="integer", example=0),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-12-01T10:00:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-12-01T10:00:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Yêu cầu không hợp lệ",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Dữ liệu không hợp lệ."),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Lỗi xác thực",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Dữ liệu không hợp lệ."),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="Hovaten", type="array",
+     *                     @OA\Items(type="string", example="Họ và tên không được để trống.")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function store(Request $request)
+    {
+        try {
+            // Validate dữ liệu từ request
+            $validatedData = $request->validate([
+                'Hovaten' => 'required|string|max:255',
+                'SDT' => 'required|regex:/^0\d{9}$/', // Số điện thoại chỉ cần bắt đầu bằng 0 và có đúng 10 số
+                'Email' => 'required|string|email|max:255',
+                'ThuCung' => 'string|max:255',
+                'DiaChi' => 'required|string|max:255',
+                'Quyen' => 'required|integer|in:0,1', // Chỉ chấp nhận 0 hoặc 1
+                'Matkhau' => 'required|string|max:255',
+            ], [
+                'Hovaten.required' => 'Họ và tên không được để trống.',
+                'Hovaten.string' => 'Họ và tên phải là chuỗi ký tự.',
+                'Hovaten.max' => 'Họ và tên không được vượt quá 255 ký tự.',
+
+                'ThuCung.string' => 'Tên thú cưng phải là chuỗi ký tự.',
+                'ThuCung.max' => 'Tên thú cưng không được vượt quá 255 ký tự.',
+
+                'SDT.required' => 'Số điện thoại không được để trống.',
+                'SDT.regex' => 'Số điện thoại phải bắt đầu bằng 03, 05, 07, 08, 09 và có từ 10 chữ số.',
+
+                'DiaChi.required' => 'Địa chỉ không được để trống.',
+                'DiaChi.string' => 'Địa chỉ phải là chuỗi ký tự.',
+                'DiaChi.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+
+                'Email.required' => 'Email không được để trống.',
+                'Email.string' => 'Email phải là chuỗi ký tự.',
+                'Email.email' => 'Email phải có định dạng hợp lệ.',
+                'Email.max' => 'Email không được vượt quá 255 ký tự.',
+
+                'Quyen.required' => 'Quyền không được để trống.',
+                'Quyen.integer' => 'Quyền phải là số nguyên.',
+                'Quyen.in' => 'Quyền chỉ có thể là 0 hoặc 1.',
+
+                'Matkhau.required' => 'Mật khẩu không được để trống.',
+                'Matkhau.string' => 'Mật khẩu phải là chuỗi ký tự.',
+                'Matkhau.max' => 'Mật khẩu không được vượt quá 255 ký tự.',
+            ]);
+
+            // Mã hóa mật khẩu trước khi lưu
+            $validatedData['Matkhau'] = Hash::make($validatedData['Matkhau']);
+
+
+            // Tạo mới người dùng
+            $user = User::create($validatedData);
+
+            // Trả về phản hồi thành công
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Thêm thành công',
+                'data' => new UserResource($user),
+            ], 201);
+        } catch (\Exception $e) {
+            // Xử lý lỗi
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null,
+            ], 400);
+        }
+    }
 
 
     /**
@@ -332,11 +457,11 @@ class UserController extends Controller
      * Cập nhật thông tin người dùng
      * 
      * @OA\Put(
-     *     path="/api/users/{id}",
+     *     path="/api/users/update/{Mataikhoan}",
      *     summary="Cập nhật thông tin người dùng",
      *     tags={"Users"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="Mataikhoan",
      *         in="path",
      *         required=true,
      *         @OA\Schema(type="integer"),
@@ -372,10 +497,10 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Mataikhoan)
     {
         // Kiểm tra người dùng có tồn tại không
-        $user = User::find($id);
+        $user = User::find($Mataikhoan);
 
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
