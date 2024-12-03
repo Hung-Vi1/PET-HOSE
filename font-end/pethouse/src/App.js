@@ -600,7 +600,7 @@ function App() {
           />
 
           <Route
-            path="/admintaikhoansua"
+            path="/admintaikhoansua/:ma_tai_khoan"
             exact
             element={<BaoVeRoute element={<AdminTaiKhoanSua />} />}
           />

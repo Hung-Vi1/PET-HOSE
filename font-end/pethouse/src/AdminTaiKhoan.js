@@ -2,13 +2,13 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTaiKhoan() {
   const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
   const [listTK, ganListTK] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Lấy danh sách tài khoản
   useEffect(() => {
@@ -24,6 +24,29 @@ function AdminTaiKhoan() {
 
     danhsachuser();
   }, []);
+
+  // Hàm xóa tài khoản
+  const handleDelete = async (ma_tai_khoan) => {
+    if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
+      try {
+        // Gọi API xóa tài khoản với ma_tai_khoan
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${ma_tai_khoan}`, {
+          method: "DELETE",  // Phương thức DELETE để xóa tài khoản
+        });
+
+        if (response.ok) {
+          // Cập nhật lại danh sách tài khoản sau khi xóa
+          ganListTK(listTK.filter((usr) => usr.ma_tai_khoan !== ma_tai_khoan));
+          alert("Tài khoản đã được xóa.");
+        } else {
+          alert("Xóa tài khoản thất bại.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa tài khoản:", error);
+        alert("Có lỗi xảy ra khi xóa tài khoản.");
+      }
+    }
+  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -138,23 +161,26 @@ function AdminTaiKhoan() {
               </thead>
               <tbody>
                 {listTK.map((usr, i) => (
-                  <tr key={usr.id}>
+                  <tr key={usr.ma_tai_khoan}>
                     <td className="text-center">{i + 1}</td>
                     <td>{usr.ten_tai_khoan}</td>
                     <td className="text-center">{usr.so_dien_thoai}</td>
                     <td>{usr.email}</td>
                     <td className="text-center">
-                    <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
+                      <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
                         {usr.quyen === 1 ? 'Quản trị viên' : 'Người dùng'}
                       </span>
                     </td>
                     <td className="text-center">
-                      <Link to={`/admintaikhoansua/${usr.id}`} className="btn btn-outline-warning m-1">
+                      <Link to={`/admintaikhoansua/${usr.ma_tai_khoan}`} className="btn btn-outline-warning m-1">
                         <i className="bi bi-pencil-square"></i>
                       </Link>
-                      <a href="/#" className="btn btn-outline-danger m-1">
+                      <button
+                        onClick={() => handleDelete(usr.ma_tai_khoan)}
+                        className="btn btn-outline-danger m-1"
+                      >
                         <i className="bi bi-trash"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}

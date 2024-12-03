@@ -1,10 +1,57 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminTaiKhoanThem() {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
+  const [hovaten, setHovaten] = useState("");
+  const [sdt, setSdt] = useState("");
+  const [email, setEmail] = useState("");
+  const [quyen, setQuyen] = useState(0);
+  const [diachi, setDiachi] = useState("");
+  const [thucung, setThucung] = useState("");
+  const [matkhau, setMatkhau] = useState("");  // Thêm state cho mật khẩu
+  
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Dữ liệu người dùng
+    const userData = {
+      Hovaten: hovaten,
+      SDT: sdt,
+      Email: email,
+      DiaChi: diachi,
+      Quyen: quyen,
+      ThuCung: thucung,
+      Matkhau: matkhau,  // Thêm mật khẩu vào dữ liệu
+    };
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/store", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,  // Nếu cần token xác thực
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        alert("Tạo tài khoản thành công!");
+        navigate("/admintaikhoan"); // Chuyển hướng về trang danh sách tài khoản
+      } else {
+        const data = await response.json();
+        alert(data.message || "Đã xảy ra lỗi khi tạo tài khoản");
+      }
+    } catch (error) {
+      console.error("Lỗi khi gửi yêu cầu:", error);
+      alert("Lỗi kết nối với server.");
+    }
+  };
+
   return (
     <div className="container-fluid admintrangchu">
       <div className="row">
@@ -17,7 +64,7 @@ function AdminTaiKhoanThem() {
             <img
               src={`http://localhost:8000/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt="Logo"
             />
           </Link>
 
@@ -107,7 +154,7 @@ function AdminTaiKhoanThem() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -137,32 +184,91 @@ function AdminTaiKhoanThem() {
           <div className="container">
             <h2 className="my-3">Thêm tài khoản</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label for="SoDienThoai" className="form-label">
+                <label htmlFor="SoDienThoai" className="form-label">
                   Số điện thoại
                 </label>
-                <input type="text" className="form-control" id="SoDienThoai" />
+                <input
+                  type="text"
+                  className="form-control"
+                  id="SoDienThoai"
+                  value={sdt}
+                  onChange={(e) => setSdt(e.target.value)}
+                />
               </div>
               <div className="mb-3">
-                <label for="HoTen" className="form-label">
+                <label htmlFor="HoTen" className="form-label">
                   Họ và tên
                 </label>
-                <input type="text" className="form-control" id="HoTen" />
+                <input
+                  type="text"
+                  className="form-control"
+                  id="HoTen"
+                  value={hovaten}
+                  onChange={(e) => setHovaten(e.target.value)}
+                />
               </div>
               <div className="mb-3">
-                <label for="Quyền" className="form-label">
+                <label htmlFor="Quyen" className="form-label">
                   Quyền
                 </label>
                 <select
                   className="form-select"
-                  aria-label="Default select example"
+                  value={quyen}
+                  onChange={(e) => setQuyen(Number(e.target.value))}
                 >
-                  <option value="0" selected>
-                    Người dùng
-                  </option>
+                  <option value="0">Người dùng</option>
                   <option value="1">Quản trị viên</option>
                 </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="DiaChi" className="form-label">
+                  Địa chỉ
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="DiaChi"
+                  value={diachi}
+                  onChange={(e) => setDiachi(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="ThuCung" className="form-label">
+                  Thú cưng
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="ThuCung"
+                  value={thucung}
+                  onChange={(e) => setThucung(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Email" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="MatKhau" className="form-label">
+                  Mật khẩu
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="MatKhau"
+                  value={matkhau}
+                  onChange={(e) => setMatkhau(e.target.value)}
+                />
               </div>
               <button type="submit" className="btn btn-primary">
                 Xác nhận
