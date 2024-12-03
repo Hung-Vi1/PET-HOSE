@@ -110,14 +110,35 @@ const Lichsudichvu = () => {
           </thead>
           <tbody>
             {orders.map((order, index) => {
-              // Xử lý trạng thái
               const orderStatus =
-                order.trang_thai === "da_thanh_toan" ? "Đã thanh toán" :
-                  order.trang_thai === "cho_xac_nhan" ? "Chờ xác nhận" :
-                    order.trang_thai === "da_xac_nhan" ? "Đã xác nhận" :
-                      order.trang_thai === "hoan_thanh" ? "Hoàn thành" :
-                        order.trang_thai === "huy" ? "Hủy" :
-                          order.trang_thai;
+                order.trang_thai === "da_thanh_toan"
+                  ? "Đã thanh toán"
+                  : order.trang_thai === "cho_xac_nhan"
+                    ? "Chờ xác nhận"
+                    : order.trang_thai === "da_xac_nhan"
+                      ? "Đã xác nhận"
+                      : order.trang_thai === "hoan_thanh"
+                        ? "Hoàn thành"
+                        : order.trang_thai === "dang_van_chuyen"
+                          ? "Đang vận chuyển"
+                          : order.trang_thai === "huy"
+                            ? "Hủy"
+                            : order.trang_thai;
+
+              const rowStyle =
+                order.trang_thai === "da_thanh_toan"
+                  ? { backgroundColor: "#28a745", color: "white" }
+                  : order.trang_thai === "cho_xac_nhan"
+                    ? { backgroundColor: "#ffc107", color: "black" }
+                    : order.trang_thai === "da_xac_nhan"
+                      ? { backgroundColor: "blue", color: "white" }
+                      : order.trang_thai === "dang_van_chuyen"
+                        ? { backgroundColor: "#e2da14", color: "white" }
+                        : order.trang_thai === "hoan_thanh"
+                          ? { backgroundColor: "#28a745", color: "yellow" }
+                          : order.trang_thai === "huy"
+                            ? { backgroundColor: "red", color: "black" }
+                            : {};
 
               return (
                 <tr key={order.ma_don_hang}>
@@ -126,13 +147,21 @@ const Lichsudichvu = () => {
                   <td className="text-center align-middle">
                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.tong_tien)}
                   </td>
-                  <td className="text-center align-middle">{orderStatus}</td>
+                  <td className="text-center align-middle" style={{ ...rowStyle, verticalAlign: 'middle' }}>{orderStatus}</td>
                   <td className="text-center align-middle">
-                    {new Date(order.ngay_su_dung).toLocaleDateString("vi-VN")}
+                    {new Date(order.ngay_su_dung).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      
+                    })}
                   </td>
+
                   <td className="text-center align-middle">
                     <button
-                      className="btn btn-outline-success"
+                      className="btn btn-outline-success btn-sm"
                       onClick={() => navigate(`/dichvu/${order.ma_don_hang}`)}
                     >
                       Xem Chi Tiết
@@ -141,10 +170,10 @@ const Lichsudichvu = () => {
                   <td className="text-center align-middle">
                     {order.trang_thai === "cho_xac_nhan" ? (
                       <button
-                        className="btn btn-danger"
+                        className="btn btn-danger btn-sm"
                         onClick={() => handleCancelOrder(order.ma_don_hang)}
                       >
-                        Hủy Dịch Vụ
+                        <i class="fa-solid fa-ban"></i> Hủy Dịch Vụ
                       </button>
                     ) : (
                       <span className="text-muted">Không thể hủy</span>

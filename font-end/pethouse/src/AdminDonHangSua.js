@@ -6,16 +6,7 @@ import "./App.css";
 
 function AdminDonHangSua() {
   const { ma_don_hang } = useParams();
-
-
-
-  const { isLoggedIn, user } = useAuth(); // Lấy trạng thái đăng nhập
-
-
-
-
-
-
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
   const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
   const [wards, setWards] = useState([]); // Danh sách phường/xã
@@ -151,7 +142,7 @@ function AdminDonHangSua() {
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admintintuc"}
+              to={"/admin_Bv"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>

@@ -42,6 +42,9 @@ import AdminDonHang from "./AdminDonHang";
 import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
+import Admin_bv from "./Admin_BV";
+import Admin_Suabv from "./Admin_SuaBV";
+import Admin_Thembv from "./Admin_ThemBV"
 import AdminDatLich from "./AdminDichVuChamSoc";
 import TimKiem from "./component/timkiem";
 // In hóa đơn
@@ -664,12 +667,17 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
           />
-
-          <Route
+          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv/>} />}/>
+          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv/>} />}/>
+          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv/>} />}/>
+          {/* <Route
+            path="/Admin_ThemBV"
+            exact
+            element={<BaoVeRoute element={<Admin_thembv />} />}
             path="/admindatlich"
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -89,7 +89,7 @@ function AdminSanPham() {
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admintintuc"}
+              to={"/"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
@@ -207,7 +207,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       });
   };
 
-  const xoaSanPham = (maSP) => {
+  const   xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
       fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {

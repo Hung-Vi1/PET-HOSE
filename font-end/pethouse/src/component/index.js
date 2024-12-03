@@ -198,7 +198,7 @@ function Index() {
           <div className="row gutter-10">
             <div className="col-sm-6 col-md-4">
               <div className="flat-image-box style-1 data-effect div-h22 clearfix">
-                <div className="item data-effect-item">
+              <div className="item data-effect-item">
                   <div className="inner">
                     <div className="thumb">
                       <img src="image/banner_new.webp" alt="hinh" />
@@ -347,7 +347,7 @@ function Index() {
             <div className="col-md-12">
               <div className="flat-animation-block">
                 <div className="title-section width-before-17 bg-before-white margin-bottom-14">
-                  <h2 className="title font-size-40 line-height-76">
+                <h2 className="title font-size-40 line-height-76">
                     Ưu đãi hấp dẫn khi mua sản phẩm
                   </h2>
                   <div className="sub-title fs-1">
@@ -684,7 +684,7 @@ function Index() {
                       <button type="button">Gửi</button>
                     </div>
                   </div>
-                </form>
+                  </form>
                 <ul className="flat-social">
                   <li>
                     <a href="/#">
