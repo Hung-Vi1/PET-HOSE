@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form with CKEditor</title>
+    <title>Biểu mẫu với CKEditor</title>
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/super-build/ckeditor.js"></script>
     <style>
         .ck-editor__editable_inline {
@@ -27,57 +27,30 @@
 </head>
 <body>
 
-<form action="index.php?mod=admin&act=quanlytin_add" method="post" enctype="multipart/form-data">
+<form>
     <label for="TieuDe">Tiêu đề:</label>
     <input type="text" name="TieuDe" required class="form-control"><br>
 
     <label for="MoTa">Mô tả:</label>
     <textarea name="MoTa" rows="4" required class="form-control"></textarea><br>
-
-    <div class="row">
-        <div class="col-md-6">
-            <label for="MaKV">Mã khu vực:</label>
-            <select name="MaKV" required class="form-control">
-                <option value="1">Quận 1</option>
-                <option value="2">Quận 2</option>
-                <option value="3">Quận 3</option>
-                <option value="4">Quận 4</option>
-                <option value="5">Quận 5</option>
-                <option value="6">Quận 6</option>
-                <option value="7">Quận 7</option>
-                <option value="8">Quận 8</option>
-                <option value="9">Quận 9</option>
-                <option value="10">Quận 10</option>
-                <option value="11">Quận 11</option>
-                <option value="12">Quận 12</option>
-                <option value="13">Quận Tân Bình</option>
-                <option value="14">Quận Phú Nhuận</option>
-                <option value="15">Quận Gò Vấp</option>
-                <option value="16">Quận Bình Thạnh</option>
-                <option value="17">Quận Bình Tân</option>
-                <option value="18">Quận Tân Phú</option>
-                <option value="19">Thành phố Thủ Đức</option>
-                <option value="20">Huyện Hóc Môn</option>
-                <option value="21">Huyện Củ Chi</option>
-                <option value="22">Huyện Nhà Bè</option>
-                <option value="23">Huyện Bình Chánh</option>
-                <option value="24">Huyện Cần Giờ</option>
-            </select><br>
-        </div>
-        <div class="col-md-6">
-            <label for="TrangThai">Trạng thái:</label>
-            <select name="TrangThai" required class="form-control">
-                <option value="1">Hoạt động</option>
-                <option value="0">Không hoạt động</option>
-            </select>
-        </div>
-    </div>
-
+    
     <label for="HinhAnh">Link Hình ảnh:</label>
     <input type="text" name="HinhAnh" required class="form-control"><br>
 
     <label for="NoiDung">Nội dung:</label>
     <textarea name="NoiDung" id="NoiDung" class="form-control"></textarea><br>
+
+    <label for="LuotXem">Lượt xem:</label>
+    <input type="number" name="LuotXem" required class="form-control" min="0" value="0"><br>
+
+    <label for="TrangThai">Trạng thái:</label>
+    <select name="TrangThai" class="form-control">
+        <option value="1">Công khai</option>
+        <option value="0">Riêng tư</option>
+    </select><br>
+
+    <label for="NgayTao">Ngày tạo:</label>
+    <input type="date" name="NgayTao" required class="form-control"><br>
 
     <input type="submit" name="submit" value="Thêm tin tức">
 </form>

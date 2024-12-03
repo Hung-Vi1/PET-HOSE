@@ -64,7 +64,7 @@ function Header() {
     <>
       <div id="logo" className="logo float-left">
         <Link to="/" title="logo">
-          <img src="image/Nen_trong_suot.png" alt="Logo" width={107} height={24} />
+          <img src="/image/Nen_trong_suot.png" alt="Logo" width={107} height={24} />
         </Link>
       </div>
 
@@ -158,7 +158,7 @@ function Header() {
             <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
-            <li>
+            <li className={location.pathname === "/datlich" ? "active" : ""}>
               <Link to="/datlich">Dịch vụ</Link>
             </li>
             <li className={location.pathname === "/tintuc" ? "active" : ""}>

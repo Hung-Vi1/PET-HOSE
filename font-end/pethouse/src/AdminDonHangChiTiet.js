@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import "./App.css";
 import { useAuth } from "./contexts/AuthContext";
-import { Navigate } from "react-router-dom";
 // Định dạng ngày giờ
 // import { format } from "date-fns";
 // import { vi } from "date-fns/locale";
@@ -12,24 +11,38 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function AdminDonHangChiTiet() {
   const { ma_don_hang } = useParams();
-  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
-  const [order, setOrder] = useState(null); // State để lưu thông tin đơn hàng
+  const [ngayDat, setNgayDat] = useState("");
+  const [hoTen, setHoTen] = useState("");
+  const [soDienThoai, setSoDienThoai] = useState("");
+  const [diaChi, setDiaChi] = useState("");
+  const [pttt, setPttt] = useState("");
+  const [ghiChu, setGhiChu] = useState("");
+  const [sanPhamDetails, setSanPhamDetails] = useState([]);
+
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  // const [order, setOrder] = useState(null); // State để lưu thông tin đơn hàng
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orders/${ma_don_hang}`)
+    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`)
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Không thể lấy thông tin danh mục");
+          throw new Error("Không thể lấy thông tin đơn hàng");
         }
         return res.json();
       })
       .then((data) => {
-        // Kiểm tra trạng thái và lấy dữ liệu
         if (data.status === "success") {
-          const dm = data.data; // Lấy dữ liệu danh mục
+          const dh = data.data[0]; // Lấy thông tin đơn hàng đầu tiên
+          setNgayDat(dh.NgayDat);
+          setHoTen(dh.Ten);
+          setSoDienThoai(dh.SDT);
+          setDiaChi(dh.DiaChi);
+          setPttt(dh.PTTT);
+          setGhiChu(dh.GhiChu);
+          setSanPhamDetails(data.data); // Lưu tất cả chi tiết sản phẩm
         } else {
-          throw new Error(data.message); // Thông báo lỗi nếu không thành công
+          throw new Error(data.message);
         }
       })
       .catch((error) => {
@@ -144,7 +157,7 @@ function AdminDonHangChiTiet() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -206,7 +219,7 @@ function AdminDonHangChiTiet() {
                 </strong>
               </div>
             </div>
-            <p className="col-md-12 m-0">20/11/2024 03:03</p>
+            <p className="col-md-12 m-0">{ngayDat}</p>
 
             <form>
               <div className="d-flex flex-wrap">
@@ -221,10 +234,9 @@ function AdminDonHangChiTiet() {
                           <input
                             type="text"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={hoTen}
+                            onChange={(e) => setHoTen(e.target.value)}
                             required
-                            placeholder="Nguyễn Văn A"
                           />
                         </div>
 
@@ -233,10 +245,9 @@ function AdminDonHangChiTiet() {
                           <input
                             type="number"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={soDienThoai}
+                            onChange={(e) => setSoDienThoai(e.target.value)}
                             required
-                            placeholder="0364395907"
                           />
                         </div>
                       </div>
@@ -245,11 +256,9 @@ function AdminDonHangChiTiet() {
                         <label className="form-label">Địa chỉ</label>
                         <input
                           className="form-control"
-                          // value={mo_ta}
-                          // onChange={(e) => setMoTa(e.target.value)}
+                          value={diaChi}
+                          onChange={(e) => setDiaChi(e.target.value)}
                           required
-                          placeholder="564/19A Đường Tỉnh Lộ 15 Tổ 8 Ấp Bến Đình Xã Nhuận Đức Huyện 
-                          Củ Chi Thành Phố Hồ Chí Minh"
                         ></input>
                       </div>
                     </div>
@@ -285,10 +294,8 @@ function AdminDonHangChiTiet() {
                         <select
                           type="number"
                           className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
+                          value={pttt}
+                          onChange={(e) => setPttt(e.target.value)}
                         >
                           <option value="0">Thanh toán khi nhận hàng</option>
                           <option value="1">Thanh toán chuyển khoản</option>

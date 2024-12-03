@@ -23,16 +23,18 @@ use App\Http\Controllers\UserController;
 
 // Auth::routes(['reset' => true]);
 
+Route::get('/users', [UserController::class, 'index']);
 Route::post('/dangnhap', [UserController::class, 'dangnhap']);
 Route::post('/dangki', [UserController::class, 'dangki']);
 Route::post('/guiemail', [UserController::class, 'GuiEmail']);
+Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
+
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 
 use App\Http\Controllers\CategoryApiController;
-
 Route::get('/category', [CategoryApiController::class, 'index']);
 Route::get('/category/{MaDanhMuc}', [CategoryApiController::class, 'show']);
 Route::post('/category/store', [CategoryApiController::class, 'store']);
@@ -67,11 +69,11 @@ Route::get('/orders/{Mataikhoan}', [OrderApiController::class, 'orders']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
+Route::put('/donhang/trangthai/{MaDH}', [OrderApiController::class, 'TrangThai']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
 Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
 
 use App\Http\Controllers\ServiceOrderApiController;
-
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
 Route::get('/orderServices/{Mataikhoan}', [ServiceOrderApiController::class, 'orders']);
 Route::post('/orderServices', [ServiceOrderApiController::class, 'store']);

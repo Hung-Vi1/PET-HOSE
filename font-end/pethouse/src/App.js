@@ -22,6 +22,8 @@ import LichSuMua from "./component/lichsumua";
 import ChiTietDonHang from "./component/chitietdonhang";
 import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
+import ResetPassword from "./component/ResetPassword";
+import UpdateInfo from "./component/chinhsuataikhoan";
 
 
 /* Admin */
@@ -330,6 +332,33 @@ function App() {
             }
           />
 
+<Route
+            path="/update-info/:id"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+
+                <UpdateInfo />
+
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
           <Route
             path="/login"
             exact
@@ -394,6 +423,30 @@ function App() {
                   </header>
                 </div>
                 <Password />
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+          <Route
+            path="/ResetPassword"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <ResetPassword />
                 <footer className="footer">
                   <div className="container">
                     <Footer />
@@ -508,7 +561,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/timkiem"
             exact
             element={

@@ -42,10 +42,19 @@ function Index() {
 
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/products")
-      .then((response) => ListNewProduct(response.data.data || []));
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/products");
+        const data = await response.json();
+        ListNewProduct(data.data || []);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+      }
+    };
+
+    fetchProducts();
   }, []);
+
 
 
   useEffect(() => {
@@ -86,7 +95,7 @@ function Index() {
       .sort((a, b) => a.sort - b.sort)
       .map(({ sort, ...item }) => item);
   };
-  
+
   // Hàm gọi API
   const fetchProductsByCategory = async (categoryId, setter) => {
     try {
@@ -362,167 +371,167 @@ function Index() {
       </section>
 
       <section className="flat-row row-product-project style-1">
-      <div className="title-section margin-bottom-41">
-        <h2 className="title">Sản Phẩm</h2>
-      </div>
-      <ul className="nav nav-tabs d-flex justify-content-center">
-        <li className="nav-item">
-          <a
-            className="nav-link text-dark fw-bold active"
-            data-bs-toggle="tab"
-            href="#home"
-          >
-            Tất cả
-          </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link text-dark fw-bold"
-            data-bs-toggle="tab"
-            href="#menu1"
-          >
-            Cho chó
-          </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link text-dark fw-bold"
-            data-bs-toggle="tab"
-            href="#menu2"
-          >
-            Cho mèo
-          </a>
-        </li>
-      </ul>
-      {/* Nội dung các tab */}
-      <div className="tab-content">
-        {/* Tab Tất cả */}
-        <div className="tab-pane container active" id="home">
-          <div className="divider h54" />
-          <div className="product-content product-fourcolumn clearfix">
-            <ul className="product style2 isotope-product clearfix">
-              {allProducts.slice(0, 8).map((sp, i) => (
-                <li className="product-item" key={i}>
-                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                    <div className="product-thumb clearfix">
-                      <img
-                        src={`image/product/${sp.hinh_anh}`}
-                        alt={sp.ten_san_pham}
-                      />
-                      <span className="new">Mới</span>
-                    </div>
-                    <div className="product-info text-center clearfix">
-                      <span className="product-title box-title">
-                        {sp.ten_san_pham}
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount fs-6 fw-bold">
-                            {parseInt(sp.gia).toLocaleString("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            })}
-                          </span>
-                        </ins>
+        <div className="title-section margin-bottom-41">
+          <h2 className="title">Sản Phẩm</h2>
+        </div>
+        <ul className="nav nav-tabs d-flex justify-content-center">
+          <li className="nav-item">
+            <a
+              className="nav-link text-dark fw-bold active"
+              data-bs-toggle="tab"
+              href="#home"
+            >
+              Tất cả
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link text-dark fw-bold"
+              data-bs-toggle="tab"
+              href="#menu1"
+            >
+              Cho chó
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link text-dark fw-bold"
+              data-bs-toggle="tab"
+              href="#menu2"
+            >
+              Cho mèo
+            </a>
+          </li>
+        </ul>
+        {/* Nội dung các tab */}
+        <div className="tab-content">
+          {/* Tab Tất cả */}
+          <div className="tab-pane container active" id="home">
+            <div className="divider h54" />
+            <div className="product-content product-fourcolumn clearfix">
+              <ul className="product style2 isotope-product clearfix">
+                {allProducts.slice(0, 8).map((sp, i) => (
+                  <li className="product-item" key={i}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                      <div className="product-thumb clearfix">
+                        <img
+                          src={`image/product/${sp.hinh_anh}`}
+                          alt={sp.ten_san_pham}
+                        />
+                        <span className="new">Mới</span>
                       </div>
-                    </div>
-                    <div className="add-to-cart text-center">
+                      <div className="product-info text-center clearfix">
+                        <span className="product-title box-title">
+                          {sp.ten_san_pham}
+                        </span>
+                        <div className="price">
+                          <ins>
+                            <span className="amount fs-6 fw-bold">
+                              {parseInt(sp.gia).toLocaleString("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
+                            </span>
+                          </ins>
+                        </div>
+                      </div>
+                      <div className="add-to-cart text-center">
                         <Link onClick={() => addToCart(sp)}>
                           THÊM VÀO GIỎ HÀNG
                         </Link>
                       </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
 
-        {/* Tab Cho chó */}
-        <div className="tab-pane container fade" id="menu1">
-          <div className="divider h54" />
-          <div className="product-content product-fourcolumn clearfix">
-            <ul className="product style2 isotope-product clearfix">
-              {dogProducts.slice(0, 8).map((sp, i) => (
-                <li className="product-item" key={i}>
-                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                    <div className="product-thumb clearfix">
-                      <img
-                        src={`image/product/${sp.hinh_anh}`}
-                        alt={sp.ten_san_pham}
-                      />
-                      <span className="new">Mới</span>
-                    </div>
-                    <div className="product-info text-center clearfix">
-                      <span className="product-title box-title">
-                        {sp.ten_san_pham}
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount fs-6 fw-bold">
-                            {parseInt(sp.gia).toLocaleString("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            })}
-                          </span>
-                        </ins>
+          {/* Tab Cho chó */}
+          <div className="tab-pane container fade" id="menu1">
+            <div className="divider h54" />
+            <div className="product-content product-fourcolumn clearfix">
+              <ul className="product style2 isotope-product clearfix">
+                {dogProducts.slice(0, 8).map((sp, i) => (
+                  <li className="product-item" key={i}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                      <div className="product-thumb clearfix">
+                        <img
+                          src={`image/product/${sp.hinh_anh}`}
+                          alt={sp.ten_san_pham}
+                        />
+                        <span className="new">Mới</span>
                       </div>
-                    </div>
-                    <div className="add-to-cart text-center">
+                      <div className="product-info text-center clearfix">
+                        <span className="product-title box-title">
+                          {sp.ten_san_pham}
+                        </span>
+                        <div className="price">
+                          <ins>
+                            <span className="amount fs-6 fw-bold">
+                              {parseInt(sp.gia).toLocaleString("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
+                            </span>
+                          </ins>
+                        </div>
+                      </div>
+                      <div className="add-to-cart text-center">
                         <Link onClick={() => addToCart(sp)}>
                           THÊM VÀO GIỎ HÀNG
                         </Link>
                       </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
 
-        {/* Tab Cho mèo */}
-        <div className="tab-pane container fade" id="menu2">
-          <div className="divider h54" />
-          <div className="product-content product-fourcolumn clearfix">
-            <ul className="product style2 isotope-product clearfix">
-              {catProducts.slice(0, 8).map((sp, i) => (
-                <li className="product-item" key={i}>
-                  <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                    <div className="product-thumb clearfix">
-                      <img
-                        src={`image/product/${sp.hinh_anh}`}
-                        alt={sp.ten_san_pham}
-                      />
-                      <span className="new">Mới</span>
-                    </div>
-                    <div className="product-info text-center clearfix">
-                      <span className="product-title box-title">
-                        {sp.ten_san_pham}
-                      </span>
-                      <div className="price">
-                        <ins>
-                          <span className="amount fs-6 fw-bold">
-                            {parseInt(sp.gia).toLocaleString("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            })}
-                          </span>
-                        </ins>
+          {/* Tab Cho mèo */}
+          <div className="tab-pane container fade" id="menu2">
+            <div className="divider h54" />
+            <div className="product-content product-fourcolumn clearfix">
+              <ul className="product style2 isotope-product clearfix">
+                {catProducts.slice(0, 8).map((sp, i) => (
+                  <li className="product-item" key={i}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                      <div className="product-thumb clearfix">
+                        <img
+                          src={`image/product/${sp.hinh_anh}`}
+                          alt={sp.ten_san_pham}
+                        />
+                        <span className="new">Mới</span>
                       </div>
-                    </div>
-                    <div className="add-to-cart text-center">
+                      <div className="product-info text-center clearfix">
+                        <span className="product-title box-title">
+                          {sp.ten_san_pham}
+                        </span>
+                        <div className="price">
+                          <ins>
+                            <span className="amount fs-6 fw-bold">
+                              {parseInt(sp.gia).toLocaleString("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              })}
+                            </span>
+                          </ins>
+                        </div>
+                      </div>
+                      <div className="add-to-cart text-center">
                         <Link onClick={() => addToCart(sp)}>
                           THÊM VÀO GIỎ HÀNG
                         </Link>
                       </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       <section className="flat-row row-icon-box bg-section bg-color-f5f">
         <div className="container">
@@ -602,50 +611,50 @@ function Index() {
           <h2 className="title">Tin Thú Cưng</h2>
         </div>
         <div className="container">
-  <div className="row">
-    <div className="col-md-12">
-      <div className="post-wrap margin-bottom-26">
-        <div className="grid four">
-          {tintuc.length > 0 ? (
-            tintuc.slice(0, 4).map((article) => (
-              <article className="post clearfix" key={article.bai_viet}>
-                <div className="featured-post">
-                  <img
-                    src={`image/News/${article.Hinh}`}
-                    alt="hinh"
-                    style={{
-                      width: '400px',
-                      height: '300px',
-                      maxHeight: '300px',
-                      objectFit: 'cover'
-                    }}
-                  />
+          <div className="row">
+            <div className="col-md-12">
+              <div className="post-wrap margin-bottom-26">
+                <div className="grid four">
+                  {tintuc.length > 0 ? (
+                    tintuc.slice(0, 4).map((article) => (
+                      <article className="post clearfix" key={article.bai_viet}>
+                        <div className="featured-post">
+                          <img
+                            src={`image/News/${article.Hinh}`}
+                            alt="hinh"
+                            style={{
+                              width: '400px',
+                              height: '300px',
+                              maxHeight: '300px',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                        <div className="content-post">
+                          <div className="title-post">
+                            <h2>
+                              <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                                {truncateContent(article.tieu_de, 45)}
+                              </Link>
+                            </h2>
+                          </div>
+                          <div className="entry-post">
+                            <p>{truncateContent(article.noi_dung, 100)}</p>
+                            <div className="more-link">
+                              <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    ))
+                  ) : (
+                    <p>Không có bài viết nào.</p>
+                  )}
                 </div>
-                <div className="content-post">
-                  <div className="title-post">
-                    <h2>
-                      <Link to={`/chitiettintuc/${article.bai_viet}`}>
-                        {truncateContent(article.tieu_de, 45)}
-                      </Link>
-                    </h2>
-                  </div>
-                  <div className="entry-post">
-                    <p>{truncateContent(article.noi_dung, 100)}</p>
-                    <div className="more-link">
-                      <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))
-          ) : (
-            <p>Không có bài viết nào.</p>
-          )}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
       </section>
 
       <section className="flat-row mail-chimp">
