@@ -4272,7 +4272,7 @@
                                 "required": [
                                     "Hovaten",
                                     "Email",
-                                    "Diachi",
+                                    "DiaChi",
                                     "SDT",
                                     "Matkhau"
                                 ],
@@ -4295,7 +4295,7 @@
                                         "type": "string",
                                         "example": "0354895845"
                                     },
-                                    "Diachi": {
+                                    "DiaChi": {
                                         "type": "string",
                                         "example": "294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"
                                     }

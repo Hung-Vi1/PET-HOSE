@@ -99,7 +99,7 @@ function AdminDatLich() {
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admintintuc"}
+              to={"/Admin_BV"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>

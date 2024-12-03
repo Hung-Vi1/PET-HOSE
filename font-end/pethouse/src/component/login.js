@@ -51,7 +51,7 @@ const LoginSignupForm = () => {
             Email: values.email,
             Matkhau: values.password,
             SDT: values.phone,
-            Diachi: values.address,
+            DiaChi: values.address,
           }),
         });
 
