@@ -138,7 +138,7 @@ function DatLich() {
                 <h1 className="title">Đặt lịch</h1>
               </div>
               <div className="breadcrumbs">
-                <ul>
+                <ul className="px-0">
                   <li>
                     <Link to="/">Trang chủ</Link>
                   </li>

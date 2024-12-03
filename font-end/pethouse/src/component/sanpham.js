@@ -55,6 +55,38 @@ function SanPham() {
       });
   }, []);
 
+  const [cart, setCart] = useState(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+  const addToCart = (product) => {
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    const existingProductIndex = cart.findIndex(
+      (item) => item.ma_san_pham === product.ma_san_pham
+    );
+
+    let updatedCart;
+
+    if (existingProductIndex !== -1) {
+      // Nếu sản phẩm đã có, cập nhật số lượng
+      updatedCart = [...cart];
+      updatedCart[existingProductIndex].quantity += 1;
+    } else {
+      // Nếu sản phẩm chưa có, thêm mới vào giỏ
+      updatedCart = [...cart, { ...product, quantity: 1 }];
+    }
+
+    // Cập nhật lại trạng thái giỏ hàng
+    setCart(updatedCart);
+
+    // Lưu giỏ hàng vào sessionStorage
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    // Phát ra sự kiện để các component khác lắng nghe và cập nhật (bao gồm Header)
+    window.dispatchEvent(new Event("cartUpdated"));
+
+    alert("Đã thêm vào giỏ hàng");
+  };
   // Lọc sản phẩm theo danh mục
   const filterByCategory = (maDanhMuc) => {
     setActiveCategory(maDanhMuc); // Đặt danh mục active
@@ -105,10 +137,10 @@ function SanPham() {
               <div className="row">
                 <div className="col-md-12">
                   <div className="page-title-heading">
-                    <h1 className="title">Sản phẩm</h1>
+                    <h1 className="title text-light">Sản phẩm</h1>
                   </div>
                   <div className="breadcrumbs">
-                    <ul>
+                    <ul className="px-0">
                       <li>
                         <Link to="/">Trang chủ</Link>
                       </li>
@@ -225,7 +257,7 @@ function SanPham() {
                                 </span>
                                 <div className="price">
                                   <ins>
-                                    <span className="amount">
+                                    <span className="amount fs-6 fw-bold">
                                       {parseInt(sp.gia).toLocaleString("vi-VN", {
                                         style: "currency",
                                         currency: "VND",
@@ -233,6 +265,11 @@ function SanPham() {
                                     </span>
                                   </ins>
                                 </div>
+                              </div>
+                              <div className="add-to-cart text-center">
+                                <Link onClick={() => addToCart(sp)}>
+                                  THÊM VÀO GIỎ HÀNG
+                                </Link>
                               </div>
                             </li>
                           ))}

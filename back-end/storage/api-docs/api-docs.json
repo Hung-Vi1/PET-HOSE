@@ -2551,6 +2551,123 @@
                 }
             }
         },
+        "/api/donhang/trangthai/{MaDH}": {
+            "put": {
+                "tags": [
+                    "DonHang"
+                ],
+                "summary": "Cập nhật trạng thái đơn hàng",
+                "description": "Cập nhật trạng thái của một đơn hàng cụ thể",
+                "operationId": "3163e12809442f239bfc0b2f551646ee",
+                "parameters": [
+                    {
+                        "name": "MaDH",
+                        "in": "path",
+                        "description": "Mã đơn hàng cần cập nhật",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "TrangThai"
+                                ],
+                                "properties": {
+                                    "TrangThai": {
+                                        "description": "Trạng thái mới của đơn hàng",
+                                        "type": "string",
+                                        "enum": [
+                                            "cho_xac_nhan",
+                                            "dang_xu_ly",
+                                            "hoan_thanh",
+                                            "huy"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OrderResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Cập nhật thất bại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lỗi thông báo"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy đơn hàng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không tìm thấy đơn hàng"
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders/{id}": {
             "delete": {
                 "tags": [

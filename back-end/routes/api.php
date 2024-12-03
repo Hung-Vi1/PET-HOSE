@@ -69,11 +69,11 @@ Route::get('/orders/{Mataikhoan}', [OrderApiController::class, 'orders']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
+Route::put('/donhang/trangthai/{MaDH}', [OrderApiController::class, 'TrangThai']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
 Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
 
 use App\Http\Controllers\ServiceOrderApiController;
-
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
 Route::get('/orderServices/{Mataikhoan}', [ServiceOrderApiController::class, 'orders']);
 Route::post('/orderServices', [ServiceOrderApiController::class, 'store']);

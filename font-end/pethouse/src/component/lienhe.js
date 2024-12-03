@@ -97,7 +97,7 @@ function LienHe() {
                                 <h1 className="title">Liên hệ</h1>
                             </div>
                             <div className="breadcrumbs">
-                                <ul>
+                                <ul className="px-0">
                                     <li><Link to="/">Trang chủ</Link></li>
                                     <li><Link to="/lienhe">Liên hệ</Link></li>
                                 </ul>

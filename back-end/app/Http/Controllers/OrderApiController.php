@@ -499,8 +499,86 @@ class OrderApiController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Put(
+     *     path="/api/donhang/trangthai/{MaDH}",
+     *     summary="Cập nhật trạng thái đơn hàng",
+     *     description="Cập nhật trạng thái của một đơn hàng cụ thể",
+     *     tags={"DonHang"},
+     *     @OA\Parameter(
+     *         name="MaDH",
+     *         in="path",
+     *         description="Mã đơn hàng cần cập nhật",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"TrangThai"},
+     *             @OA\Property(
+     *                 property="TrangThai",
+     *                 type="string",
+     *                 enum={"cho_xac_nhan", "dang_xu_ly", "hoan_thanh", "huy"},
+     *                 description="Trạng thái mới của đơn hàng"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cập nhật thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Cập nhật thành công"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/OrderResource")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Cập nhật thất bại",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Lỗi thông báo"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy đơn hàng",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="fail"),
+     *             @OA\Property(property="message", type="string", example="Không tìm thấy đơn hàng"),
+     *             @OA\Property(property="data", type="null")
+     *         )
+     *     )
+     * )
      */
+    public function TrangThai(Request $request, $MaDH)
+    {
+        // PUT
+        try {
+            $validatedData = $request->validate([
+                'TrangThai' => 'required|in:cho_xac_nhan,dang_xu_ly,hoan_thanh,huy',
+            ], [
+                'TrangThai.required' => 'Vui lòng nhập trạng thái',
+                'TrangThai.in' => 'Trạng thái phải là: cho_xac_nhan, dang_xu_ly, hoan_thanh, huy',
+            ]);
+
+            $order = DonHang::findOrFail($MaDH);
+            $order->update($validatedData);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cập nhật thành công',
+                'data' => new OrderResource($order)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 400);
+        }
+    }
 
     /**
      * @OA\Delete(

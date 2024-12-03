@@ -42,7 +42,7 @@ function TinTuc() {
                 <h1 className="title">Tin thú cưng</h1>
               </div>
               <div className="breadcrumbs">
-                <ul>
+                <ul className="px-0">
                   <li>
                     <Link to="/">Trang chủ</Link>
                   </li>
