@@ -269,13 +269,10 @@ const LichSuMua = () => {
                       Chi Tiết
                     </button>
                   </td>
-                  <td className="text-center">
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => handlePrintOrder(order)}
-                    >
-                      In hóa đơn
-                    </button>
+                  <td className="text-center text-primary">
+                    <strong onClick={() => handlePrintOrder(order)}>
+                      <i className="bi bi-printer"></i> In đơn
+                    </strong>
                   </td>
                   <td className="text-center" >
                     {order.trang_thai === "cho_xac_nhan" && (
@@ -283,14 +280,12 @@ const LichSuMua = () => {
                         className="btn btn-danger btn-sm"
                         onClick={() => handleCancelOrder(order.ma_don_hang)}
                       >
-                        Hủy Đơn Hàng
+                        <i class="fa-solid fa-ban"></i> Hủy Đơn
                       </button>
                     )}
                     {order.trang_thai !== "cho_xac_nhan" && (
                       // <p>Không thể hủy</p>
-                      <p className="m-0">
-                        Không thể hủy
-                      </p>
+                      <span className="text-muted">Không thể hủy</span>
                     )}
                   </td>
                 </tr>
