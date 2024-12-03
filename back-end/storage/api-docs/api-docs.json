@@ -4382,17 +4382,244 @@
                 }
             }
         },
+        "/api/users/store": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Thêm mới người dùng",
+                "description": "Thêm một người dùng mới vào hệ thống với thông tin đầy đủ.",
+                "operationId": "961251cffc8049377e6b206f61f66fc1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Hovaten",
+                                    "ThuCung",
+                                    "SDT",
+                                    "DiaChi",
+                                    "Email",
+                                    "Quyen",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "Hovaten": {
+                                        "type": "string",
+                                        "example": "Nguyen Van Vĩ"
+                                    },
+                                    "ThuCung": {
+                                        "type": "string",
+                                        "example": "Chó"
+                                    },
+                                    "SDT": {
+                                        "type": "string",
+                                        "example": "0362109871"
+                                    },
+                                    "DiaChi": {
+                                        "type": "string",
+                                        "example": "123 Đường ABC, Quận 1, TP.HCM"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "vohungvi02@gmail.com"
+                                    },
+                                    "Quyen": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    },
+                                    "Matkhau": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "0"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thêm mới thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Thêm thành công"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "Mataikhoan": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "Hovaten": {
+                                                    "type": "string",
+                                                    "example": "Nguyen Van Vĩ"
+                                                },
+                                                "ThuCung": {
+                                                    "type": "string",
+                                                    "example": "Chó"
+                                                },
+                                                "SDT": {
+                                                    "type": "string",
+                                                    "example": "0362189871"
+                                                },
+                                                "DiaChi": {
+                                                    "type": "string",
+                                                    "example": "123 Đường ABC, Quận 1, TP.HCM"
+                                                },
+                                                "Email": {
+                                                    "type": "string",
+                                                    "example": "vohungvi02@gmail.com"
+                                                },
+                                                "Quyen": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-12-01T10:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-12-01T10:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Yêu cầu không hợp lệ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu không hợp lệ."
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Lỗi xác thực",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dữ liệu không hợp lệ."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "Hovaten": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Họ và tên không được để trống."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/{id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Xóa người dùng",
+                "description": "Xóa một người dùng",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã bị xóa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    }
+                }
+            }
+        },
+        "/api/users/update/{Mataikhoan}": {
             "put": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Cập nhật thông tin người dùng",
                 "description": "Cập nhật thông tin người dùng",
-                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "operationId": "e4a55fa4e3d401c33fc60931e5bd7aed",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "Mataikhoan",
                         "in": "path",
                         "description": "ID của người dùng",
                         "required": true,
@@ -4471,46 +4698,6 @@
                     },
                     "400": {
                         "description": "Dữ liệu không hợp lệ"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Xóa người dùng",
-                "description": "Xóa một người dùng",
-                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID của người dùng",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Người dùng đã bị xóa",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User deleted successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Không tìm thấy người dùng"
                     }
                 }
             }
