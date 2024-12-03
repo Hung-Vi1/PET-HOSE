@@ -207,7 +207,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       });
   };
 
-  const xoaSanPham = (maSP) => {
+  const   xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
       fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {

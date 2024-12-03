@@ -1,134 +1,142 @@
-// import React, { useState, useEffect } from "react";
-// import { useParams, Link } from "react-router-dom";
-// import { useAuth } from "./contexts/AuthContext";
-// import "./App.css";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import "./App.css";
 
-// function SuaBV() {
-//   const { user } = useAuth(); 
-//   const { bai_viet } = useParams(); // Lấy ID từ URL
-//   const [tieuDe, setTieuDe] = useState(""); 
-//   const [noiDung, setNoiDung] = useState(""); 
-//   const [chiTiet, setChiTiet] = useState(""); // Trạng thái cho chi tiết bài viết
-//   const [error, setError] = useState(null); 
+function Admin_Suabv() {
+    const { user } = useAuth();
+    const { id } = useParams();
+    const [article, setArticle] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-//   // Lấy thông tin bài viết theo mã bài viết
-//   useEffect(() => {
-//     fetch(`http://localhost:8000/api/News/${bai_viet}`)
-//       .then((res) => {
-//         if (!res.ok) {
-//           throw new Error("Không thể lấy thông tin bài viết");
-//         }
-//         return res.json();
-//       })
-//       .then((data) => {
-//         const bv = data.data[0]; // Lấy phần tử đầu tiên từ mảng data
-//         if (bv) {
-//           setTieuDe(bv.tieu_de);
-//           setNoiDung(bv.noi_dung);
-//           setChiTiet(bv.chi_tiet); // Lưu chi tiết bài viết
-//         } else {
-//           setError("Bài viết không tồn tại");
-//         }
-//       })
-//       .catch((error) => {
-//         setError(error.message);
-//       });
-//   }, [bai_viet]);
+    const navigate = useNavigate();
 
-//   // Xử lý gửi form
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const updatedArticle = {
-//       tieu_de: tieuDe,
-//       noi_dung: noiDung,
-//       chi_tiet: chiTiet // Cập nhật chi tiết bài viết
-//     };
+    // Lấy thông tin bài viết theo ID
+    useEffect(() => {
+        fetch(`http://localhost:8000/api/News/${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.data) {
+                    setArticle(data.data);
+                } else {
+                    setError("Không tìm thấy bài viết.");
+                }
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi lấy bài viết:", error);
+                setError("Lỗi khi lấy dữ liệu.");
+                setLoading(false);
+            });
+    }, [id]);
 
-//     fetch(`http://localhost:8000/api/News/${bai_viet}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(updatedArticle),
-//     })
-//       .then((res) => {
-//         if (!res.ok) {
-//           throw new Error("Lỗi khi cập nhật bài viết");
-//         }
-//         return res.json();
-//       })
-//       .then(() => {
-//         alert("Cập nhật thành công!");
-//       })
-//       .catch((error) => {
-//         setError(error.message);
-//       });
-//   };
+    // Hàm xử lý cập nhật bài viết
+    const handleUpdate = (e) => {
+        e.preventDefault();
 
-//   return (
-//     <div className="container-fluid">
-//       <div className="row">
-//         <div className="col-md p-0">
-//           <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
-//             {/* Navbar content */}
-//           </nav>
+        fetch(`http://localhost:8000/api/News/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(article),
+        })
+            .then((res) => {
+                if (res.ok) {
+                    alert("Bài viết đã được cập nhật thành công!");
+                    navigate("/Admin_BV"); // Quay về trang danh sách bài viết
+                } else {
+                    alert("Lỗi khi cập nhật bài viết.");
+                }
+            })
+            .catch((error) => {
+                console.error("Lỗi khi cập nhật bài viết:", error);
+            });
+    };
 
-//           <div className="container mt-3 mb-5">
-//             <div className="d-flex">
-//               <Link to={"/admin_Bv"} className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3">
-//                 <i className="bi bi-arrow-left"></i>
-//               </Link>
-//               <h1 className="mb-0">{tieuDe}</h1>
-//             </div>
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-//             <div className="d-flex flex-wrap">
-//               <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-//                 <h5 className="mb-2 py-1">Thông tin bài viết</h5>
+    if (error) {
+        return <div>{error}</div>;
+    }
 
-//                 {error && <p className="text-danger">{error}</p>}
+    return (
+        <div className="container">
+            <h2 className="my-3">Cập nhật bài viết</h2>
+            <form onSubmit={handleUpdate}>
+                <div className="mb-3">
+                    <label htmlFor="tieu_de" className="form-label">Tiêu đề</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="tieu_de"
+                        value={article.tieu_de}
+                        onChange={(e) => setArticle({ ...article, tieu_de: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="Hinh" className="form-label">Hình ảnh</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="Hinh"
+                        value={article.Hinh}
+                        onChange={(e) => setArticle({ ...article, Hinh: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="ma_danh_muc_bv" className="form-label">Danh mục</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="ma_danh_muc_bv"
+                        value={article.ma_danh_muc_bv}
+                        onChange={(e) => setArticle({ ...article, ma_danh_muc_bv: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="ngay_tao" className="form-label">Ngày tạo</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        id="ngay_tao"
+                        value={article.ngay_tao.split("T")[0]} // Chuyển đổi định dạng ngày
+                        onChange={(e) => setArticle({ ...article, ngay_tao: e.target.value })}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="luot_xem" className="form-label">Lượt xem</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="luot_xem"
+                        value={article.luot_xem || 0}
+                        onChange={(e) => setArticle({ ...article, luot_xem: e.target.value })}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="trang_thai" className="form-label">Trạng thái</label>
+                    <select
+                        className="form-select"
+                        id="trang_thai"
+                        value={article.trang_thai}
+                        onChange={(e) => setArticle({ ...article, trang_thai: e.target.value })}
+                    >
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Ngừng hoạt động</option>
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary">Cập nhật</button>
+            </form>
+        </div>
+    );
+}
 
-//                 <form onSubmit={handleSubmit}>
-//                   <div className="mb-3">
-//                     <label htmlFor="tieuDe" className="form-label">Tiêu Đề</label>
-//                     <input
-//                       type="text"
-//                       className="form-control"
-//                       id="tieuDe"
-//                       value={tieuDe}
-//                       onChange={(e) => setTieuDe(e.target.value)}
-//                       required
-//                     />
-//                   </div>
-//                   <div className="mb-3">
-//                     <label htmlFor="noiDung" className="form-label">Nội Dung</label>
-//                     <textarea
-//                       className="form-control"
-//                       id="noiDung"
-//                       value={noiDung}
-//                       onChange={(e) => setNoiDung(e.target.value)}
-//                       required
-//                     ></textarea>
-//                   </div>
-//                   <div className="mb-3">
-//                     <label htmlFor="chiTiet" className="form-label">Chi Tiết</label>
-//                     <textarea
-//                       className="form-control"
-//                       id="chiTiet"
-//                       value={chiTiet}
-//                       onChange={(e) => setChiTiet(e.target.value)}
-//                       required
-//                     ></textarea>
-//                   </div>
-//                   <button type="submit" className="btn btn-primary">Cập Nhật</button>
-//                   <Link to="/admin_Bv" className="btn btn-secondary ms-2">Trở Về</Link>
-//                 </form>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default SuaBV;
+export default Admin_Suabv;

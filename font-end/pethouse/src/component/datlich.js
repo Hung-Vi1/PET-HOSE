@@ -10,7 +10,8 @@ function DatLich() {
     address: "",
     email: "",
     Mataikhoan: "",
-    paymentMethod: "", // Thêm thuộc tính paymentMethod
+    selectedDate: new Date().toISOString().split("T")[0], // Ngày mặc định là hôm nay
+    selectedTime: "07:00:00", // Giờ mặc định
     selectedService: "", // Thêm thuộc tính selectedService
     notes: "", // Ghi chú
   });
@@ -27,7 +28,7 @@ function DatLich() {
         address: parsedUser.DiaChi,
         email: parsedUser.Email,
         Mataikhoan: parsedUser.Mataikhoan || "",
-        paymentMethod: "", // Mặc định là không có phương thức thanh toán
+        dateTime: "",
         selectedService: "", // Dịch vụ mặc định chưa chọn
         notes: "", // Ghi chú mặc định
       });
@@ -60,14 +61,37 @@ function DatLich() {
     setUserData({ ...userData, [name]: value });
   };
 
+  
+  const formatDateTime = (selectedDate, selectedTime) => {
+    if (!selectedDate || !selectedTime) {
+      console.error("Ngày hoặc giờ không hợp lệ:", selectedDate, selectedTime);
+      return null;
+    }
+    const formattedDate = new Date(`${selectedDate}T${selectedTime}`);
+    const year = formattedDate.getFullYear();
+    const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(formattedDate.getDate()).padStart(2, "0");
+    const hour = String(formattedDate.getHours()).padStart(2, "0");
+    const minute = String(formattedDate.getMinutes()).padStart(2, "0");
+    const second = String(formattedDate.getSeconds()).padStart(2, "0");
+  
+    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  };
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Ghép ngày và giờ thành định dạng chuẩn
+    console.log("Ngày được chọn:", userData.selectedDate);
+    console.log("Giờ được chọn:", userData.selectedTime);
 
+    const dateTime = formatDateTime(userData.selectedDate, userData.selectedTime);
+    console.log(dateTime);
     // Xây dựng dữ liệu gửi lên API
     const orderData = {
-      Mataikhoan: userData.Mataikhoan, // Mã tài khoản từ userData
-      PTTT: userData.paymentMethod, // Phương thức thanh toán
-      GhiChu: userData.notes, // Ghi chú (nếu có)
+      Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
+      NgayGiao: dateTime,
+      GhiChu: userData.notes,            // Ghi chú (nếu có)
       chi_tiet: [
         {
           MaSP: userData.selectedService, // Mã sản phẩm từ dịch vụ đã chọn
@@ -93,7 +117,7 @@ function DatLich() {
       .then((data) => {
         if (data.status === "success") {
           alert("Đặt lịch thành công!");
-          navigate("/ "); // Chuyển hướng tới trang lịch hẹn hoặc trang khác
+          navigate("/lichsuDV");  // Chuyển hướng tới trang lịch hẹn hoặc trang khác
         } else {
           alert("Có lỗi xảy ra. Vui lòng thử lại.");
         }
@@ -109,7 +133,7 @@ function DatLich() {
       <div className="page-title parallax parallax1">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 text-light">
               <div className="page-title-heading">
                 <h1 className="title">Đặt lịch</h1>
               </div>
@@ -176,7 +200,8 @@ function DatLich() {
                   <option value="">Chọn dịch vụ</option>
                   {services.map((service) => (
                     <option key={service.ma_dich_vu} value={service.ma_dich_vu}>
-                      {service.ten_dich_vu} - {service.gia} VND
+                      {service.ten_dich_vu} - {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(service.gia)}
+
                     </option>
                   ))}
                 </select>
@@ -195,21 +220,48 @@ function DatLich() {
                   placeholder="Nhập ghi chú nếu có"
                 ></textarea>
               </div>
+
+
               <div className="form-group">
-                <label htmlFor="paymentMethod">Phương thức thanh toán:</label>
+                <label htmlFor="date">Chọn ngày:</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="date"
+                  name="selectedDate"
+                  value={userData.selectedDate}
+                  onChange={handleInputChange}
+                  min={new Date().toISOString().split("T")[0]} // Ngày hiện tại
+                  required
+                />
+              </div>
+
+
+              <div className="form-group">
+                <label htmlFor="hour">Chọn giờ:</label>
                 <select
                   className="form-control"
-                  id="paymentMethod"
-                  name="paymentMethod"
-                  value={userData.paymentMethod}
+                  id="hour"
+                  name="selectedTime"
+                  value={userData.selectedTime}
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">Chọn phương thức thanh toán</option>
-                  <option value="cash">Tiền mặt</option>
-                  <option value="transfer">Chuyển khoản</option>
+                  {Array.from({ length: 12 }, (_, i) => {
+                    const hour = 7 + i; // Bắt đầu từ 7 giờ
+                    return (
+                      <option key={hour} value={`${hour.toString().padStart(2, "0")}:00:00`}>
+                        {hour.toString().padStart(2, "0")}:00
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
+
+
+
+
+
               <button type="submit" className="btn btn-danger mt-3">
                 Xác nhận đặt lịch
               </button>

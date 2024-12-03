@@ -23,6 +23,7 @@ import ChiTietDonHang from "./component/chitietdonhang";
 import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
 
+
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
 import AdminTaiKhoan from "./AdminTaiKhoan";
@@ -40,9 +41,10 @@ import AdminDonHangSua from "./AdminDonHangSua";
 import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
 import Admin_bv from "./Admin_BV";
-import SuaBV from "./Admin_SuaBV";
-import Admin_thembv from "./Admin_ThemBV";
+import Admin_Suabv from "./Admin_SuaBV";
+import Admin_Thembv from "./Admin_ThemBV"
 import AdminDatLich from "./AdminDichVuChamSoc";
+import TimKiem from "./component/timkiem";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -506,6 +508,28 @@ function App() {
             }
           />
 
+<Route
+            path="/timkiem"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header id="header" class="header header-container clearfix">
+                    <div class="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+                <TimKiem />
+                <footer class="footer">
+                  <div class="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
           {/* Admin */}
           <Route
             path="/admin"
@@ -590,17 +614,9 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
           />
-
-          <Route
-            path="/Admin_BV"
-            exact
-            element={<BaoVeRoute element={<Admin_bv />} />}
-          />
-           <Route
-            path="/Admin_SuaBV"
-            exact
-            element={<BaoVeRoute element={<SuaBV />} />}
-          />
+          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv/>} />}/>
+          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv/>} />}/>
+          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv/>} />}/>
           {/* <Route
             path="/Admin_ThemBV"
             exact

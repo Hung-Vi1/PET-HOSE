@@ -24,6 +24,7 @@ class ServiceOrderResource extends JsonResource
             'ghi_chu'=>$this->GhiChu,
             'trang_thai'=>$this->TrangThai,
             'ngay_dat'=>$this->NgayDat,
+            'ngay_su_dung'=>$this->NgayGiao,
             'Loai'=>$this->Loai,
             ];
     }

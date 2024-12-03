@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,10 +28,11 @@ Route::post('/dangki', [UserController::class, 'dangki']);
 Route::post('/guiemail', [UserController::class, 'GuiEmail']);
 
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::put('/users/{id}', [UserController::class, 'update']); 
-Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']); 
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 
 use App\Http\Controllers\CategoryApiController;
+
 Route::get('/category', [CategoryApiController::class, 'index']);
 Route::get('/category/{MaDanhMuc}', [CategoryApiController::class, 'show']);
 Route::post('/category/store', [CategoryApiController::class, 'store']);
@@ -39,16 +41,19 @@ Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'd
 
 
 use App\Http\Controllers\ProductApiController;
+
 Route::get('/products', [ProductApiController::class, 'index']);
 Route::post('/products/store', [ProductApiController::class, 'store']);
-Route::post('/products/reseach', [ProductApiController::class, 'reseachproduct']);
+Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
-Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+// Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+Route::put('/products/update/{ma_san_pham}', [ProductApiController::class, 'update']);
 Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
 
 use App\Http\Controllers\ServiceApiController;
+
 Route::get('/services', [ServiceApiController::class, 'index']);
 Route::post('/services/store', [ServiceApiController::class, 'store']);
 Route::get('/services/{MaSP}', [ServiceApiController::class, 'show']);
@@ -66,6 +71,7 @@ Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
 Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
 
 use App\Http\Controllers\ServiceOrderApiController;
+
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
 Route::get('/orderServices/{Mataikhoan}', [ServiceOrderApiController::class, 'orders']);
 Route::post('/orderServices', [ServiceOrderApiController::class, 'store']);
@@ -73,6 +79,7 @@ Route::get('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'sh
 Route::delete('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'destroy']);
 
 use App\Http\Controllers\CatagoryNewsApiController;
+
 Route::get('/catagorysNews', [CatagoryNewsApiController::class, 'index']);
 Route::post('/catagorysNews/store', [CatagoryNewsApiController::class, 'store']);
 Route::get('/catagorysNews/{MaDMBV}', [CatagoryNewsApiController::class, 'show']);
@@ -80,6 +87,7 @@ Route::put('/catagorysNews/update/{MaDMBV}', [CatagoryNewsApiController::class, 
 Route::delete('/catagorysNews/destroy/{MaDMBV}', [CatagoryNewsApiController::class, 'destroy']);
 
 use App\Http\Controllers\NewsApiController;
+
 Route::get('/News', [NewsApiController::class, 'index']);
 Route::get('/News/{id}', [NewsApiController::class, 'show']);
 Route::post('/News/store', [NewsApiController::class, 'store']);
@@ -87,6 +95,7 @@ Route::put('/News/{id}', [NewsApiController::class, 'update']);
 Route::delete('/News/{id}', [NewsApiController::class, 'destroy']);
 
 use App\Http\Controllers\ContactApiController;
+
 Route::get('/contacts', [ContactApiController::class, 'index']);
 Route::get('/contacts/{MaLienHe}', [ContactApiController::class, 'show']);
 Route::post('/contacts/store', [ContactApiController::class, 'store']);
@@ -94,12 +103,16 @@ Route::put('/contacts/update/{MaLienHe}', [ContactApiController::class, 'update'
 Route::delete('/contacts/destroy/{MaLienHe}', [ContactApiController::class, 'destroy']);
 
 use App\Http\Controllers\CouponController;
+
 Route::post('/coupons/validate', [CouponController::class, 'validateCoupon']);
 Route::post('/coupons/apply', [CouponController::class, 'applyCoupon']);
+Route::get('/coupons', [CouponController::class, 'index']);
+Route::get('/coupons/{id}', [CouponController::class, 'show']);
+Route::post('/coupons/store', [CouponController::class, 'store']);
+Route::put('/coupons/update/{id}', [CouponController::class, 'update']);
+Route::delete('/coupons/destroy/{id}', [CouponController::class, 'destroy']);
 
 use App\Http\Controllers\VnpayApiController;
+
 Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);
 Route::get('/vnpay/callback', [VnpayApiController::class, 'handleVNPayCallback']);
-
-
-

@@ -58,34 +58,59 @@ function Admin_bv() {
                         <img
                             src={`http://localhost:8000/image/Nen_trong_suot.png`}
                             className="d-block w-75 mx-auto"
-                            alt="Logo"
+                            alt={`http://localhost:8000/image/Nen_trong_suot.png`}
                         />
                     </Link>
 
                     <div className="list-group list-group-item-primary">
-                        <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0" aria-current="true">
+                        <Link
+                            to={"/admin"}
+                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+                            aria-current="true"
+                        >
                             <h5 className="mb-0 py-1">Tổng quan</h5>
                         </Link>
-                        <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0 rounded-0">
+                        <Link
+                            to={"/adminsanpham"}
+                            className="list-group-item list-group-item-action my-0 rounded-0 "
+                        >
                             <h5 className="mb-0 py-1">Sản phẩm</h5>
                         </Link>
-                        <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
-                            <h5 className="mb-0 py-1">Danh mục</h5>
-                        </Link>
-                        <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0">
-                            <h5 className="mb-0 py-1">Tài khoản</h5>
-                        </Link>
-                        <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
-                            <h5 className="mb-0 py-1">Đơn hàng</h5>
-                        </Link>
-                        <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
+                        <Link
+                            to={"/admindichvuchamsoc"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
                             <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
                         </Link>
-                        <Link to={"/admin_Bv"} className="list-group-item list-group-item-action my-0 rounded-0 active">
-                            <h5 className="mb-0 py-1">Tin tức</h5>
+                        <Link
+                            to={"/admindanhmuc"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Danh mục</h5>
                         </Link>
-                        <Link to={"/admindichvu"} className="list-group-item list-group-item-action my-0 rounded-0">
-                            <h5 className="mb-0 py-1">Dịch vụ</h5>
+                        <Link
+                            to={"/admintaikhoan"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Tài khoản</h5>
+                        </Link>
+                        <Link
+                            to={"/admindonhang"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Đơn hàng</h5>
+                        </Link>
+                        <Link
+                            to={"/admindatlich"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Đặt lịch</h5>
+                        </Link>
+                        <Link
+                            to={"/Admin_BV"}
+                            className="list-group-item list-group-item-action my-0 rounded-0 active"
+                        >
+                            <h5 className="mb-0 py-1">Tin tức</h5>
                         </Link>
                     </div>
                 </div>
@@ -147,7 +172,7 @@ function Admin_bv() {
                                         <td className="text-center">{item.ngay_tao}</td>
                                         <td className="text-center">{item.luot_xem}</td>
                                         <td className="text-center">
-                                            {item.trang_thai === "1" ? "Hoạt động" : "Ngừng hoạt động"}
+                                            {item.trang_thai === "1" ? "Hiện " : "Ẩn"}
                                         </td>
                                         <td className="text-center">
                                             <Link to={`/Admin_SuaBV/${item.bai_viet}`} className="btn btn-outline-warning m-1">

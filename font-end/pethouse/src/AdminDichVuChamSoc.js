@@ -13,7 +13,7 @@ function AdminDatLich() {
   const [list_dhdv, ganDHDV] = useState([]);
 
   const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
-
+  const { user} = useAuth();
   // Lấy danh sách sản phẩm
   useEffect(() => {
     fetch("http://localhost:8000/api/orderServices")
@@ -139,7 +139,7 @@ function AdminDatLich() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Xin chào, Trần Thanh Tú
+                      Xin chào, {user.Hovaten || "Không có tên"}
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">

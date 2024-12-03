@@ -64,7 +64,7 @@ function Header() {
     <>
       <div id="logo" className="logo float-left">
         <Link to="/" title="logo">
-          <img src="logo-ngang.png" alt="Logo" width={107} height={24} />
+          <img src="image/Nen_trong_suot.png" alt="Logo" width={107} height={24} />
         </Link>
       </div>
 
@@ -74,7 +74,7 @@ function Header() {
 
       <ul className="menu-extra menu">
         <li className="box-search">
-          <a className="icon_search header-search-icon" href="/#" />
+          <Link className="icon_search header-search-icon" to="/timkiem" />
           <form role="search" method="get" className="header-search-form" action="#">
             <input
               type="text"
@@ -86,6 +86,7 @@ function Header() {
               Tìm kiếm
             </button>
           </form>
+
         </li>
         <li className="box-login">
           {user ? (
@@ -157,8 +158,8 @@ function Header() {
             <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
-            <li className={location.pathname === "/datlich" ? "active" : ""}>
-              <Link to="/datlich">Đặt lịch</Link>
+            <li>
+              <Link to="/datlich">Dịch vụ</Link>
             </li>
             <li className={location.pathname === "/tintuc" ? "active" : ""}>
               <Link to="/tintuc">Tin thú cưng</Link>

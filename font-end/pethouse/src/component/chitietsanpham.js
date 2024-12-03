@@ -95,7 +95,9 @@ function ChiTietSanPham() {
 
   // Hàm tăng số lượng sản phẩm
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    if (quantity < 10) {
+      setQuantity(quantity + 1);
+    }
   };
 
   // Hàm giảm số lượng sản phẩm
@@ -105,6 +107,7 @@ function ChiTietSanPham() {
     }
   };
 
+
   // Tìm tên danh mục từ mã danh mục
   const categoryName = category ? category.find(c => c.ma_danh_muc === sp?.ma_danh_muc)?.ten_danh_muc : "Không có danh mục";
 
@@ -113,7 +116,7 @@ function ChiTietSanPham() {
       <div className="page-title parallax parallax1">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 text-light">
               <div className="page-title-heading">
                 <h2 className="title">{sp ? sp.ten_san_pham : "Sản phẩm"}</h2>
               </div>
@@ -132,10 +135,10 @@ function ChiTietSanPham() {
       <section className="flat-row main-shop shop-detail">
         <div className="container">
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 text-center border border-warning border-2 rounded">
               <img
                 src={`../image/product/${sp?.hinh_anh}`}
-                className="card-img-top mx-auto"
+                className="card-img-top pt-5"
                 alt={sp?.ten_san_pham}
                 style={{ width: "75%" }}
               />
@@ -145,10 +148,14 @@ function ChiTietSanPham() {
                 <div className="inner">
                   <div className="content-detail">
                     <h2 className="product-title">{sp?.ten_san_pham}</h2>
-                    <p>{sp?.mo_ta}</p>
+                    <div className="product-categories">
+                      <span className="fs-6">Danh mục: </span>
+                      <a href="/#">{categoryName}</a>
+                    </div>
+                    <p><h5 className="fw-bold">Giới thiệu: </h5>{sp?.mo_ta}</p>
                     <div className="price">
                       <ins>
-                        <span className="amount">
+                        <span className="amount fs-3 fw-bold text-danger">
                           {parseInt(sp?.gia).toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
@@ -156,8 +163,11 @@ function ChiTietSanPham() {
                         </span>
                       </ins>
                     </div>
+                    <hr></hr>
                     <div className="product-quantity">
+                      <h5 className="float-start my-2">Số lượng:   </h5>
                       <div className="quantity">
+
                         <span className="dec quantity-button" onClick={decreaseQuantity}>-</span>
                         <input
                           type="text"
@@ -167,14 +177,12 @@ function ChiTietSanPham() {
                         />
                         <span className="inc quantity-button" onClick={increaseQuantity}>+</span>
                       </div>
-                      <div className="add-to-cart">
-                        <button className="btn btn-primary" onClick={addToCart}>Thêm vào giỏ hàng</button>
+                      
+                      <div class="d-grid mt-5">
+                        <button type="button" class="btn btn-warning btn-block" onClick={addToCart}>Thêm vào giỏ hàng</button>
                       </div>
                     </div>
-                    <div className="product-categories">
-                      <span>Danh mục: </span>
-                      <a href="/#">{categoryName}</a>
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -210,7 +218,7 @@ function ChiTietSanPham() {
                           <span className="product-title">{sp.ten_san_pham}</span>
                           <div className="price">
                             <ins>
-                              <span className="amount">
+                              <span className="amount fs-6 fw-bold">
                                 {parseInt(sp.gia).toLocaleString("vi-VN", {
                                   style: "currency",
                                   currency: "VND",
@@ -229,7 +237,7 @@ function ChiTietSanPham() {
                     ))}
                   </ul>
                 </div>
-                </div>
+              </div>
             </div>
           </div>
         </section>
