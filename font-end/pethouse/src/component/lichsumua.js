@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; // Sử dụng để điều hướng
-import { useAuth } from '../contexts/AuthContext'; // Lấy thông tin người dùng từ AuthContext
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Sử dụng để điều hướng
+import { useAuth } from "../contexts/AuthContext"; // Lấy thông tin người dùng từ AuthContext
 
 const LichSuMua = () => {
   const { user } = useAuth();
@@ -13,7 +11,7 @@ const LichSuMua = () => {
 
   // Kiểm tra và tải dữ liệu đơn hàng từ LocalStorage hoặc API
   useEffect(() => {
-    const savedOrders = localStorage.getItem('orders');
+    const savedOrders = localStorage.getItem("orders");
     if (savedOrders) {
       setOrders(JSON.parse(savedOrders));
       setLoading(false);
@@ -25,21 +23,23 @@ const LichSuMua = () => {
   // Hàm lấy dữ liệu đơn hàng từ API
   const fetchOrders = async () => {
     if (!user || !user.Mataikhoan) {
-      setError('Không tìm thấy thông tin tài khoản.');
+      setError("Không tìm thấy thông tin tài khoản.");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/orders/${user.Mataikhoan}`);
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/orders/${user.Mataikhoan}`
+      );
       if (!response.ok) {
-        throw new Error('Không thể tải đơn hàng. Vui lòng thử lại.');
+        throw new Error("Không thể tải đơn hàng. Vui lòng thử lại.");
       }
 
       const data = await response.json();
-      if (data.status === 'success' && Array.isArray(data.data)) {
+      if (data.status === "success" && Array.isArray(data.data)) {
         setOrders(data.data); // Chỉ lưu vào state mà không lưu vào localStorage
-        console.log('Dữ liệu đơn hàng đã được tải từ API:', data.data); // Kiểm tra dữ liệu tải về từ API
+        console.log("Dữ liệu đơn hàng đã được tải từ API:", data.data); // Kiểm tra dữ liệu tải về từ API
       } else {
         setOrders([]);
       }
@@ -50,6 +50,38 @@ const LichSuMua = () => {
     }
   };
 
+  // Hàm hủy đơn hàng
+  const handleCancelOrder = async (orderId) => {
+    if (!window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/donhang/trangthai/${orderId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            TrangThai: "huy", // Chỉ gửi trạng thái "huy"
+          }),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok && data.status === "success") {
+        alert("Đơn hàng đã được hủy thành công!");
+        fetchOrders(); // Tải lại đơn hàng sau khi hủy
+      } else {
+        throw new Error(data.message || "Có lỗi xảy ra khi hủy đơn hàng.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi hủy đơn hàng:", error);
+      alert(`Lỗi khi hủy đơn hàng: ${error.message}`);
+    }
+  };
 
   // Hàm in đơn hàng
   const handlePrintOrder = async (order) => {
@@ -161,7 +193,6 @@ const LichSuMua = () => {
 
   return (
     <div className="container mt-3">
-
       <h2>Lịch sử mua hàng</h2>
       {orders.length === 0 ? (
         <p>Chưa có đơn hàng nào.</p>
@@ -177,57 +208,95 @@ const LichSuMua = () => {
               <th className="text-center align-middle">Tổng Tiền</th>
               <th className="text-center align-middle">Xem Chi Tiết</th>
               <th className="text-center align-middle">In Đơn Hàng</th>
+              <th className="text-center align-middle">Hủy Đơn Hàng</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order, index) => {
-              // Xử lý trạng thái
               const orderStatus =
-                order.trang_thai === "da_thanh_toan" ? "Đã thanh toán" :
-                  order.trang_thai === "cho_xac_nhan" ? "Chờ xác nhận" :
-                    order.trang_thai === "da_xac_nhan" ? "Đã xác nhận" :
-                      order.trang_thai === "hoan_thanh" ? "Hoàn thành" :
-                        order.trang_thai === "dang_van_chuyen" ? "Đang vận chuyển" :
-                          order.trang_thai === "huy" ? "Hủy" :
-                            order.trang_thai;
-
-              // Xử lý màu nền và màu chữ theo trạng thái
-              const rowStyle = order.trang_thai === "da_thanh_toan"
-                ? { backgroundColor: "#28a745", color: "white" } // Màu xanh lá
-                : order.trang_thai === "cho_xac_nhan"
-                  ? { backgroundColor: "#ffc107", color: "black" } // Màu vàng
-                  : order.trang_thai === "da_xac_nhan"
-                    ? { backgroundColor: "blue", color: "white" } // Màu xanh biển
-                    : order.trang_thai === "dang_van_chuyen"
-                      ? { backgroundColor: "#e2da14", color: "white" } // Màu vàng
+                order.trang_thai === "da_thanh_toan"
+                  ? "Đã thanh toán"
+                  : order.trang_thai === "cho_xac_nhan"
+                    ? "Chờ xác nhận"
+                    : order.trang_thai === "da_xac_nhan"
+                      ? "Đã xác nhận"
                       : order.trang_thai === "hoan_thanh"
-                        ? { backgroundColor: "#28a745", color: "yellow" } // Màu xanh lá chữ vàng
-                        : order.trang_thai === "huy"
-                          ? { backgroundColor: "red", color: "black" } // Màu đỏ
-                          : {};
+                        ? "Hoàn thành"
+                        : order.trang_thai === "dang_van_chuyen"
+                          ? "Đang vận chuyển"
+                          : order.trang_thai === "huy"
+                            ? "Hủy"
+                            : order.trang_thai;
 
+              const rowStyle =
+                order.trang_thai === "da_thanh_toan"
+                  ? { backgroundColor: "#28a745", color: "white" }
+                  : order.trang_thai === "cho_xac_nhan"
+                    ? { backgroundColor: "#ffc107", color: "black" }
+                    : order.trang_thai === "da_xac_nhan"
+                      ? { backgroundColor: "blue", color: "white" }
+                      : order.trang_thai === "dang_van_chuyen"
+                        ? { backgroundColor: "#e2da14", color: "white" }
+                        : order.trang_thai === "hoan_thanh"
+                          ? { backgroundColor: "#28a745", color: "yellow" }
+                          : order.trang_thai === "huy"
+                            ? { backgroundColor: "red", color: "black" }
+                            : {};
 
               return (
                 <tr key={order.ma_don_hang}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="text-center">{order.so_luong}</td>
-                  <td className="text-center" style={rowStyle}>{orderStatus}</td>
-                  <td className="text-center">{order.phuong_thuc_tt}</td>
-                  <td className="text-center">{new Date(order.ngay_dat).toLocaleDateString("vi-VN")}</td>
-                  <td className="text-center text-danger fw-bold">
-                    {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(order.tong_tien)}
+                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{index + 1}</td>
+                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.so_luong}</td>
+                  <td className="text-center" style={{ ...rowStyle, verticalAlign: 'middle' }}>
+                    {orderStatus}
+                  </td>
+                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.phuong_thuc_tt}</td>
+                  <td className="text-center" style={{ verticalAlign: 'middle' }}>
+                    {new Date(order.ngay_dat).toLocaleDateString("vi-VN")}
+                  </td>
+                  <td className="text-center text-danger fw-bold" style={{ verticalAlign: 'middle' }}>
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                      minimumFractionDigits: 0,
+                    }).format(order.tong_tien)}
                   </td>
                   <td className="text-center">
-                    <button className="btn btn-primary btn-sm" onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}>Chi Tiết</button>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}
+                    >
+                      Chi Tiết
+                    </button>
                   </td>
                   <td className="text-center">
-                    <button className="btn btn-secondary btn-sm" onClick={() => handlePrintOrder(order)}>In hóa đơn</button>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => handlePrintOrder(order)}
+                    >
+                      In hóa đơn
+                    </button>
+                  </td>
+                  <td className="text-center" >
+                    {order.trang_thai === "cho_xac_nhan" && (
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleCancelOrder(order.ma_don_hang)}
+                      >
+                        Hủy Đơn Hàng
+                      </button>
+                    )}
+                    {order.trang_thai !== "cho_xac_nhan" && (
+                      // <p>Không thể hủy</p>
+                      <p className="m-0">
+                        Không thể hủy
+                      </p>
+                    )}
                   </td>
                 </tr>
               );
             })}
           </tbody>
-
         </table>
       )}
     </div>
