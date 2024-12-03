@@ -26,7 +26,7 @@ class User extends Authenticatable
         'SDT',
         'Email',  // Đổi từ 'Email' thành 'email' để Laravel nhận diện
         'ThuCung',
-        'Diachi',
+        'DiaChi',
         'Quyen',
         'Matkhau',
         'remember_token',  // Đổi từ 'Matkhau' thành 'password' để Laravel nhận diện

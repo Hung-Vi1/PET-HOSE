@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; // Sử dụng để điều hướng
 import { useAuth } from '../contexts/AuthContext'; // Lấy thông tin người dùng từ AuthContext
 
@@ -27,15 +26,15 @@ const Lichsudichvu = () => {
         });
 
         if (!response.ok) {
-          throw new Error('Không thể tải đơn hàng. Vui lòng thử lại.');
+          throw new Error('Không thể tải dịch vụ. Vui lòng thử lại.');
         }
 
         const data = await response.json();
 
         if (data.status === 'success' && Array.isArray(data.data)) {
-          setOrders(data.data); // Lưu danh sách đơn hàng
+          setOrders(data.data); // Lưu danh sách dịch vụ
         } else {
-          setOrders([]); // Không có đơn hàng nào
+          setOrders([]); // Không có dịch vụ nào
         }
       } catch (error) {
         setError(error.message); // Lưu thông báo lỗi
@@ -44,8 +43,44 @@ const Lichsudichvu = () => {
       }
     };
 
-    fetchOrders(); // Gọi hàm lấy đơn hàng khi component mount
+    fetchOrders(); // Gọi hàm lấy danh sách dịch vụ khi component mount
   }, [user]); // Chạy lại nếu thông tin user thay đổi
+
+  // Xử lý hủy dịch vụ
+  const handleCancelOrder = async (maDonHang) => {
+    if (!window.confirm("Bạn có chắc chắn muốn hủy dịch vụ này không?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/donhang/trangthai/${maDonHang}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          TrangThai: 'huy', // Chỉ gửi trạng thái "huy"
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.status === 'success') {
+        alert("Dịch vụ đã được hủy thành công!");
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.ma_don_hang === maDonHang
+              ? { ...order, trang_thai: 'huy' } // Cập nhật trạng thái trong danh sách
+              : order
+          )
+        );
+      } else {
+        throw new Error(data.message || "Có lỗi xảy ra khi hủy dịch vụ.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi hủy dịch vụ:", error);
+      alert(`Lỗi khi hủy dịch vụ: ${error.message}`);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>; // Hiển thị khi đang tải
@@ -59,83 +94,96 @@ const Lichsudichvu = () => {
     <div className="container mt-3">
       <h2>Lịch sử dịch vụ đã sử dụng</h2>
       {orders.length === 0 ? (
-        <p>Chưa có đơn hàng nào.</p> // Nếu không có đơn hàng
+        <p>Chưa có dịch vụ nào.</p> // Nếu không có dịch vụ
       ) : (
-        <>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="text-center align-middle" scope="col">STT</th>
-                <th className="text-center align-middle" scope="col">Mã Đơn Hàng</th>
-                {/* <th className="text-center align-middle" scope="col">Số Lượng</th> */}
-                <th className="text-center align-middle" scope="col">Tổng Tiền</th>
-                <th className="text-center align-middle" scope="col">Trạng Thái</th>
-                <th className="text-center align-middle" scope="col">Ngày Đặt</th>
-                <th className="text-center align-middle" scope="col">Xem Chi Tiết</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => {
-                // Xử lý trạng thái
-                const orderStatus =
-                  order.trang_thai === "da_thanh_toan" ? "Đã thanh toán" :
-                    order.trang_thai === "cho_xac_nhan" ? "Chờ xác nhận" :
-                      order.trang_thai === "da_xac_nhan" ? "Đã xác nhận" :
-                        order.trang_thai === "hoan_thanh" ? "Hoàn thành" :
-                          order.trang_thai === "dang_van_chuyen" ? "Đang vận chuyển" :
-                            order.trang_thai === "huy" ? "Hủy" :
-                              order.trang_thai;
-
-                // Xử lý màu nền và màu chữ theo trạng thái
-                const rowStyle = order.trang_thai === "da_thanh_toan"
-                  ? { backgroundColor: "#28a745", color: "white" } // Màu xanh lá
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="text-center align-middle">STT</th>
+              <th className="text-center align-middle">Mã Dịch Vụ</th>
+              <th className="text-center align-middle">Tổng Tiền</th>
+              <th className="text-center align-middle">Trạng Thái</th>
+              <th className="text-center align-middle">Ngày Đặt</th>
+              <th className="text-center align-middle">Xem Chi Tiết</th>
+              <th className="text-center align-middle">Hủy Dịch Vụ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) => {
+              const orderStatus =
+                order.trang_thai === "da_thanh_toan"
+                  ? "Đã thanh toán"
                   : order.trang_thai === "cho_xac_nhan"
-                    ? { backgroundColor: "#ffc107", color: "black" } // Màu vàng
+                    ? "Chờ xác nhận"
                     : order.trang_thai === "da_xac_nhan"
-                      ? { backgroundColor: "blue", color: "white" } // Màu xanh biển
-                      : order.trang_thai === "dang_van_chuyen"
-                        ? { backgroundColor: "#e2da14", color: "white" } // Màu vàng
-                        : order.trang_thai === "hoan_thanh"
-                          ? { backgroundColor: "#28a745", color: "yellow" } // Màu xanh lá chữ vàng
+                      ? "Đã xác nhận"
+                      : order.trang_thai === "hoan_thanh"
+                        ? "Hoàn thành"
+                        : order.trang_thai === "dang_van_chuyen"
+                          ? "Đang vận chuyển"
                           : order.trang_thai === "huy"
-                            ? { backgroundColor: "red", color: "black" } // Màu đỏ
+                            ? "Hủy"
+                            : order.trang_thai;
+
+              const rowStyle =
+                order.trang_thai === "da_thanh_toan"
+                  ? { backgroundColor: "#28a745", color: "white" }
+                  : order.trang_thai === "cho_xac_nhan"
+                    ? { backgroundColor: "#ffc107", color: "black" }
+                    : order.trang_thai === "da_xac_nhan"
+                      ? { backgroundColor: "blue", color: "white" }
+                      : order.trang_thai === "dang_van_chuyen"
+                        ? { backgroundColor: "#e2da14", color: "white" }
+                        : order.trang_thai === "hoan_thanh"
+                          ? { backgroundColor: "#28a745", color: "yellow" }
+                          : order.trang_thai === "huy"
+                            ? { backgroundColor: "red", color: "black" }
                             : {};
 
-                return (
-                  <tr key={order.ma_don_hang} >
-                    <td className="text-center align-middle">{index + 1}</td>
-                    <td className="text-center align-middle">{order.ma_don_hang}</td>
-                    {/* <td className="text-center align-middle">{order.so_luong}</td> */}
-                    <td className="text-center align-middle">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.tong_tien)}</td>
-                    <td className="text-center align-middle" style={rowStyle}>{orderStatus}</td>
-                    <td className="text-center align-middle">
-                      {new Date(order.ngay_su_dung).toLocaleString("vi-VN", {
-                        year: 'numeric',   // Hiển thị năm
-                        month: '2-digit',   // Hiển thị tháng (2 chữ số)
-                        day: '2-digit',     // Hiển thị ngày (2 chữ số)
-                        hour: '2-digit',    // Hiển thị giờ (2 chữ số)
-                        minute: '2-digit',  // Hiển thị phút (2 chữ số)
-                      })}
-                    </td>
+              return (
+                <tr key={order.ma_don_hang}>
+                  <td className="text-center align-middle">{index + 1}</td>
+                  <td className="text-center align-middle">{order.ma_don_hang}</td>
+                  <td className="text-center align-middle">
+                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.tong_tien)}
+                  </td>
+                  <td className="text-center align-middle" style={{ ...rowStyle, verticalAlign: 'middle' }}>{orderStatus}</td>
+                  <td className="text-center align-middle">
+                    {new Date(order.ngay_su_dung).toLocaleString("vi-VN", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      
+                    })}
+                  </td>
 
-                    <td className="text-center align-middle">
+                  <td className="text-center align-middle">
+                    <button
+                      className="btn btn-outline-success btn-sm"
+                      onClick={() => navigate(`/dichvu/${order.ma_don_hang}`)}
+                    >
+                      Xem Chi Tiết
+                    </button>
+                  </td>
+                  <td className="text-center align-middle">
+                    {order.trang_thai === "cho_xac_nhan" ? (
                       <button
-                        className="btn btn-outline-success"
-                        onClick={() => navigate(`/dichvu/${order.ma_don_hang}`)}
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleCancelOrder(order.ma_don_hang)}
                       >
-                        Xem Chi Tiết
+                        <i class="fa-solid fa-ban"></i> Hủy Dịch Vụ
                       </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-
-          </table>
-          {/* <Link to="/sanpham">
-        <button className="btn btn-outline-danger  mt-3">Tiếp tục mua sắm</button>
-      </Link> */}
-        </>
+                    ) : (
+                      <span className="text-muted">Không thể hủy</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       )}
     </div>
   );

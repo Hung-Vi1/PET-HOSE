@@ -11,6 +11,19 @@ function AdminTaiKhoan() {
   const navigate = useNavigate();
 
   // Lấy danh sách tài khoản
+  useEffect(() => {
+    const danhsachuser = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/users");
+        const data = await response.json();
+        ganListTK(data.data || []);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách tài khoản:", error);
+      }
+    };
+
+    danhsachuser();
+  }, []);
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -29,52 +42,30 @@ function AdminTaiKhoan() {
             <img
               src={`http://localhost:8000/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt="Logo"
             />
           </Link>
 
           <div className="list-group list-group-item-primary">
-            <Link
-              to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-              aria-current="true"
-            >
+            <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0">
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
-            <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
-            <Link
-              to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
-            <Link
-              to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
-            <Link
-              to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
-            >
+            <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0 active">
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <Link
-              to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <Link
-              to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
@@ -87,10 +78,7 @@ function AdminTaiKhoan() {
         </div>
 
         <div className="col-md p-0">
-          <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
-            data-bs-theme="dark"
-          >
+          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
             <div className="container-fluid">
               <button
                 className="btn btn-outline-light me-3"
@@ -102,13 +90,8 @@ function AdminTaiKhoan() {
               >
                 <i className="bi bi-list"></i>
               </button>
-              <a className="navbar-brand" href="/#">
-                PetHouse
-              </a>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
+              <a className="navbar-brand" href="/#">PetHouse</a>
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
@@ -119,13 +102,10 @@ function AdminTaiKhoan() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
-                        <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
-                          to={"/"}
-                        >
+                        <Link className="menu-header-top dropdown-item m-0 py-2" to={"/"}>
                           Xem trang chủ
                         </Link>
                       </li>
@@ -133,10 +113,7 @@ function AdminTaiKhoan() {
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
-                        <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
-                          href="/#"
-                        >
+                        <a className="menu-header-bottom dropdown-item m-0 py-2" href="/#">
                           Đăng xuất
                         </a>
                       </li>
@@ -146,14 +123,9 @@ function AdminTaiKhoan() {
               </div>
             </div>
           </nav>
-          <div className="container">
-            <Link
-              to={"/admintaikhoanthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm tài khoản
-            </Link>
 
+          <div className="container">
+            <Link to={"/admintaikhoanthem"} className="btn btn-success float-end">Thêm tài khoản</Link>
             <h2 className="my-3">Tài khoản</h2>
 
             <table className="table align-middle">
@@ -168,46 +140,27 @@ function AdminTaiKhoan() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="text-star">1</td>
-                  <td>Trần Ngọc Kim Hiếu</td>
-                  <td className="text-center">0364395907</td>
-                  <td>tranngockimhieu2k2@gmail.com</td>
-                  <td className="text-center">
-                    <span class="badge text-bg-success">Người dùng</span>
-                  </td>
-                  <td className="text-center">
-                    <Link
-                      to={"/admintaikhoansua"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-star">2</td>
-                  <td>Trần Ngọc Kim Hiếu</td>
-                  <td className="text-center">0364395907</td>
-                  <td>tranngockimhieu2k2@gmail.com</td>
-                  <td className="text-center">
-                    <span class="badge text-bg-danger">Quản trị viên</span>
-                  </td>
-                  <td className="text-center">
-                    <Link
-                      to={"/admintaikhoansua"}
-                      className="btn btn-outline-warning m-1"
-                    >
-                      <i className="bi bi-pencil-square"></i>
-                    </Link>
-                    <a href="/#" className="btn btn-outline-danger m-1">
-                      <i className="bi bi-trash"></i>
-                    </a>
-                  </td>
-                </tr>
+                {listTK.map((usr, i) => (
+                  <tr key={usr.id}>
+                    <td className="text-center">{i + 1}</td>
+                    <td>{usr.ten_tai_khoan}</td>
+                    <td className="text-center">{usr.so_dien_thoai}</td>
+                    <td>{usr.email}</td>
+                    <td className="text-center">
+                    <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
+                        {usr.quyen === 1 ? 'Quản trị viên' : 'Người dùng'}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <Link to={`/admintaikhoansua/${usr.id}`} className="btn btn-outline-warning m-1">
+                        <i className="bi bi-pencil-square"></i>
+                      </Link>
+                      <a href="/#" className="btn btn-outline-danger m-1">
+                        <i className="bi bi-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
@@ -219,19 +172,13 @@ function AdminTaiKhoan() {
                   </a>
                 </li>
                 <li className="page-item">
-                  <a className="page-link active" href="/#">
-                    1
-                  </a>
+                  <a className="page-link active" href="/#">1</a>
                 </li>
                 <li className="page-item">
-                  <a className="page-link" href="/#">
-                    2
-                  </a>
+                  <a className="page-link" href="/#">2</a>
                 </li>
                 <li className="page-item">
-                  <a className="page-link" href="/#">
-                    3
-                  </a>
+                  <a className="page-link" href="/#">3</a>
                 </li>
                 <li className="page-item">
                   <a className="page-link" href="/#">
