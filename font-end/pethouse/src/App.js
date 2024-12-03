@@ -687,6 +687,11 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           /> */}
+          <Route
+            path="/admindatlich"
+            exact
+            element={<BaoVeRoute element={<AdminDatLich />} />}
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
