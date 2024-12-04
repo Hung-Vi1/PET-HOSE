@@ -170,12 +170,7 @@ function AdminLienHe() {
             </div>
           </nav>
           <div className="container">
-            <Link
-              to={"/admindichvuchamsocthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm dịch vụ
-            </Link>
+            
 
             <h2 className="my-3">Liên hệ người dùng</h2>
             <table className="table align-middle table-borderless">
@@ -186,7 +181,6 @@ function AdminLienHe() {
                   <th className="fw-bold text-center">Nội dung</th>
                   <th className="fw-bold text-center">Người gửi</th>
                   <th className="fw-bold text-center">Email người gửi</th>
-                  <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,20 +239,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganLH }) {
           <td className="text-center">{lh.ho_ten}</td>
           <td className="text-center">{lh.email}</td>
 
-          <td className="text-center">
-            <Link
-              to={`/admindichvuchamsocsua/${lh.id}`}
-              className="btn btn-outline-warning m-1"
-            >
-              <i className="bi bi-pencil-square"></i>
-            </Link>
-            <Link
-              to={`/admindichvuchamsocthem`}
-              className="btn btn-outline-success m-1"
-            >
-              <i className="bi bi-plus-circle"></i>
-            </Link>
-          </td>
+          
         </tr>
       ))}
     </>
