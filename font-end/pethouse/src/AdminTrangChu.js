@@ -145,16 +145,22 @@ function AdminTrangChu() {
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admindv"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ</h5>
-            </Link>
-            <Link
               to={"/Admin_BV"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
+            </Link>
+            <Link
+              to={"/adminlienhe"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Liên hệ</h5>
+            </Link>
+            <Link
+              to={"/adminmagiamgia"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>

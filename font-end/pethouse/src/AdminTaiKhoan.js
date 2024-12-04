@@ -70,32 +70,66 @@ function AdminTaiKhoan() {
           </Link>
 
           <div className="list-group list-group-item-primary">
-            <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0">
+            <Link
+              to={"/admin"}
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              aria-current="true"
+            >
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
-            <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/adminsanpham"}
+              className="list-group-item list-group-item-action my-0  rounded-0"
+            >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
-            <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
-            <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
-            <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0 active">
+            <Link
+              to={"/admintaikhoan"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindonhang"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindatlich"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admin_Bv"}
+              to={"/Admin_BV"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
+            </Link>
+            <Link
+              to={"/adminlienhe"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Liên hệ</h5>
+            </Link>
+            <Link
+              to={"/adminmagiamgia"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>

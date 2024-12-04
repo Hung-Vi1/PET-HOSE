@@ -47,6 +47,8 @@ import Admin_Suabv from "./Admin_SuaBV";
 import Admin_Thembv from "./Admin_ThemBV"
 import AdminDatLich from "./AdminDichVuChamSoc";
 import AdminDichVu from "./AdminDV";
+import AdminLienHe from "./AdminLienHe";
+import AdminMaGG from "./AdminMaGIamGia";
 import TimKiem from "./component/timkiem";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
@@ -657,6 +659,18 @@ function App() {
             path="/admindichvuchamsoc"
             exact
             element={<BaoVeRoute element={<AdminDichVu />} />}
+          />
+
+          <Route
+            path="/adminlienhe"
+            exact
+            element={<BaoVeRoute element={<AdminLienHe />} />}
+          />
+
+          <Route
+            path="/adminmagiamgia"
+            exact
+            element={<BaoVeRoute element={<AdminMaGG />} />}
           />
 
           <Route

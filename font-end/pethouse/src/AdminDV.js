@@ -6,7 +6,7 @@ import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminDichVu() {
-  const [list_dm, ganDM] = useState([]);
+  const [list_dv, ganDV] = useState([]);
   const { user } = useAuth(); 
 
   // Lấy danh sách dịch vụ chăm sóc thay vì danh mục
@@ -17,10 +17,10 @@ function AdminDichVu() {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganDM(data.data); // Nếu có mảng dịch vụ trong data
+          ganDV(data.data); // Nếu có mảng dịch vụ trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganDM([]); // Khởi tạo giá trị mặc định
+          ganDV([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
@@ -47,7 +47,7 @@ function AdminDichVu() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -60,7 +60,7 @@ function AdminDichVu() {
             </Link>
             <Link
               to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
@@ -89,10 +89,22 @@ function AdminDichVu() {
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admin_Bv"}
+              to={"/Admin_BV"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
+            </Link>
+            <Link
+              to={"/adminlienhe"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Liên hệ</h5>
+            </Link>
+            <Link
+              to={"/adminmagiamgia"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>
@@ -176,7 +188,7 @@ function AdminDichVu() {
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDM={list_dm} pageSize={10} ganDM={ganDM} />
+                <PhanTrang listDM={list_dv} pageSize={10} ganDM={ganDV} />
               </tbody>
             </table>
           </div>
@@ -186,7 +198,7 @@ function AdminDichVu() {
   );
 }
 
-function PhanTrang({ listDM, pageSize, ganDM }) {
+function PhanTrang({ listDM, pageSize, ganDV }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const spTrong1Trang = listDM.slice(fromIndex, toIndex);
@@ -202,7 +214,7 @@ function PhanTrang({ listDM, pageSize, ganDM }) {
       <HienSPTrongMotTrang
         spTrongTrang={spTrong1Trang}
         fromIndex={fromIndex}
-        ganDM={ganDM}
+        ganDM={ganDV}
       />
       <tr>
         <td colSpan="5">

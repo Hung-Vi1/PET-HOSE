@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React, { } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 
@@ -24,14 +24,14 @@ function Admin_Suabv() {
                     <div className="list-group list-group-item-primary">
                         <Link
                             to={"/admin"}
-                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
                             aria-current="true"
                         >
                             <h5 className="mb-0 py-1">Tổng quan</h5>
                         </Link>
                         <Link
                             to={"/adminsanpham"}
-                            className="list-group-item list-group-item-action my-0 rounded-0 "
+                            className="list-group-item list-group-item-action my-0  rounded-0"
                         >
                             <h5 className="mb-0 py-1">Sản phẩm</h5>
                         </Link>
@@ -67,9 +67,21 @@ function Admin_Suabv() {
                         </Link>
                         <Link
                             to={"/Admin_BV"}
-                            className="list-group-item list-group-item-action my-0 rounded-0 active"
+                            className="list-group-item list-group-item-action my-0 rounded-0"
                         >
                             <h5 className="mb-0 py-1">Tin tức</h5>
+                        </Link>
+                        <Link
+                            to={"/adminlienhe"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Liên hệ</h5>
+                        </Link>
+                        <Link
+                            to={"/adminmagiamgia"}
+                            className="list-group-item list-group-item-action my-0 rounded-0"
+                        >
+                            <h5 className="mb-0 py-1">Mã giảm giá</h5>
                         </Link>
                     </div>
                 </div>
