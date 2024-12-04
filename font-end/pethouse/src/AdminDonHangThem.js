@@ -100,7 +100,7 @@ function AdminDonHangThem() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -131,7 +131,7 @@ function AdminDonHangThem() {
             </Link>
             <Link
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
@@ -226,7 +226,7 @@ function AdminDonHangThem() {
           <div className="container mt-3 mb-5">
             <div className="d-flex">
               <Link
-                to={`/admindonhangchitiet/${ma_don_hang}`}
+                to={`/admindonhang`}
                 className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
               >
                 <i className="bi bi-arrow-left"></i>
