@@ -11,7 +11,7 @@ import { vi } from "date-fns/locale";
 
 function AdminDonHang() {
   const [list_dh, ganDH] = useState([]);
-  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
@@ -151,7 +151,7 @@ function AdminDonHang() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -237,9 +237,17 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
             TrangThaiDonHang = (
               <span class="badge text-bg-warning">Chờ xác nhận</span>
             );
-          } else if (dh.trang_thai === "dang_xu_ly") {
+          } else if (dh.trang_thai === "da_xac_nhan") {
             TrangThaiDonHang = (
-              <span class="badge text-bg-info">Đang xử lý</span>
+              <span class="badge text-bg-secondary">Đã xác nhận</span>
+            );
+          } else if (dh.trang_thai === "dang_van_chuyen") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-info">Đang vận chuyển</span>
+            );
+          } else if (dh.trang_thai === "da_thanh_toan") {
+            TrangThaiDonHang = (
+              <span class="badge text-bg-success">Đã thanh toán</span>
             );
           } else if (dh.trang_thai === "hoan_thanh") {
             TrangThaiDonHang = (
