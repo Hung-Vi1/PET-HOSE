@@ -690,9 +690,16 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDonHangThem />} />}
           />
-          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv />} />} />
-          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv />} />} />
-          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv />} />} />
+
+          <Route
+            path="/admindatlich"
+            exact
+            element={<BaoVeRoute element={<AdminDatLich />} />}
+          />
+          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv/>} />}/>
+          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv/>} />}/>
+          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv/>} />}/>
+
           {/* <Route
             path="/Admin_ThemBV"
             exact
@@ -701,11 +708,7 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           /> */}
-          <Route
-            path="/admindatlich"
-            exact
-            element={<BaoVeRoute element={<AdminDatLich />} />}
-          />
+          
         </Routes>
       </BrowserRouter>
     </AuthProvider>

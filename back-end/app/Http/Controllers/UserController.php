@@ -134,12 +134,12 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"Hovaten", "Email", "Diachi", "SDT", "Matkhau",},
+     *             required={"Hovaten", "Email", "DiaChi", "SDT", "Matkhau",},
      *             @OA\Property(property="Hovaten", type="string", example="Trương Minh Thiện"),
      *             @OA\Property(property="Email", type="string", format="email", example="truongminhthien222004@gmail.com"),
      *             @OA\Property(property="Matkhau", type="string", format="password", example="thien123"),
      *             @OA\Property(property="SDT", type="string", example="0354895845"),
-     *             @OA\Property(property="Diachi", type="string", example="294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"),
+     *             @OA\Property(property="DiaChi", type="string", example="294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"),
      *         )
      *     ),
      *     @OA\Response(
@@ -162,7 +162,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'Hovaten' => 'required|string|max:255',
             'SDT' => 'required|string|max:255',
-            'Diachi' => 'required|string|max:255',
+            'DiaChi' => 'required|string|max:255',
             'Email' => 'required|string|email|max:255|unique:users',
             'Matkhau' => 'required|string|min:6',
         ]);
@@ -174,7 +174,7 @@ class UserController extends Controller
             'Hovaten' => $request->Hovaten,
             'SDT' => $request->SDT,
             'Email' => $request->Email,
-            'Diachi' => $request->Diachi,
+            'DiaChi' => $request->DiaChi,
             'Quyen' => 0,
             'Matkhau' => Hash::make($request->Matkhau),
         ]);
