@@ -247,7 +247,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
             );
           } else if (dh.trang_thai === "da_thanh_toan") {
             TrangThaiDonHang = (
-              <span class="badge text-bg-success">Đã thanh toán</span>
+              <span class="badge text-bg-primary">Đã thanh toán</span>
             );
           } else if (dh.trang_thai === "hoan_thanh") {
             TrangThaiDonHang = (
