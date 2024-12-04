@@ -188,6 +188,7 @@ function AdminMaGG() {
                   <th className="fw-bold text-center">Giảm</th>
                   <th className="fw-bold text-center">Mức tiêu thụ để áp dụng</th>
                   <th className="fw-bold text-center">Số lượng</th>
+                  <th className="fw-bold text-center">Hành động</th>
 
                 </tr>
               </thead>
