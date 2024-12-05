@@ -2,13 +2,12 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminTaiKhoan() {
-  const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
-  const [listTK, ganListTK] = useState([]);
-  // const navigate = useNavigate();
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const [list_tk, ganTK] = useState([]);
 
   // Lấy danh sách tài khoản
   useEffect(() => {
@@ -16,7 +15,7 @@ function AdminTaiKhoan() {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/users");
         const data = await response.json();
-        ganListTK(data.data || []);
+        ganTK(data.data || []);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách tài khoản:", error);
       }
@@ -24,29 +23,6 @@ function AdminTaiKhoan() {
 
     danhsachuser();
   }, []);
-
-  // Hàm xóa tài khoản
-  const handleDelete = async (ma_tai_khoan) => {
-    if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
-      try {
-        // Gọi API xóa tài khoản với ma_tai_khoan
-        const response = await fetch(`http://127.0.0.1:8000/api/users/${ma_tai_khoan}`, {
-          method: "DELETE",  // Phương thức DELETE để xóa tài khoản
-        });
-
-        if (response.ok) {
-          // Cập nhật lại danh sách tài khoản sau khi xóa
-          ganListTK(listTK.filter((usr) => usr.ma_tai_khoan !== ma_tai_khoan));
-          alert("Tài khoản đã được xóa.");
-        } else {
-          alert("Xóa tài khoản thất bại.");
-        }
-      } catch (error) {
-        console.error("Lỗi khi xóa tài khoản:", error);
-        alert("Có lỗi xảy ra khi xóa tài khoản.");
-      }
-    }
-  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -135,7 +111,10 @@ function AdminTaiKhoan() {
         </div>
 
         <div className="col-md p-0">
-          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
+          <nav
+            className="navbar navbar-expand-lg bg-primary p-0"
+            data-bs-theme="dark"
+          >
             <div className="container-fluid">
               <button
                 className="btn btn-outline-light me-3"
@@ -147,8 +126,13 @@ function AdminTaiKhoan() {
               >
                 <i className="bi bi-list"></i>
               </button>
-              <a className="navbar-brand" href="/#">PetHouse</a>
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <a className="navbar-brand" href="/#">
+                PetHouse
+              </a>
+              <div
+                className="collapse navbar-collapse"
+                id="navbarSupportedContent"
+              >
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
@@ -162,7 +146,10 @@ function AdminTaiKhoan() {
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
-                        <Link className="menu-header-top dropdown-item m-0 py-2" to={"/"}>
+                        <Link
+                          className="menu-header-top dropdown-item m-0 py-2"
+                          to={"/"}
+                        >
                           Xem trang chủ
                         </Link>
                       </li>
@@ -170,7 +157,10 @@ function AdminTaiKhoan() {
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
-                        <a className="menu-header-bottom dropdown-item m-0 py-2" href="/#">
+                        <a
+                          className="menu-header-bottom dropdown-item m-0 py-2"
+                          href="/#"
+                        >
                           Đăng xuất
                         </a>
                       </li>
@@ -182,7 +172,12 @@ function AdminTaiKhoan() {
           </nav>
 
           <div className="container">
-            <Link to={"/admintaikhoanthem"} className="btn btn-success float-end">Thêm tài khoản</Link>
+            <Link
+              to={"/admintaikhoanthem"}
+              className="btn btn-success float-end"
+            >
+              Thêm tài khoản
+            </Link>
             <h2 className="my-3">Tài khoản</h2>
 
             <table className="table align-middle">
@@ -197,61 +192,126 @@ function AdminTaiKhoan() {
                 </tr>
               </thead>
               <tbody>
-                {listTK.map((usr, i) => (
-                  <tr key={usr.ma_tai_khoan}>
-                    <td className="text-center">{i + 1}</td>
-                    <td>{usr.ten_tai_khoan}</td>
-                    <td className="text-center">{usr.so_dien_thoai}</td>
-                    <td>{usr.email}</td>
-                    <td className="text-center">
-                      <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
-                        {usr.quyen === 1 ? 'Quản trị viên' : 'Người dùng'}
-                      </span>
-                    </td>
-                    <td className="text-center">
-                      <Link to={`/admintaikhoansua/${usr.ma_tai_khoan}`} className="btn btn-outline-warning m-1">
-                        <i className="bi bi-pencil-square"></i>
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(usr.ma_tai_khoan)}
-                        className="btn btn-outline-danger m-1"
-                      >
-                        <i className="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                <PhanTrang listTK={list_tk} pageSize={10} />
               </tbody>
             </table>
-
-            <nav aria-label="Page navigation example">
-              <ul className="pagination justify-content-center">
-                <li className="page-item disabled">
-                  <a className="page-link" href="/#">
-                    <i className="bi bi-chevron-double-left"></i>
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link active" href="/#">1</a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">2</a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">3</a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="/#">
-                    <i className="bi bi-chevron-double-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK, list_tk }) {
+  const setSelectedUser = useState(null);
+
+  // Hàm xóa tài khoản
+  const handleDelete = async (ma_tai_khoan) => {
+    if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/users/${ma_tai_khoan}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (response.ok) {
+          ganTK((prevList) =>
+            prevList.filter((usr) => usr.ma_tai_khoan !== ma_tai_khoan)
+          );
+          alert("Tài khoản đã được xóa.");
+        } else {
+          alert("Xóa tài khoản thất bại.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa tài khoản:", error);
+        alert("Có lỗi xảy ra khi xóa tài khoản.");
+      }
+    }
+  };
+
+  const fetchOrderById = (ma_tai_khoan) => {
+    fetch(`http://127.0.0.1:8000/api/users/show/${ma_tai_khoan}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin sản phẩm:", data);
+        setSelectedUser(data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      });
+  };
+
+  return (
+    <>
+      {spTrongTrang.map((usr, i) => (
+        <tr key={usr.ma_tai_khoan}>
+          <td className="text-center">{i + 1}</td>
+          <td>{usr.ten_tai_khoan}</td>
+          <td className="text-center">{usr.so_dien_thoai}</td>
+          <td>{usr.email}</td>
+          <td className="text-center">
+            <span
+              className={`badge ${
+                usr.quyen === 1 ? "text-bg-danger" : "text-bg-success"
+              }`}
+            >
+              {usr.quyen === 1 ? "Quản trị viên" : "Người dùng"}
+            </span>
+          </td>
+          <td className="text-center">
+            <Link
+              onClick={() => fetchOrderById(usr.ma_don_hang)}
+              to={`/admintaikhoansua/${usr.ma_tai_khoan}`}
+              className="btn btn-outline-warning m-1"
+            >
+              <i className="bi bi-pencil-square"></i>
+            </Link>
+            <button
+              onClick={() => handleDelete(usr.ma_tai_khoan)}
+              className="btn btn-outline-danger m-1"
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+} //HienDHTrongMotTrang
+
+function PhanTrang({ listTK, pageSize, ganTK }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const dhTrong1Trang = listTK.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listTK.length / pageSize);
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % listTK.length;
+    setfromIndex(newIndex);
+  };
+  return (
+    <>
+      <HienSPTrongMotTrang
+        spTrongTrang={dhTrong1Trang}
+        fromIndex={fromIndex}
+        ganTK={ganTK}
+        list_tk={listTK}
+      />
+      <tr>
+        <td colspan="6">
+          <ReactPaginate
+            nextLabel=">"
+            previousLabel="<"
+            pageCount={tongSoTrang}
+            pageRangeDisplayed={5}
+            onPageChange={chuyenTrang}
+            className="thanhphantrang"
+          />
+        </td>
+      </tr>
+    </>
+  );
+} //PhanTrang
 
 export default AdminTaiKhoan;
