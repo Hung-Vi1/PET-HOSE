@@ -2,13 +2,13 @@ import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function AdminTaiKhoan() {
   const { user, isLoggedIn } = useAuth();  // Lấy trạng thái đăng nhập
   const [listTK, ganListTK] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Lấy danh sách tài khoản
   useEffect(() => {
@@ -24,6 +24,29 @@ function AdminTaiKhoan() {
 
     danhsachuser();
   }, []);
+
+  // Hàm xóa tài khoản
+  const handleDelete = async (ma_tai_khoan) => {
+    if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
+      try {
+        // Gọi API xóa tài khoản với ma_tai_khoan
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${ma_tai_khoan}`, {
+          method: "DELETE",  // Phương thức DELETE để xóa tài khoản
+        });
+
+        if (response.ok) {
+          // Cập nhật lại danh sách tài khoản sau khi xóa
+          ganListTK(listTK.filter((usr) => usr.ma_tai_khoan !== ma_tai_khoan));
+          alert("Tài khoản đã được xóa.");
+        } else {
+          alert("Xóa tài khoản thất bại.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa tài khoản:", error);
+        alert("Có lỗi xảy ra khi xóa tài khoản.");
+      }
+    }
+  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -47,32 +70,66 @@ function AdminTaiKhoan() {
           </Link>
 
           <div className="list-group list-group-item-primary">
-            <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0">
+            <Link
+              to={"/admin"}
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              aria-current="true"
+            >
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
-            <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/adminsanpham"}
+              className="list-group-item list-group-item-action my-0  rounded-0"
+            >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
-            <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindichvuchamsoc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
-            <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindanhmuc"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
-            <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0 active">
+            <Link
+              to={"/admintaikhoan"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindonhang"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0">
+            <Link
+              to={"/admindatlich"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
             <Link
-              to={"/admin_Bv"}
+              to={"/Admin_BV"}
               className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
+            </Link>
+            <Link
+              to={"/adminlienhe"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Liên hệ</h5>
+            </Link>
+            <Link
+              to={"/adminmagiamgia"}
+              className="list-group-item list-group-item-action my-0 rounded-0"
+            >
+              <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>
@@ -141,23 +198,26 @@ function AdminTaiKhoan() {
               </thead>
               <tbody>
                 {listTK.map((usr, i) => (
-                  <tr key={usr.id}>
+                  <tr key={usr.ma_tai_khoan}>
                     <td className="text-center">{i + 1}</td>
                     <td>{usr.ten_tai_khoan}</td>
                     <td className="text-center">{usr.so_dien_thoai}</td>
                     <td>{usr.email}</td>
                     <td className="text-center">
-                    <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
+                      <span className={`badge ${usr.quyen === 1 ? 'text-bg-danger' : 'text-bg-success'}`}>
                         {usr.quyen === 1 ? 'Quản trị viên' : 'Người dùng'}
                       </span>
                     </td>
                     <td className="text-center">
-                      <Link to={`/admintaikhoansua/${usr.id}`} className="btn btn-outline-warning m-1">
+                      <Link to={`/admintaikhoansua/${usr.ma_tai_khoan}`} className="btn btn-outline-warning m-1">
                         <i className="bi bi-pencil-square"></i>
                       </Link>
-                      <a href="/#" className="btn btn-outline-danger m-1">
+                      <button
+                        onClick={() => handleDelete(usr.ma_tai_khoan)}
+                        className="btn btn-outline-danger m-1"
+                      >
                         <i className="bi bi-trash"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}

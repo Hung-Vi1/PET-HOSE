@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 function TinTuc() {
   const [tintuc, setTinTuc] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 12; // Number of articles per page
 
   useEffect(() => {
     const fetchTinTuc = async () => {
@@ -31,6 +33,14 @@ function TinTuc() {
     }
     return content;
   };
+
+  // Calculate total pages
+  const totalPages = Math.ceil(tintuc.length / articlesPerPage);
+
+  // Get current articles
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  const currentArticles = tintuc.slice(indexOfFirstArticle, indexOfLastArticle);
 
   return (
     <>
@@ -62,27 +72,27 @@ function TinTuc() {
             <div className="col-md-12">
               <div className="post-wrap margin-bottom-26">
                 <div className="grid four">
-                  {tintuc.length > 0 ? (
-                    tintuc.map((article) => (
+                  {currentArticles.length > 0 ? (
+                    currentArticles.map((article) => (
                       <article className="post clearfix" key={article.bai_viet}>
                         <div className="featured-post">
                           <img src={`image/News/${article.Hinh}`} alt="hinh" style={{
-      width: '400px', // Đặt chiều rộng bằng 100% của phần tử chứa
-      height: '300px', // Để chiều cao tự động tính theo tỷ lệ
-      maxHeight: '300px', // Đặt chiều cao tối đa nếu cần
-      objectFit: 'cover' // Đảm bảo hình ảnh không bị biến dạng
-    }}/>
+                            width: '400px',
+                            height: '300px',
+                            maxHeight: '300px',
+                            objectFit: 'cover'
+                          }}/>
                         </div>
                         <div className="content-post">
                           <div className="title-post">
                             <h2>
-                              <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                              <Link className="fw-bolder fs-5" to={`/chitiettintuc/${article.bai_viet}`}>
                                 {article.tieu_de}
                               </Link>
                             </h2>
                           </div>
                           <div className="entry-post">
-                            <p>{truncateContent(article.noi_dung, 110)}</p>
+                            <p className="">{truncateContent(article.noi_dung, 110)}</p>
                             <div className="more-link">
                               <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
                             </div>
@@ -96,25 +106,27 @@ function TinTuc() {
                 </div>
               </div>
               <div className="blog-pagination text-center clearfix">
-                <ul className="flat-pagination">
+            <ul className="flat-pagination">
                   <li className="prev">
-                    <a href="/#">
+                    <a 
+                      onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : currentPage)}
+                      disabled={currentPage === 1}
+                    >
                       <i className="fa fa-angle-left" />
                     </a>
                   </li>
-                  <li>
-                    <a href="/#">1</a>
-                  </li>
-                  <li className="active">
-                    <a href="/#" title="">
-                      2
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/#">3</a>
-                  </li>
-                  <li>
-                    <a href="/#">
+                  {[...Array(totalPages)].map((_, index) => (
+                    <li key={index} className={currentPage === index + 1 ? "active" : ""}>
+                      <a onClick={() => setCurrentPage(index + 1)}>
+                        {index + 1}
+                      </a>
+                    </li>
+                  ))}
+                  <li className="next">
+                    <a 
+                      onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : currentPage)}
+                      disabled={currentPage === totalPages}
+                    >
                       <i className="fa fa-angle-right" />
                     </a>
                   </li>

@@ -64,7 +64,7 @@ const ChiTietTinTuc = () => {
   }
 
   // Lấy 3 bài viết liên quan ngẫu nhiên
-  const randomRelatedArticles = getRandomArticles(relatedArticles, 3);
+  const randomRelatedArticles = getRandomArticles(relatedArticles, 10);
 
   return (
     <section className="blog posts" style={{ paddingTop: '20px' }}>
@@ -79,14 +79,15 @@ const ChiTietTinTuc = () => {
                 <div className="content-post">
                   <ul className="meta-post">
                     <li className="author padding-left-2">
-                      <span>Posted By: </span>
+                      <span className=" fs-6">Đăng bởi: </span>
                       <a href="#">Admin</a>
                     </li>
                     <li className="comment">
-                      <span>Lượt xem: {article.luot_xem}</span>
+                      <span><i class="fa-solid fa-eye"/> &nbsp;&nbsp;{article.luot_xem}</span>
                     </li>
                     <li className="date">
-                      <span>Ngày: {article.ngay_tao}</span>
+                    {/* <i class="fa-solid fa-calendar-days" style="color: #94919c;"></i> */}
+                      <span><i className="fa-solid fa-calendar-days"/>&nbsp;&nbsp;&nbsp;{article.ngay_tao}</span>
                     </li>
                   </ul>
                   <div className="entry-post">
@@ -126,8 +127,11 @@ const ChiTietTinTuc = () => {
                           alt={related.tieu_de}
                           style={{ width: '100%', height: 'auto', marginBottom: '5px' }}
                         />
-                        {related.tieu_de}
                       </a>
+                      <p className="fw-bolder" href={`/chitiettintuc/${related.bai_viet}`}>
+                      {related.tieu_de}
+                      </p>
+                      
                     </li>
                   ))
                 ) : (

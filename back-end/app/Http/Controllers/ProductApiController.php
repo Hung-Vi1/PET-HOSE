@@ -408,73 +408,7 @@ class ProductApiController extends Controller
      *     @OA\Response(response=404, description="Sản phẩm không tìm thấy")
      * )
      */
-
-    // Tú sửa
-    public function update(Request $request, $ma_san_pham)
-    {
-        $validatedData = $request->validate([
-            'MaDanhMuc' => 'required|exists:danh_muc,MaDanhMuc', // Kiểm tra mã danh mục tồn tại
-            'TenSanPham' => 'required',
-            'GiaSP' => 'required|numeric',
-            'GiamGia' => 'nullable|numeric',
-            'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'MoTa' => 'required',
-            'SoLuong' => 'required|integer',
-            'TrangThai' => 'required|integer',
-        ], [
-            'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
-            'MaDanhMuc.exists' => 'Danh mục không tồn tại',
-            'TenSanPham.required' => 'Vui lòng nhập tên sản phẩm',
-            'GiaSP.required' => 'Vui lòng nhập tên sản phẩm',
-            'HinhAnh.required' => 'Vui lòng nhập ảnh',
-            'MoTa.required' => 'Vui lòng nhập ảnh'
-        ]);
-        // Gán giá trị mặc định
-        $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
-        $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
-
-        // Tìm sản phẩm
-        $product = SanPham::findOrFail($ma_san_pham);
-
-        // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
-        if ($request->hasFile('HinhAnh')) {
-            // Xóa hình ảnh cũ nếu có
-            if ($product->HinhAnh) {
-                Storage::disk('public')->delete($product->HinhAnh);
-            }
-            // Lưu hình ảnh mới
-            $path = $request->file('HinhAnh')->store('image/product', 'public');
-            $validatedData['HinhAnh'] = $path;
-        }
-
-        // Cập nhật thông tin sản phẩm
-        $product->update($validatedData);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Cập nhật sản phẩm thành công',
-            'data' => [
-                'ma_san_pham' => $product->MaSP,
-                'ma_danh_muc' => $product->MaDanhMuc,
-                'ten_san_pham' => $product->TenSanPham,
-                'tenDM' => $product->danhMuc->TenDanhMuc,
-                'gia' => $product->GiaSP,
-                'giam_gia' => $product->GiamGia,
-                'mo_ta' => $product->MoTa,
-                'so_luong' => $product->SoLuong,
-                'hinh_anh' => $product->HinhAnh,
-                'luot_xem' => $product->LuotXem,
-                'luot_ban' => $product->LuotBan,
-                'thoi_gian' => now(),
-                'trang_thai' => $product->TrangThai,
-                'Loai' => $product->Loai,
-                'ngay_tao' => $product->created_at->format('d/m/Y'),
-                'ngay_cap_nhat' => $product->updated_at->format('d/m/Y'),
-            ],
-        ], 200);
-    }
-    // Hết phần Tú sửa
-    /* public function update(Request $request, $MaSP)
+    public function update(Request $request, $MaSP)
     {
         // PUT
         try {
@@ -491,16 +425,43 @@ class ProductApiController extends Controller
                 'ThoiGian' => 'nullable|date',
                 'TrangThai' => 'nullable|integer'
             ], [
-                'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
-                'MaDanhMuc.exists' => 'Danh mục không tồn tại',
-                'TenSanPham.required' => 'Vui lòng nhập tên sản phẩm',
-                'GiaSP.required' => 'Vui lòng nhập giá sản phẩm',
-                'HinhAnh.required' => 'Vui lòng nhập ảnh',
-                'MoTa.required' => 'Vui lòng nhập mô tả'
+                
             ]);
 
+            // Tìm sản phẩm
             $product = SanPham::findOrFail($MaSP);
-            $product->update($validatedData);
+
+            // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
+            if ($request->hasFile('HinhAnh')) {
+                // Xóa hình ảnh cũ nếu có
+                if ($product->HinhAnh) {
+                    Storage::disk('public')->delete($product->HinhAnh);
+                }
+
+                // Lưu hình ảnh
+                $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+                $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
+                $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+            } else {
+                // Nếu không có hình ảnh mới, giữ lại hình ảnh cũ
+                $imageName = $product->HinhAnh;
+            }
+            $validatedData['Loai'] = 1;       // Trạng thái mặc định là 1
+
+            $product->update([
+                'MaDanhMuc' => $validatedData['MaDanhMuc'],
+                'TenSanPham' => $validatedData['TenSanPham'],
+                'GiaSP' => $validatedData['GiaSP'],
+                'GiamGia' => $validatedData['GiamGia'],
+                'MoTa' => $validatedData['MoTa'],
+                'SoLuong' => $validatedData['SoLuong'],
+                'HinhAnh' => $imageName,
+                'LuotXem' => $validatedData['LuotXem'],
+                'LuotBan' => $validatedData['LuotBan'],
+                'ThoiGian' => $validatedData['ThoiGian'],
+                'TrangThai' => $validatedData['TrangThai'],
+                'Loai' => $validatedData['Loai'],
+            ]);
 
             return response()->json([
                 'status' => 'success',
@@ -514,7 +475,73 @@ class ProductApiController extends Controller
                 'data' => null
             ], 400);
         }
-    } */
+    }
+    // Tú sửa
+    // public function update(Request $request, $ma_san_pham)
+    // {
+    //     $validatedData = $request->validate([
+    //         'MaDanhMuc' => 'required|exists:danh_muc,MaDanhMuc', // Kiểm tra mã danh mục tồn tại
+    //         'TenSanPham' => 'required',
+    //         'GiaSP' => 'required|numeric',
+    //         'GiamGia' => 'nullable|numeric',
+    //         'HinhAnh' => 'required|image|mimes:jpeg,png,jpg,gif',
+    //         'MoTa' => 'required',
+    //         'SoLuong' => 'required|integer',
+    //         'TrangThai' => 'required|integer',
+    //     ], [
+    //         'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
+    //         'MaDanhMuc.exists' => 'Danh mục không tồn tại',
+    //         'TenSanPham.required' => 'Vui lòng nhập tên sản phẩm',
+    //         'GiaSP.required' => 'Vui lòng nhập tên sản phẩm',
+    //         'HinhAnh.required' => 'Vui lòng nhập ảnh',
+    //         'MoTa.required' => 'Vui lòng nhập ảnh'
+    //     ]);
+    //     // Gán giá trị mặc định
+    //     $validatedData['LuotXem'] = 0;         // Lượt xem mặc định là 0
+    //     $validatedData['LuotBan'] = 0;         // Lượt bán mặc định là 0
+
+    //     // Tìm sản phẩm
+    //     $product = SanPham::findOrFail($ma_san_pham);
+
+    //     // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
+    //     if ($request->hasFile('HinhAnh')) {
+    //         // Xóa hình ảnh cũ nếu có
+    //         if ($product->HinhAnh) {
+    //             Storage::disk('public')->delete($product->HinhAnh);
+    //         }
+    //         // Lưu hình ảnh mới
+    //         $path = $request->file('HinhAnh')->store('image/product', 'public');
+    //         $validatedData['HinhAnh'] = $path;
+    //     }
+
+    //     // Cập nhật thông tin sản phẩm
+    //     $product->update($validatedData);
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Cập nhật sản phẩm thành công',
+    //         'data' => [
+    //             'ma_san_pham' => $product->MaSP,
+    //             'ma_danh_muc' => $product->MaDanhMuc,
+    //             'ten_san_pham' => $product->TenSanPham,
+    //             'tenDM' => $product->danhMuc->TenDanhMuc,
+    //             'gia' => $product->GiaSP,
+    //             'giam_gia' => $product->GiamGia,
+    //             'mo_ta' => $product->MoTa,
+    //             'so_luong' => $product->SoLuong,
+    //             'hinh_anh' => $product->HinhAnh,
+    //             'luot_xem' => $product->LuotXem,
+    //             'luot_ban' => $product->LuotBan,
+    //             'thoi_gian' => now(),
+    //             'trang_thai' => $product->TrangThai,
+    //             'Loai' => $product->Loai,
+    //             'ngay_tao' => $product->created_at->format('d/m/Y'),
+    //             'ngay_cap_nhat' => $product->updated_at->format('d/m/Y'),
+    //         ],
+    //     ], 200);
+    // }
+    // Hết phần Tú sửa
+
 
 
 

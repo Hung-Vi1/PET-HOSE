@@ -5,26 +5,26 @@ import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
 
-function AdminDanhMuc() {
-  const [list_dm, ganDM] = useState([]);
+function AdminMaGG() {
+  const [list_maGG, ganmGG] = useState([]);
   const { user } = useAuth(); 
 
-  // Lấy danh sách danh mục
+  // Lấy danh sách dịch vụ chăm sóc thay vì danh mục
   useEffect(() => {
-    fetch("http://localhost:8000/api/category")
+    fetch("http://127.0.0.1:8000/api/coupons") // Đổi endpoint ở đây
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganDM(data.data); // Nếu có mảng sản phẩm trong data
+            ganmGG(data.data); // Nếu có mảng dịch vụ trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganDM([]); // Khởi tạo giá trị mặc định
+          ganmGG([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        console.error("Lỗi khi lấy dữ liệu dịch vụ:", error);
       });
   }, []);
 
@@ -142,7 +142,7 @@ function AdminDanhMuc() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -171,25 +171,26 @@ function AdminDanhMuc() {
           </nav>
           <div className="container">
             <Link
-              to={"/admindanhmucthem"}
+              to={"/admindichvuchamsocthem"}
               className="btn btn-success float-end"
             >
-              Thêm danh mục
+              Thêm dịch vụ
             </Link>
 
-            <h2 className="my-3">Danh mục</h2>
+            <h2 className="my-3">Mã giảm giá</h2>
             <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
-                  <th className="fw-bold">Tên danh mục</th>
-                  <th className="fw-bold text-center">Phân loại</th>
-                  <th className="fw-bold text-center">Ngày tạo</th>
-                  <th className="fw-bold text-center">Hành động</th>
+                  <th className="fw-bold">Mã giảm giá</th>
+                  <th className="fw-bold text-center">Code</th>
+                  <th className="fw-bold text-center">Mức tiêu thụ để áp dụng</th>
+                  <th className="fw-bold text-center">Số lượng</th>
+
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDM={list_dm} pageSize={10} ganDM={ganDM} />
+                <PhanTrang listDM={list_maGG} pageSize={10} ganDM={ganmGG} />
               </tbody>
             </table>
           </div>
@@ -199,109 +200,7 @@ function AdminDanhMuc() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
-  const setSelectedCategory = useState(null);
-
-  const fetchCategoryById = (ma_danh_muc) => {
-    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Thông tin danh mục:", data);
-        setSelectedCategory(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy thông tin danh mục:", error);
-      });
-  };
-
-  const xoaDanhMuc = (ma_danh_muc) => {
-    if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/category/destroy/${ma_danh_muc}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.status === 204) {
-            alert("Danh mục đã được xóa thành công");
-            return fetch("http://localhost:8000/api/category");
-          } else {
-            throw new Error("Lỗi khi xóa danh mục");
-          }
-        })
-        .then((res) => {
-          if (res) {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          if (Array.isArray(data.data)) {
-            ganDM(data.data); // Sử dụng ganDM từ props
-          } else {
-            console.error("Dữ liệu không phải là mảng:", data);
-            ganDM([]); // Khởi tạo giá trị mặc định
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa danh mục:", error);
-          alert("Có lỗi xảy ra: " + error.message);
-        });
-    }
-  };
-
-  return (
-    <>
-      {spTrongTrang.map((dm, i) => {
-        let loaiDanhMuc;
-        const parentId = parseInt(dm.parent_id, 10); // Chuyển đổi parent_id từ chuỗi sang số
-
-        // Kiểm tra giá trị parentId để xác định loại danh mục
-        switch (parentId) {
-          case 0:
-            loaiDanhMuc = "Thư mục cha";
-            break;
-          case 1:
-            loaiDanhMuc = "Thư mục cha -> Chó";
-            break;
-          case 2:
-            loaiDanhMuc = "Thư mục cha -> Mèo";
-            break;
-          default:
-            loaiDanhMuc = "Khác"; // Hoặc xử lý cho các trường hợp khác
-            break;
-        }
-
-        console.log(
-          `Danh mục: ${dm.ten_danh_muc}, parent_id: ${parentId}, loại: ${loaiDanhMuc}`
-        ); // Kiểm tra thông tin
-
-        return (
-          <tr key={dm.ma_danh_muc}>
-            <td className="text-center">{fromIndex + i + 1}</td>
-            <td>{dm.ten_danh_muc}</td>
-            <td className="text-center">{loaiDanhMuc}</td>
-            <td className="text-center">{dm.ngay_tao}</td>
-            <td className="text-center">
-              <Link
-                onClick={() => fetchCategoryById(dm.ma_danh_muc)}
-                to={`/admindanhmucsua/${dm.ma_danh_muc}`}
-                className="btn btn-outline-warning m-1"
-              >
-                <i className="bi bi-pencil-square"></i>
-              </Link>
-              <button
-                onClick={() => xoaDanhMuc(dm.ma_danh_muc)}
-                className="btn btn-outline-danger m-1"
-              >
-                <i className="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </>
-  );
-}
-
-function PhanTrang({ listDM, pageSize, ganDM }) {
+function PhanTrang({ listDM, pageSize, ganmGG }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const spTrong1Trang = listDM.slice(fromIndex, toIndex);
@@ -317,7 +216,7 @@ function PhanTrang({ listDM, pageSize, ganDM }) {
       <HienSPTrongMotTrang
         spTrongTrang={spTrong1Trang}
         fromIndex={fromIndex}
-        ganDM={ganDM}
+        ganDM={ganmGG}
       />
       <tr>
         <td colSpan="5">
@@ -335,4 +234,34 @@ function PhanTrang({ listDM, pageSize, ganDM }) {
   );
 }
 
-export default AdminDanhMuc;
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganmGG }) {
+  return (
+    <>
+      {spTrongTrang.map((mgg, i) => (
+        <tr key={mgg.id}>
+          <td className="text-center">{fromIndex + i + 1}</td>
+          <td>{mgg.ma_giam_gia}</td>
+          <td className="text-center">{mgg.code}</td>
+          <td className="text-center">{mgg.so_tien_nho_nhat}</td>
+          <td className="text-center">{mgg.so_luong}</td>
+          <td className="text-center">
+            <Link
+              to={`/admindichvuchamsocsua/${mgg.id}`}
+              className="btn btn-outline-warning m-1"
+            >
+              <i className="bi bi-pencil-square"></i>
+            </Link>
+            <Link
+              to={`/admindichvuchamsocthem`}
+              className="btn btn-outline-success m-1"
+            >
+              <i className="bi bi-plus-circle"></i>
+            </Link>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+}
+
+export default AdminMaGG;

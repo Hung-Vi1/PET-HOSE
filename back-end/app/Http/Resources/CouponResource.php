@@ -17,6 +17,8 @@ class CouponResource extends JsonResource
         return[
             'ma_giam_gia'=>$this->id,
             'code'=>$this->code,
+            'phan_tram'=>$this->value,
+            'loai_giam'=>$this->type,
             'so_tien_nho_nhat'=>$this->min_order_value,
             'ngay_het_giam'=>$this->expiry_date,
             'so_luong'=>$this->usage_limit,
