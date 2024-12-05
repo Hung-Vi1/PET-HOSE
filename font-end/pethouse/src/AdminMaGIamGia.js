@@ -1,36 +1,60 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { useAuth } from "./contexts/AuthContext";
-import ReactPaginate from "react-paginate";
+import { Navigate } from "react-router-dom";
 import "./App.css";
 
-function AdminMaGG() {
-  const [list_maGG, ganmGG] = useState([]);
-  const { user } = useAuth();
+function AdminMaGiamGia() {
+  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const [listDiscounts, setListDiscounts] = useState([]); // Danh sách mã giảm giá
 
-  // Lấy danh sách dịch vụ chăm sóc thay vì danh mục
+  // Lấy danh sách mã giảm giá
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/coupons") // Đổi endpoint ở đây
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
-        if (Array.isArray(data.data)) {
-          ganmGG(data.data); // Nếu có mảng dịch vụ trong data
-        } else {
-          console.error("Dữ liệu không phải là mảng:", data);
-          ganmGG([]); // Khởi tạo giá trị mặc định
-        }
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu dịch vụ:", error);
-      });
+    const fetchDiscounts = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/coupons");
+        const data = await response.json();
+        setListDiscounts(data.data || []); // Gán dữ liệu vào state
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách mã giảm giá:", error);
+      }
+    };
+
+    fetchDiscounts();
   }, []);
 
+  // Hàm xóa mã giảm giá
+  const handleDelete = async (ma_giam_gia) => {
+    if (window.confirm("Bạn chắc chắn muốn xóa mã giảm giá này?")) {
+      try {
+        // Gọi API xóa mã giảm giá với ma_giam_gia
+        const response = await fetch(`http://127.0.0.1:8000/api/coupons/destroy/${ma_giam_gia}`, {
+          method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
+        });
+
+        if (response.ok) {
+          // Cập nhật lại danh sách mã giảm giá sau khi xóa
+          setListDiscounts(listDiscounts.filter((discount) => discount.ma_giam_gia !== ma_giam_gia));
+          alert("Mã giảm giá đã được xóa.");
+        } else {
+          alert("Xóa mã giảm giá thất bại.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa mã giảm giá:", error);
+        alert("Có lỗi xảy ra khi xóa mã giảm giá.");
+      }
+    }
+  };
+
+  if (!isLoggedIn) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
+    return <Navigate to="/login" />;
+  }
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid admintrangchu">
       <div className="row">
+        {/* Sidebar */}
         <div
           id="openMenu"
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
@@ -40,14 +64,14 @@ function AdminMaGG() {
             <img
               src={`http://localhost:8000/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt="Logo"
             />
           </Link>
-
+          {/* Other links */}
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -102,83 +126,26 @@ function AdminMaGG() {
             </Link>
             <Link
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>
 
+        {/* Main content */}
         <div className="col-md p-0">
-          <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
-            data-bs-theme="dark"
-          >
+          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
             <div className="container-fluid">
-              <button
-                className="btn btn-outline-light me-3"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#openMenu"
-                aria-expanded="false"
-                aria-controls="collapseWidthExample"
-              >
-                <i className="bi bi-list"></i>
-              </button>
-              <a className="navbar-brand" href="/#">
-                PetHouse
-              </a>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
-                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="/#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Xin chào, {user.Hovaten || "Không có tên"}
-                    </a>
-                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
-                      <li className="rounded-0">
-                        <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
-                          to={"/"}
-                        >
-                          Xem trang chủ
-                        </Link>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider m-0" />
-                      </li>
-                      <li>
-                        <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
-                          href="/#"
-                        >
-                          Đăng xuất
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+              {/* Navbar content */}
             </div>
           </nav>
-          <div className="container">
-            <Link
-              to={"/admindichvuchamsocthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm dịch vụ
-            </Link>
 
-            <h2 className="my-3">Mã giảm giá</h2>
-            <table className="table align-middle table-borderless">
+          <div className="container">
+            <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
+            <h2 className="my-3">Danh sách mã giảm giá</h2>
+
+            <table className="table align-middle">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
@@ -189,11 +156,35 @@ function AdminMaGG() {
                   <th className="fw-bold text-center">Mức tiêu thụ để áp dụng</th>
                   <th className="fw-bold text-center">Số lượng</th>
                   <th className="fw-bold text-center">Hành động</th>
-
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listDM={list_maGG} pageSize={10} ganDM={ganmGG} />
+                {listDiscounts.map((discount, i) => (
+                  <tr key={discount.ma_giam_gia}>
+                    <td className="text-center">{i + 1}</td>
+                    <td>{discount.ma_giam_gia}</td>
+                    <td>{discount.loai_giam}</td>
+                    <td className="text-center">{discount.code}</td>
+                    <td className="text-center">
+                      {discount.loai_giam === "fixed" 
+                        ? `${discount.so_tien_nho_nhat} VNĐ` 
+                        : `${discount.phan_tram} %`}
+                    </td>
+                    <td className="text-center">{discount.so_tien_nho_nhat}</td>
+                    <td className="text-center">{discount.so_luong}</td>
+                    <td className="text-center">
+                      <Link to={`/adminmgmsua/${discount.ma_giam_gia}`} className="btn btn-outline-warning m-1">
+                        <i className="bi bi-pencil-square"></i>
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(discount.ma_giam_gia)}
+                        className="btn btn-outline-danger m-1"
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -203,87 +194,4 @@ function AdminMaGG() {
   );
 }
 
-function PhanTrang({ listDM, pageSize, ganmGG }) {
-  const [fromIndex, setfromIndex] = useState(0);
-  const toIndex = fromIndex + pageSize;
-  const spTrong1Trang = listDM.slice(fromIndex, toIndex);
-  const tongSoTrang = Math.ceil(listDM.length / pageSize);
-
-  const chuyenTrang = (event) => {
-    const newIndex = (event.selected * pageSize) % listDM.length;
-    setfromIndex(newIndex);
-  };
-
-  return (
-    <>
-      <HienSPTrongMotTrang
-        spTrongTrang={spTrong1Trang}
-        fromIndex={fromIndex}
-        ganDM={ganmGG}
-      />
-      <tr>
-        <td colSpan="5">
-          <ReactPaginate
-            nextLabel=">"
-            previousLabel="<"
-            pageCount={tongSoTrang}
-            pageRangeDisplayed={5}
-            onPageChange={chuyenTrang}
-            className="thanhphantrang"
-          />
-        </td>
-      </tr>
-    </>
-  );
-}
-
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganmGG }) {
-  return (
-    <>
-      {spTrongTrang.map((mgg, i) => (
-        <tr key={mgg.id}>
-          <td className="text-center">{fromIndex + i + 1}</td>
-          <td>{mgg.ma_giam_gia}</td>
-          <td>{mgg.loai_giam}</td>
-          <td className="text-center">{mgg.code}</td>
-          <td className="text-center">
-            {mgg.loai_giam === "percentage"
-              ? new Intl.NumberFormat("vi-VN", {
-                style: "percent",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              }).format(mgg.phan_tram / 100)
-              : parseInt(mgg.phan_tram).toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
-          </td>
-          <td className="text-center">
-            {parseInt(mgg.so_tien_nho_nhat).toLocaleString("vi-VN", {
-              style: "currency",
-              currency: "VND",
-            })}
-          </td>
-          <td className="text-center">{mgg.so_luong}</td>
-          <td className="text-center">
-            <Link
-              to={`/admindichvuchamsocsua/${mgg.id}`}
-              className="btn btn-outline-warning m-1"
-            >
-              <i className="bi bi-pencil-square"></i>
-            </Link>
-            <Link
-              to={`/admindichvuchamsocthem`}
-              className="btn btn-outline-success m-1"
-            >
-              <i className="bi bi-plus-circle"></i>
-            </Link>
-          </td>
-        </tr>
-      ))}
-
-    </>
-  );
-}
-
-export default AdminMaGG;
+export default AdminMaGiamGia;
