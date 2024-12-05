@@ -410,44 +410,39 @@ class ProductApiController extends Controller
      */
     public function update(Request $request, $MaSP)
     {
-        // PUT
         try {
+            // Kiểm tra và xác thực dữ liệu
             $validatedData = $request->validate([
                 'MaDanhMuc' => 'required|exists:danh_muc,MaDanhMuc',
                 'TenSanPham' => 'required',
                 'GiaSP' => 'required|numeric',
                 'GiamGia' => 'nullable|numeric',
-                'HinhAnh' => 'required',
+                'HinhAnh' => 'nullable',
                 'MoTa' => 'required',
                 'SoLuong' => 'required|integer',
                 'LuotXem' => 'nullable|integer',
                 'LuotBan' => 'nullable|integer',
                 'ThoiGian' => 'nullable|date',
                 'TrangThai' => 'nullable|integer'
-            ], [
-                
             ]);
-
-            // Tìm sản phẩm
+    
+            // Tìm sản phẩm theo mã
             $product = SanPham::findOrFail($MaSP);
-
-            // Nếu có tệp hình ảnh mới, xử lý tệp và cập nhật
+            $imageName = $product->HinhAnh; // Giữ hình ảnh cũ nếu không thay đổi
+    
+            // Kiểm tra nếu có tệp hình ảnh mới
             if ($request->hasFile('HinhAnh')) {
-                // Xóa hình ảnh cũ nếu có
                 if ($product->HinhAnh) {
-                    Storage::disk('public')->delete($product->HinhAnh);
+                    // Xóa hình ảnh cũ
+                    Storage::disk('public')->delete('image/product/' . $product->HinhAnh);
                 }
-
-                // Lưu hình ảnh
+    
+                // Lưu hình ảnh mới
                 $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
-                $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
-                $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
-            } else {
-                // Nếu không có hình ảnh mới, giữ lại hình ảnh cũ
-                $imageName = $product->HinhAnh;
+                $request->file('HinhAnh')->storeAs('image/product', $imageName, 'public');
             }
-            $validatedData['Loai'] = 1;       // Trạng thái mặc định là 1
-
+    
+            // Cập nhật thông tin sản phẩm
             $product->update([
                 'MaDanhMuc' => $validatedData['MaDanhMuc'],
                 'TenSanPham' => $validatedData['TenSanPham'],
@@ -456,18 +451,19 @@ class ProductApiController extends Controller
                 'MoTa' => $validatedData['MoTa'],
                 'SoLuong' => $validatedData['SoLuong'],
                 'HinhAnh' => $imageName,
-                'LuotXem' => $validatedData['LuotXem'],
-                'LuotBan' => $validatedData['LuotBan'],
-                'ThoiGian' => $validatedData['ThoiGian'],
-                'TrangThai' => $validatedData['TrangThai'],
-                'Loai' => $validatedData['Loai'],
+                'LuotXem' => $validatedData['LuotXem'] ?? 0,
+                'LuotBan' => $validatedData['LuotBan'] ?? 0,
+                'ThoiGian' => $validatedData['ThoiGian'] ?? now(),
+                'TrangThai' => $validatedData['TrangThai'] ?? 1,
+                'Loai' => 1,
             ]);
-
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'Cập nhật thành công',
                 'data' => new ProductResource($product)
             ], 200);
+    
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'fail',
@@ -476,6 +472,10 @@ class ProductApiController extends Controller
             ], 400);
         }
     }
+    
+    
+    
+
     // Tú sửa
     // public function update(Request $request, $ma_san_pham)
     // {

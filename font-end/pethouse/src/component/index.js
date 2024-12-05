@@ -302,7 +302,7 @@ function Index() {
                           className="product-link"
                         >
                           <img
-                            src={`image/product/${sp.hinh_anh}`}
+                            src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
                             alt={sp.ten_san_pham}
                           />
                         </Link>
@@ -414,7 +414,7 @@ function Index() {
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                       <div className="product-thumb clearfix">
                         <img
-                          src={`image/product/${sp.hinh_anh}`}
+                          src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
                         <span className="new">Mới</span>

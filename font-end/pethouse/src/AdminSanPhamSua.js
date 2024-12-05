@@ -54,35 +54,57 @@ function AdminSanPhamSua() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setHinhAnh(file);
-      setImagePreview(URL.createObjectURL(file));
+      // Kiểm tra loại tệp là hình ảnh
+      const fileType = file.type.split('/')[0]; // Lấy phần loại tệp trước "/"
+      if (fileType === 'image') {
+        setHinhAnh(file);
+        // Chuyển đổi hình ảnh thành base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result); // Hiển thị preview hình ảnh
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setError('File phải là hình ảnh!');
+      }
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
-
-    const formData = new FormData();
-    formData.append("MaDanhMuc", ma_danh_muc);
-    formData.append("TenSanPham", tenSanPham);
-    formData.append("GiaSP", gia);
-    formData.append("GiamGia", giamGia);
-    formData.append("MoTa", moTa);
-    formData.append("SoLuong", soLuong);
-    if (hinhAnh) {
-      formData.append("HinhAnh", hinhAnh);
-    }
-
-    console.log(formData);
-
+  
+    // Chuyển đổi thời gian sang định dạng MySQL
+    const thoiGian = new Date().toISOString().replace('T', ' ').slice(0, 19); // Lấy phần ngày giờ và bỏ "Z"
+  
+    // Nếu không có hình ảnh mới, giữ lại hình ảnh cũ
+    const hinhAnhToSend = hinhAnh ? hinhAnh.name : hinhAnh;
+  
+    const payload = {
+      MaDanhMuc: ma_danh_muc,        // Mã danh mục từ state
+      TenSanPham: tenSanPham,        // Tên sản phẩm từ state
+      GiaSP: gia,                    // Giá sản phẩm từ state
+      GiamGia: giamGia,              // Giá khuyến mãi từ state
+      MoTa: moTa,                    // Mô tả sản phẩm từ state
+      HinhAnh: hinhAnhToSend,        // Nếu có hình ảnh, dùng tên file hoặc giữ hình cũ
+      SoLuong: soLuong,              // Số lượng sản phẩm từ state
+      LuotXem: 0,                    // Giá trị mặc định cho lượt xem
+      LuotBan: 0,                    // Giá trị mặc định cho lượt bán
+      ThoiGian: thoiGian,
+      TrangThai: 1                   // Trạng thái mặc định
+    };
+  
+    console.log(hinhAnhToSend)
+    
     fetch(`http://localhost:8000/api/products/update/${ma_san_pham}`, {
       method: "PUT",
-      body: formData,
       headers: {
+        "Content-Type": "application/json",
         Accept: "application/json",
       },
+      body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -94,6 +116,8 @@ function AdminSanPhamSua() {
       })
       .catch((error) => setError(error.message));
   };
+  
+
 
   return (
     <div className="container">
@@ -170,11 +194,16 @@ function AdminSanPhamSua() {
           <label>Hình ảnh</label>
           <input
             type="file"
-            className="form-control"
-            onChange={handleFileChange}
+            className="form-control" 
+            onChange={(e) => setHinhAnh(e.target.files[0])}
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Preview" className="img-preview" />
+            <img src={imagePreview} alt="Preview" className="img-preview" style={{
+              maxWidth: '100%',
+              height: 'auto',
+              maxHeight: '200px',
+              marginTop: '10px',
+            }} />
           )}
         </div>
         <button type="submit" className="btn btn-primary">
