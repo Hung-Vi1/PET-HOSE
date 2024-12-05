@@ -427,7 +427,7 @@ class ProductApiController extends Controller
 
             if ($request->hasFile('HinhAnh')) {
                 $path = public_path('image/product');
-                
+
                 // Xóa hình ảnh cũ
                 if ($product->HinhAnh) {
                     $oldFilePath = $path . '/' . $product->HinhAnh;
@@ -435,12 +435,12 @@ class ProductApiController extends Controller
                         unlink($oldFilePath); // Xóa hình cũ
                     }
                 }
-            
+
                 // Lưu hình ảnh mới
                 $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
                 $request->file('HinhAnh')->move($path, $imageName);
             }
-            
+
 
             $product->update([
                 'MaDanhMuc' => $validatedData['MaDanhMuc'],
@@ -510,6 +510,27 @@ class ProductApiController extends Controller
         try {
             // Tìm sản phẩm theo mã MaSP
             $product = SanPham::findOrFail($MaSP);
+
+
+            $path = public_path('image/product');
+
+
+            $oldFilePath = $path . '/' . $product->HinhAnh;
+            // Kiểm tra nếu tệp hình ảnh tồn tại và xóa
+            if (file_exists($oldFilePath)) {
+                if (unlink($oldFilePath)) {
+                    // Nếu xóa hình ảnh thành công, có thể thông báo hoặc ghi log
+                    // echo "Xóa hình ảnh thành công.";
+                } else {
+                    // Nếu không thể xóa hình ảnh
+                    return response()->json([
+                        'status' => 'fail',
+                        'message' => 'Không thể xóa hình ảnh',
+                        'data' => null
+                    ], 500);
+                }
+            }
+
 
             // Xóa sản phẩm
             $product->delete();
