@@ -65,7 +65,7 @@ function Admin_bv() {
                     <div className="list-group list-group-item-primary">
                         <Link
                             to={"/admin"}
-                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
                             aria-current="true"
                         >
                             <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -108,7 +108,7 @@ function Admin_bv() {
                         </Link>
                         <Link
                             to={"/Admin_BV"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
+                            className="list-group-item list-group-item-action my-0 rounded-0 active"
                         >
                             <h5 className="mb-0 py-1">Tin tức</h5>
                         </Link>

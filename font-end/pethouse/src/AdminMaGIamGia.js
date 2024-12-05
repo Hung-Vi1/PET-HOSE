@@ -7,7 +7,7 @@ import "./App.css";
 
 function AdminMaGG() {
   const [list_maGG, ganmGG] = useState([]);
-  const { user } = useAuth(); 
+  const { user } = useAuth();
 
   // Lấy danh sách dịch vụ chăm sóc thay vì danh mục
   useEffect(() => {
@@ -17,7 +17,7 @@ function AdminMaGG() {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-            ganmGG(data.data); // Nếu có mảng dịch vụ trong data
+          ganmGG(data.data); // Nếu có mảng dịch vụ trong data
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
           ganmGG([]); // Khởi tạo giá trị mặc định
@@ -47,7 +47,7 @@ function AdminMaGG() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -102,7 +102,7 @@ function AdminMaGG() {
             </Link>
             <Link
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
@@ -183,9 +183,12 @@ function AdminMaGG() {
                 <tr>
                   <th className="fw-bold text-center">STT</th>
                   <th className="fw-bold">Mã giảm giá</th>
+                  <th className="fw-bold">Loại</th>
                   <th className="fw-bold text-center">Code</th>
+                  <th className="fw-bold text-center">Giảm</th>
                   <th className="fw-bold text-center">Mức tiêu thụ để áp dụng</th>
                   <th className="fw-bold text-center">Số lượng</th>
+                  <th className="fw-bold text-center">Hành động</th>
 
                 </tr>
               </thead>
@@ -241,8 +244,26 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganmGG }) {
         <tr key={mgg.id}>
           <td className="text-center">{fromIndex + i + 1}</td>
           <td>{mgg.ma_giam_gia}</td>
+          <td>{mgg.loai_giam}</td>
           <td className="text-center">{mgg.code}</td>
-          <td className="text-center">{mgg.so_tien_nho_nhat}</td>
+          <td className="text-center">
+            {mgg.loai_giam === "percentage"
+              ? new Intl.NumberFormat("vi-VN", {
+                style: "percent",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              }).format(mgg.phan_tram / 100)
+              : parseInt(mgg.phan_tram).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+          </td>
+          <td className="text-center">
+            {parseInt(mgg.so_tien_nho_nhat).toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </td>
           <td className="text-center">{mgg.so_luong}</td>
           <td className="text-center">
             <Link
@@ -260,6 +281,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganmGG }) {
           </td>
         </tr>
       ))}
+
     </>
   );
 }

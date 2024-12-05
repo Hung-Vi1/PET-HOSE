@@ -245,7 +245,7 @@ function SanPham() {
                                   to={`/chitietsanpham/${sp.ma_san_pham}`}
                                 >
                                   <img
-                                    src={`image/product/${sp.hinh_anh}`}
+                                    src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
                                     className="card-img-top mx-auto w-75 pb-3"
                                     alt={sp.ten_san_pham}
                                   />
