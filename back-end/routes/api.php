@@ -50,7 +50,7 @@ Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
-Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+Route::post('/products/update/{MaSP}', [ProductApiController::class, 'update']);
 
 Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
 

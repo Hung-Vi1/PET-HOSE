@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 function AdminSanPham() {
-  const { user} = useAuth();
+  const { user } = useAuth();
   const [list_sp, ganSP] = useState([]);
 
   // Lấy danh sách sản phẩm
@@ -142,7 +142,7 @@ function AdminSanPham() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -219,7 +219,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       });
   };
 
-  const   xoaSanPham = (maSP) => {
+  const xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
       fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
@@ -268,8 +268,9 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">{sp.tenDM}</td>
               <td className="text-center">{sp.ngay_tao}</td>
               <td className="text-center">
-                {sp.trang_thai === 1 ? "Ẩn" : "Hiện"}
+                {Number(sp.trang_thai) === 1 ? "Hiện" : "Ẩn"}
               </td>
+
               <td className="text-center" style={{ width: "150px" }}>
                 <Link
                   onClick={() => fetchProductById(sp.ma_san_pham)}
