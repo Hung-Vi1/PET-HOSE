@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import Select from "react-select";
-import "./App.css";
+// import "./App.css";
 
 function AdminDonHangThem() {
   const { ma_don_hang } = useParams();
@@ -68,11 +68,11 @@ function AdminDonHangThem() {
   const parseAddress = (address) => {
     const parts = address.split(",").map((part) => part.trim());
     console.log("Phân tách địa chỉ:", parts);
-    if (parts.length >= 3) {
+    if (parts.length >= 4) {
       return {
-        ward: parts[0].replace(/Phường |Xã /, "").trim(),
-        district: parts[1].replace(/Quận |Huyện /, "").trim(),
-        area: parts[2].replace(/Thành phố |Tỉnh /, "").trim(),
+        ward: parts[1].replace(/Phường |Xã /, "").trim(),
+        district: parts[2].replace(/Quận |Huyện /, "").trim(),
+        area: parts[3].replace(/Thành phố |Tỉnh /, "").trim(),
       };
     }
     return { ward: "", district: "", area: "" };
@@ -90,8 +90,6 @@ function AdminDonHangThem() {
 
     if (selectedOption) {
       const { ward, district, area } = parseAddress(selectedOption.diaChi);
-      console.log("Ward:", ward, "District:", district, "Area:", area);
-
       setHoTen(selectedOption.label.split(" - ")[0]);
       setSoDienThoai(selectedOption.soDienThoai);
       setDiaChi(selectedOption.diaChi);
@@ -99,6 +97,13 @@ function AdminDonHangThem() {
       const areaData = areas.find((areaItem) => areaItem.label.includes(area));
       if (areaData) {
         setSelectedArea(areaData);
+        setDistricts(
+          areaData.districts.map((district) => ({
+            value: district.code,
+            label: district.name,
+            wards: district.wards || [],
+          }))
+        );
 
         const districtData = areaData.districts.find((districtItem) =>
           districtItem.name.toLowerCase().includes(district.toLowerCase())
@@ -107,6 +112,7 @@ function AdminDonHangThem() {
         if (districtData) {
           setSelectedDistrict(districtData);
 
+          // Cập nhật danh sách wards
           const wardData = districtData.wards.find((wardItem) =>
             wardItem.name.toLowerCase().includes(ward.toLowerCase())
           );
@@ -123,13 +129,9 @@ function AdminDonHangThem() {
               label: ward.name,
             }))
           );
-
-          setDistricts(
-            areaData.districts.map((district) => ({
-              value: district.code,
-              label: district.name,
-            }))
-          );
+        } else {
+          setSelectedDistrict(null);
+          setWards([]);
         }
       }
     } else {
@@ -150,37 +152,44 @@ function AdminDonHangThem() {
 
   const handleAreaChange = (selectedOption) => {
     setSelectedArea(selectedOption);
-    setSelectedDistrict(null);
-    setSelectedWard(null);
-    setWards([]);
+    setSelectedDistrict(null); // Đặt lại selectedDistrict
+    setSelectedWard(null); // Đặt lại selectedWard
+    setWards([]); // Đặt lại danh sách wards
 
     if (selectedOption) {
-      setDistricts(
-        selectedOption.districts.map((district) => ({
-          value: district.code,
-          label: district.name,
-          wards: district.wards || [], // Đặt mặc định là mảng rỗng nếu không có wards
-        }))
-      );
+      // Cập nhật districts từ selectedOption
+      const formattedDistricts = selectedOption.districts.map((district) => ({
+        value: district.code,
+        label: district.name,
+        wards: district.wards || [], // Đặt mặc định là mảng rỗng nếu không có wards
+      }));
+
+      setDistricts(formattedDistricts);
+    } else {
+      setDistricts([]); // Nếu không có selectedOption, đặt lại districts
     }
   };
 
   const handleDistrictChange = (selectedOption) => {
     setSelectedDistrict(selectedOption);
-    setSelectedWard(null);
-
+    setSelectedWard(null); // Đặt lại selectedWard
+  
     if (selectedOption && selectedOption.wards) {
-      // Kiểm tra selectedOption và wards
-      setWards(
-        selectedOption.wards.map((ward) => ({
-          value: ward.code,
-          label: ward.name,
-        }))
-      );
+      const formattedWards = selectedOption.wards.map((ward) => ({
+        value: ward.code,
+        label: ward.name,
+      }));
+      setWards(formattedWards);
     } else {
       setWards([]); // Đặt lại danh sách wards nếu không có
     }
   };
+
+  // Theo dõi sự thay đổi của districts và wards
+  useEffect(() => {
+    console.log("Districts:", districts);
+    console.log("Wards:", wards);
+  }, [districts, wards]);
 
   const handlePaymentMethodChange = (value) => {
     setPhuongThucTT(value);
@@ -267,7 +276,7 @@ function AdminDonHangThem() {
                             value={soDienThoai}
                             onChange={(e) => setSoDienThoai(e.target.value)}
                             required
-                            placeholder="0364395907"
+                            placeholder="Vui lòng nhập số điện thoại"
                           />
                         </div>
                       </div>
@@ -319,7 +328,7 @@ function AdminDonHangThem() {
                             value={diaChi}
                             onChange={(e) => setDiaChi(e.target.value)}
                             required
-                            placeholder="564/19A Đường Tỉnh Lộ 15 Tổ 8 Ấp Bến Đình"
+                            placeholder="Vui lòng nhập địa chỉ chi tiết"
                           />
                         </div>
                       </div>
