@@ -47,7 +47,7 @@ function AdminLienHe() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -96,7 +96,7 @@ function AdminLienHe() {
             </Link>
             <Link
               to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Liên hệ</h5>
             </Link>
@@ -170,12 +170,7 @@ function AdminLienHe() {
             </div>
           </nav>
           <div className="container">
-            <Link
-              to={"/admindichvuchamsocthem"}
-              className="btn btn-success float-end"
-            >
-              Thêm dịch vụ
-            </Link>
+            
 
             <h2 className="my-3">Liên hệ người dùng</h2>
             <table className="table align-middle table-borderless">
@@ -186,7 +181,6 @@ function AdminLienHe() {
                   <th className="fw-bold text-center">Nội dung</th>
                   <th className="fw-bold text-center">Người gửi</th>
                   <th className="fw-bold text-center">Email người gửi</th>
-                  <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
               <tbody>
@@ -245,20 +239,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganLH }) {
           <td className="text-center">{lh.ho_ten}</td>
           <td className="text-center">{lh.email}</td>
 
-          <td className="text-center">
-            <Link
-              to={`/admindichvuchamsocsua/${lh.id}`}
-              className="btn btn-outline-warning m-1"
-            >
-              <i className="bi bi-pencil-square"></i>
-            </Link>
-            <Link
-              to={`/admindichvuchamsocthem`}
-              className="btn btn-outline-success m-1"
-            >
-              <i className="bi bi-plus-circle"></i>
-            </Link>
-          </td>
+          
         </tr>
       ))}
     </>

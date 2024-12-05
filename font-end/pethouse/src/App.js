@@ -51,6 +51,7 @@ import AdminLienHe from "./AdminLienHe";
 import AdminMaGG from "./AdminMaGIamGia";
 import TimKiem from "./component/timkiem";
 import AdminDVThem from "./AdminDVThem";
+import AdminDVSua from "./AdminDVSua";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -672,6 +673,12 @@ function App() {
             path="/admindvthem"
             exact
             element={<BaoVeRoute element={<AdminDVThem />} />}
+          />
+
+          <Route
+            path="/adminDVsua/:maDichVu"
+            exact
+            element={<BaoVeRoute element={<AdminDVSua />} />}
           />
 
           <Route
