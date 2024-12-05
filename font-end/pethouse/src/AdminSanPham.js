@@ -228,8 +228,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
         .then((res) => {
           if (res.ok) {
             // Loại bỏ sản phẩm khỏi danh sách trong trạng thái list_sp
-            ganSP((prevSP) => prevSP.filter((sp) => sp.ma_san_pham !== maSP));
-            
+            ganSP((prevSP) => prevSP.filter((sp) => sp.ma_san_pham !== maSP)); 
             // Thêm một khoảng thời gian nhỏ để chắc chắn UI được render lại
             setTimeout(() => {
               console.log('Sản phẩm đã được xóa khỏi danh sách');

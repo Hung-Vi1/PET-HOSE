@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Bar, Pie } from "react-chartjs-2";
@@ -10,20 +10,113 @@ Chart.register(...registerables);
 
 function AdminTrangChu() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const [productsCount, setProductsCount] = useState(0); // Số lượng sản phẩm
+  const [ordersCount, setOrdersCount] = useState(0); // Số lượng đơn hàng
+  const [usersCount, setUsersCount] = useState(0); // Số lượng người dùng
+  const [orderServicesCount, setOrderServicesCount] = useState(0); // Số lượng dịch vụ đặt
 
-  // Dữ liệu cho biểu đồ cột đôi
+
+
+  const [orders, setOrders] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
+  const [quarterRevenueData, setQuarterRevenueData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Gọi API để lấy số lượng sản phẩm
+        const productsResponse = await fetch("http://127.0.0.1:8000/api/products");
+        const productsData = await productsResponse.json();
+        setProductsCount(productsData.data.length); // Set số lượng sản phẩm
+        console.log("Đếm:", productsData.data.length);  // Kiểm tra phản hồi API
+
+
+
+
+        // Gọi API để lấy số lượng người dùng
+        const usersResponse = await fetch("http://127.0.0.1:8000/api/users");
+        const usersData = await usersResponse.json();
+        setUsersCount(usersData.data.length);
+
+        // Gọi API để lấy số lượng dịch vụ đặt
+        const orderServicesResponse = await fetch("http://127.0.0.1:8000/api/orderServices");
+        const orderServicesData = await orderServicesResponse.json();
+        setOrderServicesCount(orderServicesData.data.length);
+
+        setIsLoading(false); // Dữ liệu đã tải xong
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      try {
+        // Gọi API đơn hàng
+        const ordersResponse = await fetch("http://127.0.0.1:8000/api/orders");
+        const ordersData = await ordersResponse.json();
+        setOrdersCount(ordersData.data.length);
+
+        console.log("Dữ liệu đơn hàng:", ordersData);  // Kiểm tra dữ liệu API
+        setOrders(ordersData.data); // Giả sử API trả về trường `data` chứa danh sách đơn hàng
+
+        // Tính toán doanh thu từ `tong_tien` trong mỗi đơn hàng
+        const revenue = calculateRevenue(ordersData.data);
+        setRevenueData(revenue);
+
+        // Tính toán doanh thu theo quý
+        const quarterlyRevenue = calculateQuarterlyRevenue(ordersData.data);
+        setQuarterRevenueData(quarterlyRevenue);
+
+        setIsLoading(false); // Dữ liệu đã tải xong
+      } catch (error) {
+        console.error("Lỗi khi gọi API đơn hàng:", error);
+      }
+    };
+
+
+    fetchData();
+  }, []);
+
+  // Hàm tính doanh thu từ `tong_tien` trong các đơn hàng
+  const calculateRevenue = (orders) => {
+    const labels = orders.map(order => `Đơn hàng ${order.ma_don_hang}`);
+    const data = orders.map(order => parseFloat(order.tong_tien));
+
+    return { labels, data };
+  };
+
+  // Hàm tính doanh thu theo quý
+  const calculateQuarterlyRevenue = (orders) => {
+    const quarterlyRevenue = [0, 0, 0, 0]; // Quý 1, Quý 2, Quý 3, Quý 4
+
+    orders.forEach(order => {
+      const orderDate = new Date(order.ngay_dat); // Ngày đặt hàng
+      const month = orderDate.getMonth() + 1; // Lấy tháng (tháng 0-11, cộng thêm 1 để lấy tháng 1-12)
+      const revenue = parseFloat(order.tong_tien);
+
+      // Phân loại theo quý
+      if (month >= 1 && month <= 3) {
+        quarterlyRevenue[0] += revenue; // Quý 1
+      } else if (month >= 4 && month <= 6) {
+        quarterlyRevenue[1] += revenue; // Quý 2
+      } else if (month >= 7 && month <= 9) {
+        quarterlyRevenue[2] += revenue; // Quý 3
+      } else if (month >= 10 && month <= 12) {
+        quarterlyRevenue[3] += revenue; // Quý 4
+      }
+    });
+
+    return {
+      labels: ["Quý 1", "Quý 2", "Quý 3", "Quý 4"],
+      data: quarterlyRevenue,
+    };
+  };
+
+  // Dữ liệu cho biểu đồ cột doanh thu
   const barData = {
-    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+    labels: revenueData.labels,
     datasets: [
       {
-        label: "Population 2020",
+        label: "Doanh thu đơn hàng",
         backgroundColor: "#3e95cd",
-        data: [2478, 5267, 734, 784, 433],
-      },
-      {
-        label: "Population 2050",
-        backgroundColor: "#8e5ea2",
-        data: [3000, 7000, 800, 900, 500],
+        data: revenueData.data,
       },
     ],
   };
@@ -42,25 +135,48 @@ function AdminTrangChu() {
     legend: { display: true },
     title: {
       display: true,
-      text: "Predicted world population (millions)",
+      text: "Doanh thu từ các đơn hàng",
     },
   };
 
-  // Dữ liệu cho biểu đồ tròn
-  const pieData = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  // Dữ liệu cho biểu đồ cột doanh thu theo quý
+  const quarterlyBarData = {
+    labels: quarterRevenueData.labels,
     datasets: [
       {
-        label: "Votes",
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
-        ],
-        data: [12, 19, 3, 5, 2, 3],
+        label: "Doanh thu theo quý",
+        backgroundColor: "#ff6384",
+        data: quarterRevenueData.data,
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ cột doanh thu theo quý
+  const quarterlyBarOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        stacked: false,
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+    legend: { display: true },
+    title: {
+      display: true,
+      text: "Doanh thu theo từng quý",
+    },
+  };
+
+  // Dữ liệu cho biểu đồ tròn (Pie chart) - ví dụ: doanh thu theo từng quý
+  const pieData = {
+    labels: ["Quý 1", "Quý 2", "Quý 3", "Quý 4"],
+    datasets: [
+      {
+        data: quarterRevenueData.data,
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
       },
     ],
   };
@@ -72,10 +188,20 @@ function AdminTrangChu() {
       legend: {
         position: "top",
       },
-      title: {
-        display: true,
-        text: "Vote Distribution",
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.label || "";
+            let value = context.raw;
+            label += ": " + value.toLocaleString() + " VNĐ";
+            return label;
+          },
+        },
       },
+    },
+    title: {
+      display: true,
+      text: "Doanh thu theo từng quý (Pie Chart)",
     },
   };
 
@@ -228,21 +354,23 @@ function AdminTrangChu() {
             <h2 className="my-3">Tổng quan</h2>
 
             <div className="row">
+              {/* Hiển thị các thông tin tổng quan */}
               <div className="col-md-3">
                 <div className="card border-primary mb-3">
                   <div className="card-body text-primary">
                     <h5 className="card-title text-center fw-bold">Sản phẩm</h5>
-                    <p className="card-text fs-1 text-center">500</p>
+                    <p className="card-text fs-1 text-center">{productsCount}</p>
                   </div>
                 </div>
               </div>
+
               <div className="col-md-3">
                 <div className="card border-success mb-3">
                   <div className="card-body text-success">
                     <h5 className="card-title text-center fw-bold">
                       Tài khoản
                     </h5>
-                    <p className="card-text fs-1 text-center">1.500</p>
+                    <p className="card-text fs-1 text-center">{usersCount}</p>
                   </div>
                 </div>
               </div>
@@ -250,47 +378,57 @@ function AdminTrangChu() {
                 <div className="card border-warning mb-3">
                   <div className="card-body text-warning">
                     <h5 className="card-title text-center fw-bold">Đơn hàng</h5>
-                    <p className="card-text fs-1 text-center">100</p>
+                    <p className="card-text fs-1 text-center">{ordersCount}</p>
                   </div>
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="card border-danger mb-3">
                   <div className="card-body text-danger">
-                    <h5 className="card-title text-center fw-bold">Đánh giá</h5>
-                    <p className="card-text fs-1 text-center">3.200</p>
+                    <h5 className="card-title text-center fw-bold">Đặt lịch</h5>
+                    <p className="card-text fs-1 text-center">{orderServicesCount}</p>
                   </div>
                 </div>
               </div>
             </div>
 
+
+
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
-              <div className="row col-md-12 border-bottom py-2">
-                <div
-                  className="col-md-6 d-flex align-items-center justify-content-center"
-                  style={{ height: "100%" }}
-                >
-                  {/* Biểu đồ cột */}
-                  <Bar data={barData} options={barOptions} />
+              <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
+                <div className="row col-md-12 border-bottom py-2">
+                  <div
+                    className="col-md-6 d-flex align-items-center justify-content-center"
+                    style={{ height: "100%" }}
+                  >
+                    {/* Biểu đồ cột doanh thu từ các đơn hàng */}
+                    <Bar data={barData} options={barOptions} />
+                  </div>
+
+                  <div
+                    className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
+                    style={{ height: "100%" }}
+                  >
+                    {/* Biểu đồ cột doanh thu theo quý */}
+                    <Bar data={quarterlyBarData} options={quarterlyBarOptions} />
+                  </div>
                 </div>
 
-                <div
-                  className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
-                  style={{ height: "100%" }}
-                >
-                  {/* Biểu đồ tròn */}
-                  <Pie data={pieData} options={pieOptions} />
+                <div className="col-md-4">
+                  <div className="d-flex justify-content-center">
+                    {/* Biểu đồ tròn doanh thu theo quý */}
+                    <Pie data={pieData} options={pieOptions} />
+                  </div>
                 </div>
               </div>
 
               <div className="col-md-6">
-                <h3>Lựa chọn</h3>
+                <h3>Doanh thu sản phẩm</h3>
               </div>
-
-              <div className="col-md-6"></div>
 
               <div className="col-md-12"></div>
             </div>
+
           </div>
         </div>
       </div>
