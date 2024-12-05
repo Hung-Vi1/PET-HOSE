@@ -4,7 +4,7 @@ import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminSanPhamThem() {
-  const { user} = useAuth(); 
+  const { user } = useAuth();
   const navigate = useNavigate(); // Khởi tạo useNavigate
   // Xóa sản phẩm
   /*   const [ganSP] = useState([]);
@@ -248,7 +248,7 @@ function AdminSanPhamThem() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link

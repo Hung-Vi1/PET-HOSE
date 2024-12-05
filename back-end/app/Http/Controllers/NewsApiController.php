@@ -280,7 +280,7 @@ if ($request->file('Hinh')) {
                 'Mataikhoan' => 'required|exists:users,Mataikhoan', // Kiểm tra mã tài khoản tồn tại
                 'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV', // Kiểm tra mã danh mục tồn tại
                 'TieuDe' => 'required|string',
-                'Hinh' => 'nullable|string',
+                'Hinh' => 'nullable',
                 'NoiDung' => 'required|string', // Nội dung phải là chuỗi ký tự
                 'ChiTiet' => 'required|string', // Chi tiết bài viết phải là chuỗi ký tự
             ], [
@@ -291,7 +291,6 @@ if ($request->file('Hinh')) {
                 'TieuDe.required' => 'Vui lòng nhập tiêu đề bài viết',
                 'TieuDe.string' => 'Tiêu đề phải là chuỗi ký tự',
                 'Hinh.nullable' => 'Ảnh không bắt buộc',
-                'Hinh.string' => 'Ảnh phải là chuỗi ký tự',
                 'NoiDung.required' => 'Vui lòng nhập nội dung bài viết',
                 'NoiDung.string' => 'Nội dung phải là chuỗi ký tự',
                 'ChiTiet.required' => 'Vui lòng nhập chi tiết bài viết',
@@ -300,11 +299,28 @@ if ($request->file('Hinh')) {
 
             // Kiểm tra nếu danh mục tồn tại trước khi cập nhật
             $news = BaiViet::findOrFail($id);
+            $imageName = $news->Hinh;
+
+            if ($request->hasFile('Hinh')) {
+                $path = public_path('image/News');
+                
+                // Xóa hình ảnh cũ
+                if ($news->Hinh) {
+                    $oldFilePath = $path . '/' . $news->Hinh;
+                    if (file_exists($oldFilePath)) {
+                        unlink($oldFilePath); // Xóa hình cũ
+                    }
+                }
+            
+                // Lưu hình ảnh mới
+                $imageName = time() . '.' . $request->file('Hinh')->getClientOriginalExtension();
+                $request->file('Hinh')->move($path, $imageName);
+            }
             $news->update([
                 'Mataikhoan' => $validatedData['Mataikhoan'],
                 'MaDMBV' => $validatedData['MaDMBV'],
                 'TieuDe' => $validatedData['TieuDe'],
-                'Hinh' => $validatedData['Hinh'],
+                'Hinh' => $imageName,
                 'NoiDung' => $validatedData['NoiDung'],
                 'ChiTiet' => $validatedData['ChiTiet'],
                 'LuotXem' => $validatedData['LuotXem'] ?? 0,
@@ -354,6 +370,24 @@ if ($request->file('Hinh')) {
         //DELETE
         try {
             $category = BaiViet::findOrFail($id);
+            $path = public_path('image/News');
+
+
+            $oldFilePath = $path . '/' . $category->Hinh;
+            // Kiểm tra nếu tệp hình ảnh tồn tại và xóa
+            if (file_exists($oldFilePath)) {
+                if (unlink($oldFilePath)) {
+                    // Nếu xóa hình ảnh thành công, có thể thông báo hoặc ghi log
+                    // echo "Xóa hình ảnh thành công.";
+                } else {
+                    // Nếu không thể xóa hình ảnh
+                    return response()->json([
+                        'status' => 'fail',
+                        'message' => 'Không thể xóa hình ảnh',
+                        'data' => null
+                    ], 500);
+                }
+            }
             $category->delete();
             return response()->json([
                 'status' => "success",
