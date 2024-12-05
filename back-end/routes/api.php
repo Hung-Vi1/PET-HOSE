@@ -93,7 +93,7 @@ use App\Http\Controllers\NewsApiController;
 Route::get('/News', [NewsApiController::class, 'index']);
 Route::get('/News/{id}', [NewsApiController::class, 'show']);
 Route::post('/News/store', [NewsApiController::class, 'store']);
-Route::put('/News/{id}', [NewsApiController::class, 'update']);
+Route::post('/News/{id}', [NewsApiController::class, 'update']);
 Route::delete('/News/{id}', [NewsApiController::class, 'destroy']);
 
 use App\Http\Controllers\ContactApiController;
