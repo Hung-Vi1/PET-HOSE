@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('SoLuong');
             $table->string('Ten'); // Có thể là tên người nhận
             $table->string('SDT');
-            $table->string('DiaChi')->nullable();
+            $table->string('DiaChi');
             $table->string('PTTT'); // Phương thức thanh toán
             $table->string('GhiChu')->nullable();
             $table->string('Loai');
