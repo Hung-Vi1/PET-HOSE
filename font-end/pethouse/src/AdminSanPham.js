@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 function AdminSanPham() {
-  const { user} = useAuth();
+  const { user } = useAuth();
   const [list_sp, ganSP] = useState([]);
 
   // Lấy danh sách sản phẩm
@@ -142,7 +142,7 @@ function AdminSanPham() {
                       aria-expanded="false"
                     >
                       Xin chào, {user.Hovaten || "Không có tên"}
-                      </a>
+                    </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
                         <Link
@@ -219,7 +219,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       });
   };
 
-  const   xoaSanPham = (maSP) => {
+  const xoaSanPham = (maSP) => {
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
       fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
@@ -227,21 +227,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
       })
         .then((res) => {
           if (res.ok) {
-            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
-            fetch("http://localhost:8000/api/products")
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("Dữ liệu trả về:", data);
-                if (Array.isArray(data.data)) {
-                  ganSP(data.data);
-                } else {
-                  console.error("Dữ liệu không phải là mảng:", data);
-                  ganSP([]); // Khởi tạo giá trị mặc định
-                }
-              })
-              .catch((error) => {
-                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-              });
+            // Loại bỏ sản phẩm khỏi danh sách trong trạng thái list_sp
+            ganSP((prevSP) => prevSP.filter((sp) => sp.ma_san_pham !== maSP));
+            
+            // Thêm một khoảng thời gian nhỏ để chắc chắn UI được render lại
+            setTimeout(() => {
+              console.log('Sản phẩm đã được xóa khỏi danh sách');
+            }, 100); // Thời gian có thể điều chỉnh
           }
         })
         .catch((error) => {
@@ -249,6 +241,8 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
         });
     }
   };
+  
+  
 
   return (
     <>
@@ -268,8 +262,9 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">{sp.tenDM}</td>
               <td className="text-center">{sp.ngay_tao}</td>
               <td className="text-center">
-                {sp.trang_thai === 1 ? "Ẩn" : "Hiện"}
+                {Number(sp.trang_thai) === 1 ? "Hiện" : "Ẩn"}
               </td>
+
               <td className="text-center" style={{ width: "150px" }}>
                 <Link
                   onClick={() => fetchProductById(sp.ma_san_pham)}

@@ -23,14 +23,16 @@ function AdminDonHangThem() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loi, setLoi] = useState("");
 
+  // Lấy dữ liệu tỉnh thành
   useEffect(() => {
     fetch(`https://provinces.open-api.vn/api/?depth=3`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("Dữ liệu từ API tỉnh thành:", data);
         const formattedData = data.map((area) => ({
           value: area.code,
           label: area.name,
-          districts: area.districts,
+          districts: area.districts || [], // Đặt mặc định là mảng rỗng nếu không có districts
         }));
         setAreas(formattedData);
       })
@@ -39,6 +41,7 @@ function AdminDonHangThem() {
       });
   }, []);
 
+  // Lấy dữ liệu người dùng
   useEffect(() => {
     fetch("http://localhost:8000/api/users")
       .then((response) => response.json())
@@ -61,75 +64,73 @@ function AdminDonHangThem() {
       });
   }, []);
 
+  // Hàm phân tách địa chỉ
   const parseAddress = (address) => {
     const parts = address.split(",").map((part) => part.trim());
-
-    if (parts.length >= 4) {
+    console.log("Phân tách địa chỉ:", parts);
+    if (parts.length >= 3) {
       return {
-        ward: parts[1].trim(),
-        district: parts[2].trim(),
-        area: parts[3].trim(),
+        ward: parts[0].replace(/Phường |Xã /, "").trim(),
+        district: parts[1].replace(/Quận |Huyện /, "").trim(),
+        area: parts[2].replace(/Thành phố |Tỉnh /, "").trim(),
       };
     }
-
     return { ward: "", district: "", area: "" };
   };
 
+  // Theo dõi sự thay đổi của selectedArea, selectedDistrict và selectedWard
+  useEffect(() => {
+    console.log("Selected Area:", selectedArea);
+    console.log("Selected District:", selectedDistrict);
+    console.log("Selected Ward:", selectedWard);
+  }, [selectedArea, selectedDistrict, selectedWard]);
+
   const handleUserChange = (selectedOption) => {
     setSelectedUser(selectedOption);
+
     if (selectedOption) {
       const { ward, district, area } = parseAddress(selectedOption.diaChi);
+      console.log("Ward:", ward, "District:", district, "Area:", area);
 
       setHoTen(selectedOption.label.split(" - ")[0]);
       setSoDienThoai(selectedOption.soDienThoai);
       setDiaChi(selectedOption.diaChi);
 
-      console.log("Ward:", ward);
-      console.log("District:", district);
-      console.log("Area:", area);
-      console.log("Selected Area:", selectedArea);
-      console.log("Selected District:", selectedDistrict);
-      console.log("Selected Ward:", selectedWard);
-
-      // Cập nhật khu vực
-      const areaData = areas.find((areaItem) =>
-        areaItem.label.toLowerCase().includes(area.toLowerCase())
-      );
-
+      const areaData = areas.find((areaItem) => areaItem.label.includes(area));
       if (areaData) {
         setSelectedArea(areaData);
 
-        // Cập nhật danh sách quận/huyện
         const districtData = areaData.districts.find((districtItem) =>
-          districtItem.name.includes(district)
+          districtItem.name.toLowerCase().includes(district.toLowerCase())
         );
 
         if (districtData) {
           setSelectedDistrict(districtData);
 
-          // Cập nhật danh sách phường/xã
           const wardData = districtData.wards.find((wardItem) =>
-            wardItem.name.includes(ward)
+            wardItem.name.toLowerCase().includes(ward.toLowerCase())
           );
 
           if (wardData) {
             setSelectedWard(wardData);
           } else {
-            setSelectedWard(null); // Không tìm thấy ward
+            setSelectedWard(null);
           }
 
-          // Cập nhật danh sách wards
           setWards(
             districtData.wards.map((ward) => ({
               value: ward.code,
               label: ward.name,
             }))
           );
-        } else {
-          setSelectedDistrict(null); // Không tìm thấy district
+
+          setDistricts(
+            areaData.districts.map((district) => ({
+              value: district.code,
+              label: district.name,
+            }))
+          );
         }
-      } else {
-        setSelectedArea(null); // Không tìm thấy area
       }
     } else {
       resetFields();
@@ -158,7 +159,7 @@ function AdminDonHangThem() {
         selectedOption.districts.map((district) => ({
           value: district.code,
           label: district.name,
-          wards: district.wards,
+          wards: district.wards || [], // Đặt mặc định là mảng rỗng nếu không có wards
         }))
       );
     }
@@ -168,7 +169,8 @@ function AdminDonHangThem() {
     setSelectedDistrict(selectedOption);
     setSelectedWard(null);
 
-    if (selectedOption) {
+    if (selectedOption && selectedOption.wards) {
+      // Kiểm tra selectedOption và wards
       setWards(
         selectedOption.wards.map((ward) => ({
           value: ward.code,
@@ -176,7 +178,7 @@ function AdminDonHangThem() {
         }))
       );
     } else {
-      setWards([]);
+      setWards([]); // Đặt lại danh sách wards nếu không có
     }
   };
 
@@ -187,7 +189,6 @@ function AdminDonHangThem() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     const orderData = {
       hoTen,
       soDienThoai,
@@ -292,6 +293,7 @@ function AdminDonHangThem() {
                             placeholder="Chọn Quận / Huyện"
                             isClearable
                             isDisabled={!selectedArea}
+                            styles={{ minHeight: "50px" }}
                           />
                         </div>
                       </div>
@@ -306,6 +308,7 @@ function AdminDonHangThem() {
                             placeholder="Chọn Phường / Xã"
                             isClearable
                             isDisabled={!selectedDistrict}
+                            styles={{ minHeight: "50px" }}
                           />
                         </div>
                         <div className="col-md">

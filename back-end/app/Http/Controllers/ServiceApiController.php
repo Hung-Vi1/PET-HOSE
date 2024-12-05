@@ -134,8 +134,25 @@ class ServiceApiController extends Controller
             $validatedData['TrangThai'] = 1;       // Trạng thái mặc định là 1
             $validatedData['Loai'] = 0;       // loại 0 là dịch vụ
             $validatedData['ThoiGian'] = now();    // Thời gian hiện tại
-
-            $product = SanPham::create($validatedData);
+            if ($request->file('HinhAnh')) {
+                $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+                $path = public_path('image/product'); // Đường dẫn đến thư mục lưu
+                $request->file('HinhAnh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+            }
+            $product = SanPham::create([
+                'MaDanhMuc' => $validatedData['MaDanhMuc'],
+                'TenSanPham' => $validatedData['TenSanPham'],
+                'GiaSP' => $validatedData['GiaSP'],
+                'GiamGia' => $validatedData['GiamGia'],
+                'MoTa' => $validatedData['MoTa'],
+                'SoLuong' => $validatedData['SoLuong'],
+                'HinhAnh' => $imageName,
+                'LuotXem' => $validatedData['LuotXem'],
+                'LuotBan' => $validatedData['LuotBan'],
+                'ThoiGian' => $validatedData['ThoiGian'],
+                'TrangThai' => $validatedData['TrangThai'],
+                'Loai' => $validatedData['Loai'],
+            ]);
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thêm thành công',
@@ -250,10 +267,6 @@ class ServiceApiController extends Controller
                 'GiamGia' => 'nullable|numeric',
                 'HinhAnh' => 'required',
                 'MoTa' => 'required',
-                'SoLuong' => 'required|integer',
-                'LuotXem' => 'nullable|integer',
-                'LuotBan' => 'nullable|integer',
-                'ThoiGian' => 'nullable|date',
                 'TrangThai' => 'nullable|integer'
             ], [
                 'MaDanhMuc.required' => 'Vui lòng nhập mã danh mục',
@@ -265,7 +278,32 @@ class ServiceApiController extends Controller
             ]);
 
             $product = SanPham::findOrFail($MaSP);
-            $product->update($validatedData);
+            $imageName = $product->HinhAnh;
+
+            if ($request->hasFile('HinhAnh')) {
+                $path = public_path('image/product');
+                
+                // Xóa hình ảnh cũ
+                if ($product->HinhAnh) {
+                    $oldFilePath = $path . '/' . $product->HinhAnh;
+                    if (file_exists($oldFilePath)) {
+                        unlink($oldFilePath); // Xóa hình cũ
+                    }
+                }
+            
+                // Lưu hình ảnh mới
+                $imageName = time() . '.' . $request->file('HinhAnh')->getClientOriginalExtension();
+                $request->file('HinhAnh')->move($path, $imageName);
+            }
+            $product->update([
+                'MaDanhMuc' => $validatedData['MaDanhMuc'],
+                'TenSanPham' => $validatedData['TenSanPham'],
+                'GiaSP' => $validatedData['GiaSP'],
+                'GiamGia' => $validatedData['GiamGia'],
+                'MoTa' => $validatedData['MoTa'],
+                'HinhAnh' => $imageName,
+                'TrangThai' => $validatedData['TrangThai'] ?? 1,
+            ]);
 
             return response()->json([
                 'status' => 'success',
@@ -319,6 +357,24 @@ class ServiceApiController extends Controller
         //DELETE
         try {
             $product = SanPham::findOrFail($MaSP);
+            $path = public_path('image/product');
+
+
+            $oldFilePath = $path . '/' . $product->HinhAnh;
+            // Kiểm tra nếu tệp hình ảnh tồn tại và xóa
+            if (file_exists($oldFilePath)) {
+                if (unlink($oldFilePath)) {
+                    // Nếu xóa hình ảnh thành công, có thể thông báo hoặc ghi log
+                    // echo "Xóa hình ảnh thành công.";
+                } else {
+                    // Nếu không thể xóa hình ảnh
+                    return response()->json([
+                        'status' => 'fail',
+                        'message' => 'Không thể xóa hình ảnh',
+                        'data' => null
+                    ], 500);
+                }
+            }
             $product->delete();
             return response()->json([
                 'status' => "success",

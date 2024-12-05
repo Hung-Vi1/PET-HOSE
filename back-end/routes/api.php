@@ -50,7 +50,7 @@ Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
-Route::put('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+Route::post('/products/update/{MaSP}', [ProductApiController::class, 'update']);
 
 Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
 
@@ -59,7 +59,7 @@ use App\Http\Controllers\ServiceApiController;
 Route::get('/services', [ServiceApiController::class, 'index']);
 Route::post('/services/store', [ServiceApiController::class, 'store']);
 Route::get('/services/{MaSP}', [ServiceApiController::class, 'show']);
-Route::put('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
+Route::post('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
 Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy']);
 
 use App\Http\Controllers\OrderApiController;

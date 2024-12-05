@@ -50,6 +50,8 @@ import AdminDichVu from "./AdminDV";
 import AdminLienHe from "./AdminLienHe";
 import AdminMaGG from "./AdminMaGIamGia";
 import TimKiem from "./component/timkiem";
+import AdminDVThem from "./AdminDVThem";
+import AdminDVSua from "./AdminDVSua";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -668,6 +670,18 @@ function App() {
           />
 
           <Route
+            path="/admindvthem"
+            exact
+            element={<BaoVeRoute element={<AdminDVThem />} />}
+          />
+
+          <Route
+            path="/adminDVsua/:maDichVu"
+            exact
+            element={<BaoVeRoute element={<AdminDVSua />} />}
+          />
+
+          <Route
             path="/adminmagiamgia"
             exact
             element={<BaoVeRoute element={<AdminMaGG />} />}
@@ -696,9 +710,9 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           />
-          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv/>} />}/>
-          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv/>} />}/>
-          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv/>} />}/>
+          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv />} />} />
+          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv />} />} />
+          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv />} />} />
 
           {/* <Route
             path="/Admin_ThemBV"
@@ -708,7 +722,7 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           /> */}
-          
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>
