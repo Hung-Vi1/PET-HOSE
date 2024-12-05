@@ -105,58 +105,61 @@ class NewsApiController extends Controller
      */
 
     public function store(Request $request)
-    {
-        // POST 
-        try {
-            // Validate dữ liệu
-            $validatedData = $request->validate([
-                'Mataikhoan' => 'required|exists:users,Mataikhoan', // Kiểm tra mã tài khoản tồn tại
-                'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV', // Kiểm tra mã danh mục tồn tại
-                'TieuDe' => 'required|string',
-                'Hinh' => 'nullable|string',
-                'NoiDung' => 'required|string', // Nội dung phải là chuỗi ký tự
-                'ChiTiet' => 'required|string', // Chi tiết bài viết phải là chuỗi ký tự
-            ], [
-                'Mataikhoan.required' => 'Vui lòng nhập mã tài khoản',
-                'Mataikhoan.exists' => 'Mã tài khoản không tồn tại',
-                'MaDMBV.required' => 'Vui lòng nhập mã danh mục',
-                'MaDMBV.exists' => 'Mã danh mục không tồn tại',
-                'TieuDe.required' => 'Vui lòng nhập tiêu đề bài viết',
-                'TieuDe.string' => 'Tiêu đề phải là chuỗi ký tự',
-                'Hinh.nullable' => 'Ảnh không bắt buộc',
-                'Hinh.string' => 'Ảnh phải là chuỗi ký tự',
-                'NoiDung.required' => 'Vui lòng nhập nội dung bài viết',
-                'NoiDung.string' => 'Nội dung phải là chuỗi ký tự',
-                'ChiTiet.required' => 'Vui lòng nhập chi tiết bài viết',
-                'ChiTiet.string' => 'Chi tiết bài viết phải là chuỗi ký tự',
-            ]);
+{
+    try {
+        // Validate dữ liệu
+        $validatedData = $request->validate([
+            'Mataikhoan' => 'required|exists:users,Mataikhoan',
+            'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV',
+            'TieuDe' => 'required|string',
+            'Hinh' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'NoiDung' => 'required|string',
+            'ChiTiet' => 'required|string',
+        ], [
+            // Các thông báo lỗi
+        ]);
 
-            // Tạo bài viết mới và lưu vào cơ sở dữ liệu
-            $news = BaiViet::create([
-                'Mataikhoan' => $validatedData['Mataikhoan'],
-                'MaDMBV' => $validatedData['MaDMBV'],
-                'TieuDe' => $validatedData['TieuDe'],
-                'Hinh' => $validatedData['Hinh'],
-                'NoiDung' => $validatedData['NoiDung'],
-                'ChiTiet' => $validatedData['ChiTiet'],
-                'LuotXem' => $validatedData['LuotXem'] ?? 0,
-                'BinhLuan' => $validatedData['BinhLuan'] ?? 0,
-                'TrangThai' => $validatedData['TrangThai'] ?? 1,
-            ]);
+        // Đường dẫn lưu hình ảnh
+        $path = public_path('image/News');
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Thêm thành công',
-                'data' => new NewsResource($news)
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 400);
+        // Kiểm tra và tạo thư mục nếu không tồn tại
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true); // Tạo thư mục nếu chưa tồn tại
         }
+
+
+// Lưu hình ảnh
+if ($request->file('Hinh')) {
+    $imageName = time() . '.' . $request->file('Hinh')->getClientOriginalExtension();
+    $path = public_path('image/News'); // Đường dẫn đến thư mục lưu
+    $request->file('Hinh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+}
+        // Tạo bài viết mới và lưu vào cơ sở dữ liệu
+        $news = BaiViet::create([
+            'Mataikhoan' => $validatedData['Mataikhoan'],
+            'MaDMBV' => $validatedData['MaDMBV'],
+            'TieuDe' => $validatedData['TieuDe'],
+            'Hinh' => $imageName, // Lưu đường dẫn tương đối
+            'NoiDung' => $validatedData['NoiDung'],
+            'ChiTiet' => $validatedData['ChiTiet'],
+            'LuotXem' => $validatedData['LuotXem'] ?? 0,
+            'BinhLuan' => $validatedData['BinhLuan'] ?? 0,
+            'TrangThai' => $validatedData['TrangThai'] ?? 1,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thêm thành công',
+            'data' => new NewsResource($news)
+        ], 201);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'fail',
+            'message' => $e->getMessage(),
+            'data' => null
+        ], 400);
     }
+}
 
 
 

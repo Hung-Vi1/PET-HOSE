@@ -175,7 +175,8 @@ function Admin_bv() {
                                     <tr key={item.bai_viet}>
                                         <td className="text-center">{index + 1}</td>
                                         <td className="text-center">
-                                            <img src={`image/News/${item.Hinh}`}
+                                            <img 
+                                            src={`http://localhost:8000/image/News/${item.Hinh}`}
                                                 style={{ width: "100px", height: "auto" }}
                                             />
                                         </td>

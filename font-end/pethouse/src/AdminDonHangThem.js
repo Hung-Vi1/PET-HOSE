@@ -6,14 +6,22 @@ import "./App.css";
 
 function AdminDonHangThem() {
   const { ma_don_hang } = useParams();
-  const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { isLoggedIn } = useAuth();
 
-  const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
-  const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
-  const [wards, setWards] = useState([]); // Danh sách phường/xã
-  const [selectedArea, setSelectedArea] = useState(null); // Khu vực đã chọn
-  const [selectedDistrict, setSelectedDistrict] = useState(null); // Quận/Huyện đã chọn
-  const [selectedWard, setSelectedWard] = useState(null); // Phường/Xã đã chọn
+  const [areas, setAreas] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedWard, setSelectedWard] = useState(null);
+  const [hoTen, setHoTen] = useState("");
+  const [soDienThoai, setSoDienThoai] = useState("");
+  const [diaChi, setDiaChi] = useState("");
+  const [trangThai, setTrangThai] = useState("0");
+  const [phuongThucTT, setPhuongThucTT] = useState("0");
+  const [userOptions, setUserOptions] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [loi, setLoi] = useState("");
 
   useEffect(() => {
     fetch(`https://provinces.open-api.vn/api/?depth=3`)
@@ -22,7 +30,7 @@ function AdminDonHangThem() {
         const formattedData = data.map((area) => ({
           value: area.code,
           label: area.name,
-          districts: area.districts, // Lưu districts ở đây
+          districts: area.districts,
         }));
         setAreas(formattedData);
       })
@@ -31,50 +39,184 @@ function AdminDonHangThem() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch("http://localhost:8000/api/users")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          const options = data.data.map((user) => ({
+            value: user.ma_tai_khoan,
+            label: `${user.ten_tai_khoan} - ${user.so_dien_thoai}`,
+            soDienThoai: user.so_dien_thoai,
+            diaChi: user.dia_chi,
+          }));
+          setUserOptions(options);
+        } else {
+          setLoi(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+        setLoi("Có lỗi xảy ra, vui lòng thử lại.");
+      });
+  }, []);
+
+  const parseAddress = (address) => {
+    const parts = address.split(",").map((part) => part.trim());
+
+    if (parts.length >= 4) {
+      return {
+        ward: parts[1].trim(),
+        district: parts[2].trim(),
+        area: parts[3].trim(),
+      };
+    }
+
+    return { ward: "", district: "", area: "" };
+  };
+
+  const handleUserChange = (selectedOption) => {
+    setSelectedUser(selectedOption);
+    if (selectedOption) {
+      const { ward, district, area } = parseAddress(selectedOption.diaChi);
+
+      setHoTen(selectedOption.label.split(" - ")[0]);
+      setSoDienThoai(selectedOption.soDienThoai);
+      setDiaChi(selectedOption.diaChi);
+
+      console.log("Ward:", ward);
+      console.log("District:", district);
+      console.log("Area:", area);
+      console.log("Selected Area:", selectedArea);
+      console.log("Selected District:", selectedDistrict);
+      console.log("Selected Ward:", selectedWard);
+
+      // Cập nhật khu vực
+      const areaData = areas.find((areaItem) =>
+        areaItem.label.toLowerCase().includes(area.toLowerCase())
+      );
+
+      if (areaData) {
+        setSelectedArea(areaData);
+
+        // Cập nhật danh sách quận/huyện
+        const districtData = areaData.districts.find((districtItem) =>
+          districtItem.name.includes(district)
+        );
+
+        if (districtData) {
+          setSelectedDistrict(districtData);
+
+          // Cập nhật danh sách phường/xã
+          const wardData = districtData.wards.find((wardItem) =>
+            wardItem.name.includes(ward)
+          );
+
+          if (wardData) {
+            setSelectedWard(wardData);
+          } else {
+            setSelectedWard(null); // Không tìm thấy ward
+          }
+
+          // Cập nhật danh sách wards
+          setWards(
+            districtData.wards.map((ward) => ({
+              value: ward.code,
+              label: ward.name,
+            }))
+          );
+        } else {
+          setSelectedDistrict(null); // Không tìm thấy district
+        }
+      } else {
+        setSelectedArea(null); // Không tìm thấy area
+      }
+    } else {
+      resetFields();
+    }
+  };
+
+  const resetFields = () => {
+    setHoTen("");
+    setSoDienThoai("");
+    setDiaChi("");
+    setSelectedArea(null);
+    setSelectedDistrict(null);
+    setSelectedWard(null);
+    setDistricts([]);
+    setWards([]);
+  };
+
   const handleAreaChange = (selectedOption) => {
     setSelectedArea(selectedOption);
-    setSelectedDistrict(null); // Reset quận/huyện
-    setWards([]); // Reset phường/xã
+    setSelectedDistrict(null);
+    setSelectedWard(null);
+    setWards([]);
 
     if (selectedOption) {
-      const selectedAreaData = areas.find(
-        (area) => area.value === selectedOption.value
+      setDistricts(
+        selectedOption.districts.map((district) => ({
+          value: district.code,
+          label: district.name,
+          wards: district.wards,
+        }))
       );
-      if (selectedAreaData && selectedAreaData.districts) {
-        setDistricts(
-          selectedAreaData.districts.map((district) => ({
-            value: district.code,
-            label: district.name,
-            wards: district.wards, // Lưu wards ở đây
-          }))
-        );
-      } else {
-        setDistricts([]);
-      }
     }
   };
 
   const handleDistrictChange = (selectedOption) => {
     setSelectedDistrict(selectedOption);
-    setSelectedWard(null); // Reset phường/xã
+    setSelectedWard(null);
 
     if (selectedOption) {
-      const selectedDistrictData = districts.find(
-        (district) => district.value === selectedOption.value
+      setWards(
+        selectedOption.wards.map((ward) => ({
+          value: ward.code,
+          label: ward.name,
+        }))
       );
-      if (selectedDistrictData && selectedDistrictData.wards) {
-        setWards(
-          selectedDistrictData.wards.map((ward) => ({
-            value: ward.code,
-            label: ward.name,
-          }))
-        );
-      } else {
-        setWards([]);
-      }
     } else {
       setWards([]);
     }
+  };
+
+  const handlePaymentMethodChange = (value) => {
+    setPhuongThucTT(value);
+    setTrangThai(value === "0" ? "0" : "2");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const orderData = {
+      hoTen,
+      soDienThoai,
+      diaChi: `${selectedWard ? selectedWard.label : ""}, ${
+        selectedDistrict ? selectedDistrict.label : ""
+      }, ${selectedArea ? selectedArea.label : ""}, ${diaChi}`,
+      trangThai,
+      phuongThucTT,
+    };
+
+    fetch(`http://localhost:8000/api/donhang`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Không thể tạo đơn hàng");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Đơn hàng đã được tạo:", data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi tạo đơn hàng:", error);
+      });
   };
 
   if (!isLoggedIn) {
@@ -84,145 +226,7 @@ function AdminDonHangThem() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div
-          id="openMenu"
-          className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
-          style={{ minHeight: "100vh" }}
-        >
-          <Link to={"/"}>
-            <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
-              className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
-            />
-          </Link>
-
-          <div className="list-group list-group-item-primary">
-            <Link
-              to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-              aria-current="true"
-            >
-              <h5 className="mb-0 py-1">Tổng quan</h5>
-            </Link>
-            <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
-            >
-              <h5 className="mb-0 py-1">Sản phẩm</h5>
-            </Link>
-            <Link
-              to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </Link>
-            <Link
-              to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Danh mục</h5>
-            </Link>
-            <Link
-              to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Tài khoản</h5>
-            </Link>
-            <Link
-              to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
-            >
-              <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </Link>
-            <Link
-              to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Đặt lịch</h5>
-            </Link>
-            <Link
-              to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
-              to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Liên hệ</h5>
-            </Link>
-            <Link
-              to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Mã giảm giá</h5>
-            </Link>
-          </div>
-        </div>
-
         <div className="col-md p-0">
-          <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
-            data-bs-theme="dark"
-          >
-            <div className="container-fluid">
-              <button
-                className="btn btn-outline-light me-3"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#openMenu"
-                aria-expanded="false"
-                aria-controls="collapseWidthExample"
-              >
-                <i className="bi bi-list"></i>
-              </button>
-              <a className="navbar-brand" href="/#">
-                PetHouse
-              </a>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
-                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="/#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Xin chào, Trần Thanh Tú
-                    </a>
-                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
-                      <li className="rounded-0">
-                        <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
-                          to={"/"}
-                        >
-                          Xem trang chủ
-                        </Link>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider m-0" />
-                      </li>
-                      <li>
-                        <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
-                          href="/#"
-                        >
-                          Đăng xuất
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
           <div className="container mt-3 mb-5">
             <div className="d-flex">
               <Link
@@ -234,7 +238,7 @@ function AdminDonHangThem() {
               <h1 className="mb-0">Thêm đơn hàng</h1>
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="d-flex flex-wrap">
                 <div className="col-md-8 px-0">
                   <div className="d-flex flex-wrap me-3">
@@ -244,23 +248,23 @@ function AdminDonHangThem() {
                       <div className="row mb-3">
                         <div className="col-md">
                           <label className="form-label">Họ và tên</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
-                            required
-                            placeholder="Nguyễn Văn A"
+                          <Select
+                            options={userOptions}
+                            value={selectedUser}
+                            onChange={handleUserChange}
+                            placeholder="Chọn khách hàng"
+                            isClearable
+                            styles={{ minHeight: "50px" }}
                           />
                         </div>
 
                         <div className="col-md">
                           <label className="form-label">Số điện thoại</label>
                           <input
-                            type="number"
+                            type="text"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={soDienThoai}
+                            onChange={(e) => setSoDienThoai(e.target.value)}
                             required
                             placeholder="0364395907"
                           />
@@ -309,8 +313,8 @@ function AdminDonHangThem() {
                           <input
                             type="text"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={diaChi}
+                            onChange={(e) => setDiaChi(e.target.value)}
                             required
                             placeholder="564/19A Đường Tỉnh Lộ 15 Tổ 8 Ấp Bến Đình"
                           />
@@ -325,94 +329,32 @@ function AdminDonHangThem() {
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
 
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
-                        >
-                          <option value="0">Chờ xác nhận</option>
-                          <option value="1">Đang xử lý</option>
-                          <option value="1">Đã xử lý</option>
-                          <option value="1">Đã hủy</option>
-                        </select>
-                      </div>
+                      <select
+                        className="form-select"
+                        value={trangThai}
+                        onChange={(e) => setTrangThai(e.target.value)}
+                        disabled
+                      >
+                        <option value="0">Chờ xác nhận</option>
+                        <option value="2">Hoàn thành</option>
+                      </select>
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Phương thức thanh toán</h5>
 
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
-                        >
-                          <option value="0">Thanh toán khi nhận hàng</option>
-                          <option value="1">Thanh toán chuyển khoản</option>
-                        </select>
-                      </div>
+                      <select
+                        className="form-select"
+                        value={phuongThucTT}
+                        onChange={(e) =>
+                          handlePaymentMethodChange(e.target.value)
+                        }
+                      >
+                        <option value="0">Thanh toán khi nhận hàng</option>
+                        <option value="1">Thanh toán chuyển khoản</option>
+                      </select>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div className="d-flex flex-wrap">
-                <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                  <h5 className="mb-2 py-1">Chi tiết đơn hàng</h5>
-
-                  <form className="d-flex mb-3" role="search">
-                    <input
-                      className="form-control me-2"
-                      type="search"
-                      placeholder="Nhập tên sản phẩm"
-                      aria-label="Search"
-                    />
-                  </form>
-
-                  <table className="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th className="text-center fw-bold">STT</th>
-                        <th colSpan={2} className="fw-bold w-50">
-                          Sản phẩm
-                        </th>
-                        <th className="text-center fw-bold">Số lượng</th>
-                        <th className="text-end fw-bold">Đơn giá</th>
-                        <th className="text-end fw-bold text-nowrap">
-                          Thành tiền
-                        </th>
-                        <th className="text-center fw-bold text-nowrap"></th>
-                      </tr>
-                    </thead>
-
-                    <tbody></tbody>
-
-                    <tfoot>
-                      <tr>
-                        <td className="text-center">Ghi chú</td>
-                        <td colSpan={3}>
-                          <div className="">
-                            <textarea className="form-control h-50"></textarea>
-                          </div>
-                        </td>
-                        <td className="text-end fw-bold">Tổng hóa đơn</td>
-                        <td className="text-end fw-bold">
-                          {parseInt(0).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td></td>
-                      </tr>
-                    </tfoot>
-                  </table>
                 </div>
               </div>
 
@@ -429,6 +371,8 @@ function AdminDonHangThem() {
                 </button>
               </div>
             </form>
+
+            {loi && <div className="alert alert-danger mt-3">{loi}</div>}
           </div>
         </div>
       </div>
