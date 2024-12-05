@@ -59,7 +59,7 @@ use App\Http\Controllers\ServiceApiController;
 Route::get('/services', [ServiceApiController::class, 'index']);
 Route::post('/services/store', [ServiceApiController::class, 'store']);
 Route::get('/services/{MaSP}', [ServiceApiController::class, 'show']);
-Route::put('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
+Route::post('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
 Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy']);
 
 use App\Http\Controllers\OrderApiController;
