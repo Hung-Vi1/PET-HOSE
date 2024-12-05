@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminDVThem() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const navigate = useNavigate();
 
   const [ten_dich_vu, setTenDichVu] = useState("");
