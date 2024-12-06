@@ -592,6 +592,10 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'OldPassword' => 'required|string|max:255',
             'Matkhau' => 'required|string|max:255|min:8|different:OldPassword', // Mật khẩu mới không trùng với mật khẩu cũ
+        ],[
+            'OldPassword.required' => 'Vui lòng nhập mật khẩu cũ',
+            'Matkhau.different' => 'Mật khẩu mới không được trùng với mật khẩu cũ',
+            'Matkhau.min' => 'Mật khẩu phải nhiều hơn 8 ký tự',
         ]);
 
         if ($validator->fails()) {
