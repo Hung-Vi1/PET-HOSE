@@ -451,10 +451,14 @@ function AdminSanPhamThem() {
               </div>
 
               <div className="d-flex justify-content-end">
-                <button type="button" className="btn btn-outline-danger me-2">
-                  Xóa
-                </button>
-                <button type="submit" className="btn btn-primary ms-2">
+                <Link
+                  to={"/adminsanpham"}
+                  type="button"
+                  className="btn btn-outline-danger me-2"
+                >
+                  Hủy
+                </Link>
+                <button type="submit" className="btn btn-primary ms-2 my-auto">
                   Thêm sản phẩm
                 </button>
               </div>

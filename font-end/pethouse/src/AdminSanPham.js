@@ -300,7 +300,7 @@ function PhanTrang({ listSP, pageSize }) {
     <>
       <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
       <tr>
-        <td colspan="6">
+        <td colspan="7">
           <ReactPaginate
             nextLabel=">"
             previousLabel="<"

@@ -46,7 +46,7 @@ import AdminDonHangThem from "./AdminDonHangThem";
 import Admin_bv from "./Admin_BV";
 import Admin_Suabv from "./Admin_SuaBV";
 import Admin_Thembv from "./Admin_ThemBV"
-import AdminDatLich from "./AdminDichVuChamSoc";
+import AdminDatLich from "./AdminDatLich";
 import AdminDichVu from "./AdminDV";
 import AdminLienHe from "./AdminLienHe";
 import AdminMaGG from "./AdminMaGIamGia";

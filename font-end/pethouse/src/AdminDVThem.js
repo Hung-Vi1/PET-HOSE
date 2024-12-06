@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 
 function AdminDVThem() {
-  // const { user } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [ten_dich_vu, setTenDichVu] = useState("");
@@ -59,7 +60,7 @@ function AdminDVThem() {
   };
 
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -76,7 +77,7 @@ function AdminDVThem() {
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -89,7 +90,7 @@ function AdminDVThem() {
             </Link>
             <Link
               to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
@@ -139,11 +140,52 @@ function AdminDVThem() {
         </div>
 
         <div className="col-md p-0">
-          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
+          <nav
+            className="navbar navbar-expand-lg bg-primary p-0"
+            data-bs-theme="dark"
+          >
             <div className="container-fluid">
+              <button
+                className="btn btn-outline-light me-3"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#openMenu"
+              >
+                <i className="bi bi-list"></i>
+              </button>
               <a className="navbar-brand" href="/#">
                 PetHouse
               </a>
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="/#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                  >
+                    Xin chào, {user.Hovaten || "Không có tên"}
+                  </a>
+                  <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
+                    <li>
+                      <Link
+                        className="menu-header-top dropdown-item m-0 py-2"
+                        to={"/"}
+                      >
+                        Xem trang chủ
+                      </Link>
+                    </li>
+                    <li>
+                      <a
+                        className="menu-header-bottom dropdown-item m-0 py-2"
+                        href="/#"
+                      >
+                        Đăng xuất
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </nav>
 
@@ -163,25 +205,53 @@ function AdminDVThem() {
                 />
               </div>
 
-              <div className="mb-3">
-                <label className="form-label">Giá dịch vụ</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={gia}
-                  onChange={(e) => setGia(Number(e.target.value))}
-                  required
-                />
+              <div className="row">
+                <div className="col-md">
+                  <label className="form-label">Giá dịch vụ</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={gia}
+                    onChange={(e) => setGia(Number(e.target.value))}
+                    required
+                  />
+                </div>
+
+                <div className="col-md">
+                  <label className="form-label">Giảm giá (%)</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={giam_gia}
+                    onChange={(e) => setGiamGia(Number(e.target.value))}
+                  />
+                </div>
               </div>
 
-              <div className="mb-3">
-                <label className="form-label">Giảm giá (%)</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={giam_gia}
-                  onChange={(e) => setGiamGia(Number(e.target.value))}
-                />
+              <div className="row">
+                <div className="col-md">
+                  <label className="form-label">Ảnh dịch vụ</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={(e) => setHinhAnh(e.target.files[0])}
+                    required
+                  />
+                </div>
+
+                <div className="col-md">
+                  <label className="form-label">Danh mục</label>
+                  <select
+                    className="form-control"
+                    value={maDanhMuc}
+                    onChange={(e) => setMaDanhMuc(Number(e.target.value))}
+                    required
+                  >
+                    <option value={1}>Chó cảnh</option>
+                    <option value={2}>Mèo cảnh</option>
+                  </select>
+                </div>
               </div>
 
               <div className="mb-3">
@@ -192,30 +262,6 @@ function AdminDVThem() {
                   onChange={(e) => setMoTa(e.target.value)}
                   required
                 ></textarea>
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Ảnh dịch vụ</label>
-                <input
-                  type="file"
-                  className="form-control"
-                  accept="image/*"
-                  onChange={(e) => setHinhAnh(e.target.files[0])}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Danh mục</label>
-                <select
-                  className="form-control"
-                  value={maDanhMuc}
-                  onChange={(e) => setMaDanhMuc(Number(e.target.value))}
-                  required
-                >
-                  <option value={1}>Chó cảnh</option>
-                  <option value={2}>Mèo cảnh</option>
-                </select>
               </div>
 
               <div className="d-flex justify-content-end">

@@ -96,7 +96,7 @@ function Admin_Thembv() {
             </Link>
             <Link
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
@@ -168,7 +168,6 @@ function Admin_Thembv() {
                 <i className="bi bi-list"></i>
               </button>
               <a className="navbar-brand" href="/#">
-                {" "}
                 PetHouse
               </a>
               <div
@@ -192,7 +191,6 @@ function Admin_Thembv() {
                           className="menu-header-top dropdown-item m-0 py-2"
                           to={"/"}
                         >
-                          {" "}
                           Xem trang chủ
                         </Link>
                       </li>
@@ -243,7 +241,68 @@ function Admin_Thembv() {
                       </div>
 
                       <div className="mb-3">
-                        <label className="col-md">Danh mục bài viết</label>
+                        <label className="form-label">Nội dung</label>
+                        <textarea
+                          className="form-control"
+                          value={noi_dung}
+                          onChange={(e) => setNoiDung(e.target.value)}
+                          required
+                        ></textarea>
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label">Chi tiết</label>
+                        <textarea
+                          className="form-control"
+                          value={chi_tiet}
+                          onChange={(e) => setChiTiet(e.target.value)}
+                          required
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-md px-0">
+                  <div className="d-flex flex-wrap">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Ảnh tin tức</h5>
+                      <div className="text-center">
+                        <div className="d-flex justify-content-center py-2">
+                          <input
+                            type="file"
+                            className="form-control"
+                            accept="image/*"
+                            onChange={(e) => {
+                              setHinh(e.target.files[0]);
+                              setImagePreview(
+                                URL.createObjectURL(e.target.files[0])
+                              );
+                            }}
+                            required
+                          />
+                        </div>
+                        {imagePreview && (
+                          <div className="mt-3">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "250px",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="col-md border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin</h5>
+
+                      <div className="mb-3">
+                        <label className="form-label">Danh mục</label>
                         <select
                           className="form-select"
                           value={ma_danh_muc_bv}
@@ -263,99 +322,14 @@ function Admin_Thembv() {
                           ))}
                         </select>
                       </div>
-
-                      <div className="mb-3">
-                        <label className="form-label">Nội dung</label>
-                        <textarea
-                          className="form-control"
-                          value={noi_dung}
-                          onChange={(e) => setNoiDung(e.target.value)}
-                          required
-                        ></textarea>
-                      </div>
-
-                      <div className="mb-3">
-                        <label className="form-label">Chi tiết</label>
-                        <textarea
-                          className="form-control"
-                          value={chi_tiet}
-                          onChange={(e) => setChiTiet(e.target.value)}
-                          required
-                        ></textarea>
-                      </div>
-
-                      <div className="mb-3">
-                        <label className="form-label">Hình ảnh</label>
-                        <input
-                          type="file"
-                          className="form-control"
-                          accept="image/*"
-                          onChange={(e) => {
-                            setHinh(e.target.files[0]);
-                            setImagePreview(
-                              URL.createObjectURL(e.target.files[0])
-                            );
-                          }}
-                          required
-                        />
-                      </div>
-
-                      {imagePreview && (
-                        <div className="mb-3">
-                          <img
-                            src={imagePreview}
-                            alt="Preview"
-                            style={{ width: "100%", height: "auto" }}
-                          />
-                        </div>
-                      )}
-
-                      <div className="mb-3">
-                        <label className="form-label">Trạng thái</label>
-                        <select
-                          className="form-select"
-                          value={trang_thai}
-                          onChange={(e) => setTrangThai(Number(e.target.value))}
-                        >
-                          <option value="0">Ẩn</option>
-                          <option value="1">Hiển thị</option>
-                        </select>
-                      </div>
                     </div>
                   </div>
+                  <button type="submit" className="btn btn-outline-success ">
+                    Thêm bài viết
+                  </button>
                 </div>
-
-              <div className="col-md px-0">
-                <div className="d-flex flex-wrap">
-                  <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
-                    <div className="text-center">
-                      <div className="d-flex justify-content-center py-2">
-                        <input type="file" className="form-control" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-md border border-dark rounded-3 my-3 p-2">
-                    <h5 className="mb-2 py-1">Thông tin giá</h5>
-
-                    <div className="mb-3">
-                      <label className="form-label">Giá sản phẩm</label>
-                      <input type="number" className="form-control" />
-                    </div>
-                    <div className="mb-3">
-                      <label className="form-label">Giảm giá</label>
-                      <input type="number" className="form-control" />
-                    </div>
-                  </div>
-                </div>
-                </div>
-              <button type="submit" className="btn btn-primary">
-                Thêm bài viết
-              </button>
               </div>
             </form>
-            
           </div>
         </div>
       </div>

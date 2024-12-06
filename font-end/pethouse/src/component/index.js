@@ -198,7 +198,7 @@ function Index() {
           <div className="row gutter-10">
             <div className="col-sm-6 col-md-4">
               <div className="flat-image-box style-1 data-effect div-h22 clearfix">
-              <div className="item data-effect-item">
+                <div className="item data-effect-item">
                   <div className="inner">
                     <div className="thumb">
                       <img src="image/banner_new.webp" alt="hinh" />
@@ -347,7 +347,7 @@ function Index() {
             <div className="col-md-12">
               <div className="flat-animation-block">
                 <div className="title-section width-before-17 bg-before-white margin-bottom-14">
-                <h2 className="title font-size-40 line-height-76">
+                  <h2 className="title font-size-40 line-height-76">
                     Ưu đãi hấp dẫn khi mua sản phẩm
                   </h2>
                   <div className="sub-title fs-1">
@@ -605,46 +605,48 @@ function Index() {
         </div>
       </section>
 
-      <section class="flat-row row-new-latest">
+      <section className="flat-row row-new-latest">
         <div className="title-section margin-bottom-41">
           <h2 className="title">Tin Thú Cưng</h2>
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
-              <div className="post-wrap margin-bottom-26">
-                <div className="grid four">
+            <div className="col-12">
+              <div className="post-wrap mb-4">
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                   {tintuc.length > 0 ? (
                     tintuc.slice(0, 4).map((article) => (
-                      <article className="post clearfix" key={article.bai_viet}>
-                        <div className="featured-post">
-                          <img
-                            src={`image/News/${article.Hinh}`}
-                            alt="hinh"
-                            style={{
-                              width: '400px',
-                              height: '300px',
-                              maxHeight: '300px',
-                              objectFit: 'cover'
-                            }}
-                          />
-                        </div>
-                        <div className="content-post">
-                          <div className="title-post">
-                            <h2>
-                              <Link to={`/chitiettintuc/${article.bai_viet}`}>
-                                {truncateContent(article.tieu_de, 45)}
-                              </Link>
-                            </h2>
+                      <div className="col" key={article.bai_viet}>
+                        <article className="post clearfix">
+                          <div className="featured-post">
+                            <img
+                              src={`image/News/${article.Hinh}`}
+                              alt={article.tieu_de}
+                              className="img-fluid"
+                              style={{
+                                objectFit: 'cover',
+                                width: '100%', // Giới hạn chiều rộng của hình ảnh
+                                height: '200px', // Giới hạn chiều cao của hình ảnh
+                              }}
+                            />
                           </div>
-                          <div className="entry-post">
-                            <p>{truncateContent(article.noi_dung, 100)}</p>
-                            <div className="more-link">
-                              <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                          <div className="content-post mt-2">
+                            <div className="title-post">
+                              <h2>
+                                <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                                  {truncateContent(article.tieu_de, 45)}
+                                </Link>
+                              </h2>
+                            </div>
+                            <div className="entry-post">
+                              <p>{truncateContent(article.noi_dung, 100)}</p>
+                              <div className="more-link">
+                                <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </article>
+                        </article>
+                      </div>
                     ))
                   ) : (
                     <p>Không có bài viết nào.</p>
@@ -655,6 +657,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       <section className="flat-row mail-chimp">
         <div className="container">
@@ -684,7 +687,7 @@ function Index() {
                       <button type="button">Gửi</button>
                     </div>
                   </div>
-                  </form>
+                </form>
                 <ul className="flat-social">
                   <li>
                     <a href="/#">
