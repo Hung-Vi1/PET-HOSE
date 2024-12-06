@@ -141,6 +141,8 @@ function ThanhToan() {
         if (response.ok) {
           alert("Đơn hàng đã được gửi thành công!");
           sessionStorage.removeItem("cart");
+          const event = new Event("cartUpdated");
+          window.dispatchEvent(event);
           setCart([]);
           navigate("/lichsumua");
         } else {
@@ -207,18 +209,19 @@ function ThanhToan() {
                   <td className="text-center align-middle">
                     <button
                       className="btn btn-sm btn-outline-primary"
-                      onClick={() => handleQuantityChange(index, item.quantity - 1)}
+                      onClick={() => handleQuantityChange(index, Math.max(0, item.quantity - 1))} // Ensure quantity doesn't go below 0
                     >
                       -
                     </button>
                     <span className="mx-2">{item.quantity}</span>
                     <button
                       className="btn btn-sm btn-outline-primary"
-                      onClick={() => handleQuantityChange(index, item.quantity + 1)}
+                      onClick={() => handleQuantityChange(index, Math.min(10, item.quantity + 1))} // Ensure quantity doesn't exceed 10
                     >
                       +
                     </button>
                   </td>
+
                   <td className="text-center align-middle">
                     {parseInt(item.gia).toLocaleString("vi-VN", {
                       style: "currency",

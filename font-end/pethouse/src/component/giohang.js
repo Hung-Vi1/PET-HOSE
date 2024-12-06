@@ -82,6 +82,7 @@ function GioHang() {
                         type="number"
                         value={item.quantity}
                         min="0"
+                        max="10" // Limit the maximum value to 10
                         onChange={(e) =>
                           handleQuantityChange(index, parseInt(e.target.value))
                         }
