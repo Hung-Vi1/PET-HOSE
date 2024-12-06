@@ -241,9 +241,7 @@ function SanPham() {
                           {spTrong1Trang.map((sp, i) => (
                             <li className="product-item" key={i}>
                               <div className="product-thumb clearfix">
-                                <Link
-                                  to={`/chitietsanpham/${sp.ma_san_pham}`}
-                                >
+                                <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                                   <img
                                     src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
                                     className="card-img-top mx-auto w-75 pb-3"
@@ -258,10 +256,13 @@ function SanPham() {
                                 <div className="price">
                                   <ins>
                                     <span className="amount fs-6 fw-bold">
-                                      {parseInt(sp.gia).toLocaleString("vi-VN", {
-                                        style: "currency",
-                                        currency: "VND",
-                                      })}
+                                      {parseInt(sp.gia).toLocaleString(
+                                        "vi-VN",
+                                        {
+                                          style: "currency",
+                                          currency: "VND",
+                                        }
+                                      )}
                                     </span>
                                   </ins>
                                 </div>

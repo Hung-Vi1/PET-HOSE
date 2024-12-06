@@ -180,7 +180,7 @@ function AdminTaiKhoan() {
             </Link>
             <h2 className="my-3">Tài khoản</h2>
 
-            <table className="table align-middle">
+            <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
