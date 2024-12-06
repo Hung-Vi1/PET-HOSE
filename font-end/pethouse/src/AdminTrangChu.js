@@ -49,7 +49,7 @@ function AdminTrangChu() {
       }
       try {
         // Gọi API đơn hàng
-        const ordersResponse = await fetch("http://127.0.0.1:8000/api/orders");
+        const ordersResponse = await fetch("http://127.0.0.1:8000/api/order");
         const ordersData = await ordersResponse.json();
         setOrdersCount(ordersData.data.length);
 
@@ -60,9 +60,17 @@ function AdminTrangChu() {
         const revenue = calculateRevenue(ordersData.data);
         setRevenueData(revenue);
 
+        // Ví dụ sử dụng hàm tính tổng
+        const totalRevenue = calculateTotalRevenue(ordersData.data);
+        console.log("Tổng tiền các đơn hàng:", totalRevenue);
+
         // Tính toán doanh thu theo quý
         const quarterlyRevenue = calculateQuarterlyRevenue(ordersData.data);
         setQuarterRevenueData(quarterlyRevenue);
+
+        // Tính toán doanh thu theo phương thức thanh toán
+        const paymentMethodRevenue = calculatePaymentMethodRevenue(ordersData.data);
+        setPaymentMethodData(paymentMethodRevenue);
 
         setIsLoading(false); // Dữ liệu đã tải xong
       } catch (error) {
@@ -145,7 +153,12 @@ function AdminTrangChu() {
     datasets: [
       {
         label: "Doanh thu theo quý",
-        backgroundColor: "#ff6384",
+        backgroundColor: [
+          "#ff6384", // Quý 1
+          "#36a2eb", // Quý 2
+          "#4bc0c0", // Quý 3
+          "#ffcd56", // Quý 4
+        ],
         data: quarterRevenueData.data,
       },
     ],
@@ -169,17 +182,48 @@ function AdminTrangChu() {
     },
   };
 
-  // Dữ liệu cho biểu đồ tròn (Pie chart) - ví dụ: doanh thu theo từng quý
+
+
+
+
+
+
+  const calculatePaymentMethodRevenue = (orders) => {
+    const revenueByPaymentMethod = {};
+
+    orders.forEach((order) => {
+      const paymentMethod = order.phuong_thuc_tt; // Giả sử trường này lưu phương thức thanh toán
+      const revenue = parseFloat(order.tong_tien);
+
+      if (!revenueByPaymentMethod[paymentMethod]) {
+        revenueByPaymentMethod[paymentMethod] = 0;
+      }
+      revenueByPaymentMethod[paymentMethod] += revenue;
+    });
+
+    const labels = Object.keys(revenueByPaymentMethod);
+    const data = Object.values(revenueByPaymentMethod);
+
+    return { labels, data };
+  };
+
+  const [paymentMethodData, setPaymentMethodData] = useState({
+    labels: [],
+    data: [],
+  });
+
   const pieData = {
-    labels: ["Quý 1", "Quý 2", "Quý 3", "Quý 4"],
+    labels: paymentMethodData.labels,
     datasets: [
       {
-        data: quarterRevenueData.data,
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        data: paymentMethodData.data,
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"]
+        
       },
     ],
   };
+
 
   // Tùy chọn cho biểu đồ tròn
   const pieOptions = {
@@ -201,9 +245,20 @@ function AdminTrangChu() {
     },
     title: {
       display: true,
-      text: "Doanh thu theo từng quý (Pie Chart)",
+      text: "Doanh thu theo phương thức thanh toán",
     },
   };
+
+  const calculateTotalRevenue = (orders) => {
+    return orders.reduce((total, order) => {
+      // Cộng dồn tổng tiền của mỗi đơn hàng
+      return total + parseFloat(order.tong_tien); // Đảm bảo chuyển đổi thành số thực
+    }, 0); // Khởi tạo giá trị tổng là 0
+  };
+
+
+
+
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -385,8 +440,14 @@ function AdminTrangChu() {
               <div className="col-md-3">
                 <div className="card border-danger mb-3">
                   <div className="card-body text-danger">
-                    <h5 className="card-title text-center fw-bold">Đặt lịch</h5>
-                    <p className="card-text fs-1 text-center">{orderServicesCount}</p>
+                    <h5 className="card-title text-center fw-bold">Tổng doanh thu</h5>
+                    <p className="card-text fs-1 text-center">
+                      {new Intl.NumberFormat({
+                        style: 'currency',
+                        currency: 'VND'
+                      }).format(calculateTotalRevenue(orders))}
+                    </p>
+
                   </div>
                 </div>
               </div>
@@ -414,11 +475,12 @@ function AdminTrangChu() {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-4 d-none d-md-block">
                   <div className="d-flex justify-content-center">
-                    {/* Biểu đồ tròn doanh thu theo quý */}
+                    {/* Biểu đồ tròn doanh thu theo phương thức thanh toán */}
                     <Pie data={pieData} options={pieOptions} />
                   </div>
+
                 </div>
               </div>
 

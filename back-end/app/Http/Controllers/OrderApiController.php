@@ -96,6 +96,25 @@ class OrderApiController extends Controller
         }
     }
 
+    public function indexs()
+    {
+        // GET
+        try {
+            $orders = DonHang::all();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => OrderResource::collection($orders)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
+
     /**
      * @OA\Get(
      *     path="/api/orders/{Mataikhoan}",

@@ -31,6 +31,8 @@ Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
 
 Route::post('/users/store', [UserController::class, 'store']);
 Route::put('/users/update/{Mataikhoan}', [UserController::class, 'update']);
+Route::put('/users/doiMatKhau/{Mataikhoan}', [UserController::class, 'doiMatKhau']);
+Route::put('/users/updateAdmin/{Mataikhoan}', [UserController::class, 'updateAdmin']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 
@@ -65,6 +67,7 @@ Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy
 use App\Http\Controllers\OrderApiController;
 // Route để lấy danh sách đơn hàng
 Route::get('/orders', [OrderApiController::class, 'index']);
+Route::get('/order', [OrderApiController::class, 'indexs']);
 Route::get('/orders/{Mataikhoan}', [OrderApiController::class, 'orders']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);

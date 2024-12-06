@@ -57,7 +57,7 @@ function AdminTaiKhoanSua() {
       ThuCung: account.thucung,
     };
 
-    fetch(`http://127.0.0.1:8000/api/users/update/${ma_tai_khoan}`, {
+    fetch(`http://127.0.0.1:8000/api/users/updateAdmin/${ma_tai_khoan}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

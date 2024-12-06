@@ -10,7 +10,7 @@ function AdminDichVu() {
 
   // Lấy danh sách dịch vụ
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/services")
+    fetch("http://localhost:8000/api/services")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -23,33 +23,6 @@ function AdminDichVu() {
         console.error("Lỗi khi lấy dữ liệu dịch vụ:", error);
       });
   }, []);
-
-  // Hàm xóa dịch vụ theo ma_dich_vu
-  const xoaDichVu = (ma_dich_vu) => {
-    if (!ma_dich_vu) {
-      alert("Không tìm thấy mã dịch vụ. Vui lòng thử lại.");
-      return;
-    }
-    if (window.confirm("Bạn có chắc chắn muốn xóa dịch vụ này không?")) {
-      fetch(`http://127.0.0.1:8000/api/services/destroy/${ma_dich_vu}`, {
-        method: "DELETE",
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Xóa dịch vụ thành công!");
-            ganDV((prevList) =>
-              prevList.filter((item) => item.ma_dich_vu !== ma_dich_vu)
-            );
-          } else {
-            alert("Xóa dịch vụ thất bại!");
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa dịch vụ:", error);
-          alert("Có lỗi xảy ra khi xóa dịch vụ.");
-        });
-    }
-  };
 
   return (
     <div className="container-fluid">
@@ -131,7 +104,10 @@ function AdminDichVu() {
           </div>
         </div>
         <div className="col-md p-0">
-          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
+          <nav
+            className="navbar navbar-expand-lg bg-primary p-0"
+            data-bs-theme="dark"
+          >
             <div className="container-fluid">
               <button
                 className="btn btn-outline-light me-3"
@@ -176,6 +152,7 @@ function AdminDichVu() {
               </ul>
             </div>
           </nav>
+
           <div className="container">
             <Link to={"/admindvthem"} className="btn btn-success float-end">
               Thêm dịch vụ
@@ -189,39 +166,12 @@ function AdminDichVu() {
                   <th className="fw-bold text-center">Hình ảnh</th>
                   <th className="fw-bold text-center">Danh mục</th>
                   <th className="fw-bold text-center">Giá</th>
+                  <th className="fw-bold text-center">Trạng thái</th>
                   <th className="fw-bold text-center">Hành động</th>
                 </tr>
               </thead>
               <tbody>
-                {list_dv.map((dv, index) => (
-                  <tr key={dv.ma_dich_vu}>
-                    <td className="text-center">{index + 1}</td>
-                    <td>{dv.ten_dich_vu}</td>
-                    <td className="text-center">
-                      <img
-                        src={`http://localhost:8000/image/product/${dv.hinh_anh}`}
-                        alt={`product/${dv.hinh_anh}`}
-                        style={{ width: "100px" }}
-                      />
-                    </td>
-                    <td className="text-center">{dv.tenDM}</td>
-                    <td className="text-center">{dv.gia.toLocaleString()} đ</td>
-                    <td className="text-center">
-                      <Link
-                        to={`/adminDVsua/${dv.ma_dich_vu}`}
-                        className="btn btn-outline-warning m-1"
-                      >
-                        <i className="bi bi-pencil-square"></i>
-                      </Link>
-                      <button
-                        onClick={() => xoaDichVu(dv.ma_dich_vu)}
-                        className="btn btn-outline-danger m-1"
-                      >
-                        <i className="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                <PhanTrang listDV={list_dv} pageSize={10} />
               </tbody>
             </table>
           </div>
@@ -230,5 +180,136 @@ function AdminDichVu() {
     </div>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDV, list_dv }) {
+  const setSelectedService = useState(null);
+
+  // Hàm xóa dịch vụ theo ma_dich_vu
+  const xoaDichVu = (ma_dich_vu) => {
+    if (!ma_dich_vu) {
+      alert("Không tìm thấy mã dịch vụ. Vui lòng thử lại.");
+      return;
+    }
+    if (window.confirm("Bạn có chắc chắn muốn xóa dịch vụ này không?")) {
+      fetch(`http://127.0.0.1:8000/api/services/destroy/${ma_dich_vu}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Xóa dịch vụ thành công!");
+            ganDV((prevList) =>
+              prevList.filter((item) => item.ma_dich_vu !== ma_dich_vu)
+            );
+          } else {
+            alert("Xóa dịch vụ thất bại!");
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi xóa dịch vụ:", error);
+          alert("Có lỗi xảy ra khi xóa dịch vụ.");
+        });
+    }
+  };
+
+  const fetchServiceById = (ma_dich_vu) => {
+    fetch(`http://localhost:8000/api/services/${ma_dich_vu}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin sản phẩm:", data);
+        setSelectedService(data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      });
+  };
+
+  return (
+    <>
+      {spTrongTrang.map((dv, index) => {
+        let TrangThaiTinTuc;
+
+        if (dv.trang_thai === "1") {
+          TrangThaiTinTuc = (
+            <span class="badge rounded-pill text-bg-success">Hiện</span>
+          );
+        } else {
+          TrangThaiTinTuc = (
+            <span class="badge rounded-pill text-bg-danger">Ẩn</span>
+          );
+        }
+
+        return (
+          <tr key={dv.ma_dich_vu}>
+            <td className="text-center align-middle">{index + 1}</td>
+            <td className="text-capitalize align-middle">{dv.ten_dich_vu}</td>
+            <td className="text-center">
+              <img
+                src={`http://localhost:8000/image/product/${dv.hinh_anh}`}
+                alt={`product/${dv.hinh_anh}`}
+                style={{ width: "100px" }}
+              />
+            </td>
+            <td className="text-center align-middle">{dv.tenDM}</td>
+            <td className="text-center align-middle">
+              {parseInt(dv.gia).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </td>
+            <td className="text-center align-middle fs-5">{TrangThaiTinTuc}</td>
+            <td className="text-center align-middle">
+              <Link
+                onClick={() => fetchServiceById(dv.ma_dich_vu)}
+                to={`/adminDVsua/${dv.ma_dich_vu}`}
+                className="btn btn-outline-warning m-1"
+              >
+                <i className="bi bi-pencil-square"></i>
+              </Link>
+              <button
+                onClick={() => xoaDichVu(dv.ma_dich_vu)}
+                className="btn btn-outline-danger m-1"
+              >
+                <i className="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        );
+      })}
+    </>
+  );
+} //HienDHTrongMotTrang
+
+function PhanTrang({ listDV, pageSize, ganDV }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const dhTrong1Trang = listDV.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(listDV.length / pageSize);
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % listDV.length;
+    setfromIndex(newIndex);
+  };
+  return (
+    <>
+      <HienSPTrongMotTrang
+        spTrongTrang={dhTrong1Trang}
+        fromIndex={fromIndex}
+        ganDV={ganDV}
+        list_dv={listDV}
+      />
+      <tr>
+        <td colspan="7">
+          <ReactPaginate
+            nextLabel=">"
+            previousLabel="<"
+            pageCount={tongSoTrang}
+            pageRangeDisplayed={5}
+            onPageChange={chuyenTrang}
+            className="thanhphantrang"
+          />
+        </td>
+      </tr>
+    </>
+  );
+} //PhanTrang
 
 export default AdminDichVu;
