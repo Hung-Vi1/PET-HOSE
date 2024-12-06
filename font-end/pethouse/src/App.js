@@ -24,6 +24,7 @@ import ChiTietDV from "./component/chitietDV";
 import Lichsudichvu from "./component/Lichsudichvu";
 import ResetPassword from "./component/ResetPassword";
 import UpdateInfo from "./component/chinhsuataikhoan";
+import UpdatePassword from "./component/doimatkhau";
 
 
 /* Admin */
@@ -357,6 +358,33 @@ function App() {
                 </div>
 
                 <UpdateInfo />
+
+                <footer className="footer">
+                  <div className="container">
+                    <Footer />
+                  </div>
+                </footer>
+              </div>
+            }
+          />
+
+<Route
+            path="/update-password/:id"
+            exact
+            element={
+              <div>
+                <div id="site-header-wrap">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
+                    <div className="container clearfix" id="site-header-inner">
+                      <Header />
+                    </div>
+                  </header>
+                </div>
+
+                <UpdatePassword />
 
                 <footer className="footer">
                   <div className="container">

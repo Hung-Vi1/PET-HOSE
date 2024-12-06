@@ -52,9 +52,8 @@ function AdminMaGiamGia() {
   }
 
   return (
-    <div className="container-fluid admintrangchu">
+<div className="container-fluid">
       <div className="row">
-        {/* Sidebar */}
         <div
           id="openMenu"
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
@@ -64,14 +63,14 @@ function AdminMaGiamGia() {
             <img
               src={`http://localhost:8000/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt="Logo"
+              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
             />
           </Link>
-          {/* Other links */}
+
           <div className="list-group list-group-item-primary">
             <Link
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
               aria-current="true"
             >
               <h5 className="mb-0 py-1">Tổng quan</h5>
@@ -126,23 +125,76 @@ function AdminMaGiamGia() {
             </Link>
             <Link
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>
 
-        {/* Main content */}
         <div className="col-md p-0">
-          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
+          <nav
+            className="navbar navbar-expand-lg bg-primary p-0"
+            data-bs-theme="dark"
+          >
             <div className="container-fluid">
-              {/* Navbar content */}
+              <button
+                className="btn btn-outline-light me-3"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#openMenu"
+                aria-expanded="false"
+                aria-controls="collapseWidthExample"
+              >
+                <i className="bi bi-list"></i>
+              </button>
+              <a className="navbar-brand" href="/#">
+                PetHouse
+              </a>
+              <div
+                className="collapse navbar-collapse"
+                id="navbarSupportedContent"
+              >
+                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="/#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Xin chào, {user.Hovaten || "Không có tên"}
+                    </a>
+                    <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
+                      <li className="rounded-0">
+                        <Link
+                          className="menu-header-top dropdown-item m-0 py-2"
+                          to={"/"}
+                        >
+                          Xem trang chủ
+                        </Link>
+                      </li>
+                      <li>
+                        <hr className="dropdown-divider m-0" />
+                      </li>
+                      <li>
+                        <a
+                          className="menu-header-bottom dropdown-item m-0 py-2"
+                          href="/#"
+                        >
+                          Đăng xuất
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </nav>
-
           <div className="container">
-            <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
+            
+          <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
             <h2 className="my-3">Danh sách mã giảm giá</h2>
 
             <table className="table align-middle">
@@ -166,11 +218,11 @@ function AdminMaGiamGia() {
                     <td>{discount.loai_giam}</td>
                     <td className="text-center">{discount.code}</td>
                     <td className="text-center">
-                      {discount.loai_giam === "fixed" 
-                        ? `${discount.so_tien_nho_nhat} VNĐ` 
-                        : `${discount.phan_tram} %`}
+                      {discount.loai_giam === "fixed"
+                        ? `${parseInt(discount.phan_tram).toLocaleString("vi-VN")} VNĐ`
+                        : `${parseFloat(discount.phan_tram)}%`}
                     </td>
-                    <td className="text-center">{discount.so_tien_nho_nhat}</td>
+                    <td className="text-center">{parseInt(discount.so_tien_nho_nhat).toLocaleString("vi-VN")} VNĐ</td>
                     <td className="text-center">{discount.so_luong}</td>
                     <td className="text-center">
                       <Link to={`/adminmgmsua/${discount.ma_giam_gia}`} className="btn btn-outline-warning m-1">
@@ -187,10 +239,16 @@ function AdminMaGiamGia() {
                 ))}
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>
     </div>
+
+
+
+
+
   );
 }
 

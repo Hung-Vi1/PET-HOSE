@@ -43,10 +43,14 @@ const Info = () => {
         <div className="card-header">Cài Đặt Tài Khoản</div>
         <div className="card-body">
           <h5 className="card-title">Cập Nhật Tài Khoản Của Bạn</h5>
-          <Link to={`/update-info/${user.Mataikhoan}`} className="btn btn-danger">
+          <Link to={`/update-info/${user.Mataikhoan}`} className="btn btn-warning mx-2">
             Cập Nhật
           </Link>
+          <Link to={`/update-password/${user.Mataikhoan}`} className="btn btn-danger mx-2">
+            Đổi mật khẩu<t></t>
+          </Link>
         </div>
+        
       </div>
     </div>
   );

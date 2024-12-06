@@ -31,6 +31,8 @@ Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
 
 Route::post('/users/store', [UserController::class, 'store']);
 Route::put('/users/update/{Mataikhoan}', [UserController::class, 'update']);
+Route::put('/users/doiMatKhau/{Mataikhoan}', [UserController::class, 'doiMatKhau']);
+Route::put('/users/updateAdmin/{Mataikhoan}', [UserController::class, 'updateAdmin']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
 

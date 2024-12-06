@@ -89,7 +89,8 @@ function ChiTietSanPham() {
 
     // Lưu giỏ hàng vào sessionStorage
     sessionStorage.setItem("cart", JSON.stringify(cart));
-
+    const event = new Event("cartUpdated");
+    window.dispatchEvent(event);
     alert("Đã thêm sản phẩm vào giỏ hàng!");
   };
 
