@@ -89,46 +89,45 @@ const UpdateInfo = () => {
             type="email"
             name="Email"
             className="form-control"
-            value={userInfo.Email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label>Số điện thoại</label>
-          <input
-            type="text"
-            name="SDT"
-            className="form-control"
-            value={userInfo.SDT}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label>Địa chỉ</label>
-          <input
-            type="text"
-            name="DiaChi"
-            className="form-control"
-            value={userInfo.DiaChi}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label>Thú Cưng</label>
-          <input
-            type="text"
-            name="ThuCung"
-            className="form-control"
-            value={userInfo.ThuCung}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Cập Nhật
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default UpdateInfo;
+            value={userInfo.Email}onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Số điện thoại</label>
+            <input
+              type="text"
+              name="SDT"
+              className="form-control"
+              value={userInfo.SDT}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Địa chỉ</label>
+            <input
+              type="text"
+              name="DiaChi"
+              className="form-control"
+              value={userInfo.DiaChi}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Thú Cưng</label>
+            <input
+              type="text"
+              name="ThuCung"
+              className="form-control"
+              value={userInfo.ThuCung}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Cập Nhật
+          </button>
+        </form>
+      </div>
+    );
+  };
+  
+  export default UpdateInfo;

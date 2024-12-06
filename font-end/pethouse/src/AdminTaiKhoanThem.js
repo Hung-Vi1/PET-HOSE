@@ -194,99 +194,106 @@ function AdminTaiKhoanThem() {
             </div>
           </nav>
           <div className="container">
-            <h2 className="my-3">Thêm tài khoản</h2>
+  <h2 className="my-3">Thêm tài khoản</h2>
 
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="SoDienThoai" className="form-label">
-                  Số điện thoại
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="SoDienThoai"
-                  value={sdt}
-                  onChange={(e) => setSdt(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="HoTen" className="form-label">
-                  Họ và tên
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="HoTen"
-                  value={hovaten}
-                  onChange={(e) => setHovaten(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="Quyen" className="form-label">
-                  Quyền
-                </label>
-                <select
-                  className="form-select"
-                  value={quyen}
-                  onChange={(e) => setQuyen(Number(e.target.value))}
-                >
-                  <option value="0">Người dùng</option>
-                  <option value="1">Quản trị viên</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="DiaChi" className="form-label">
-                  Địa chỉ
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="DiaChi"
-                  value={diachi}
-                  onChange={(e) => setDiachi(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="ThuCung" className="form-label">
-                  Thú cưng
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="ThuCung"
-                  value={thucung}
-                  onChange={(e) => setThucung(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="Email" className="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="MatKhau" className="form-label">
-                  Mật khẩu
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="MatKhau"
-                  value={matkhau}
-                  onChange={(e) => setMatkhau(e.target.value)}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Xác nhận
-              </button>
-            </form>
-          </div>
+  <form onSubmit={handleSubmit}>
+    <div className="row">
+      <div className="col-md-6">
+        <div className="mb-3">
+          <label htmlFor="SoDienThoai" className="form-label">
+            Số điện thoại
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="SoDienThoai"
+            value={sdt}
+            onChange={(e) => setSdt(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="HoTen" className="form-label">
+            Họ và tên
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="HoTen"
+            value={hovaten}
+            onChange={(e) => setHovaten(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="Quyen" className="form-label">
+            Quyền
+          </label>
+          <select
+            className="form-select"
+            value={quyen}
+            onChange={(e) => setQuyen(Number(e.target.value))}
+          >
+            <option value="0">Người dùng</option>
+            <option value="1">Quản trị viên</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="DiaChi" className="form-label">
+            Địa chỉ
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="DiaChi"
+            value={diachi}
+            onChange={(e) => setDiachi(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="col-md-6">
+        <div className="mb-3">
+          <label htmlFor="ThuCung" className="form-label">
+            Thú cưng
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="ThuCung"
+            value={thucung}
+            onChange={(e) => setThucung(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="Email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="MatKhau" className="form-label">
+            Mật khẩu
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="MatKhau"
+            value={matkhau}
+            onChange={(e) => setMatkhau(e.target.value)}
+          />
+        </div>
+      </div>
+    </div>
+    <button type="submit" className="btn btn-primary">
+      Xác nhận
+    </button>
+  </form>
+</div>
+
         </div>
       </div>
     </div>
