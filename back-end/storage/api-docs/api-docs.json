@@ -4702,6 +4702,203 @@
                 }
             }
         },
+        "/api/users/doiMatKhau/{Mataikhoan}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Đổi mật khẩu người dùng",
+                "description": "Đổi mật khẩu cho người dùng bằng cách kiểm tra mật khẩu cũ",
+                "operationId": "1abdcde10f8eaf7553f710b187f275b1",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID tài khoản người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "OldPassword",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "OldPassword": {
+                                        "description": "Mật khẩu cũ",
+                                        "type": "string"
+                                    },
+                                    "Matkhau": {
+                                        "description": "Mật khẩu mới",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Đổi mật khẩu thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Đổi mật khẩu thành công!"
+                                        },
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Lỗi đầu vào",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mật khẩu cũ không đúng"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/updateAdmin/{Mataikhoan}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cập nhật thông tin người dùng cho admin",
+                "description": "Cập nhật thông tin người dùng",
+                "operationId": "8c5e09468e7de24c81c55644984dde3a",
+                "parameters": [
+                    {
+                        "name": "Mataikhoan",
+                        "in": "path",
+                        "description": "ID của người dùng",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "ThuCung",
+                                    "Hovaten",
+                                    "Email",
+                                    "DiaChi",
+                                    "SDT",
+                                    "Matkhau"
+                                ],
+                                "properties": {
+                                    "Hovaten": {
+                                        "type": "string",
+                                        "example": "Nguyen van A"
+                                    },
+                                    "Email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "naguyen@gmail.com"
+                                    },
+                                    "Quyen": {
+                                        "type": "string",
+                                        "format": "Quyen",
+                                        "example": "0"
+                                    },
+                                    "ThuCung": {
+                                        "type": "string",
+                                        "example": "Chó"
+                                    },
+                                    "SDT": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "DiaChi": {
+                                        "type": "string",
+                                        "example": "294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Người dùng đã được cập nhật thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cập nhật thành công"
+                                        },
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy người dùng"
+                    },
+                    "400": {
+                        "description": "Dữ liệu không hợp lệ"
+                    }
+                }
+            }
+        },
         "/api/users/show/{Mataikhoan}": {
             "get": {
                 "tags": [

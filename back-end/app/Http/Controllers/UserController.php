@@ -535,6 +535,171 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/users/doiMatKhau/{Mataikhoan}",
+     *     tags={"Users"},
+     *     summary="Đổi mật khẩu người dùng",
+     *     description="Đổi mật khẩu cho người dùng bằng cách kiểm tra mật khẩu cũ",
+     *     @OA\Parameter(
+     *         name="Mataikhoan",
+     *         in="path",
+     *         description="ID tài khoản người dùng",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"OldPassword", "Matkhau"},
+     *             @OA\Property(property="OldPassword", type="string", description="Mật khẩu cũ"),
+     *             @OA\Property(property="Matkhau", type="string", description="Mật khẩu mới")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đổi mật khẩu thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Đổi mật khẩu thành công!"),
+     *             @OA\Property(property="status", type="boolean", example=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Lỗi đầu vào",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Mật khẩu cũ không đúng")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy người dùng",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="User not found")
+     *         )
+     *     )
+     * )
+     */
+    public function doiMatKhau(Request $request, $Mataikhoan)
+    {
+        // Kiểm tra người dùng có tồn tại không
+        $user = User::find($Mataikhoan);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Validate dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'OldPassword' => 'required|string|max:255',
+            'Matkhau' => 'required|string|max:255|min:8|different:OldPassword', // Mật khẩu mới không trùng với mật khẩu cũ
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        // Kiểm tra mật khẩu cũ
+        if (!Hash::check($request->OldPassword, $user->Matkhau)) {
+            return response()->json(['message' => 'Mật khẩu cũ không đúng'], 400);
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->Matkhau = Hash::make($request->Matkhau);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Đổi mật khẩu thành công!',
+            'status' => true,
+        ], 200);
+    }
+
+
+
+    /**
+     * Cập nhật thông tin người dùng
+     * 
+     * @OA\Put(
+     *     path="/api/users/updateAdmin/{Mataikhoan}",
+     *     summary="Cập nhật thông tin người dùng cho admin",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="Mataikhoan",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID của người dùng"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"ThuCung", "Hovaten", "Email", "DiaChi", "SDT", "Matkhau",},
+     *             @OA\Property(property="Hovaten", type="string", example="Nguyen van A"),
+     *             @OA\Property(property="Email", type="string", format="email", example="naguyen@gmail.com"),
+     *             @OA\Property(property="Quyen", type="string", format="Quyen", example="0"),
+     *             @OA\Property(property="ThuCung", type="string", example="Chó"),
+     *             @OA\Property(property="SDT", type="string", example="0123456789"),
+     *             @OA\Property(property="DiaChi", type="string", example="294 -296 Đồng Đen - Quận Tân Bình - Hồ Chí Minh"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Người dùng đã được cập nhật thành công",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cập nhật thành công"),
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="user", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Không tìm thấy người dùng"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Dữ liệu không hợp lệ"
+     *     )
+     * )
+     */
+    public function updateAdmin(Request $request, $Mataikhoan)
+    {
+        // Kiểm tra người dùng có tồn tại không
+        $user = User::find($Mataikhoan);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Validate dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'Hovaten' => 'required|string|max:255',
+            'ThuCung' => 'required|string|max:255',
+            'SDT' => 'required|string|max:255',
+            'Quyen' => 'required|string|max:255',
+            'DiaChi' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        } else {
+            // Cập nhật thông tin người dùng
+            $user->Hovaten = $request->Hovaten;
+            $user->SDT = $request->SDT;
+            $user->Quyen = $request->Quyen;
+            $user->DiaChi = $request->DiaChi;
+            $user->Email = $request->Email;
+            $user->ThuCung = $request->ThuCung;
+
+            $user->save();
+
+            return response()->json([
+                'message' => 'Cập nhật tài khoản thành công!',
+                'status' => true,
+                'user' => $user
+            ], 200);
+        }
+    }
+
+    /**
      * @OA\Get(
      *     path="/api/users/show/{Mataikhoan}",
      *     tags={"Users"},
