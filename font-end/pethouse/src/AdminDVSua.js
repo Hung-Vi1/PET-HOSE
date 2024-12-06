@@ -20,7 +20,7 @@ function AdminDVSua() {
 
   // Lấy thông tin dịch vụ hiện tại
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/services/${maDichVu}`)
+    fetch(`http://localhost:8000/api/services/${maDichVu}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải thông tin dịch vụ");
@@ -212,94 +212,139 @@ function AdminDVSua() {
             </nav>
 
             <div className="container mt-3 mb-5">
-              <h1 className="text-capitalize">{TenSanPham}</h1>
-              {error && <p className="text-danger">{error}</p>}
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label className="form-label">Tên dịch vụ</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={TenSanPham}
-                    onChange={(e) => setTenSanPham(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Giá</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={GiaSP}
-                    onChange={(e) => setGiaSP(Number(e.target.value))}
-                    required
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Giảm giá (%)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={GiamGia}
-                    onChange={(e) => setGiamGia(Number(e.target.value))}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Mô tả</label>
-                  <textarea
-                    className="form-control"
-                    value={MoTa}
-                    onChange={(e) => setMoTa(e.target.value)}
-                    required
-                  ></textarea>
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Hình ảnh</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    accept="image/*"
-                    onChange={(e) => setHinhAnh(e.target.files[0])}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Danh mục</label>
-                  <select
-                    className="form-control"
-                    value={MaDanhMuc}
-                    onChange={(e) => setMaDanhMuc(Number(e.target.value))}
-                  >
-                    <option value={1}>Chó cảnh</option>
-                    <option value={2}>Mèo cảnh</option>
-                  </select>
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Trạng thái</label>
-                  <select
-                    className="form-control"
-                    value={TrangThai}
-                    onChange={(e) => setTrangThai(Number(e.target.value))}
-                  >
-                    <option value={1}>Hiện</option>
-                    <option value={2}>Ẩn</option>
-                  </select>
-                </div>
-
-                <button type="submit" className="btn btn-primary">
-                  Cập nhật
-                </button>
+              <div className="d-flex">
                 <Link
-                  to="/admindichvuchamsoc"
-                  className="btn btn-secondary ms-2"
+                  to={"/admindichvuchamsoc"}
+                  className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
                 >
-                  Quay lại
+                  <i className="bi bi-arrow-left"></i>
                 </Link>
+
+                <h1 className="text-capitalize">{TenSanPham}</h1>
+              </div>
+
+              {error && <p className="text-danger">{error}</p>}
+
+              <form onSubmit={handleSubmit}>
+                <div className="d-flex flex-wrap">
+                  <div className="col-md-8 px-0">
+                    <div className="d-flex flex-wrap me-3">
+                      <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                        <h5 className="mb-2 py-1">Thông tin dịch vụ</h5>
+
+                        <div className="mb-3">
+                          <label className="form-label">Tên dịch vụ</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={TenSanPham}
+                            onChange={(e) => setTenSanPham(e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div className="row">
+                          <div className="col-md">
+                            <label className="form-label">Danh mục</label>
+                            <select
+                              className="form-select"
+                              value={MaDanhMuc}
+                              onChange={(e) =>
+                                setMaDanhMuc(Number(e.target.value))
+                              }
+                            >
+                              <option value={1}>Chó cảnh</option>
+                              <option value={2}>Mèo cảnh</option>
+                            </select>
+                          </div>
+
+                          <div className="col-md">
+                            <label className="form-label">Trạng thái</label>
+                            <select
+                              className="form-select"
+                              value={TrangThai}
+                              onChange={(e) =>
+                                setTrangThai(Number(e.target.value))
+                              }
+                            >
+                              <option value={1}>Hiện</option>
+                              <option value={2}>Ẩn</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="mb-3">
+                          <label className="form-label">Mô tả</label>
+                          <textarea
+                            className="form-control"
+                            value={MoTa}
+                            onChange={(e) => setMoTa(e.target.value)}
+                            required
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md px-0">
+                    <div className="d-flex flex-wrap">
+                      <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                        <h5 className="mb-2 py-1">Ảnh dịch vụ</h5>
+
+                        <div className="text-center">
+                          <div className="d-flex justify-content-center py-2">
+                            <input
+                              type="file"
+                              className="form-control"
+                              accept="image/*"
+                              onChange={(e) => setHinhAnh(e.target.files[0])}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md border border-dark rounded-3 my-3 p-2">
+                        <h5 className="mb-2 py-1">Thông tin giá</h5>
+
+                        <div className="mb-3">
+                          <label className="form-label">Giá</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={GiaSP}
+                            onChange={(e) => setGiaSP(Number(e.target.value))}
+                            required
+                          />
+                        </div>
+
+                        <div className="mb-3">
+                          <label className="form-label">Giảm giá (%)</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={GiamGia}
+                            onChange={(e) => setGiamGia(Number(e.target.value))}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end">
+                  <Link
+                    to="/admindichvuchamsoc"
+                    className="btn btn-outline-danger me-2"
+                  >
+                    Hủy
+                  </Link>
+                  <button
+                    type="submit"
+                    className="btn btn-primary ms-2 my-auto"
+                  >
+                    Lưu
+                  </button>
+                </div>
               </form>
             </div>
           </div>
