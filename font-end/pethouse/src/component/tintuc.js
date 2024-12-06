@@ -74,24 +74,6 @@ function TinTuc() {
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                   {currentArticles.length > 0 ? (
                     currentArticles.map((article) => (
-<<<<<<< HEAD
-                      <article className="post clearfix" key={article.bai_viet}>
-                        <div className="featured-post">
-                          <img src={`http://localhost:8000/image/News/${article.Hinh}`} alt="hinh" style={{
-                            width: '400px',
-                            height: '300px',
-                            maxHeight: '300px',
-                            objectFit: 'cover'
-                          }}/>
-                        </div>
-                        <div className="content-post">
-                          <div className="title-post">
-                            <h2>
-                              <Link className="fw-bolder fs-5" to={`/chitiettintuc/${article.bai_viet}`}>
-                                {article.tieu_de}
-                              </Link>
-                            </h2>
-=======
                       <div className="col" key={article.bai_viet}>
                         <article className="post clearfix">
                           <div className="featured-post">
@@ -105,7 +87,6 @@ function TinTuc() {
                                 height: '200px', // Giới hạn chiều cao của hình ảnh
                               }}
                             />
->>>>>>> 771e55213539bf2e301bbca656bc11bdfe5e0e75
                           </div>
                           <div className="content-post mt-3">
                             <div className="title-post">
