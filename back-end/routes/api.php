@@ -67,6 +67,7 @@ Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy
 use App\Http\Controllers\OrderApiController;
 // Route để lấy danh sách đơn hàng
 Route::get('/orders', [OrderApiController::class, 'index']);
+Route::get('/order', [OrderApiController::class, 'indexs']);
 Route::get('/orders/{Mataikhoan}', [OrderApiController::class, 'orders']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
