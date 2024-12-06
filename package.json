@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^9.4.0",
     "formik": "^2.4.6",
     "jsonwebtoken": "^9.0.2",
     "yup": "^1.4.0"

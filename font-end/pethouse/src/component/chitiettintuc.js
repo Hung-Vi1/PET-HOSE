@@ -94,8 +94,9 @@ const ChiTietTinTuc = () => {
                     <p>{article.noi_dung}</p>
                   
                   </div>
-                  <div className="featured-post">
-                    <img src={`../image/News/${article.Hinh}`} alt="bài viết" />
+                  <div className="featured-post ">
+                  
+                    <img src={`http://localhost:8000/image/News/${article.Hinh}`} salt="bài viết" />
                   </div>
                   <div className="entry-post">
                     
@@ -123,7 +124,7 @@ const ChiTietTinTuc = () => {
                     <li key={related.bai_viet}>
                       <a href={`/chitiettintuc/${related.bai_viet}`}>
                         <img
-                          src={`../image/News/${related.Hinh}`}
+                          src={`http://localhost:8000/image/News/${related.Hinh}`}
                           alt={related.tieu_de}
                           style={{ width: '100%', height: 'auto', marginBottom: '5px' }}
                         />

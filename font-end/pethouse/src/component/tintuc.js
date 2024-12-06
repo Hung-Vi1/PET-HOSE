@@ -76,7 +76,7 @@ function TinTuc() {
                     currentArticles.map((article) => (
                       <article className="post clearfix" key={article.bai_viet}>
                         <div className="featured-post">
-                          <img src={`image/News/${article.Hinh}`} alt="hinh" style={{
+                          <img src={`http://localhost:8000/image/News/${article.Hinh}`} alt="hinh" style={{
                             width: '400px',
                             height: '300px',
                             maxHeight: '300px',
