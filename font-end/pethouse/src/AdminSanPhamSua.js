@@ -18,7 +18,6 @@ function AdminSanPhamSua() {
   const [danhMuc, setDanhMuc] = useState([]);
   const [trangThai, setTrangThai] = useState(0); // Mặc định là Hiện (1)
 
-
   useEffect(() => {
     // Lấy thông tin sản phẩm hiện tại
     fetch(`http://localhost:8000/api/products/${ma_san_pham}`)
@@ -34,7 +33,7 @@ function AdminSanPhamSua() {
           setGiamGia(sp.giam_gia);
           setHinhAnh(sp.hinh_anh);
           setTrangThai(sp.trang_thai);
-          setImagePreview(`http://localhost:8000/storage/${sp.hinh_anh}`);
+          setImagePreview(`http://localhost:8000/image/product/${sp.hinh_anh}`);
         } else {
           setError(data.message);
         }
@@ -60,8 +59,8 @@ function AdminSanPhamSua() {
     const file = e.target.files[0];
     if (file) {
       // Kiểm tra loại tệp là hình ảnh
-      const fileType = file.type.split('/')[0]; // Lấy phần loại tệp trước "/"
-      if (fileType === 'image') {
+      const fileType = file.type.split("/")[0]; // Lấy phần loại tệp trước "/"
+      if (fileType === "image") {
         setHinhAnh(file);
         // Chuyển đổi hình ảnh thành base64
         const reader = new FileReader();
@@ -70,11 +69,10 @@ function AdminSanPhamSua() {
         };
         reader.readAsDataURL(file);
       } else {
-        setError('File phải là hình ảnh!');
+        setError("File phải là hình ảnh!");
       }
     }
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +86,7 @@ function AdminSanPhamSua() {
     formData.append("GiamGia", giamGia);
     formData.append("MoTa", moTa);
     formData.append("SoLuong", soLuong);
-    formData.append("TrangThai", trangThai);  // Gửi trạng thái (0 hoặc 1)
+    formData.append("TrangThai", trangThai); // Gửi trạng thái (0 hoặc 1)
 
     if (hinhAnh) {
       formData.append("HinhAnh", hinhAnh); // Gửi file ảnh
@@ -109,14 +107,8 @@ function AdminSanPhamSua() {
       .catch((error) => setError(error.message));
   };
 
-
-
-
-
-
-
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -257,8 +249,8 @@ function AdminSanPhamSua() {
             </div>
           </nav>
 
-          <div className="container  mt-4 mb-5 ms-3 p-2 border border-black rounded">
-            <div className="d-flex align-items-center">
+          <div className="container mt-3 mb-5">
+            <div className="d-flex">
               <Link
                 to={"/adminsanpham"}
                 className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3 float-left"
@@ -269,137 +261,179 @@ function AdminSanPhamSua() {
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}
-            {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            {successMessage && (
+              <div className="alert alert-success">{successMessage}</div>
+            )}
+
             <form onSubmit={handleSubmit}>
-              {/* Dòng 1 (Tên sản phẩm và Mã danh mục) */}
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={tenSanPham}
-                      onChange={(e) => setTenSanPham(e.target.value)}
-                      required
-                    />
+              <div className="d-flex flex-wrap">
+                <div className="col-md-8 px-0">
+                  <div className="d-flex flex-wrap me-3">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin sản phẩm</h5>
+
+                      <div className="mb-3">
+                        <div className="form-group">
+                          <label>Tên sản phẩm</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={tenSanPham}
+                            onChange={(e) => setTenSanPham(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-md">
+                          <div className="form-group">
+                            <label>Mã danh mục</label>
+                            <select
+                              className="form-select"
+                              value={ma_danh_muc}
+                              onChange={(e) => setMaDanhMuc(e.target.value)}
+                              required
+                            >
+                              {danhMuc.map((dm) => (
+                                <option
+                                  key={dm.ma_danh_muc}
+                                  value={dm.ma_danh_muc}
+                                >
+                                  {dm.ten_danh_muc}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="col-md-2">
+                          <div className="form-group">
+                            <label>Số lượng</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={soLuong}
+                              onChange={(e) => setSoLuong(e.target.value)}
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md-2">
+                          <div className="form-group">
+                            <label>Trạng thái</label>
+                            <select
+                              className="form-select"
+                              value={trangThai}
+                              onChange={(e) => setTrangThai(e.target.value)}
+                              required
+                            >
+                              <option value="1">Hiện</option>
+                              <option value="0">Ẩn</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <div className="form-group">
+                          <label>Mô tả</label>
+                          <textarea
+                            className="form-control"
+                            value={moTa}
+                            onChange={(e) => setMoTa(e.target.value)}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Mã danh mục</label>
-                    <select
-                      className="form-control"
-                      value={ma_danh_muc}
-                      onChange={(e) => setMaDanhMuc(e.target.value)}
-                      required
-                    >
-                      {danhMuc.map((dm) => (
-                        <option key={dm.ma_danh_muc} value={dm.ma_danh_muc}>
-                          {dm.ten_danh_muc}
-                        </option>
-                      ))}
-                    </select>
+
+                <div className="col-md px-0">
+                  <div className="d-flex flex-wrap">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Ảnh sản phẩm</h5>
+
+                      <div className="text-center">
+                        <div className="d-flex justify-content-center py-2">
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleFileChange}
+                          />
+                        </div>
+
+                        {imagePreview && (
+                          <div className="mt-3">
+                            <img
+                              src={imagePreview}
+                              alt={imagePreview}
+                              className="img-preview"
+                              style={{
+                                maxWidth: "80%",
+                                // height: "auto",
+                                // maxHeight: "200px",
+                                marginBottom: "10px",
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-md-12 px-0">
+                  <div className="d-flex flex-wrap">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin giá</h5>
+
+                      <div className="row">
+                        <div className="col-md">
+                          <div className="form-group">
+                            <label>Giá sản phẩm</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={gia}
+                              onChange={(e) => setGia(e.target.value)}
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md">
+                          <div className="form-group">
+                            <label>Giá khuyến mãi</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={giamGia}
+                              onChange={(e) => setGiamGia(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Dòng 2 (Mô tả và Số lượng) */}
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Mô tả</label>
-                    <textarea
-                      className="form-control"
-                      value={moTa}
-                      onChange={(e) => setMoTa(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Số lượng</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={soLuong}
-                      onChange={(e) => setSoLuong(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
+              <div className="d-flex justify-content-end">
+                <Link
+                  to={"/adminsanpham"}
+                  type="button"
+                  className="btn btn-outline-danger me-2"
+                >
+                  Hủy
+                </Link>
+
+                <button type="submit" className="btn btn-primary ms-2 my-auto">
+                  Cập nhật
+                </button>
               </div>
-
-              {/* Dòng 3 (Giá sản phẩm và Giá khuyến mãi) */}
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Giá sản phẩm</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={gia}
-                      onChange={(e) => setGia(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Giá khuyến mãi</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      value={giamGia}
-                      onChange={(e) => setGiamGia(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Dòng 4 (Trạng thái) */}
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Trạng thái</label>
-                    <select
-                      className="form-control"
-                      value={trangThai}
-                      onChange={(e) => setTrangThai(e.target.value)}
-                      required
-                    >
-                      <option value="1">Hiện</option>
-                      <option value="0">Ẩn</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-
-              {/* Dòng 5 (Hình ảnh) */}
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label>Hình ảnh</label>
-                    <input type="file" onChange={handleFileChange} />
-                    {imagePreview && (
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="img-preview"
-                        style={{ maxWidth: '100%', height: 'auto', maxHeight: '200px', marginTop: '10px' }}
-                      />
-                    )}
-                    {error && <div className="alert alert-danger">{error}</div>}
-                  </div>
-                </div>
-              </div>
-
-              {/* Nút submit */}
-              <button type="submit" className="btn btn-primary">
-                Cập nhật
-              </button>
             </form>
           </div>
         </div>
