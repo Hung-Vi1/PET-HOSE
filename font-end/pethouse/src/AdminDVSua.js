@@ -16,6 +16,7 @@ function AdminDVSua() {
   const [MaDanhMuc, setMaDanhMuc] = useState(1);
   const [TrangThai, setTrangThai] = useState(1);
   const [TenDanhMuc, setTenDanhMuc] = useState(""); // Thêm để lưu tên danh mục
+  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
   // Lấy thông tin dịch vụ hiện tại
@@ -38,6 +39,11 @@ function AdminDVSua() {
           setTrangThai(service.trang_thai || 1);
           setTenDanhMuc(service.tenDM || ""); // Cập nhật tên danh mục
           setHinhAnh(service.hinh_anh || null); // Lưu tên hình ảnh (nếu có)
+
+          // Cập nhật preview hình ảnh
+          if (service.hinh_anh) {
+            setImagePreview(`http://localhost:8000/image/product/${service.hinh_anh}`); // Đường dẫn đến hình ảnh
+          }
         }
       })
       .catch(() => setError("Lỗi khi tải thông tin dịch vụ"));
@@ -70,9 +76,14 @@ function AdminDVSua() {
         }
         return res.json();
       })
-      .then(() => {
-        alert("Cập nhật thành công!");
-        navigate("/admindichvuchamsoc");
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Cập nhật thành công!");
+          setImagePreview(`http://localhost:8000/${data.Hinh}`);
+          navigate("/admindichvuchamsoc");
+        } else {
+          throw new Error(data.message || "Có lỗi xảy ra");
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -297,9 +308,28 @@ function AdminDVSua() {
                               type="file"
                               className="form-control"
                               accept="image/*"
-                              onChange={(e) => setHinhAnh(e.target.files[0])}
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  setHinhAnh(file);
+                                  setImagePreview(URL.createObjectURL(file)); // Tạo URL cho hình ảnh
+                                }
+                              }}
                             />
                           </div>
+                          {imagePreview && (
+                            <div className="mt-3">
+                              <img
+                                src={imagePreview} // Sử dụng imagePreview để hiển thị
+                                alt="Preview"
+                                style={{
+                                  width: "100%",
+                                  height: "250px",
+                                  borderRadius: "5px",
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
 

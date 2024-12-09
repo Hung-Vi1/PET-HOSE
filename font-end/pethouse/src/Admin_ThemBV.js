@@ -267,6 +267,7 @@ function Admin_Thembv() {
                   <div className="d-flex flex-wrap">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Ảnh tin tức</h5>
+
                       <div className="text-center">
                         <div className="d-flex justify-content-center py-2">
                           <input

@@ -13,6 +13,7 @@ function AdminDVThem() {
   const [mo_ta, setMoTa] = useState("");
   const [hinh_anh, setHinhAnh] = useState("");
   const [maDanhMuc, setMaDanhMuc] = useState(1); // Mặc định là danh mục "Chó cảnh"
+  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
   const handleSubmit = (e) => {
@@ -48,6 +49,7 @@ function AdminDVThem() {
           setMoTa("");
           setHinhAnh(null);
           setMaDanhMuc(1); // Reset về mặc định
+          setImagePreview(`http://localhost:8000/${data.Hinh}`);
           navigate("/admindichvuchamsoc"); // Chuyển hướng về trang danh sách dịch vụ
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
@@ -190,82 +192,146 @@ function AdminDVThem() {
           </nav>
 
           <div className="container mt-3 mb-5">
-            <h1 className="mb-0">Thêm dịch vụ</h1>
+            <div className="d-flex">
+              <Link
+                to={"/admindichvuchamsoc"}
+                className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
+              >
+                <i className="bi bi-arrow-left"></i>
+              </Link>
+
+              <h1 className="mb-0">Thêm dịch vụ</h1>
+            </div>
+
             {error && <p className="text-danger">{error}</p>}
 
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label className="form-label">Tên dịch vụ</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={ten_dich_vu}
-                  onChange={(e) => setTenDichVu(e.target.value)}
-                  required
-                />
-              </div>
+              <div className="d-flex flex-wrap">
+                <div className="col-md-8 px-0">
+                  <div className="d-flex flex-wrap me-3">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin dịch vụ</h5>
 
-              <div className="row">
-                <div className="col-md">
-                  <label className="form-label">Giá dịch vụ</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={gia}
-                    onChange={(e) => setGia(Number(e.target.value))}
-                    required
-                  />
+                      <div className="mb-3">
+                        <label className="form-label">Tên dịch vụ</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={ten_dich_vu}
+                          onChange={(e) => setTenDichVu(e.target.value)}
+                          required
+                        />
+                      </div>
+
+                      <div className="row">
+                        <div className="col-md">
+                          <label className="form-label">Danh mục</label>
+                          <select
+                            className="form-control"
+                            value={maDanhMuc}
+                            onChange={(e) =>
+                              setMaDanhMuc(Number(e.target.value))
+                            }
+                            required
+                          >
+                            <option value={1}>Chó cảnh</option>
+                            <option value={2}>Mèo cảnh</option>
+                          </select>
+                        </div>
+
+                        <div className="col-md">
+                          <label className="form-label">Trạng thái</label>
+                          <select className="form-control" disabled>
+                            <option>Hiện</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label">Mô tả dịch vụ</label>
+                        <textarea
+                          className="form-control"
+                          value={mo_ta}
+                          onChange={(e) => setMoTa(e.target.value)}
+                          required
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="col-md">
-                  <label className="form-label">Giảm giá (%)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={giam_gia}
-                    onChange={(e) => setGiamGia(Number(e.target.value))}
-                  />
-                </div>
-              </div>
+                <div className="col-md px-0">
+                  <div className="d-flex flex-wrap">
+                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Ảnh dịch vụ</h5>
 
-              <div className="row">
-                <div className="col-md">
-                  <label className="form-label">Ảnh dịch vụ</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    accept="image/*"
-                    onChange={(e) => setHinhAnh(e.target.files[0])}
-                    required
-                  />
-                </div>
+                      <div className="text-center">
+                        <div className="d-flex justify-content-center py-2">
+                          <input
+                            type="file"
+                            className="form-control"
+                            accept="image/*"
+                            onChange={(e) => {
+                              setHinhAnh(e.target.files[0]);
+                              setImagePreview(
+                                URL.createObjectURL(e.target.files[0])
+                              );
+                            }}
+                            required
+                          />
+                        </div>
+                        {imagePreview && (
+                          <div className="mt-3">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "250px",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                <div className="col-md">
-                  <label className="form-label">Danh mục</label>
-                  <select
-                    className="form-control"
-                    value={maDanhMuc}
-                    onChange={(e) => setMaDanhMuc(Number(e.target.value))}
-                    required
-                  >
-                    <option value={1}>Chó cảnh</option>
-                    <option value={2}>Mèo cảnh</option>
-                  </select>
-                </div>
-              </div>
+                    <div className="col-md border border-dark rounded-3 my-3 p-2">
+                      <h5 className="mb-2 py-1">Thông tin giá</h5>
 
-              <div className="mb-3">
-                <label className="form-label">Mô tả dịch vụ</label>
-                <textarea
-                  className="form-control"
-                  value={mo_ta}
-                  onChange={(e) => setMoTa(e.target.value)}
-                  required
-                ></textarea>
+                      <div className="mb-3">
+                        <label className="form-label">Giá dịch vụ</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          value={gia}
+                          onChange={(e) => setGia(Number(e.target.value))}
+                          required
+                        />
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label">Giảm giá (%)</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          value={giam_gia}
+                          onChange={(e) => setGiamGia(Number(e.target.value))}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="d-flex justify-content-end">
-                <button type="submit" className="btn btn-primary">
+                <Link
+                  to="/admindichvuchamsoc"
+                  className="btn btn-outline-danger me-2"
+                >
+                  Hủy
+                </Link>
+                <button type="submit" className="btn btn-primary ms-2 my-auto">
                   Thêm dịch vụ
                 </button>
               </div>
