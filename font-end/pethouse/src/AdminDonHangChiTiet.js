@@ -19,13 +19,21 @@ function AdminDonHangChiTiet() {
   const [ghiChu, setGhiChu] = useState("");
   const [sanPhamDetails, setSanPhamDetails] = useState([]);
 
+  const [orderDetails, setOrderDetails] = useState([]);
+
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   // const [order, setOrder] = useState(null); // State để lưu thông tin đơn hàng
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`)
+    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then((res) => {
+
         if (!res.ok) {
           throw new Error("Không thể lấy thông tin đơn hàng");
         }
@@ -41,7 +49,10 @@ function AdminDonHangChiTiet() {
           setPttt(dh.PTTT);
           setGhiChu(dh.GhiChu);
           setSanPhamDetails(data.data); // Lưu tất cả chi tiết sản phẩm
-        } else {
+          setOrderDetails(data.data);
+        }
+
+        else {
           throw new Error(data.message);
         }
       })
@@ -286,10 +297,10 @@ function AdminDonHangChiTiet() {
                         <select
                           type="number"
                           className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
+                        // value={trang_thai}
+                        // onChange={(e) =>
+                        //   setTrangThai(Number(e.target.value))
+                        // }
                         >
                           <option value="0">Chờ xác nhận</option>
                           <option value="1">Đang xử lý</option>
@@ -336,7 +347,28 @@ function AdminDonHangChiTiet() {
                     </thead>
 
                     <tbody>
-                      <tr>
+                      {orderDetails.map((detail, index) => (
+                        <tr key={detail.MaCTDH}>
+                          <td className="text-center">{index + 1}</td>
+                          <td style={{ width: "6%" }}>
+                            <img
+                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              alt={detail.SanPham.TenSP}
+                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                            />
+                          </td>
+                          <td>{detail.SanPham.TenSP}</td>
+                          <td className="text-center">{detail.SoLuong}</td>
+                          <td className="text-end">
+                            {detail.DonGia.toLocaleString()} VND
+                          </td>
+                          <td className="text-end">
+                          {(detail.SoLuong * detail.DonGia).toLocaleString()} VND
+                          </td>
+                        </tr>
+                      ))}
+
+                      {/* <tr>
                         <td className="text-center">1</td>
                         <td style={{ width: "6%" }}>
                           <img
@@ -359,9 +391,9 @@ function AdminDonHangChiTiet() {
                             currency: "VND",
                           })}
                         </td>
-                      </tr>
+                      </tr> */}
 
-                      <tr>
+                      {/* <tr>
                         <td className="text-center">2</td>
                         <td style={{ width: "6%" }}>
                           <img
@@ -384,9 +416,9 @@ function AdminDonHangChiTiet() {
                             currency: "VND",
                           })}
                         </td>
-                      </tr>
+                      </tr> */}
 
-                      <tr>
+                      {/* <tr>
                         <td className="text-center">3</td>
                         <td style={{ width: "6%" }}>
                           <img
@@ -409,7 +441,7 @@ function AdminDonHangChiTiet() {
                             currency: "VND",
                           })}
                         </td>
-                      </tr>
+                      </tr> */}
                     </tbody>
 
                     <tfoot>
