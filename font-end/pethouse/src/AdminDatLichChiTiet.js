@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import "./App.css";
 import { useAuth } from "./contexts/AuthContext";
-// Định dạng ngày giờ
-// import { format } from "date-fns";
-// import { vi } from "date-fns/locale";
-// In hóa đơn
-import Invoice from "./Invoice";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 
-function AdminDonHangChiTiet() {
+
+
+function AdminDatLichChiTiet() {
   const { ma_don_hang } = useParams();
   const [ngayDat, setNgayDat] = useState("");
   const [hoTen, setHoTen] = useState("");
@@ -17,12 +13,12 @@ function AdminDonHangChiTiet() {
   const [diaChi, setDiaChi] = useState("");
   const [pttt, setPttt] = useState("");
   const [ghiChu, setGhiChu] = useState("");
-  const [sanPhamDetails, setSanPhamDetails] = useState([]);
+  const [DichvuDetails, setDichvuDetails] = useState([]);
 
 
 
   const calculateTotal = () => {
-    return sanPhamDetails.reduce((total, detail) => {
+    return DichvuDetails.reduce((total, detail) => {
       return total + detail.SoLuong * detail.DonGia;
     }, 0); // Bắt đầu với tổng bằng 0
   };
@@ -32,7 +28,7 @@ function AdminDonHangChiTiet() {
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`, {
+    fetch(`http://localhost:8000/api/orderDetailServices/${ma_don_hang}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +50,7 @@ function AdminDonHangChiTiet() {
           setDiaChi(dh.DiaChi);
           setPttt(dh.PTTT);
           setGhiChu(dh.GhiChu);
-          setSanPhamDetails(data.data); // Lưu tất cả chi tiết sản phẩm
+          setDichvuDetails(data.data); // Lưu tất cả chi tiết sản phẩm
 
         }
 
@@ -122,13 +118,13 @@ function AdminDonHangChiTiet() {
             </Link>
             <Link
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-0"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
             <Link
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-0 active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
@@ -225,12 +221,12 @@ function AdminDonHangChiTiet() {
                 </Link>
               </div>
               <div className="col-md-auto">
-                <h1 className="mb-0">#{ma_don_hang}</h1>
+                <h1 className="mb-0">Chi tiết đơn đặt lịch #{ma_don_hang}</h1>
               </div>
               <div className="col-md-auto ms-auto px-3">
                 <Link
                   className="text-success"
-                  to={`/admindonhangsua/${ma_don_hang}`}
+                  to={`/admindatlichsua/${ma_don_hang}`}
                 >
                   <strong>
                     <i className="bi bi-pencil-square"></i> Sửa đơn
@@ -344,27 +340,28 @@ function AdminDonHangChiTiet() {
                       <tr>
                         <th className="text-center fw-bold">STT</th>
                         <th colSpan={2} className="fw-bold w-50">
-                          Sản phẩm
+                          Dịch vụ
                         </th>
-                        <th className="text-center fw-bold">Số lượng</th>
+                        
+                        <th className="text-center fw-bold">Ngày hẹn</th>
                         <th className="text-end fw-bold">Đơn giá</th>
                         <th className="text-end fw-bold">Thành tiền</th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {sanPhamDetails.map((detail, index) => (
+                      {DichvuDetails.map((detail, index) => (
                         <tr key={detail.MaCTDH}>
                           <td className="text-center">{index + 1}</td>
-                          <td style={{ width: "6%" }}>
+                          <td style={{ width: "10%" }}>
                             <img
                               src={`../image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
-                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                              style={{ width: '100px', height: '100px'}}
                             />
                           </td>
-                          <td>{detail.SanPham.TenSP}</td>
-                          <td className="text-center">{detail.SoLuong}</td>
+                          <td  style={{ width: "15%" }} className="text-center" >{detail.SanPham.TenSP}</td>
+                          <td className="text-center">{detail.NgayGiao}</td>
                           <td className="text-end">
                             {detail.DonGia.toLocaleString()} VND
                           </td>
@@ -408,4 +405,4 @@ function AdminDonHangChiTiet() {
   );
 }
 
-export default AdminDonHangChiTiet;
+export default AdminDatLichChiTiet;

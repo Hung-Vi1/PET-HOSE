@@ -482,7 +482,7 @@ class OrderApiController extends Controller
                 'SDT' => 'required|regex:/^[0-9]{10}$/',
                 'DiaChi' => 'required',
                 'PTTT' => 'required',
-                'GhiChu' => 'required',
+                
                 'TrangThai' => 'required|in:cho_xac_nhan,dang_xu_ly,hoan_thanh,huy',
                 'NgayGiao' => 'required|date'
             ], [
@@ -493,7 +493,7 @@ class OrderApiController extends Controller
                 'SDT.regex' => 'Số điện thoại phải gồm 10 chữ số',
                 'DiaChi.required' => 'Vui lòng nhập địa chỉ',
                 'PTTT.required' => 'Vui lòng nhập phương thức thanh toán',
-                'GhiChu.required' => 'Vui lòng nhập ghi chú',
+               
                 'TrangThai.required' => 'Vui lòng nhập trạng thái',
                 'TrangThai.in' => 'Trạng thái phải là: cho_xac_nhan, dang_xu_ly, hoan_thanh, huy',
                 'NgayGiao.required' => 'Vui lòng nhập ngày giao',
