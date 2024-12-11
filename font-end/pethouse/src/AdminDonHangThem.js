@@ -395,13 +395,15 @@
 // export default AdminDonHangThem;
 
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 
 function AdminDonHangThem() {
   const [accounts, setAccounts] = useState([]);
   const [products, setProducts] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState("");
+  const [selectedAccountInfo, setSelectedAccountInfo] = useState({});
   const [orderItems, setOrderItems] = useState([]);
-  const [selectedProductId, setSelectedProductId] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("Chuyển khoản");
   const [note, setNote] = useState("");
   const [error, setError] = useState(null);
@@ -441,33 +443,47 @@ function AdminDonHangThem() {
       .catch((error) => setError(error.message));
   }, []);
 
-  // Cập nhật sản phẩm đã chọn
-  const handleProductChange = (e) => {
-    const productId = e.target.value;
+  // Cập nhật thông tin tài khoản khi chọn tài khoản
+  const handleAccountChange = (selectedOption) => {
+    if (selectedOption) {
+      const account = accounts.find(
+        (acc) => acc.ma_tai_khoan === selectedOption.value
+      );
+      if (account) {
+        setSelectedAccount(account.ma_tai_khoan);
+        setSelectedAccountInfo(account);
+      }
+    } else {
+      setSelectedAccount("");
+      setSelectedAccountInfo({});
+    }
+  };
 
-    if (productId) {
+  // Cập nhật sản phẩm đã chọn
+  const handleProductChange = (selectedOption) => {
+    if (selectedOption) {
       const existingIndex = orderItems.findIndex(
-        (item) => item.productId === productId
+        (item) => item.productId === Number(selectedOption.value)
       );
 
       if (existingIndex !== -1) {
-        // Nếu sản phẩm đã tồn tại, tăng số lượng lên 1
         const newItems = [...orderItems];
         newItems[existingIndex].quantity += 1;
         setOrderItems(newItems);
       } else {
-        // Nếu sản phẩm chưa tồn tại, thêm sản phẩm mới vào bảng
-        setOrderItems([...orderItems, { productId, quantity: 1 }]);
+        setOrderItems([
+          ...orderItems,
+          { productId: Number(selectedOption.value), quantity: 1 },
+        ]);
       }
-      // Giữ lại giá trị đã chọn
-      setSelectedProductId(productId);
+      setSelectedProduct(selectedOption);
     }
   };
 
   // Cập nhật số lượng sản phẩm
   const handleQuantityChange = (index, value) => {
     const newItems = [...orderItems];
-    newItems[index].quantity = value;
+    newItems[index].quantity = Number(value);
     setOrderItems(newItems);
   };
 
@@ -480,9 +496,7 @@ function AdminDonHangThem() {
   // Tính tổng giá trị đơn hàng
   const calculateTotal = () => {
     return orderItems.reduce((total, item) => {
-      const product = products.find(
-        (p) => p.ma_san_pham.toString() === item.productId
-      );
+      const product = products.find((p) => p.ma_san_pham === item.productId);
       return total + (product ? Number(product.gia) * item.quantity : 0);
     }, 0);
   };
@@ -496,6 +510,7 @@ function AdminDonHangThem() {
       return;
     }
 
+    // Đặt trạng thái đơn hàng là "Chờ xác nhận" mặc định
     const orderData = {
       Mataikhoan: selectedAccount,
       PTTT: paymentMethod,
@@ -504,6 +519,7 @@ function AdminDonHangThem() {
         MaSP: item.productId,
         SoLuong: item.quantity,
       })),
+      TrangThai: "cho_xac_nhan", // Trạng thái mặc định
     };
 
     fetch("http://localhost:8000/api/orders", {
@@ -522,16 +538,23 @@ function AdminDonHangThem() {
       .then((data) => {
         if (data.status === "success") {
           setSuccessMessage("Thêm đơn hàng thành công!");
-          setSelectedAccount(null);
-          setOrderItems([]); // Reset bảng sản phẩm
-          setSelectedProductId(""); // Reset ô chọn sản phẩm
+          setSelectedAccount("");
+          setOrderItems([]);
+          setSelectedProduct(null);
           setPaymentMethod("Chuyển khoản");
           setNote("");
+          setSelectedAccountInfo({});
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
         }
       })
       .catch((error) => setError(error.message));
+  };
+
+  // Hàm lọc tùy chọn
+  const filterAccountOptions = (option, inputValue) => {
+    const { label } = option;
+    return label.toLowerCase().includes(inputValue.toLowerCase());
   };
 
   return (
@@ -546,18 +569,56 @@ function AdminDonHangThem() {
           <label htmlFor="account" className="form-label">
             Tài Khoản
           </label>
-          <select
+          <Select
             id="account"
+            options={accounts.map((account) => ({
+              value: account.ma_tai_khoan,
+              label: `${account.ten_tai_khoan} - ${account.so_dien_thoai}`,
+            }))}
+            onChange={handleAccountChange}
+            isClearable
+            filterOption={filterAccountOptions}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="phone" className="form-label">
+            Số điện thoại
+          </label>
+          <input
+            type="text"
+            id="phone"
+            className="form-control"
+            value={selectedAccountInfo.so_dien_thoai || ""}
+            readOnly
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="address" className="form-label">
+            Địa chỉ
+          </label>
+          <input
+            type="text"
+            id="address"
+            className="form-control"
+            value={selectedAccountInfo.dia_chi || ""}
+            readOnly
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="paymentMethod" className="form-label">
+            Phương Thức Thanh Toán
+          </label>
+          <select
+            id="paymentMethod"
             className="form-select"
-            onChange={(e) => setSelectedAccount(e.target.value)}
-            required
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
           >
-            <option value="">Chọn tài khoản</option>
-            {accounts.map((account) => (
-              <option key={account.ma_tai_khoan} value={account.ma_tai_khoan}>
-                {account.ten_tai_khoan} - {account.so_dien_thoai}
-              </option>
-            ))}
+            <option value="Chuyển khoản">Chuyển khoản</option>
+            <option value="Tiền mặt">Tiền mặt</option>
           </select>
         </div>
 
@@ -565,20 +626,16 @@ function AdminDonHangThem() {
           <label htmlFor="product" className="form-label">
             Chọn Sản Phẩm
           </label>
-          <select
+          <Select
             id="product"
-            className="form-select"
-            value={selectedProductId}
+            options={products.map((product) => ({
+              value: product.ma_san_pham,
+              label: `${product.ten_san_pham} - ${product.gia} VNĐ`,
+            }))}
+            value={selectedProduct}
             onChange={handleProductChange}
-            required
-          >
-            <option value="">Chọn sản phẩm</option>
-            {products.map((product) => (
-              <option key={product.ma_san_pham} value={product.ma_san_pham}>
-                {product.ten_san_pham} - {product.gia} VNĐ
-              </option>
-            ))}
-          </select>
+            isClearable
+          />
         </div>
 
         <table className="table mt-3">
@@ -595,9 +652,9 @@ function AdminDonHangThem() {
           <tbody>
             {orderItems.map((item, index) => {
               const product = products.find(
-                (p) => p.ma_san_pham.toString() === item.productId
+                (p) => p.ma_san_pham === item.productId
               );
-              const price = product ? Number(product.gia) : 0; // Chuyển đổi giá sang số
+              const price = product ? Number(product.gia) : 0;
               const totalPrice = price * item.quantity;
 
               return (
