@@ -483,7 +483,7 @@ class OrderApiController extends Controller
                 'DiaChi' => 'required',
                 'PTTT' => 'required',
                 
-                'TrangThai' => 'required|in:cho_xac_nhan,dang_xu_ly,hoan_thanh,huy',
+                'TrangThai' => 'required|in:cho_xac_nhan,da_xac_nhan,da_thanh_toan,hoan_thanh,huy',
                 'NgayGiao' => 'required|date'
             ], [
                 'Ten.required' => 'Vui lòng nhập Tên',
