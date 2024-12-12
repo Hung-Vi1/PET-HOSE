@@ -107,6 +107,8 @@ function ThanhToan() {
     }
   };
 
+
+
   const handleSubmit = async () => {
     if (!userData.Mataikhoan || !userData.name || !userData.phone || !userData.address) {
       alert("Vui lòng điền đầy đủ thông tin.");
@@ -115,7 +117,13 @@ function ThanhToan() {
 
     const orderData = {
       Mataikhoan: userData.Mataikhoan,
-      PTTT: formData.paymentMethod === "cod" ? "Ship COD" : "VNPAY",
+      PTTT:
+        formData.paymentMethod === "cod"
+          ? "Ship COD"
+          : formData.paymentMethod === "vnpay"
+            ? "VNPAY"
+            : "MOMO",
+
       GhiChu: formData.note,
       TongTien: calculateTotal(), // Tổng tiền sau khi trừ giảm giá
       Discount: discount, // Giá trị giảm giá
@@ -148,7 +156,7 @@ function ThanhToan() {
         } else {
           alert("Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại.");
         }
-      } else if (formData.paymentMethod === "bank") {
+      } else if (formData.paymentMethod === "vnpay") {
         // Call VNPAY API if the payment method is VNPAY
         const response = await fetch("http://127.0.0.1:8000/api/Store/VnPay", {
           method: "POST",
@@ -170,6 +178,39 @@ function ThanhToan() {
           window.location.href = result.url; // Điều hướng người dùng đến URL thanh toán của VNPAY
         } else {
           alert("Lỗi khi kết nối với VNPAY. Vui lòng thử lại.");
+        }
+
+      } else if (formData.paymentMethod === "momo") {
+        const response = await fetch("http://127.0.0.1:8000/api/Store/MOMO", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        });
+
+        const result = await response.json();
+        console.log("Response status:", response.status);
+        console.log("Response data:", result);
+
+
+        if (response.ok && result.status === "success") {
+          sessionStorage.removeItem("cart");
+          setCart([]);
+
+          const payUrl = result.url?.payUrl; // Truy xuất payUrl từ đối tượng url
+          if (payUrl) {
+            // Xóa giỏ hàng và điều hướng đến URL thanh toán của MoMo
+            sessionStorage.removeItem("cart");
+            const event = new Event("cartUpdated");
+            window.dispatchEvent(event);
+            setCart([]);
+            window.location.href = payUrl;
+          } else {
+            alert("Không nhận được URL thanh toán từ MoMo. Vui lòng thử lại.");
+          }
+        } else {
+          alert("Lỗi khi kết nối với MoMo. Vui lòng thử lại.");
         }
 
       }
@@ -345,7 +386,8 @@ function ThanhToan() {
               onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
             >
               <option value="cod">Ship COD</option>
-              <option value="bank">Thanh toán VNPAY</option>
+              <option value="vnpay">Thanh toán VNPAY</option>
+              <option value="momo">Thanh toán MoMo</option>
             </select>
           </div>
         </div>

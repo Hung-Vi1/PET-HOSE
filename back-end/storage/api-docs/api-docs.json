@@ -1693,6 +1693,168 @@
                 }
             }
         },
+        "/api/Store/MOMO": {
+            "post": {
+                "tags": [
+                    "MoMo"
+                ],
+                "summary": "Tạo yêu cầu thanh toán qua MoMo",
+                "operationId": "9a990cfb2acd0d3c76397273086d5059",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "Mataikhoan",
+                                    "PTTT",
+                                    "chi_tiet"
+                                ],
+                                "properties": {
+                                    "Mataikhoan": {
+                                        "description": "Mã tài khoản của người dùng",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "PTTT": {
+                                        "description": "Phương thức thanh toán",
+                                        "type": "string",
+                                        "example": "ATM"
+                                    },
+                                    "GhiChu": {
+                                        "description": "Ghi chú đơn hàng",
+                                        "type": "string",
+                                        "example": "Thanh toán nhanh",
+                                        "nullable": true
+                                    },
+                                    "Discount": {
+                                        "description": "Số tiền giảm giá",
+                                        "type": "number",
+                                        "example": 10000,
+                                        "nullable": true
+                                    },
+                                    "chi_tiet": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "MaSP",
+                                                "SoLuong"
+                                            ],
+                                            "properties": {
+                                                "MaSP": {
+                                                    "description": "Mã sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Yêu cầu thanh toán thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tạo yêu cầu thanh toán thành công"
+                                        },
+                                        "url": {
+                                            "description": "URL chuyển hướng thanh toán",
+                                            "type": "string",
+                                            "example": "https://momo.vn/redirect-url"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "Mataikhoan": {
+                                                    "description": "Mã tài khoản",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "chi_tiet": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "TongTien": {
+                                                    "description": "Tổng số tiền",
+                                                    "type": "number",
+                                                    "example": 200000
+                                                },
+                                                "SoLuong": {
+                                                    "description": "Tổng số lượng sản phẩm",
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "Discount": {
+                                                    "description": "Số tiền giảm giá",
+                                                    "type": "number",
+                                                    "example": 10000
+                                                },
+                                                "PTTT": {
+                                                    "description": "Phương thức thanh toán",
+                                                    "type": "string",
+                                                    "example": "ATM"
+                                                },
+                                                "GhiChu": {
+                                                    "description": "Ghi chú đơn hàng",
+                                                    "type": "string",
+                                                    "example": "Thanh toán nhanh"
+                                                },
+                                                "jsonResult": {
+                                                    "description": "Kết quả JSON từ MoMo API",
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Yêu cầu thanh toán thất bại",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Không thể tạo yêu cầu thanh toán"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/News": {
             "get": {
                 "tags": [
@@ -5449,6 +5611,10 @@
         {
             "name": "Coupons",
             "description": "Coupons"
+        },
+        {
+            "name": "MoMo",
+            "description": "MoMo"
         },
         {
             "name": "BaiViet",

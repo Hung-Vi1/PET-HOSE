@@ -118,6 +118,9 @@ Route::put('/coupons/update/{id}', [CouponController::class, 'update']);
 Route::delete('/coupons/destroy/{id}', [CouponController::class, 'destroy']);
 
 use App\Http\Controllers\VnpayApiController;
-
 Route::post('/Store/VnPay', [VnpayApiController::class, 'VNPAY']);
 Route::get('/vnpay/callback', [VnpayApiController::class, 'handleVNPayCallback']);
+
+use App\Http\Controllers\MomoApiController;
+Route::post('/Store/MOMO', [MomoApiController::class, 'MOMO']);
+Route::get('/momo/callback', [MomoApiController::class, 'handleMOMOCallback']);
