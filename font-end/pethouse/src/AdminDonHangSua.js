@@ -234,6 +234,7 @@ function AdminDonHangSua() {
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Thông tin giao hàng</h5>
+
                       <div className="row mb-3">
                         <div className="col-md">
                           <label className="form-label">Họ và tên</label>
