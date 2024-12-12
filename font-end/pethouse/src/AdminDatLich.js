@@ -268,7 +268,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="align-middle">
                 <Link
                   onClick={() => fetchOrderById(dhdv.ma_don_hang)}
-                  to={`/admindatlichchitiet/${dhdv.ma_don_hang}`}
+                  to={`/admindatlichsua/${dhdv.ma_don_hang}`}
                   className="text-primary"
                 >
                   #{dhdv.ma_don_hang}

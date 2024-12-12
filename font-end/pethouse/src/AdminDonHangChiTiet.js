@@ -223,6 +223,7 @@ function AdminDonHangChiTiet() {
               <div className="col-md-auto">
                 <h1 className="mb-0">#{ma_don_hang}</h1>
               </div>
+              
               <div className="col-md-auto ms-auto px-3">
                 <Link
                   className="text-success"
@@ -238,17 +239,13 @@ function AdminDonHangChiTiet() {
                   <i className="bi bi-printer"></i> In đơn
                 </strong>
               </div>
-              <div className="col-md-auto ps-3 pe-2 text-danger">
-                <strong>
-                  <i className="bi bi-x-circle"></i> Hủy đơn
-                </strong>
-              </div>
+              
             </div>
             <p className="col-md-12 m-0">{ngayDat}</p>
 
             <form>
               <div className="d-flex flex-wrap">
-                <div className="col-md-8 px-0">
+                <div className="col-md-12 px-0">
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Thông tin giao hàng</h5>
@@ -262,6 +259,7 @@ function AdminDonHangChiTiet() {
                             value={hoTen}
                             onChange={(e) => setHoTen(e.target.value)}
                             required
+                            readOnly
                           />
                         </div>
 
@@ -273,6 +271,7 @@ function AdminDonHangChiTiet() {
                             value={soDienThoai}
                             onChange={(e) => setSoDienThoai(e.target.value)}
                             required
+                            readOnly
                           />
                         </div>
                       </div>
@@ -284,6 +283,7 @@ function AdminDonHangChiTiet() {
                           value={diaChi}
                           onChange={(e) => setDiaChi(e.target.value)}
                           required
+                          readOnly
                         />
                       </div>
                     </div>
@@ -292,46 +292,9 @@ function AdminDonHangChiTiet() {
 
                 <div className="col-md px-0">
                   <div className="d-flex flex-wrap">
-                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
+                    
 
-                      <div>
-                        <select
-                          className="form-select"
-                          value={trangThai}
-                          onChange={(e) => setTrangThai(Number(e.target.value))}
-                        >
-                          <option value="cho_xac_nhan">Chờ xác nhận</option>
-                          <option value="da_xac_nhan">Đã xử lý</option>
-                          <option value="dang_van_chuyen">
-                            Đang vận chuyển
-                          </option>
-                          <option value="da_thanh_toan">Đã thanh toán</option>
-                          <option value="hoan_thanh">Hoàn thành</option>
-                          <option value="huy">Đã hủy</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="col-md border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Phương thức thanh toán</h5>
-
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          value={PTTT}
-                          onChange={(e) => setPTTT(e.target.value)}
-                        >
-                          <option value="Tiền mặt">
-                            Thanh toán khi nhận hàng
-                          </option>
-                          <option value="Chuyển khoản">
-                            Thanh toán chuyển khoản
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -397,6 +360,7 @@ function AdminDonHangChiTiet() {
                               className="form-control h-50"
                               value={ghiChu}
                               onChange={(e) => setGhiChu(e.target.value)}
+                              readOnly
                             ></textarea>
                           </div>
                         </td>

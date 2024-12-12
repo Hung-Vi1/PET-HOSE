@@ -98,13 +98,114 @@ function AdminDonHangSua() {
       });
   };
 
+  const handlePrintOrder = async () => {
+    const currentDate = new Date().toLocaleDateString("vi-VN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    });
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/orderDetailServices/${ma_don_hang}`);
+        if (!response.ok) {
+            throw new Error(`Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        if (result.status !== 'success' || !Array.isArray(result.data) || result.data.length === 0) {
+            alert("Không có chi tiết đơn hàng. Vui lòng kiểm tra lại.");
+            return;
+        }
+
+        const chiTietDonHang = result.data.map((ct, index) => {
+            const totalProductPrice = ct.DonGia * ct.SoLuong;
+            return `
+          <tr>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${index + 1}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SanPham.TenSP}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SoLuong}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat("vi-VN").format(ct.DonGia)}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat("vi-VN").format(totalProductPrice)}</td>
+          </tr>
+        `;
+        }).join("");
+
+        const totalBeforeDiscount = result.data.reduce((total, ct) => total + ct.DonGia * ct.SoLuong, 0);
+        const discount = 0; // Cập nhật giá trị giảm giá nếu có
+        const totalAfterDiscount = totalBeforeDiscount - discount;
+
+        const printContent = `
+        <html>
+          <head>
+            <title>Hóa đơn ${ma_don_hang}</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+          </head>
+          <body>
+            <div style="margin-top: 50px; border: 1px solid #ddd; padding: 20px; font-family: Arial, sans-serif;">
+              <div class="header" style="text-align: center; margin-bottom: 20px;">
+                <img id="logo" src="http://localhost:3000/image/logo-ngang.png" alt="Logo" style="width: 120px;">
+                <h2 style="margin: 0;">CỬA HÀNG PETHOUSE VIỆT NAM</h2>
+                <p style="margin: 5px 0;">Tô ký, phường Trung Mỹ Tây, quận 12, TP.HCM</p>
+                <p style="margin: 5px 0;">Email: pethouse@gmail.com / Hotline: 038 997 8430</p>
+                <h3 style="margin: 10px 0;">ĐƠN HÀNG</h3>
+              </div>
+              <p><strong>Ngày:</strong> ${currentDate}</p>
+              <p><strong>Tên khách hàng:</strong> ${hoTen}</p>
+              <p><strong>Địa chỉ:</strong> ${diaChi}</p>
+              <p><strong>Số điện thoại:</strong> ${soDienThoai}</p>
+              <p><strong>Mã đơn hàng:</strong> ${ma_don_hang}</p>
+              <h3 style="margin-top: 20px;">Chi tiết đơn hàng:</h3>  
+              <table style="border: 1px solid #ddd; border-collapse: collapse; width: 100%;">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng</th>
+                  </tr>
+                </thead>
+                <tbody>${chiTietDonHang}</tbody>
+              </table>
+              <div class="total" style="margin-top: 20px; font-weight: bold;">
+                <p><span>Tổng trước giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(totalBeforeDiscount)}</span></p>
+                <p><span>Giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(discount)}</span></p>
+                <p><span class="font-weight-bold">Tổng thanh toán:</span><span class="right" style="float: right; color: red;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(totalAfterDiscount)}</span></p>
+              </div>
+            </div>
+            <script>
+              window.onload = function() {
+                const logo = document.getElementById("logo");
+                if (logo.complete) {
+                  window.print();
+                  window.close();
+                } else {
+                  logo.onload = function() {
+                    window.print();
+                    window.close();
+                  };
+                }
+              };
+            </script>
+          </body>
+        </html>
+      `;
+
+        const printWindow = window.open("", "_blank");
+        if (printWindow) {
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+        }
+    } catch (error) {
+        console.error("Lỗi khi in đơn hàng:", error);
+        alert("Đã xảy ra lỗi khi in đơn hàng.");
+    }
+};
+
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
 
-  if (!orderDetails) {
-    return <div>Loading...</div>;
-  }
 
   // Xóa dấu
   const removeDiacritics = (str) => {
@@ -146,9 +247,8 @@ function AdminDonHangSua() {
                 to={`/admin${removeDiacritics(item)
                   .replace(/\s+/g, "")
                   .toLowerCase()}`}
-                className={`list-group-item list-group-item-action my-0 rounded-0 ${
-                  item === "Đơn hàng" ? "active" : ""
-                }`}
+                className={`list-group-item list-group-item-action my-0 rounded-0 ${item === "Đơn hàng" ? "active" : ""
+                  }`}
               >
                 <h5 className="mb-0 py-1">{item}</h5>
               </Link>
@@ -218,14 +318,37 @@ function AdminDonHangSua() {
           </nav>
 
           <div className="container mt-3 mb-5">
-            <div className="d-flex">
-              <Link
-                to={`/admindonhangchitiet/${ma_don_hang}`}
-                className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
-              >
-                <i className="bi bi-arrow-left"></i>
-              </Link>
-              <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
+            <div className="d-flex justify-content-between align-items-center">
+
+
+              <div className="d-flex align-items-center">
+
+
+                <div className="col-md-auto">
+                  <Link
+                    to={"/admindonhang"}
+                    className="my-0 my-auto btn border border-secondary-subtle text-secondary me-3"
+                  >
+                    <i className="bi bi-arrow-left"></i>
+                  </Link>
+                </div>
+                <div className="col-md-auto">
+                  <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
+                </div>
+
+
+
+
+              </div>
+              <div className="d-flex align-center">
+                <div className="col-md-auto px-3 text-primary">
+                  <strong onClick={handlePrintOrder}>
+                    <i className="bi bi-printer"></i> In đơn
+                  </strong>
+                </div>
+              </div>
+
+
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -298,6 +421,8 @@ function AdminDonHangSua() {
                       >
                         <option value="Tiền mặt">Tiền mặt</option>
                         <option value="Chuyển khoản">Chuyển khoản</option>
+                        <option value="MOMO">Thanh toán MOMO</option>
+                        <option value="VNPAY">Thanh toán VNPAY</option>
                       </select>
                     </div>
                   </div>
@@ -307,14 +432,14 @@ function AdminDonHangSua() {
               <div className="d-flex flex-wrap">
                 <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                   <h5 className="mb-2 py-1">Chi tiết đơn hàng</h5>
-                  <form className="d-flex mb-3" role="search">
+                  {/* <form className="d-flex mb-3" role="search">
                     <input
                       className="form-control me-2"
                       type="search"
                       placeholder="Nhập tên sản phẩm"
                       aria-label="Search"
                     />
-                  </form>
+                  </form> */}
 
                   <table className="table table-borderless">
                     <thead>

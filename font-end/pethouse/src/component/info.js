@@ -36,9 +36,7 @@ const Info = () => {
           <p className="card-text">
             <strong>Thú cưng:</strong> {user.ThuCung || "Chưa nhập thú cưng"}
           </p>
-          <p className="card-text">
-            <strong>Mã tài khoản:</strong> {user.Mataikhoan || "Không có mã tài khoản"}
-          </p>
+
         </div>
         <div className="card-header">Cài Đặt Tài Khoản</div>
         <div className="card-body">
