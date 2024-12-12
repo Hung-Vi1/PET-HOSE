@@ -180,13 +180,19 @@ function AdminDatLich() {
             </div>
           </nav>
           <div className="container">
+          <Link
+              to={"/adminthemdatlich"}
+              className="btn btn-success float-end"
+            >
+              Thêm đơn đặt lịch
+            </Link>
             <h2 className="my-3">Dịch vụ</h2>
             <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
                   <th className="fw-bold">Mã đơn hàng</th>
-                  <th className="fw-bold">Ngày đặt</th>
+                  <th className="fw-bold">Ngày sử dụng</th>
                   <th className="fw-bold">Tên khách hàng</th>
                   <th className="fw-bold">Số điện thoại</th>
                   <th className="fw-bold text-end">Khách phải trả</th>
@@ -196,7 +202,7 @@ function AdminDatLich() {
                   <th className="fw-bold text-center text-nowrap">
                     Phương thức thanh toán
                   </th>
-                  <th className="fw-bold text-nowrap">Ghi chú</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -262,14 +268,14 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="align-middle">
                 <Link
                   onClick={() => fetchOrderById(dhdv.ma_don_hang)}
-                  to={`/admindvcschitiet/${dhdv.ma_don_hang}`}
+                  to={`/admindatlichchitiet/${dhdv.ma_don_hang}`}
                   className="text-primary"
                 >
                   #{dhdv.ma_don_hang}
                 </Link>
               </td>
               <td className="align-middle">
-                {format(new Date(dhdv.ngay_dat), "dd/MM/yyyy HH:mm", {
+                {format(new Date(dhdv.ngay_su_dung), "dd/MM/yyyy HH:mm", {
                   locale: vi,
                 })}
               </td>
@@ -287,14 +293,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center text-nowrap align-middle">
                 {PhuongThucThanhToan}
               </td>
-              <td className="align-middle">
-                <input
-                  type="text"
-                  className="form-control"
-                  required
-                  placeholder="Nguyễn Văn A"
-                />
-              </td>
+              
             </tr>
           );
         }) //map

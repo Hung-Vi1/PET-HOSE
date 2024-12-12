@@ -6,38 +6,6 @@ import "./App.css";
 function AdminSanPhamThem() {
   const { user } = useAuth();
   const navigate = useNavigate(); // Khởi tạo useNavigate
-  // Xóa sản phẩm
-  /*   const [ganSP] = useState([]);
-  const xoaSanPham = (maSP) => {
-    // Hiển thị thông báo xác nhận
-    if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.ok) {
-            // Gọi lại hàm fetch để tải lại dữ liệu sản phẩm
-            fetch("http://localhost:8000/api/products")
-              .then((res) => res.json())
-              .then((data) => {
-                console.log("Dữ liệu trả về:", data);
-                if (Array.isArray(data.data)) {
-                  ganSP(data.data);
-                } else {
-                  console.error("Dữ liệu không phải là mảng:", data);
-                  ganSP([]); // Khởi tạo giá trị mặc định
-                }
-              })
-              .catch((error) => {
-                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa sản phẩm:", error);
-        });
-    }
-  }; */
 
   const [ten_san_pham, setTenSanPham] = useState("");
   const [ma_danh_muc, setMaDanhMuc] = useState("");

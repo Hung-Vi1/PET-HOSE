@@ -19,13 +19,27 @@ function AdminDonHangChiTiet() {
   const [ghiChu, setGhiChu] = useState("");
   const [sanPhamDetails, setSanPhamDetails] = useState([]);
 
+
+
+  const calculateTotal = () => {
+    return sanPhamDetails.reduce((total, detail) => {
+      return total + detail.SoLuong * detail.DonGia;
+    }, 0); // Bắt đầu với tổng bằng 0
+  };
+
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   // const [order, setOrder] = useState(null); // State để lưu thông tin đơn hàng
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`)
+    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then((res) => {
+
         if (!res.ok) {
           throw new Error("Không thể lấy thông tin đơn hàng");
         }
@@ -41,7 +55,10 @@ function AdminDonHangChiTiet() {
           setPttt(dh.PTTT);
           setGhiChu(dh.GhiChu);
           setSanPhamDetails(data.data); // Lưu tất cả chi tiết sản phẩm
-        } else {
+
+        }
+
+        else {
           throw new Error(data.message);
         }
       })
@@ -286,10 +303,10 @@ function AdminDonHangChiTiet() {
                         <select
                           type="number"
                           className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
+                        // value={trang_thai}
+                        // onChange={(e) =>
+                        //   setTrangThai(Number(e.target.value))
+                        // }
                         >
                           <option value="0">Chờ xác nhận</option>
                           <option value="1">Đang xử lý</option>
@@ -336,80 +353,27 @@ function AdminDonHangChiTiet() {
                     </thead>
 
                     <tbody>
-                      <tr>
-                        <td className="text-center">1</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test1</td>
-                        <td className="text-center">2</td>
-                        <td className="text-end">
-                          {parseInt(199000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(199000 * 2).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                      </tr>
+                      {sanPhamDetails.map((detail, index) => (
+                        <tr key={detail.MaCTDH}>
+                          <td className="text-center">{index + 1}</td>
+                          <td style={{ width: "6%" }}>
+                            <img
+                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              alt={detail.SanPham.TenSP}
+                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                            />
+                          </td>
+                          <td>{detail.SanPham.TenSP}</td>
+                          <td className="text-center">{detail.SoLuong}</td>
+                          <td className="text-end">
+                            {detail.DonGia.toLocaleString()} VND
+                          </td>
+                          <td className="text-end">
+                            {(detail.SoLuong * detail.DonGia).toLocaleString()} VND
+                          </td>
+                        </tr>
+                      ))}
 
-                      <tr>
-                        <td className="text-center">2</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test2</td>
-                        <td className="text-center">1</td>
-                        <td className="text-end">
-                          {parseInt(159000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(159000 * 1).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-center">3</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test3</td>
-                        <td className="text-center">3</td>
-                        <td className="text-end">
-                          {parseInt(99000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(99000 * 3).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                      </tr>
                     </tbody>
 
                     <tfoot>
@@ -417,12 +381,16 @@ function AdminDonHangChiTiet() {
                         <td className="text-center">Ghi chú</td>
                         <td colSpan={3}>
                           <div className="">
-                            <textarea className="form-control h-50"></textarea>
+                            <textarea
+                              className="form-control h-50"
+                              value={ghiChu}
+                              onChange={(e) => setGhiChu(e.target.value)}
+                            ></textarea>
                           </div>
                         </td>
                         <td className="text-end fw-bold">Tổng hóa đơn</td>
                         <td className="text-end fw-bold">
-                          {parseInt(854000).toLocaleString("vi-VN", {
+                          {calculateTotal().toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}

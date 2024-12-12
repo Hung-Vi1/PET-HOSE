@@ -55,7 +55,9 @@ import AdminDVThem from "./AdminDVThem";
 import AdminMGGThem from "./AdminMaGiamGiaThem";
 import AdminDVSua from "./AdminDVSua";
 import AdminMGGSua from "./AdminMaGiamGiaSua";
-
+import AdminThemDatLich from "./AdminThemDatLich";
+import AdminDatLichChiTiet from "./AdminDatLichChiTiet";
+import AdminDatLichSua from "./AdminDatLichSua";
 // In hóa đơn
 // import PdfCard from "./PdfCard";
 
@@ -368,7 +370,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/update-password/:id"
             exact
             element={
@@ -731,9 +733,21 @@ function App() {
           />
 
           <Route
+            path="/adminthemdatlich"
+            exact
+            element={<BaoVeRoute element={<AdminThemDatLich />} />}
+          />
+
+          <Route
             path="/admindonhangchitiet/:ma_don_hang"
             exact
             element={<BaoVeRoute element={<AdminDonHangChiTiet />} />}
+          />
+
+          <Route
+            path="/admindatlichchitiet/:ma_don_hang"
+            exact
+            element={<BaoVeRoute element={<AdminDatLichChiTiet />} />}
           />
 
           <Route
@@ -741,6 +755,13 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDonHangSua />} />}
           />
+
+          <Route
+            path="/admindatlichsua/:ma_don_hang"
+            exact
+            element={<BaoVeRoute element={<AdminDatLichSua />} />}
+          />
+
 
           <Route
             path="/admindonhangthem"

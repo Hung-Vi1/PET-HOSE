@@ -1,7 +1,6 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { Navigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import "./App.css";
 
@@ -46,75 +45,41 @@ function AdminTaiKhoan() {
           </Link>
 
           <div className="list-group list-group-item-primary">
-            <Link
-              to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-              aria-current="true"
-            >
+            <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0" aria-current="true">
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
-            <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
-            >
+            <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
-            <Link
-              to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
-            <Link
-              to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
-            <Link
-              to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
-            >
+            <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0 active">
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <Link
-              to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <Link
-              to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
-            <Link
-              to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/Admin_BV"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Tin tức</h5>
             </Link>
-            <Link
-              to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/adminlienhe"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Liên hệ</h5>
             </Link>
-            <Link
-              to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/adminmagiamgia"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
         </div>
 
         <div className="col-md p-0">
-          <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
-            data-bs-theme="dark"
-          >
+          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
             <div className="container-fluid">
               <button
                 className="btn btn-outline-light me-3"
@@ -126,13 +91,8 @@ function AdminTaiKhoan() {
               >
                 <i className="bi bi-list"></i>
               </button>
-              <a className="navbar-brand" href="/#">
-                PetHouse
-              </a>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
+              <a className="navbar-brand" href="/#">PetHouse</a>
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
@@ -146,10 +106,7 @@ function AdminTaiKhoan() {
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
-                        <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
-                          to={"/"}
-                        >
+                        <Link className="menu-header-top dropdown-item m-0 py-2" to={"/"}>
                           Xem trang chủ
                         </Link>
                       </li>
@@ -157,10 +114,7 @@ function AdminTaiKhoan() {
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
-                        <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
-                          href="/#"
-                        >
+                        <a className="menu-header-bottom dropdown-item m-0 py-2" href="/#">
                           Đăng xuất
                         </a>
                       </li>
@@ -172,10 +126,7 @@ function AdminTaiKhoan() {
           </nav>
 
           <div className="container">
-            <Link
-              to={"/admintaikhoanthem"}
-              className="btn btn-success float-end"
-            >
+            <Link to={"/admintaikhoanthem"} className="btn btn-success float-end">
               Thêm tài khoản
             </Link>
             <h2 className="my-3">Tài khoản</h2>
@@ -192,7 +143,7 @@ function AdminTaiKhoan() {
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listTK={list_tk} pageSize={10} />
+                <PhanTrang listTK={list_tk} pageSize={10} ganTK={ganTK} />
               </tbody>
             </table>
           </div>
@@ -202,8 +153,8 @@ function AdminTaiKhoan() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK, list_tk }) {
-  const setSelectedUser = useState(null);
+function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
+  const [selectedUser, setSelectedUser] = useState(null);
 
   // Hàm xóa tài khoản
   const handleDelete = async (ma_tai_khoan) => {
@@ -222,25 +173,14 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK, list_tk }) {
           );
           alert("Tài khoản đã được xóa.");
         } else {
-          alert("Xóa tài khoản thất bại.");
+          const errorData = await response.json();
+          alert(`Xóa tài khoản thất bại: ${errorData.message || "Không rõ lỗi"}`);
         }
       } catch (error) {
         console.error("Lỗi khi xóa tài khoản:", error);
         alert("Có lỗi xảy ra khi xóa tài khoản.");
       }
     }
-  };
-
-  const fetchOrderById = (ma_tai_khoan) => {
-    fetch(`http://127.0.0.1:8000/api/users/show/${ma_tai_khoan}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Thông tin sản phẩm:", data);
-        setSelectedUser(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
-      });
   };
 
   return (
@@ -252,17 +192,12 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK, list_tk }) {
           <td className="text-center">{usr.so_dien_thoai}</td>
           <td>{usr.email}</td>
           <td className="text-center">
-            <span
-              className={`badge ${
-                usr.quyen === 1 ? "text-bg-danger" : "text-bg-success"
-              }`}
-            >
+            <span className={`badge ${usr.quyen === 1 ? "text-bg-danger" : "text-bg-success"}`}>
               {usr.quyen === 1 ? "Quản trị viên" : "Người dùng"}
             </span>
           </td>
           <td className="text-center">
             <Link
-              onClick={() => fetchOrderById(usr.ma_don_hang)}
               to={`/admintaikhoansua/${usr.ma_tai_khoan}`}
               className="btn btn-outline-warning m-1"
             >
@@ -279,27 +214,24 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK, list_tk }) {
       ))}
     </>
   );
-} //HienDHTrongMotTrang
+}
 
 function PhanTrang({ listTK, pageSize, ganTK }) {
-  const [fromIndex, setfromIndex] = useState(0);
+  const [fromIndex, setFromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const dhTrong1Trang = listTK.slice(fromIndex, toIndex);
   const tongSoTrang = Math.ceil(listTK.length / pageSize);
+
   const chuyenTrang = (event) => {
     const newIndex = (event.selected * pageSize) % listTK.length;
-    setfromIndex(newIndex);
+    setFromIndex(newIndex);
   };
+
   return (
     <>
-      <HienSPTrongMotTrang
-        spTrongTrang={dhTrong1Trang}
-        fromIndex={fromIndex}
-        ganTK={ganTK}
-        list_tk={listTK}
-      />
+      <HienSPTrongMotTrang spTrongTrang={dhTrong1Trang} ganTK={ganTK} />
       <tr>
-        <td colspan="6">
+        <td colSpan="6">
           <ReactPaginate
             nextLabel=">"
             previousLabel="<"
@@ -312,6 +244,6 @@ function PhanTrang({ listTK, pageSize, ganTK }) {
       </tr>
     </>
   );
-} //PhanTrang
+}
 
 export default AdminTaiKhoan;

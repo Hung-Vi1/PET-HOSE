@@ -10,13 +10,12 @@ function AdminTaiKhoanSua() {
   const navigate = useNavigate();
 
   const [account, setAccount] = useState({
-    hovaten: "",
-    sdt: "",
-    email: "",
-    matkhau: "",
-    thucung: "",
-    quyen: 0, // Mặc định là người dùng (0 là người dùng, 1 là quản trị viên)
-    diachi: "",
+    Hovaten: "",
+    SDT: "",
+    Email: "",
+    ThuCung: "",
+    DiaChi: "",
+   
   });
 
   useEffect(() => {
@@ -26,13 +25,12 @@ function AdminTaiKhoanSua() {
       .then((data) => {
         if (data.status === "success") {
           setAccount({
-            hovaten: data.data.ten_tai_khoan,
-            sdt: data.data.so_dien_thoai,
-            email: data.data.email,
-            matkhau: "",  // Mật khẩu không được phép chỉnh sửa
-            thucung: data.data.thu_cung,
-            quyen: data.data.quyen, // Giữ nguyên kiểu số cho quyen
-            diachi: data.data.dia_chi,
+            Hovaten: data.data.ten_tai_khoan,
+            SDT: data.data.so_dien_thoai,
+            Email: data.data.email,
+            ThuCung: data.data.thu_cung,
+            DiaChi: data.data.dia_chi,
+           
           });
         } else {
           alert("Không thể lấy thông tin tài khoản!");
@@ -48,16 +46,16 @@ function AdminTaiKhoanSua() {
 
     // Cập nhật tài khoản qua API
     const updatedAccount = {
-      Hovaten: account.hovaten,
-      SDT: account.sdt,
-      Email: account.email,
-      MatKhau: account.matkhau,
-      Quyen: account.quyen, // Chắc chắn quyen là số
-      DiaChi: account.diachi,
-      ThuCung: account.thucung,
+      Hovaten: account.Hovaten,
+      SDT: account.SDT,
+      Email: account.Email,
+      MatKhau: account.MatKhau,
+    
+      DiaChi: account.DiaChi,
+      ThuCung: account.ThuCung,
     };
 
-    fetch(`http://127.0.0.1:8000/api/users/updateAdmin/${ma_tai_khoan}`, {
+    fetch(`http://127.0.0.1:8000/api/users/${ma_tai_khoan}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -104,65 +102,34 @@ function AdminTaiKhoanSua() {
           </Link>
 
           <div className="list-group list-group-item-primary">
-            <Link
-              to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-              aria-current="true"
-            >
+            <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0" aria-current="true">
               <h5 className="mb-0 py-1">Tổng quan</h5>
             </Link>
-            <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
-            >
+            <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0  rounded-0">
               <h5 className="mb-0 py-1">Sản phẩm</h5>
             </Link>
-            <Link
-              to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
             </Link>
-            <Link
-              to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Danh mục</h5>
             </Link>
-            <Link
-              to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
-            >
+            <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0 active">
               <h5 className="mb-0 py-1">Tài khoản</h5>
             </Link>
-            <Link
-              to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đơn hàng</h5>
             </Link>
-            <Link
-              to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Đặt lịch</h5>
             </Link>
-            <Link
-              to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/Admin_BV"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Tin tức</h5>
             </Link>
-            <Link
-              to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/adminlienhe"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Liên hệ</h5>
             </Link>
-            <Link
-              to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
+            <Link to={"/adminmagiamgia"} className="list-group-item list-group-item-action my-0 rounded-0">
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
             </Link>
           </div>
@@ -205,79 +172,69 @@ function AdminTaiKhoanSua() {
           <div className="container">
             <h2 className="my-3">Sửa tài khoản</h2>
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="hovaten" className="form-label">Họ và tên</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="hovaten"
-                  value={account.hovaten || ""}
-                  onChange={handleChange}
-                />
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="mb-3">
+                    <label htmlFor="Hovaten" className="form-label">Họ và tên</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="Hovaten"
+                      value={account.Hovaten || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="SDT" className="form-label">Số điện thoại</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="SDT"
+                      value={account.SDT || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="Email" className="form-label">Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="Email"
+                      value={account.Email || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                </div>
+
+                <div className="col-md-6">
+                  <div className="mb-3">
+                    <label htmlFor="ThuCung" className="form-label">Thú cưng</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="ThuCung"
+                      value={account.ThuCung || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="DiaChi" className="form-label">Địa chỉ</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="DiaChi"
+                      value={account.DiaChi || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+              
+                </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="sdt" className="form-label">Số điện thoại</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="sdt"
-                  value={account.sdt || ""}
-                  onChange={handleChange}
-                />
+
+              <div className="d-flex justify-content-between">
+                <button type="submit" className="btn btn-success">Cập nhật</button>
               </div>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  value={account.email || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="matkhau" className="form-label">Mật khẩu</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="matkhau"
-                  value={account.matkhau || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="thucung" className="form-label">Thú cưng</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="thucung"
-                  value={account.thucung || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="quyen" className="form-label">Quyền</label>
-                <select
-                  className="form-control"
-                  id="quyen"
-                  value={account.quyen}
-                  onChange={handleChange}
-                >
-                  <option value={0}>Người dùng</option>
-                  <option value={1}>Quản trị viên</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="diachi" className="form-label">Địa chỉ</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="diachi"
-                  value={account.diachi || ""}
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">Cập nhật</button>
             </form>
           </div>
         </div>

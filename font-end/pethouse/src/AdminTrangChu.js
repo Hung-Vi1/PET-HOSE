@@ -15,6 +15,27 @@ function AdminTrangChu() {
   const [usersCount, setUsersCount] = useState(0); // Số lượng người dùng
   const [orderServicesCount, setOrderServicesCount] = useState(0); // Số lượng dịch vụ đặt
 
+  // Hàm tính toán số lượng đơn hàng theo trạng thái
+  const calculateOrderStatusData = (orders) => {
+    const statusCounts = {};
+
+    orders.forEach((order) => {
+      const status = order.trang_thai; // Giả sử API trả về trường 'trang_thai'
+      if (!statusCounts[status]) {
+        statusCounts[status] = 0;
+      }
+      statusCounts[status] += 1;
+    });
+
+    const labels = Object.keys(statusCounts);
+    const data = Object.values(statusCounts);
+
+    return { labels, data };
+  };
+
+  // State cho dữ liệu biểu đồ
+  const [orderStatusData, setOrderStatusData] = useState({ labels: [], data: [] });
+
 
 
   const [orders, setOrders] = useState([]);
@@ -71,6 +92,10 @@ function AdminTrangChu() {
         // Tính toán doanh thu theo phương thức thanh toán
         const paymentMethodRevenue = calculatePaymentMethodRevenue(ordersData.data);
         setPaymentMethodData(paymentMethodRevenue);
+
+        // Tính toán dữ liệu trạng thái đơn hàng
+        const statusData = calculateOrderStatusData(ordersData.data);
+        setOrderStatusData(statusData);
 
         setIsLoading(false); // Dữ liệu đã tải xong
       } catch (error) {
@@ -219,7 +244,7 @@ function AdminTrangChu() {
         data: paymentMethodData.data,
         backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"],
         hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"]
-        
+
       },
     ],
   };
@@ -255,6 +280,42 @@ function AdminTrangChu() {
       return total + parseFloat(order.tong_tien); // Đảm bảo chuyển đổi thành số thực
     }, 0); // Khởi tạo giá trị tổng là 0
   };
+
+  // Dữ liệu cho biểu đồ tròn thống kê trạng thái đơn hàng
+  const orderStatusPieData = {
+    labels: orderStatusData.labels,
+    datasets: [
+      {
+        data: orderStatusData.data,
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"], // Tùy chỉnh màu sắc
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"],
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ
+  const orderStatusPieOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.label || "";
+            const value = context.raw;
+            return `${label}: ${value} đơn hàng`;
+          },
+        },
+      },
+    },
+    title: {
+      display: true,
+      text: "Thống kê đơn hàng theo trạng thái",
+    },
+  };
+
 
 
 
@@ -475,19 +536,30 @@ function AdminTrangChu() {
                   </div>
                 </div>
 
-                <div className="col-md-4 d-none d-md-block">
-                  <div className="d-flex justify-content-center">
-                    {/* Biểu đồ tròn doanh thu theo phương thức thanh toán */}
+                <div className="row col-md-12 border-bottom py-2" style={{ height: "70%" }}>
+                  <div
+                    className="col-md-6 d-flex align-items-center justify-content-center"
+                    style={{ height: "80%" }}
+                  >
+
+                    {/* Biểu đồ cột doanh thu từ các đơn hàng */}
+
                     <Pie data={pieData} options={pieOptions} />
                   </div>
 
+                  <div
+                    className="col-md-6 d-flex align-items-center justify-content-center border-start border-2"
+                    style={{ height: "80%" }}
+                  >
+                    {/* Biểu đồ cột doanh thu theo quý */}
+                    <Pie data={orderStatusPieData} options={orderStatusPieOptions} />
+                  </div>
                 </div>
               </div>
 
               <div className="col-md-6">
-                <h3>Doanh thu sản phẩm</h3>
+                <h3>Thống kê doanh thu</h3>
               </div>
-
               <div className="col-md-12"></div>
             </div>
 

@@ -63,11 +63,10 @@ function GioHang() {
                       <img
                         src={`image/product/${item.hinh_anh}`}
                         alt={item.ten_san_pham}
+                        className="img-fluid rounded"
                         style={{
-                          width: "80px",
-                          height: "80px",
-                          objectFit: "cover",
-                          borderRadius: "8px",
+                          maxWidth: "80px",
+                          height: "auto",
                         }}
                       />
                     </td>
@@ -82,7 +81,7 @@ function GioHang() {
                         type="number"
                         value={item.quantity}
                         min="0"
-                        max="10" // Limit the maximum value to 10
+                        max="10"
                         onChange={(e) =>
                           handleQuantityChange(index, parseInt(e.target.value))
                         }
@@ -126,9 +125,9 @@ function GioHang() {
             </table>
           </div>
         )}
-        <div className="d-flex justify-content-between mt-4">
+        <div className="d-flex flex-column flex-sm-row justify-content-between mt-4">
           <Link to="/sanpham">
-            <button className="btn btn-secondary btn-lg">Tiếp tục mua sắm</button>
+            <button className="btn btn-secondary btn-lg mb-2 mb-sm-0">Tiếp tục mua sắm</button>
           </Link>
           {cart.length > 0 && (
             <Link to="/formthanhtoan">
