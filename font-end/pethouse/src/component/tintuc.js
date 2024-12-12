@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function TinTuc() {
   const [tintuc, setTinTuc] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 12; // Number of articles per page
+  const articlesPerPage = 9; // Số lượng bài viết trên mỗi trang
 
   useEffect(() => {
     const fetchTinTuc = async () => {
@@ -28,16 +28,13 @@ function TinTuc() {
   }, []);
 
   const truncateContent = (content, limit) => {
-    if (content.length > limit) {
-      return content.substring(0, limit) + "...";
-    }
-    return content;
+    return content.length > limit ? content.substring(0, limit) + "..." : content;
   };
 
-  // Calculate total pages
+  // Tính tổng số trang
   const totalPages = Math.ceil(tintuc.length / articlesPerPage);
 
-  // Get current articles
+  // Lấy bài viết hiện tại
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = tintuc.slice(indexOfFirstArticle, indexOfLastArticle);
@@ -74,38 +71,19 @@ function TinTuc() {
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                   {currentArticles.length > 0 ? (
                     currentArticles.map((article) => (
-<<<<<<< HEAD
-                      <article className="post clearfix" key={article.bai_viet}>
-                        <div className="featured-post">
-                          <img src={`http://localhost:8000/image/News/${article.Hinh}`} alt="hinh" style={{
-                            width: '400px',
-                            height: '300px',
-                            maxHeight: '300px',
-                            objectFit: 'cover'
-                          }}/>
-                        </div>
-                        <div className="content-post">
-                          <div className="title-post">
-                            <h2>
-                              <Link className="fw-bolder fs-5" to={`/chitiettintuc/${article.bai_viet}`}>
-                                {article.tieu_de}
-                              </Link>
-                            </h2>
-=======
                       <div className="col" key={article.bai_viet}>
                         <article className="post clearfix">
                           <div className="featured-post">
                             <img
-                              src={`image/News/${article.Hinh}`}
+                              src={`http://localhost:8000/image/News/${article.Hinh}`}
                               alt={article.tieu_de}
                               className="img-fluid"
                               style={{
                                 objectFit: 'cover',
-                                width: '100%', // Chiều rộng ảnh ảnh căn giữa và giới hạn chiều rộng của nó
-                                height: '200px', // Giới hạn chiều cao của hình ảnh
+                                width: '100%',
+                                height: '200px',
                               }}
                             />
->>>>>>> 771e55213539bf2e301bbca656bc11bdfe5e0e75
                           </div>
                           <div className="content-post mt-3">
                             <div className="title-post">
@@ -163,7 +141,6 @@ function TinTuc() {
           </div>
         </div>
       </section>
-
 
       <section className="flat-row mail-chimp">
         <div className="container">
