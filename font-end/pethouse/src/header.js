@@ -155,18 +155,23 @@ function Header() {
             <li className={location.pathname === "/" ? "active" : ""}>
               <Link to="/">Trang chủ</Link>
             </li>
+            <i class="fa-solid fa-paw"></i>
             <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
+            <i class="fa-solid fa-paw"></i>
             <li className={location.pathname === "/datlich" ? "active" : ""}>
               <Link to="/datlich">Dịch vụ</Link>
             </li>
+            <i class="fa-solid fa-paw"></i>
             <li className={location.pathname === "/tintuc" ? "active" : ""}>
-              <Link to="/tintuc">Tin thú cưng</Link>
+              <Link to="/tintuc">Tin tức</Link>
             </li>
+            <i class="fa-solid fa-paw"></i>
             <li className={location.pathname === "/lienhe" ? "active" : ""}>
               <Link to="/lienhe">Liên hệ</Link>
             </li>
+            
           </ul>
         </nav>
       </div>
