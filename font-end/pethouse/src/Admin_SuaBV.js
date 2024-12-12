@@ -19,21 +19,24 @@ function Admin_Suabv() {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
+    // Lấy danh mục bài viết
     fetch("http://localhost:8000/api/catagorysNews")
       .then((res) => res.json())
       .then((data) => setDanhMucBV(data.data))
       .catch(() => setError("Không thể lấy danh mục bài viết"));
 
+    // Nếu có id, tải thông tin bài viết để chỉnh sửa
     if (id) {
       fetch(`http://localhost:8000/api/News/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          setTieuDe(data.TieuDe);
-          setMaDanhMucBV(data.MaDMBV);
-          setNoiDung(data.NoiDung);
-          setChiTiet(data.ChiTiet);
-          setTrangThai(data.trang_thai);
-          setImagePreview(`http://localhost:8000/${data.Hinh}`);
+          const { tieu_de, ma_danh_muc_bv, noi_dung, chi_tiet, trang_thai, Hinh } = data.data;
+          setTieuDe(tieu_de);
+          setMaDanhMucBV(ma_danh_muc_bv);
+          setNoiDung(noi_dung);
+          setChiTiet(chi_tiet);
+          setTrangThai(Number(trang_thai)); // Đảm bảo trạng thái là số
+          setImagePreview(Hinh); // Đường dẫn hình ảnh
         })
         .catch((err) => {
           console.error("Lỗi khi lấy bài viết:", err);
@@ -45,12 +48,14 @@ function Admin_Suabv() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Kiểm tra người dùng đã đăng nhập hay chưa
     if (!user) {
       alert("Bạn cần đăng nhập trước khi sửa bài viết!");
       navigate("/login");
       return;
     }
 
+    // Chuẩn bị dữ liệu gửi lên server
     const formData = new FormData();
     formData.append("Mataikhoan", user.Mataikhoan);
     formData.append("MaDMBV", ma_danh_muc_bv);
@@ -60,8 +65,9 @@ function Admin_Suabv() {
     if (hinh) {
       formData.append("Hinh", hinh);
     }
-    formData.append("trang_thai", trang_thai);
+    formData.append("TrangThai", trang_thai);
 
+    // Gửi dữ liệu đến API
     fetch(`http://localhost:8000/api/News/${id}`, {
       method: "POST",
       body: formData,
@@ -166,10 +172,7 @@ function Admin_Suabv() {
         </div>
 
         <div className="col-md p-0">
-          <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
-            data-bs-theme="dark"
-          >
+          <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
             <div className="container-fluid">
               <button
                 className="btn btn-outline-light me-3"
@@ -184,10 +187,7 @@ function Admin_Suabv() {
               <a className="navbar-brand" href="/#">
                 PetHouse
               </a>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarSupportedContent"
-              >
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
@@ -201,10 +201,7 @@ function Admin_Suabv() {
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
                       <li className="rounded-0">
-                        <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
-                          to={"/"}
-                        >
+                        <Link className="menu-header-top dropdown-item m-0 py-2" to={"/"}>
                           Xem trang chủ
                         </Link>
                       </li>
@@ -212,10 +209,7 @@ function Admin_Suabv() {
                         <hr className="dropdown-divider m-0" />
                       </li>
                       <li>
-                        <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
-                          href="/#"
-                        >
+                        <a className="menu-header-bottom dropdown-item m-0 py-2" href="/#">
                           Đăng xuất
                         </a>
                       </li>
@@ -252,96 +246,77 @@ function Admin_Suabv() {
                       />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label">Nội dung</label>
+                      <label className="form-label">Danh mục bài viết</label>
+                      <select
+                        className="form-select"
+                        value={ma_danh_muc_bv}
+                        onChange={(e) => setMaDanhMucBV(e.target.value)}
+                        required
+                      >
+                        <option value="">Chọn danh mục</option>
+                        {danhMucBV.map((item) => (
+                          <option key={item.ma_danh_muc_BV} value={item.ma_danh_muc_BV}>
+                            {item.ten_danh_muc_BV}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label">Nội Dung</label>
                       <textarea
                         className="form-control"
+                        rows="5"
                         value={noi_dung}
                         onChange={(e) => setNoiDung(e.target.value)}
                         required
-                        rows="3"
-                      ></textarea>
+                      />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label">Chi tiết</label>
+                      <label className="form-label">Chi Tiết</label>
                       <textarea
                         className="form-control"
+                        rows="5"
                         value={chi_tiet}
                         onChange={(e) => setChiTiet(e.target.value)}
                         required
-                        rows="3"
-                      ></textarea>
+                      />
                     </div>
-                  </div>
-                </div>
-
-                <div className="col-md px-0">
-                  <div className="d-flex flex-wrap">
-                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Ảnh tin tức</h5>
-                      <div className="text-center">
-                        <div className="d-flex justify-content-center py-2">
-                          <input
-                            type="file"
-                            className="form-control"
-                            accept="image/*"
-                            onChange={(e) => {
-                              setHinh(e.target.files[0]);
-                              setImagePreview(
-                                URL.createObjectURL(e.target.files[0])
-                              );
-                            }}
+                    <div className="mb-3">
+                      <label className="form-label">Hình Ảnh</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={(e) => {
+                          setHinh(e.target.files[0]);
+                          setImagePreview(URL.createObjectURL(e.target.files[0]));
+                        }}
+                      />
+                      {imagePreview && (
+                        <div className="mt-3">
+                          <img
+                            src={imagePreview}
+                            alt="Image Preview"
+                            style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
                           />
                         </div>
-                        {imagePreview && (
-                          <div className="mt-3">
-                            <img
-                              src={imagePreview}
-                              alt="Preview"
-                              style={{ width: "100%", height: "250px" }}
-                            />
-                          </div>
-                        )}
-                      </div>
+                      )}
                     </div>
-
-                    <div className="col-md border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Thông tin</h5>
-
-                      <div className="mb-3">
-                        <label className="form-label">Danh mục</label>
-                        <select
-                          className="form-select"
-                          value={ma_danh_muc_bv}
-                          onChange={(e) => setMaDanhMucBV(e.target.value)}
-                          required
-                        >
-                          <option value="" disabled>
-                            Chọn danh mục
-                          </option>
-                          {danhMucBV.map((dm) => (
-                            <option
-                              key={dm.ma_danh_muc_BV}
-                              value={dm.ma_danh_muc_BV}
-                            >
-                              {dm.ten_danh_muc_BV}
-                            </option>
-                          ))}
-                        </select>
-                        <label className="form-label mt-2">Trạng thái</label>
-                        <select
-                          className="form-select"
-                          value={trang_thai}
-                          onChange={(e) => setTrangThai(Number(e.target.value))}
-                        >
-                          <option value="0">Ẩn</option>
-                          <option value="1">Hiển thị</option>
-                        </select>
-                      </div>
+                    <div className="mb-3">
+                      <label className="form-label">Trạng Thái</label>
+                      <select
+                        className="form-select"
+                        value={trang_thai}
+                        onChange={(e) => setTrangThai(Number(e.target.value))}
+                        required
+                      >
+                        <option value={1}>Hiển thị</option>
+                        <option value={0}>Ẩn</option>
+                      </select>
                     </div>
+                    <button type="submit" className="btn btn-primary">
+                      Cập nhật
+                    </button>
                   </div>
-                  <button type="submit" className="btn btn-outline-success ">
-                    Sửa bài viết
-                  </button>
                 </div>
               </div>
             </form>
