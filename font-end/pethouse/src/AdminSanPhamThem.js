@@ -91,7 +91,7 @@ function AdminSanPhamThem() {
           setTrangThai(1);
           setNgayTao(new Date().toISOString().split("T")[0]);
           setNgayCapNhat(new Date().toISOString().split("T")[0]);
-          navigate("/adminsanpham"); // Chuyển hướng về trang danh sách danh mục
+          navigate("/adminsanpham"); // Chuyển hướng về trang danh sách sản phẩm
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
         }

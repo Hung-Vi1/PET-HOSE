@@ -1,85 +1,128 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Navigate, Link } from "react-router-dom";
+import { useParams, Navigate, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import Select from "react-select";
 import "./App.css";
 
 function AdminDonHangSua() {
   const { ma_don_hang } = useParams();
-  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
-  const [areas, setAreas] = useState([]); // Danh sách tỉnh/thành phố
-  const [districts, setDistricts] = useState([]); // Danh sách quận/huyện
-  const [wards, setWards] = useState([]); // Danh sách phường/xã
-  const [selectedArea, setSelectedArea] = useState(null); // Khu vực đã chọn
-  const [selectedDistrict, setSelectedDistrict] = useState(null); // Quận/Huyện đã chọn
-  const [selectedWard, setSelectedWard] = useState(null); // Phường/Xã đã chọn
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [hoTen, setHoTen] = useState("");
+  const [soDienThoai, setSoDienThoai] = useState("");
+  const [diaChi, setDiaChi] = useState("");
+  const [pttt, setPttt] = useState("Tiền mặt");
+  const [ghiChu, setGhiChu] = useState("");
+  const [trangThai, setTrangThai] = useState("cho_xac_nhan");
+  const { user, isLoggedIn } = useAuth();
+  const navigate = useNavigate(); // Khởi tạo useNavigate
 
+  // Dữ liệu sản phẩm trong đơn hàng
+  const [sanPhamDetails, setSanPhamDetails] = useState([]);
+
+  // Tính tổng hóa đơn
+  const calculateTotal = () => {
+    return sanPhamDetails.reduce((total, detail) => {
+      return total + detail.SoLuong * detail.DonGia;
+    }, 0);
+  };
+
+  // Lấy thông tin chi tiết đơn hàng
   useEffect(() => {
-    fetch(`https://provinces.open-api.vn/api/?depth=3`)
-      .then((response) => response.json())
+    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Không thể lấy thông tin đơn hàng");
+        return res.json();
+      })
       .then((data) => {
-        const formattedData = data.map((area) => ({
-          value: area.code,
-          label: area.name,
-          districts: area.districts, // Lưu districts ở đây
-        }));
-        setAreas(formattedData);
+        if (data.status === "success") {
+          const order = data.data[0];
+          setOrderDetails(order);
+          setHoTen(order.Ten);
+          setSoDienThoai(order.SDT);
+          setDiaChi(order.DiaChi);
+          setPttt(order.PTTT);
+          setGhiChu(order.GhiChu || "");
+          setTrangThai(order.TrangThai);
+          setSanPhamDetails(data.data);
+        }
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+        console.error("Error fetching order details:", error);
       });
-  }, []);
+  }, [ma_don_hang]);
 
-  const handleAreaChange = (selectedOption) => {
-    setSelectedArea(selectedOption);
-    setSelectedDistrict(null); // Reset quận/huyện
-    setWards([]); // Reset phường/xã
+  // Cập nhật thông tin đơn hàng
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    if (selectedOption) {
-      const selectedAreaData = areas.find(
-        (area) => area.value === selectedOption.value
-      );
-      if (selectedAreaData && selectedAreaData.districts) {
-        setDistricts(
-          selectedAreaData.districts.map((district) => ({
-            value: district.code,
-            label: district.name,
-            wards: district.wards, // Lưu wards ở đây
-          }))
-        );
-      } else {
-        setDistricts([]);
-      }
-    }
+    const updatedOrder = {
+      Ten: hoTen,
+      SDT: soDienThoai,
+      DiaChi: diaChi,
+      PTTT: pttt,
+      GhiChu: ghiChu, // Đảm bảo ghi chú đã được cập nhật
+      TrangThai: trangThai,
+      NgayGiao: new Date().toISOString().split("T")[0],
+    };
+
+    console.log("Dữ liệu gửi lên:", JSON.stringify(updatedOrder, null, 2)); // Kiểm tra dữ liệu gửi lên
+
+    fetch(`http://localhost:8000/api/orders/${ma_don_hang}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedOrder),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((errorData) => {
+            throw new Error(
+              `Cập nhật thất bại: ${errorData.message || res.statusText}`
+            );
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Cập nhật thành công!");
+          // Cập nhật ghi chú nếu cần
+          setGhiChu(data.updatedOrder.GhiChu || ghiChu);
+          navigate("/adminsanpham"); // Chuyển hướng về trang danh sách sản phẩm
+        } else {
+          alert("Cập nhật thất bại: " + (data.message || "Không rõ lý do"));
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating order:", error);
+      });
   };
 
-  const handleDistrictChange = (selectedOption) => {
-    setSelectedDistrict(selectedOption);
-    setSelectedWard(null); // Reset phường/xã
-
-    if (selectedOption) {
-      const selectedDistrictData = districts.find(
-        (district) => district.value === selectedOption.value
-      );
-      if (selectedDistrictData && selectedDistrictData.wards) {
-        setWards(
-          selectedDistrictData.wards.map((ward) => ({
-            value: ward.code,
-            label: ward.name,
-          }))
-        );
-      } else {
-        setWards([]);
-      }
-    } else {
-      setWards([]);
-    }
-  };
-
-  // Kiểm tra trạng thái đăng nhập
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
+
+  if (!orderDetails) {
+    return <div>Loading...</div>;
+  }
+
+  // Xóa dấu
+  const removeDiacritics = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const menuItems = [
+    "Tổng quan",
+    "Sản phẩm",
+    "Dịch vụ chăm sóc",
+    "Danh mục",
+    "Tài khoản",
+    "Đơn hàng",
+    "Đặt lịch",
+    "Tin tức",
+    "Liên hệ",
+    "Mã giảm giá",
+  ];
 
   return (
     <div className="container-fluid">
@@ -93,72 +136,23 @@ function AdminDonHangSua() {
             <img
               src={`http://localhost:8000/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt="Logo"
             />
           </Link>
-
-          <div className="list-group list-group-item-primary">
-            <Link
-              to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-              aria-current="true"
-            >
-              <h5 className="mb-0 py-1">Tổng quan</h5>
-            </Link>
-            <Link
-              to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
-            >
-              <h5 className="mb-0 py-1">Sản phẩm</h5>
-            </Link>
-            <Link
-              to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </Link>
-            <Link
-              to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Danh mục</h5>
-            </Link>
-            <Link
-              to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Tài khoản</h5>
-            </Link>
-            <Link
-              to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
-            >
-              <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </Link>
-            <Link
-              to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Đặt lịch</h5>
-            </Link>
-            <Link
-              to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
-              to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Liên hệ</h5>
-            </Link>
-            <Link
-              to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
-            >
-              <h5 className="mb-0 py-1">Mã giảm giá</h5>
-            </Link>
+          <div className="list-group list-group-item-primary mt-2">
+            {menuItems.map((item, index) => (
+              <Link
+                key={index}
+                to={`/admin${removeDiacritics(item)
+                  .replace(/\s+/g, "")
+                  .toLowerCase()}`}
+                className={`list-group-item list-group-item-action my-0 rounded-0 ${
+                  item === "Đơn hàng" ? "active" : ""
+                }`}
+              >
+                <h5 className="mb-0 py-1">{item}</h5>
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -197,9 +191,9 @@ function AdminDonHangSua() {
                       Xin chào, {user.Hovaten || "Không có tên"}
                     </a>
                     <ul className="dropdown-menu bg-primary p-0 mt-0 border-0 rounded-0">
-                      <li className="rounded-0">
+                      <li>
                         <Link
-                          className="menu-header-top dropdown-item m-0 py-2"
+                          className="menu-header-top dropdown-item"
                           to={"/"}
                         >
                           Xem trang chủ
@@ -210,7 +204,7 @@ function AdminDonHangSua() {
                       </li>
                       <li>
                         <a
-                          className="menu-header-bottom dropdown-item m-0 py-2"
+                          className="menu-header-bottom dropdown-item"
                           href="/#"
                         >
                           Đăng xuất
@@ -234,87 +228,43 @@ function AdminDonHangSua() {
               <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="d-flex flex-wrap">
                 <div className="col-md-8 px-0">
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Thông tin giao hàng</h5>
-
                       <div className="row mb-3">
                         <div className="col-md">
                           <label className="form-label">Họ và tên</label>
                           <input
                             type="text"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={hoTen}
+                            onChange={(e) => setHoTen(e.target.value)}
                             required
-                            placeholder="Nguyễn Văn A"
                           />
                         </div>
-
                         <div className="col-md">
                           <label className="form-label">Số điện thoại</label>
                           <input
-                            type="number"
-                            className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
-                            required
-                            placeholder="0364395907"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label className="form-label">Tỉnh/Thành phố</label>
-                          <Select
-                            options={areas}
-                            value={selectedArea}
-                            onChange={handleAreaChange}
-                            placeholder="Chọn Tỉnh / Thành phố"
-                            isClearable
-                            styles={{ minHeight: "550px" }}
-                          />
-                        </div>
-                        <div className="col-md">
-                          <label className="form-label">Quận/Huyện</label>
-                          <Select
-                            options={districts}
-                            value={selectedDistrict}
-                            onChange={handleDistrictChange}
-                            placeholder="Chọn Quận / Huyện"
-                            isClearable
-                            isDisabled={!selectedArea}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="row mb-3">
-                        <div className="col-md">
-                          <label className="form-label">Phường/Xã</label>
-                          <Select
-                            options={wards}
-                            value={selectedWard}
-                            onChange={setSelectedWard}
-                            placeholder="Chọn Phường / Xã"
-                            isClearable
-                            isDisabled={!selectedDistrict}
-                          />
-                        </div>
-                        <div className="col-md">
-                          <label className="form-label">Địa chỉ</label>
-                          <input
                             type="text"
                             className="form-control"
-                            // value={ten_san_pham}
-                            // onChange={(e) => setTenSanPham(e.target.value)}
+                            value={soDienThoai}
+                            onChange={(e) => setSoDienThoai(e.target.value)}
                             required
-                            placeholder="564/19A Đường Tỉnh Lộ 15 Tổ 8 Ấp Bến Đình"
                           />
                         </div>
+                      </div>
+                      <div className="mb-3">
+                        <label className="form-label">Địa chỉ</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={diaChi}
+                          onChange={(e) => setDiaChi(e.target.value)}
+                          required
+                        />
                       </div>
                     </div>
                   </div>
@@ -324,40 +274,30 @@ function AdminDonHangSua() {
                   <div className="d-flex flex-wrap">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
-
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
-                        >
-                          <option value="0">Chờ xác nhận</option>
-                          <option value="1">Đang xử lý</option>
-                          <option value="1">Đã xử lý</option>
-                          <option value="1">Đã hủy</option>
-                        </select>
-                      </div>
+                      <select
+                        className="form-select"
+                        value={trangThai}
+                        onChange={(e) => setTrangThai(e.target.value)}
+                      >
+                        <option value="cho_xac_nhan">Chờ xác nhận</option>
+                        <option value="da_xac_nhan">Đã xác nhận</option>
+                        <option value="dang_van_chuyen">Đang vận chuyển</option>
+                        <option value="da_thanh_toan">Đã thanh toán</option>
+                        <option value="hoan_thanh">Hoàn thành</option>
+                        <option value="huy">Hủy</option>
+                      </select>
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Phương thức thanh toán</h5>
-
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          // value={trang_thai}
-                          // onChange={(e) =>
-                          //   setTrangThai(Number(e.target.value))
-                          // }
-                        >
-                          <option value="0">Thanh toán khi nhận hàng</option>
-                          <option value="1">Thanh toán chuyển khoản</option>
-                        </select>
-                      </div>
+                      <select
+                        className="form-select"
+                        value={pttt}
+                        onChange={(e) => setPttt(e.target.value)}
+                      >
+                        <option value="Tiền mặt">Tiền mặt</option>
+                        <option value="Chuyển khoản">Chuyển khoản</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -366,7 +306,6 @@ function AdminDonHangSua() {
               <div className="d-flex flex-wrap">
                 <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                   <h5 className="mb-2 py-1">Chi tiết đơn hàng</h5>
-
                   <form className="d-flex mb-3" role="search">
                     <input
                       className="form-control me-2"
@@ -391,122 +330,51 @@ function AdminDonHangSua() {
                         <th className="text-center fw-bold text-nowrap"></th>
                       </tr>
                     </thead>
-
                     <tbody>
-                      <tr>
-                        <td className="text-center">1</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test1</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="2"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(199000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(199000 * 2).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-center">2</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test2</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="1"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(159000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(159000 * 1).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-center">3</td>
-                        <td style={{ width: "6%" }}>
-                          <img
-                            src="http://localhost:8000/image/product/test.jpg"
-                            alt="http://localhost:8000/image/product/test.jpg"
-                            className="w-100 h-auto"
-                          />
-                        </td>
-                        <td>Sản phẩm test3</td>
-                        <td className="d-flex justify-content-center">
-                          <input
-                            type="number"
-                            className="form-control w-50"
-                            placeholder="3"
-                          />
-                        </td>
-                        <td className="text-end">
-                          {parseInt(99000).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-end">
-                          {parseInt(99000 * 3).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </td>
-                        <td className="text-center">
-                          <i className="bi bi-x-lg btn text-danger p-0"></i>
-                        </td>
-                      </tr>
+                      {sanPhamDetails.map((detail, index) => (
+                        <tr key={detail.MaCTDH}>
+                          <td className="text-center">{index + 1}</td>
+                          <td style={{ width: "8%" }}>
+                            <img
+                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              alt={detail.SanPham.TenSP}
+                            />
+                          </td>
+                          <td>{detail.SanPham.TenSP}</td>
+                          <td className="text-center">{detail.SoLuong}</td>
+                          <td className="text-end">
+                            {parseInt(detail.DonGia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </td>
+                          <td className="text-end">
+                            {parseInt(
+                              detail.SoLuong * detail.DonGia
+                            ).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </td>
+                          <td className="text-center">
+                            <i className="bi bi-x-lg btn text-danger p-0"></i>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
-
                     <tfoot>
                       <tr>
                         <td className="text-center">Ghi chú</td>
                         <td colSpan={3}>
-                          <div className="">
-                            <textarea className="form-control h-50"></textarea>
-                          </div>
+                          <textarea
+                            className="form-control h-50"
+                            value={ghiChu}
+                            onChange={(e) => setGhiChu(e.target.value)}
+                          ></textarea>
                         </td>
                         <td className="text-end fw-bold">Tổng hóa đơn</td>
                         <td className="text-end fw-bold">
-                          {parseInt(854000).toLocaleString("vi-VN", {
+                          {parseInt(calculateTotal()).toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}
@@ -521,7 +389,6 @@ function AdminDonHangSua() {
               <div className="d-flex justify-content-end">
                 <Link
                   to={`/admindonhangchitiet/${ma_don_hang}`}
-                  type="button"
                   className="btn btn-outline-danger me-2 my-0"
                 >
                   Hủy
