@@ -19,9 +19,11 @@ function AdminMGGSua() {
   const [error, setError] = useState(null);
   const [existingCodes, setExistingCodes] = useState([]); // Mảng mã giảm giá hiện có
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy thông tin mã giảm giá hiện tại
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/coupons/${maGiamGia}`) // Gọi API lấy chi tiết mã giảm giá
+    fetch(`${apiUrl}/api/coupons/${maGiamGia}`) // Gọi API lấy chi tiết mã giảm giá
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải thông tin mã giảm giá");
@@ -45,7 +47,7 @@ function AdminMGGSua() {
       .catch(() => setError("Lỗi khi tải thông tin mã giảm giá"));
 
     // Lấy danh sách mã giảm giá đã tồn tại
-    fetch("http://127.0.0.1:8000/api/coupons")
+    fetch(`${apiUrl}/api/coupons`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success" && data.data) {
@@ -76,7 +78,7 @@ function AdminMGGSua() {
       usage_limit: UsageLimit,
     };
 
-    fetch(`http://127.0.0.1:8000/api/coupons/update/${maGiamGia}`, {
+    fetch(`${apiUrl}/api/coupons/update/${maGiamGia}`, {
       method: "PUT", // Sử dụng phương thức PUT để cập nhật
       headers: {
         "Content-Type": "application/json",
@@ -110,9 +112,9 @@ function AdminMGGSua() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

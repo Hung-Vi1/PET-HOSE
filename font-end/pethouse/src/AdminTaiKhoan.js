@@ -7,12 +7,12 @@ import "./App.css";
 function AdminTaiKhoan() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [list_tk, ganTK] = useState([]);
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   // Lấy danh sách tài khoản
   useEffect(() => {
     const danhsachuser = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/users");
+        const response = await fetch(`${apiUrl}/api/users`);
         const data = await response.json();
         ganTK(data.data || []);
       } catch (error) {
@@ -38,7 +38,7 @@ function AdminTaiKhoan() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
               alt="Logo"
             />
@@ -155,13 +155,14 @@ function AdminTaiKhoan() {
 
 function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
   const [selectedUser, setSelectedUser] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Hàm xóa tài khoản
   const handleDelete = async (ma_tai_khoan) => {
     if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/users/${ma_tai_khoan}`,
+          `${apiUrl}/api/users/${ma_tai_khoan}`,
           {
             method: "DELETE",
           }

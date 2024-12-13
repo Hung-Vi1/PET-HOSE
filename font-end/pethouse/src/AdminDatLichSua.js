@@ -24,9 +24,11 @@ function AdminDatLichSua() {
 
     const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     // Lấy thông tin đơn hàng theo mã đơn hàng
     useEffect(() => {
-        fetch(`http://localhost:8000/api/orderDetailServices/${ma_don_hang}`, {
+        fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ function AdminDatLichSua() {
             NgayGiao: `${ngayGiao} ${gioGiao}`, // Kết hợp ngày và giờ giao
         };
 
-        fetch(`http://localhost:8000/api/orders/${ma_don_hang}`, {
+        fetch(`${apiUrl}/api/orders/${ma_don_hang}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -236,9 +238,9 @@ function AdminDatLichSua() {
                 >
                     <Link to={"/"}>
                         <img
-                            src={`http://localhost:8000/image/Nen_trong_suot.png`}
+                            src={`${apiUrl}/image/Nen_trong_suot.png`}
                             className="d-block w-75 mx-auto"
-                            alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+                            alt={`${apiUrl}/image/Nen_trong_suot.png`}
                         />
                     </Link>
 

@@ -20,6 +20,8 @@ function AdminDonHangChiTiet() {
   const [ghiChu, setGhiChu] = useState("");
   const [sanPhamDetails, setSanPhamDetails] = useState([]);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const calculateTotal = () => {
     return sanPhamDetails.reduce((total, detail) => {
       return total + detail.SoLuong * detail.DonGia;
@@ -31,7 +33,7 @@ function AdminDonHangChiTiet() {
 
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`, {
+    fetch(`${apiUrl}/api/orderDetails/${ma_don_hang}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -78,9 +80,9 @@ function AdminDonHangChiTiet() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

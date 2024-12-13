@@ -12,6 +12,8 @@ function AdminDanhMucThem() {
   const [loai, setLoai] = useState("0"); // Trạng thái cho loại
   const [error, setError] = useState(null); // Trạng thái cho lỗi
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Xử lý gửi form
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function AdminDanhMucThem() {
       loai: loai,
     };
 
-    fetch(`http://localhost:8000/api/category/store`, {
+    fetch(`${apiUrl}/api/category/store`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,9 +55,9 @@ function AdminDanhMucThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

@@ -9,6 +9,8 @@ function AdminTaiKhoanSua() {
   const { ma_tai_khoan } = useParams(); // Nhận ma_tai_khoan từ URL
   const navigate = useNavigate();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [account, setAccount] = useState({
     Hovaten: "",
     SDT: "",
@@ -20,7 +22,7 @@ function AdminTaiKhoanSua() {
 
   useEffect(() => {
     // Lấy thông tin tài khoản từ API khi component mount
-    fetch(`http://127.0.0.1:8000/api/users/show/${ma_tai_khoan}`)
+    fetch(`${apiUrl}/api/users/show/${ma_tai_khoan}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
@@ -55,7 +57,7 @@ function AdminTaiKhoanSua() {
       ThuCung: account.ThuCung,
     };
 
-    fetch(`http://127.0.0.1:8000/api/users/${ma_tai_khoan}`, {
+    fetch(`${apiUrl}/api/users/${ma_tai_khoan}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,9 +97,9 @@ function AdminTaiKhoanSua() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

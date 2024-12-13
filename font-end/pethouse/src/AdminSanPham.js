@@ -9,9 +9,11 @@ function AdminSanPham() {
   const { user } = useAuth();
   const [list_sp, ganSP] = useState([]);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/products")
+    fetch( `${apiUrl}/api/products `)
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -38,9 +40,9 @@ function AdminSanPham() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 
@@ -206,9 +208,11 @@ function AdminSanPham() {
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   const [ganSP] = useState([]);
   const setSelectedProduct = useState(null);
+  
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchProductById = (ma_san_pham) => {
-    fetch(`http://localhost:8000/api/products/${ma_san_pham}`)
+    fetch(`${apiUrl}/api/products/${ma_san_pham}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin sản phẩm:", data);
@@ -220,9 +224,10 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   };
 
   const xoaSanPham = (maSP) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/products/destroy/${maSP}`, {
+      fetch(`${apiUrl}/api/products/destroy/${maSP}`, {
         method: "DELETE",
       })
         .then((res) => {
@@ -252,7 +257,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td className="text-center">{fromIndex + i + 1}</td>
               <td className="text-center">
                 <img
-                  src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
+                  src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                   alt={`image/product/${sp.hinh_anh}`}
                   style={{ width: "100px" }}
                 />

@@ -26,9 +26,11 @@ function AdminSanPhamThem() {
   const [danhMuc, setDanhMuc] = useState([]);
   const [error, setError] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách danh mục từ API
   useEffect(() => {
-    fetch("http://localhost:8000/api/category")
+    fetch(`${apiUrl}/api/category`)
       .then((res) => {
         if (!res.ok) throw new Error("Không thể lấy danh sách danh mục");
         return res.json();
@@ -63,7 +65,7 @@ function AdminSanPhamThem() {
     // Log để kiểm tra file hình ảnh
     console.log("Hình ảnh:", hinh_anh);
 
-    fetch("http://localhost:8000/api/products/store", {
+    fetch(`${apiUrl}/api/products/store`, {
       method: "POST",
       body: formData,
     })
@@ -112,9 +114,9 @@ function AdminSanPhamThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

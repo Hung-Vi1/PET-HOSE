@@ -18,16 +18,18 @@ function Admin_Suabv() {
   const [error, setError] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     // Lấy danh mục bài viết
-    fetch("http://localhost:8000/api/catagorysNews")
+    fetch(`${apiUrl}/api/catagorysNews`)
       .then((res) => res.json())
       .then((data) => setDanhMucBV(data.data))
       .catch(() => setError("Không thể lấy danh mục bài viết"));
 
     // Nếu có id, tải thông tin bài viết để chỉnh sửa
     if (id) {
-      fetch(`http://localhost:8000/api/News/${id}`)
+      fetch(`${apiUrl}/api/News/${id}`)
         .then((res) => res.json())
         .then((data) => {
           const { tieu_de, ma_danh_muc_bv, noi_dung, chi_tiet, trang_thai, Hinh } = data.data;
@@ -68,7 +70,7 @@ function Admin_Suabv() {
     formData.append("TrangThai", trang_thai);
 
     // Gửi dữ liệu đến API
-    fetch(`http://localhost:8000/api/News/${id}`, {
+    fetch(`${apiUrl}/api/News/${id}`, {
       method: "POST",
       body: formData,
     })
@@ -101,7 +103,7 @@ function Admin_Suabv() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
               alt="Logo"
             />

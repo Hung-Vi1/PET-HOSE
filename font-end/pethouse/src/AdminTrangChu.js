@@ -15,6 +15,8 @@ function AdminTrangChu() {
   const [usersCount, setUsersCount] = useState(0); // Số lượng người dùng
   const [orderServicesCount, setOrderServicesCount] = useState(0); // Số lượng dịch vụ đặt
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Hàm tính toán số lượng đơn hàng theo trạng thái
   const calculateOrderStatusData = (orders) => {
     const statusCounts = {};
@@ -46,7 +48,7 @@ function AdminTrangChu() {
     const fetchData = async () => {
       try {
         // Gọi API để lấy số lượng sản phẩm
-        const productsResponse = await fetch("http://127.0.0.1:8000/api/products");
+        const productsResponse = await fetch(`${apiUrl}/api/products`);
         const productsData = await productsResponse.json();
         setProductsCount(productsData.data.length); // Set số lượng sản phẩm
         console.log("Đếm:", productsData.data.length);  // Kiểm tra phản hồi API
@@ -55,12 +57,12 @@ function AdminTrangChu() {
 
 
         // Gọi API để lấy số lượng người dùng
-        const usersResponse = await fetch("http://127.0.0.1:8000/api/users");
+        const usersResponse = await fetch(`${apiUrl}/api/users`);
         const usersData = await usersResponse.json();
         setUsersCount(usersData.data.length);
 
         // Gọi API để lấy số lượng dịch vụ đặt
-        const orderServicesResponse = await fetch("http://127.0.0.1:8000/api/orderServices");
+        const orderServicesResponse = await fetch(`${apiUrl}/api/orderServices`);
         const orderServicesData = await orderServicesResponse.json();
         setOrderServicesCount(orderServicesData.data.length);
 
@@ -70,7 +72,7 @@ function AdminTrangChu() {
       }
       try {
         // Gọi API đơn hàng
-        const ordersResponse = await fetch("http://127.0.0.1:8000/api/order");
+        const ordersResponse = await fetch(`${apiUrl}/api/order`);
         const ordersData = await ordersResponse.json();
         setOrdersCount(ordersData.data.length);
 
@@ -336,9 +338,9 @@ function AdminTrangChu() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

@@ -9,8 +9,10 @@ function Admin_bv() {
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(10);
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
-        fetch("http://localhost:8000/api/News")
+        fetch(`${apiUrl}/api/News`)
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {
@@ -26,7 +28,7 @@ function Admin_bv() {
 
     const xoaBaiViet = (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
-            fetch(`http://localhost:8000/api/News/${id}`, {
+            fetch(`${apiUrl}/api/News/${id}`, {
                 method: "DELETE",
             })
                 .then((res) => {
@@ -62,9 +64,9 @@ function Admin_bv() {
                 >
                     <Link to={"/"}>
                         <img
-                            src={`http://localhost:8000/image/Nen_trong_suot.png`}
+                            src={`${apiUrl}/image/Nen_trong_suot.png`}
                             className="d-block w-75 mx-auto"
-                            alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+                            alt={`${apiUrl}/image/Nen_trong_suot.png`}
                         />
                     </Link>
 
@@ -125,7 +127,7 @@ function Admin_bv() {
                                     <tr key={item.bai_viet}>
                                         <td className="text-center">{index + 1 + (currentPage - 1) * postsPerPage}</td>
                                         <td className="text-center">
-                                            <img src={`http://localhost:8000/image/News/${item.Hinh}`} style={{ width: "100px", height: "auto" }} />
+                                            <img src={`${apiUrl}/image/News/${item.Hinh}`} style={{ width: "100px", height: "auto" }} />
                                         </td>
                                         <td>{item.tieu_de}</td>
                                         <td className="text-center">{item.ma_danh_muc_bv}</td>

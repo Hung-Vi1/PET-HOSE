@@ -8,11 +8,13 @@ function AdminMaGiamGia() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [listDiscounts, setListDiscounts] = useState([]); // Danh sách mã giảm giá
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách mã giảm giá
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/coupons");
+        const response = await fetch(`${apiUrl}/api/coupons`);
         const data = await response.json();
         setListDiscounts(data.data || []); // Gán dữ liệu vào state
       } catch (error) {
@@ -28,7 +30,7 @@ function AdminMaGiamGia() {
     if (window.confirm("Bạn chắc chắn muốn xóa mã giảm giá này?")) {
       try {
         // Gọi API xóa mã giảm giá với ma_giam_gia
-        const response = await fetch(`http://127.0.0.1:8000/api/coupons/destroy/${ma_giam_gia}`, {
+        const response = await fetch(`${apiUrl}/api/coupons/destroy/${ma_giam_gia}`, {
           method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
         });
 
@@ -61,9 +63,9 @@ function AdminMaGiamGia() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

@@ -17,8 +17,10 @@ function Admin_Thembv() {
   const [error, setError] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
-    fetch("http://localhost:8000/api/catagorysNews")
+    fetch(`${apiUrl}/api/catagorysNews`)
       .then((res) => res.json())
       .then((data) => setDanhMucBV(data.data))
       .catch(() => setError("Không thể lấy danh mục bài viết"));
@@ -46,7 +48,7 @@ function Admin_Thembv() {
     formData.append("trang_thai", trang_thai);
     formData.append("ngay_tao", ngay_tao);
 
-    fetch("http://127.0.0.1:8000/api/News/store", {
+    fetch(`${apiUrl}/api/News/store`, {
       method: "POST",
       body: formData,
     })
@@ -61,7 +63,7 @@ function Admin_Thembv() {
       })
       .then((data) => {
         alert("Thêm bài viết thành công!");
-        setImagePreview(`http://localhost:8000/${data.Hinh}`);
+        setImagePreview(`${apiUrl}/${data.Hinh}`);
         navigate("/Admin_BV");
       })
       .catch((error) => {
@@ -80,9 +82,9 @@ function Admin_Thembv() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

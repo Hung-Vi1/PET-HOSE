@@ -13,6 +13,8 @@ function AdminDatLichChiTiet() {
     const [ghiChu, setGhiChu] = useState("");
     const [DichvuDetails, setDichvuDetails] = useState([]);
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const calculateTotal = () => {
         return DichvuDetails.reduce((total, detail) => {
             return total + detail.SoLuong * detail.DonGia;
@@ -22,7 +24,7 @@ function AdminDatLichChiTiet() {
     const { user, isLoggedIn } = useAuth();
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/orderDetailServices/${ma_don_hang}`, {
+        fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ function AdminDatLichChiTiet() {
         });
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/orderDetailServices/${ma_don_hang}`);
+            const response = await fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`);
             if (!response.ok) {
                 throw new Error(`Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`);
             }
@@ -166,7 +168,7 @@ function AdminDatLichChiTiet() {
             <div className="row">
                 <div id="openMenu" className="col-md-2 p-0 bg-primary collapse collapse-horizontal show" style={{ minHeight: "100vh" }}>
                     <Link to={"/"}>
-                        <img src={`http://localhost:8000/image/Nen_trong_suot.png`} className="d-block w-75 mx-auto" alt={`Logo`} />
+                        <img src={`${apiUrl}/image/Nen_trong_suot.png`} className="d-block w-75 mx-auto" alt={`Logo`} />
                     </Link>
                     <div className="list-group list-group-item-primary">
             <Link

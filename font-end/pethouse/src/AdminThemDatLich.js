@@ -16,10 +16,12 @@ function AdminThemDatLich() {
     const [note, setNote] = useState("");
     const [deliveryDate, setDeliveryDate] = useState("");
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     // Fetch users and services on component mount
     useEffect(() => {
         // Fetch users
-        fetch("http://127.0.0.1:8000/api/users")
+        fetch(`${apiUrl}/api/users`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "success" && Array.isArray(data.data)) {
@@ -32,7 +34,7 @@ function AdminThemDatLich() {
             .catch((error) => console.error("Error fetching users:", error));
 
         // Fetch services
-        fetch("http://127.0.0.1:8000/api/services")
+        fetch(`${apiUrl}/api/services`)
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "success" && Array.isArray(data.data)) {
@@ -65,7 +67,7 @@ function AdminThemDatLich() {
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/orderServices", {
+            const response = await fetch(`${apiUrl}/api/orderServices`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -125,7 +127,7 @@ function AdminThemDatLich() {
                 >
                     <Link to={"/"}>
                         <img
-                            src={`http://localhost:8000/image/Nen_trong_suot.png`}
+                            src={`${apiUrl}/image/Nen_trong_suot.png`}
                             className="d-block w-75 mx-auto"
                             alt="Logo"
                         />

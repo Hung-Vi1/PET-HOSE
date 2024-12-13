@@ -43,9 +43,9 @@ export const AuthProvider = ({ children }) => {
 
   // Kiểm tra quyền của người dùng
   const hasPermission = (permission) => {
-    return user && user.Quyen === permission; // Kiểm tra quyền của người dùng
+    return user && Number(user.Quyen) === permission; // Chuyển user.Quyen sang kiểu number
   };
-
+ 
   return (
     <AuthContext.Provider
       value={{
