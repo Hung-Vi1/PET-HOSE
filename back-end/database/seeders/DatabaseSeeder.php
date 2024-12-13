@@ -32,21 +32,21 @@ class DatabaseSeeder extends Seeder
             ['MaDanhMuc' => '4', 'TenDM' => 'Phụ kiện cho chó', 'parent_id' => 1, 'loai' => '0'],
             ['MaDanhMuc' => '5', 'TenDM' => 'Khay vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
             ['MaDanhMuc' => '6', 'TenDM' => 'Tã cho chó, Bỉm cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '7', 'TenDM' => 'Miếng lót vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '8', 'TenDM' => 'Lồng chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '9', 'TenDM' => 'Nhà cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '10', 'TenDM' => 'Chuồng chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '11', 'TenDM' => 'Quây chó, Hàng rào chắn chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '12', 'TenDM' => 'Nệm cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '13', 'TenDM' => 'Bình nước, Bát ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '14', 'TenDM' => 'Đồ chơi cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '15', 'TenDM' => 'Vật dụng chăm sóc chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '16', 'TenDM' => 'Sữa tắm cho chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '17', 'TenDM' => 'Lược chải lông chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '18', 'TenDM' => 'Kềm cắt móng chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '19', 'TenDM' => 'Máy sấy lông chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '20', 'TenDM' => 'Tông đơ cắt lông chó', 'parent_id' => 1, 'loai' => '0'],
-            ['MaDanhMuc' => '21', 'TenDM' => 'Thuốc thú y cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '7', 'TenDM' => 'Miếng lót vệ sinh cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '8', 'TenDM' => 'Lồng chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '9', 'TenDM' => 'Nhà cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '10', 'TenDM' => 'Chuồng chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '11', 'TenDM' => 'Quây chó, Hàng rào chắn chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '12', 'TenDM' => 'Nệm cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '13', 'TenDM' => 'Bình nước, Bát ăn cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '14', 'TenDM' => 'Đồ chơi cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '15', 'TenDM' => 'Vật dụng chăm sóc chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '16', 'TenDM' => 'Sữa tắm cho chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '17', 'TenDM' => 'Lược chải lông chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '18', 'TenDM' => 'Kềm cắt móng chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '19', 'TenDM' => 'Máy sấy lông chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '20', 'TenDM' => 'Tông đơ cắt lông chó', 'parent_id' => 1, 'loai' => '0'],
+            // ['MaDanhMuc' => '21', 'TenDM' => 'Thuốc thú y cho chó', 'parent_id' => 1, 'loai' => '0'],
 
 
             // danh mục con của mèo
@@ -57,15 +57,15 @@ class DatabaseSeeder extends Seeder
             ['MaDanhMuc' => '26', 'TenDM' => 'Cát mèo', 'parent_id' => 2, 'loai' => '0'],
             ['MaDanhMuc' => '27', 'TenDM' => 'Máy lọc nước cho mèo', 'parent_id' => 2, 'loai' => '0'],
             ['MaDanhMuc' => '28', 'TenDM' => 'Bát ăn cho mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '29', 'TenDM' => 'Đệm cho mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '30', 'TenDM' => 'Đồ chơi cho mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '31', 'TenDM' => 'Vật dụng chăm sóc mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '32', 'TenDM' => 'Sữa tắm cho mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '33', 'TenDM' => 'Lược chải lông mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '34', 'TenDM' => 'Kìm cắt móng mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '35', 'TenDM' => 'Nhà cho mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '36', 'TenDM' => 'Chuồng mèo', 'parent_id' => 2, 'loai' => '0'],
-            ['MaDanhMuc' => '37', 'TenDM' => 'Thuốc thú y cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '29', 'TenDM' => 'Đệm cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '30', 'TenDM' => 'Đồ chơi cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '31', 'TenDM' => 'Vật dụng chăm sóc mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '32', 'TenDM' => 'Sữa tắm cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '33', 'TenDM' => 'Lược chải lông mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '34', 'TenDM' => 'Kìm cắt móng mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '35', 'TenDM' => 'Nhà cho mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '36', 'TenDM' => 'Chuồng mèo', 'parent_id' => 2, 'loai' => '0'],
+            // ['MaDanhMuc' => '37', 'TenDM' => 'Thuốc thú y cho mèo', 'parent_id' => 2, 'loai' => '0'],
         ];
 
         foreach ($danhMucs as $danhMuc) {
@@ -534,7 +534,67 @@ class DatabaseSeeder extends Seeder
                 'TrangThai' => 1, // 1: ẩn , 0: hiện
                 'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
             ],
+            [
+                'MaDanhMuc' => 6,
+                'TenSanPham' => 'Tã bỉm cho chó mèo đực DONO Medium',
+                'GiaSP' => 150000,
+                'GiamGia' => 0,
+                'MoTa' => 'Tã bỉm cho chó mèo đực DONO Medium với 10 miếng, phù hợp với các giống chó mèo có cân nặng 5 – 8kg. Kích thước 45 – 64cm.
 
+Lợi ích chính
+Tã bỉm cho chó mèo đực DONO với thiết kế đặc biệt bên trong chứa chất kháng khuẩn cao, có thể duy trì trong thời gian dài khử mùi hôi và các mùi lạ. Đặc biệt duy trì vấn đề đi vệ sinh của thú cưng trong nhà sạch sẽ, có đầy đủ các kích thước khác nhau dành cho tất cả các giống chó từ nhỏ tới lớn.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'ta-bim-cho-cho-meo-duc-dono-medium-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 6,
+                'TenSanPham' => 'Tã bỉm cho chó mèo cái PET SOFT Disposable Diapers XXSmall 1-3kg',
+                'GiaSP' => 10000,
+                'GiamGia' => 0,
+                'MoTa' => 'Tã bỉm cho chó mèo cái PET SOFT Disposable Diapers XXSmall 1-3kg là giải pháp đơn giản và hiệu quả cho thú cưng của bạn bị tiểu tiện bừa bãi và khi chó cái đến giai đoạn đèn đỏ. Tã bỉm cho chó có kích thước vừa vặn với thú cưng 1 đến 3kg. Sản phẩm có đường chỉ cho biết độ ẩm để bạn biết khi nào cần thay bỉm cho chó. Mỗi chiếc tã đều có một rào chắn hạn chế sự rò rỉ nước ra ngoài. An toàn lông và cố định vị trí cho chó dễ dàng đi vệ sinh mọi lúc mọi nơi.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'pet-soft-disposable-diapers-xxsmall-1-3kg-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 6,
+                'TenSanPham' => 'Tã bỉm cho chó mèo cái 4-8kg PAW Female Pet Diapers M',
+                'GiaSP' => 15000,
+                'GiamGia' => 0,
+                'MoTa' => 'Tã bỉm cho chó mèo cái 4-8kg PAW Female Pet Diapers M là sản phẩm chăm sóc vệ sinh cho thú cưng giới tính cái. Với thiết kế siêu mỏng và siêu khô, sản phẩm sử dụng công nghệ chống rò rỉ, giúp thú cưng luôn khô ráo và thoải mái. Phù hợp với các giống chó mèo nhỡ có trọng lượng từ 8 đến 14kg.
+
+',
+                'SoLuong' => 100,
+                'HinhAnh' => 'ta-bim-cho-cho-meo-cai-8-14kg-paw-female-pet-diapers-m.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 6,
+                'TenSanPham' => 'Tã bỉm cho chó đực 1-2kg PAW Male Dog Diapers S',
+                'GiaSP' => 365000,
+                'GiamGia' => 0,
+                'MoTa' => 'Tã bỉm cho chó đực 1-2kg PAW Male Dog Diapers S (phiên bản vũ trụ) là giải pháp hoàn hảo cho những chú chó đực con siêu nhỏ với những tính năng vượt trội. Với khả năng dễ dán và chắc chắn, sản phẩm giúp ngăn chặn hiện tượng bị rơi hoặc bong ra khi chó đang sử dụng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'ta-bim-cho-cho-meo-duc-2-4kg-paw-pet-diapers-s-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
 
             [
                 'MaDanhMuc' => 22,
@@ -943,6 +1003,414 @@ Lưu ý khi sử dụng
 Lưới nhựa gài khay vệ sinh cho mèo MAKAR Grid Box chỉ sử dụng kết hợp được với Khay vệ sinh cho mèo MAKAR General Cat Litter Box.',
                 'SoLuong' => 100,
                 'HinhAnh' => 'luoi-khay-ve-sinh-cho-meo-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh cho mèo siêu vón IRIS OHYAMA KFAG-100',
+                'GiaSP' => 160000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh cho mèo siêu vón IRIS OHYAMA KFAG-100 nổi tiếng nhập khẩu trực tiếp từ Nhật Bản, được dùng cho tất cả giống mèo.
+
+Lợi ích chính
+Cát vệ sinh cho mèo siêu vón IRIS OHYAMA KFAG-100 với công dụng vón thành cục siêu nhanh
+Có khả năng khử mùi hôi tối ưu đồng thời có tác dụng kháng khuẩn tốt hơn rất nhiều so với các loại cát mèo thông thường giá rẻ khác trên thị trường
+Sản phẩm có chứa thêm thành phần ion bạc kháng khuẩn khống chế được sự hình thành của vi khuẩn
+Lực hút mạnh hơn rất nhiều lần so với các loại cát thông thường khác, sau khi gặp nước tiểu sẽ lập tức ngưng kết lại, tiết kiệm hơn, kinh tế hơn',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cat-ve-sinh-cho-meo-iris-kfag100-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh thủy tinh cho mèo TRIXIE Silikatstreu',
+                'GiaSP' => 160000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh cho mèo TRIXIE Silikatstreu dạng hạt thủy tinh là sản phẩm dành cho tất cả giống mèo.
+
+Lợi ích chính
+Cát vệ sinh thủy tinh cho mèo TRIXIE Silikatstreu là dạng hạt, có khả năng hấp thụ nước tiểu của mèo rất nhanh
+Siêu vón mà không để lại mùi hôi. Sản phẩm rất dễ sử dụng
+Bạn chỉ cần chuẩn bị một khay vệ sinh cho mèo và đổ cát vào đó. Huấn luyện mèo đi vệ sinh đúng chỗ. Điều này sẽ giúp bạn giải quyết được việc đi vệ sinh bừa bãi của thú cưng
+Bên cạnh đó trọng lượng cát cũng rất nhẹ. Cực hiệu quả khi gặp nước tiểu liền kết lại nhanh chóng
+Kinh tế hơn nhiều so với những sản phẩm khác trên thị trường
+Cát vệ sinh cũng giảm thiểu được bụi phân tán trong không khí, không gây ảnh hưởng cho người bị dị ứng',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cat-ve-sinh-cho-meo-trixiesilikatstreu-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh hữu cơ cho mèo CATS BEST Original',
+                'GiaSP' => 140000,
+                'GiamGia' => 0,
+                'MoTa' => 'Lợi ích chính:
+Cát vệ sinh cho mèo hữu cơ CATS BEST Original – Khóa chặt mùi hôi và vi trùng. Công nghệ JRS-ORGANIC FIBRE700 có chức năng như một chiếc bẫy mùi hôi và vi trùng, nhanh chóng thấm hút chất lỏng và mùi hôi, khóa chúng lại trong một thời gian dài nhờ hệ thống mao dẫn siêu tốt của sợi cây. Nhờ vậy, mùi hôi không bị phát tán ra ngoài mà không cần dùng bất kỳ hóa chất nào.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cats-best-original-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh cho mèo than hoạt tính IRIS OHYAMA Charcoal SNS-70',
+                'GiaSP' => 160000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh cho mèo than hoạt tính IRIS OHYAMA Charcoal SNS-70 được sản xuất từ nguyên liệu than hoạt tính tự nhiên giúp khử mùi tiểu và phân mèo hiệu quả.
+
+Lợi ích chính
+Cát vệ sinh cho mèo than hoạt tính IRIS OHYAMA Charcoal SNS-70 được phủ bên ngoài bề mặt thành phần than sẽ giúp cho mèo không bị dính bẩn khi dẫm vào. Nước tiểu của mèo khi thải ra sẽ được hấp thụ nhanh chóng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cat-ve-sinh-cho-meo-iris-charcoal-sns70-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh hữu cơ cho mèo CATS BEST Smart Peppets',
+                'GiaSP' => 155000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh hữu cơ cho mèo CATS BEST Smart Peppets có dạng những viên nén “thông minh”, giúp hạn chế bám dính vào lông mèo gây vương vãi ra ngoài, đặc biệt phù hợp với mèo lông dài. Cát vón cục, thấm hút lượng chất lỏng gấp 7 lần thể tích cát.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cats-best-smart-peppets-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh cho mèo bột gỗ IRIS OHYAMA Woody Fresh WF-70',
+                'GiaSP' => 160000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh cho mèo bột gỗ IRIS OHYAMA Woody Fresh WF-70 không mùi với 3 tác dụng đồng thời giúp vón cục – khử mùi và kháng khuẩn cực tốt. Cát vệ sinh IRIS Woody Fresh WF70 không mùi được làm từ bột gỗ tự nhiên, Bentonit và chứa các hạt chất khoán khuẩn màu xanh thân thiện với môi trường và có thể tái chế tài nguyên.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cat-ve-sinh-cho-meo-bot-go-iris-woody-fresh-wf70-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Cát vệ sinh hữu cơ cho mèo CATS BEST Sensitive',
+                'GiaSP' => 230000,
+                'GiamGia' => 0,
+                'MoTa' => 'Cát vệ sinh hữu cơ cho mèo CATS BEST Sensitive được sản xuất dưới dạng hạt gỗ nhỏ mịn, mềm mại cho bàn chân nhạy cảm của mèo. Bên cạnh khả năng thấm hút và khử mùi xuất sắc, CATS BEST Sensitive còn chứa hạt vệ sinh màu xanh tự nhiên đặc biệt hiệu quả trong việc kháng khuẩn, ngăn chặn vi trùng phát tán, đảm bảo vệ sinh sạch sẽ cho khay và an toàn cho môi trường sống. Nhờ vậy, cát vệ sinh cho mèo hữu cơ CATS BEST Sensitive có thể được dùng trong suốt 8 tuần trước khi thay hoàn toàn cát mới. Thường xuyên dọn bỏ viên chất thải vón cục để đạt được hiệu quả sử dụng tốt nhất.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'cats-best-sensitive-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 26,
+                'TenSanPham' => 'Bột khử mùi nước tiểu và phân mèo TRIXIE Katzen-Streudeo',
+                'GiaSP' => 150000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bột khử mùi nước tiểu và phân mèo TRIXIE Katzen-Streudeo được sử dụng để rắc phủ lên khu vực chậu cát vệ sinh của mèo, hỗ trợ giảm thiểu tối đa mùi hôi khó chịu từ nước tiểu và phân của mèo sau khi thải ra vào chậu cát vệ sinh.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bot-khu-mui-cat-ve-sinh-meo-trixie-katzen-streudeo-1.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho chó mèo tự động tuần hoàn PAW Pet Radius Water Dispenser',
+                'GiaSP' => 345000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho chó mèo tự động tuần hoàn PAW Pet Radius Water Dispenser là một sản phẩm tiện ích và thông minh dành cho thú cưng của bạn.
+
+Sản phẩm có thiết kế đẹp mắt, nhỏ gọn và dễ sử dụng. PAW Pet Radius Water Dispenser có 02 màu sắc: Purplist Blue (Đen) và Classic White (Trắng) để bạn lựa chọn phù hợp với nhu cầu sở thích của bạn và thú cưng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-cho-meo-tu-dong-tuan-hoan-paw-pet-radius-water-dispenser-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho chó mèo tự động PAW Cat Head Water Fountains',
+                'GiaSP' => 345000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho chó mèo tự động PAW Cat Head Water Fountains',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-cho-meo-tu-dong-paw-cat-head-water-fountains-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước và bát ăn cho chó mèo tự động 2in1 PAW Living Spring Water Fountains',
+                'GiaSP' => 395000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước và bát ăn cho chó mèo tự động 2in1 PAW Living Spring Water Fountains',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-va-bat-an-cho-cho-meo-tu-dong-2in1-paw-living-spring-water-fountains-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho mèo tự động PAW Ceramic Yellow Bear',
+                'GiaSP' => 455000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho mèo tự động PAW Ceramic Yellow Bear (Automatic Cat Water Fountains) với thiết kế phong cách chú gấu vàng đáng yêu, đây là một thiết bị tiện lợi và an toàn cho thú cưng của bạn.
+
+Sản phẩm dùng để cung cấp nước sạch tươi cho mèo uống mỗi ngày, giúp chúng khỏe mạnh và tránh được các bệnh về sỏi thận và đường tiết niệu. Đài phun nước cho mèo này dùng được cho cả các giống chó nhỏ.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-meo-tu-dong-paw-ceramic-yellow-bear-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho mèo tự động PAW Ceramic Pink Rabbit',
+                'GiaSP' => 455000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho mèo tự động PAW Ceramic Pink Rabbit (Automatic Cat Water Fountains) với thiết kế phong cách thỏ hồng đáng yêu, đây là một thiết bị tiện lợi và an toàn cho thú cưng của bạn.
+
+Sản phẩm dùng để cung cấp nước sạch tươi cho mèo uống mỗi ngày, giúp chúng khỏe mạnh và tránh được các bệnh về sỏi thận và đường tiết niệu. Đài phun nước cho mèo này dùng được cho cả các giống chó nhỏ.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-meo-tu-dong-paw-ceramic-pink-rabbit-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho chó mèo tự động PAW Little Bee Water Fountains',
+                'GiaSP' => 345000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho chó mèo tự động PAW Little Bee Water Fountains',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-cho-meo-tu-dong-paw-little-bee-water-fountains-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho mèo tự động PAW Ceramic Green Flowers',
+                'GiaSP' => 455000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho mèo tự động PAW Ceramic Green Flowers (Automatic Cat Water Fountains) với thiết kế phong cách hoa lá xanh mát, đây là một thiết bị tiện lợi và an toàn cho thú cưng của bạn.
+
+Sản phẩm dùng để cung cấp nước sạch tươi cho mèo uống mỗi ngày, giúp chúng khỏe mạnh và tránh được các bệnh về sỏi thận và đường tiết niệu. Đài phun nước cho mèo này dùng được cho cả các giống chó nhỏ.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-meo-tu-dong-paw-ceramic-green-flowers-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 27,
+                'TenSanPham' => 'Máy lọc nước cho mèo tự động PAW Ceramic Creative Planet',
+                'GiaSP' => 455000,
+                'GiamGia' => 0,
+                'MoTa' => 'Máy lọc nước cho mèo tự động PAW Ceramic Creative Planet (Automatic Cat Water Fountains) với thiết kế phong cách hành tinh vũ trụ sáng tạo, đây là một thiết bị tiện lợi và an toàn cho thú cưng của bạn.
+
+Sản phẩm dùng để cung cấp nước sạch tươi cho mèo uống mỗi ngày, giúp chúng khỏe mạnh và tránh được các bệnh về sỏi thận và đường tiết niệu. Đài phun nước cho mèo này dùng được cho cả các giống chó nhỏ.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'may-loc-nuoc-cho-meo-tu-dong-paw-ceramic-creative-planet-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bình uống nước cho chó mèo gài chuồng BOBO',
+                'GiaSP' => 80000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bình uống nước cho chó mèo gài chuồng BOBO là sản phẩm dành cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Bình uống nước cho chó mèo gài chuồng BOBO với chất liệu nhựa cao cấp trong suốt được thiết kế riêng biệt để đựng nước uống cho vật nuôi
+Có thể lắp đặt trên tất cả các loại chuồng sắt khác nhau
+Khi thú cưng liếm vào viên bi của bình, nước trong bình sẽ tự động chảy ra cho thú cưng uống rất thuận tiện',
+                'SoLuong' => 100,
+                'HinhAnh' => 'binh-uong-nuoc-cho-cho-meo-gai-chuong-bobo-400x401.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bát ăn cho chó mèo nhựa mềm SAWYER PET',
+                'GiaSP' => 40000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bát ăn cho chó mèo nhựa mềm SAWYER PET là sản phẩm được dùng cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Bát ăn cho chó mèo nhựa mềm SAWYER PET với chất liệu bằng nhựa được sản xuất trên dây chuyền công nghệ cao
+Với chất liệu nhựa mềm cao cấp tiêu chuẩn chất lượng của Châu Âu vừa và gọn
+Màu sắc hoa văn trang trí bề mặt sản phẩm đa dạng, đáng yêu. Không gây hại cho tất cả các giống chó và mèo
+Bề mặt trơn láng, dễ dàng chùi rửa sạch sẽ sau khi sử dụng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bat-an-cho-cho-meo-nhua-mem-sawyer-pet-0713-size-s-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bát ăn đôi cho chó mèo bằng nhựa SAWYER PET',
+                'GiaSP' => 60000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bát ăn đôi cho chó mèo bằng nhựa SAWYER PET là sản phẩm được dùng cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Bát ăn đôi cho chó mèo bằng nhựa SAWYER PET  là nhãn hiệu đi đầu quốc tế về vật dụng dành cho thú cưng với thiết kế tỉ mỉ tinh tế
+Các góc của bát đều được bo tròn cẩn thận, không có đường nối khi đúc khuôn, càng không làm tay bì xước và làm xước nền nhà',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bat-an-doi-cho-cho-meo-bang-nhua-sawyer-pet-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bát ăn cho chó mèo bằng nhựa BOBO Plastic Bowl 3038',
+                'GiaSP' => 35000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bát ăn cho chó mèo bằng nhựa BOBO Plastic Bowl 3038 là sản phẩm phù hợp với tất cả giống chó và mèo.
+
+Lợi ích chính
+Bát ăn cho chó mèo bằng nhựa BOBO Plastic Bowl  3038 với chất liệu bằng nhựa được sản xuất trên dây chuyền công nghệ cao.
+Với thiết kế tiêu chuẩn chất lượng của Châu Âu vừa và gọn.
+Màu sắc hoa văn trang trí bề mặt sản phẩm đa dạng, đáng yêu. Không gây hại cho tất cả các giống chó và mèo.
+Bề mặt trơn láng, dễ dàng chùi rửa sạch sẽ sau khi sử dụng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bat-an-cho-cho-meo-bang-nhua-bobo-plastic-bowl-3038-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bát ăn đôi chống kiến cho chó mèo lòng inox vỏ nhựa SAWYER PET',
+                'GiaSP' => 160000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bát ăn đôi chống kiến cho chó mèo lòng inox vỏ nhựa SAWYER PET là sản phẩm được dùng cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Bát ăn đôi chống kiến cho chó mèo lòng inox vỏ nhựa SAWYER PET với chất liệu bằng nhựa được sản xuất trên dây chuyền công nghệ cao.
+Với chất liệu nhựa nhập khẩu cao cấp tiêu chuẩn chất lượng của Châu Âu vừa và gọn.
+Màu sắc hoa văn trang trí bề mặt sản phẩm đa dạng, đáng yêu. Không gây hại cho tất cả các giống chó và mèo.
+Bề mặt trơn láng, dễ dàng chùi rửa sạch sẽ sau khi sử dụng.
+Kích thước cỡ  S và M phù hợp với sự phát triển của thú cưng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bat-an-doi-chong-kien-cho-cho-meo-long-inox-vo-nhua-sawyer-pet.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Dụng cụ bình ăn uống cho chó mèo tự động IRIS OHYAMA 2in1',
+                'GiaSP' => 430000,
+                'GiamGia' => 0,
+                'MoTa' => 'Dụng cụ bình ăn uống cho chó mèo tự động IRIS OHYAMA 2in1 là sản phẩm dành cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Dụng cụ bình ăn uống cho chó mèo tự động IRIS OHYAMA 2in1 được làm hoàn toàn bằng chất liệu nhựa cao cấp.
+Phần bình để đổ nước và thức ăn lại được làm bằng loại nhựa trong suốt, chính vì thế mà bạn có thể dễ dàng nhìn thấy lượng thức ăn và nước uống.
+Bát ăn có nhiều màu sắc khác nhau dễ dàng cho khách hàng khi lựa chọn sản phẩm thích hợp cho thú cưng.',
+                'SoLuong' => 100,
+                'HinhAnh' => 'dung-cu-an-uong-cho-cho-meo-tu-dong-iris-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Vòi uống nước cho chó mèo gài chuồng BOBO',
+                'GiaSP' => 80000,
+                'GiamGia' => 0,
+                'MoTa' => 'Vòi uống nước cho chó mèo gài chuồng BOBO là sản phẩm dành cho tất cả giống chó và mèo.
+
+Lợi ích chính
+Vòi uống nước cho chó mèo gài chuồng BOBO được thiết kết mới với vật liệu chất lượng cao
+Được sử dụng cài vào lồng sắt cho chó mèo. Thích hợp cho thú cưng liếm vòi nước với lượng nước chảy ra phù hợp, thư giãn không gây sặc
+Vòi nước sử dụng đơn giản thuận tiện khi kết hợp với chai nước khoáng bỏ đi như Lavie, Aquafina…
+Màu sắc đa dạng như đỏ, xanh, vàng… cho chủ nuôi lựa chọn theo sở thích',
+                'SoLuong' => 100,
+                'HinhAnh' => 'voi-uong-nuoc-cho-cho-meo-gai-chuong-bobo-400x400.jpg',
+                'LuotXem' => 0,
+                'LuotBan' => 0,
+                'ThoiGian' => now(),
+                'TrangThai' => 1, // 1: ẩn , 0: hiện
+                'Loai' => 1, // 1: sản phẩm , 0: dịch vụ
+            ],
+            [
+                'MaDanhMuc' => 28,
+                'TenSanPham' => 'Bát ăn cho chó mèo bằng cao su SAWYER PET Silicone Bowl',
+                'GiaSP' => 60000,
+                'GiamGia' => 0,
+                'MoTa' => 'Bát ăn cho chó mèo bằng cao su SAWYER PET Silicone Bowl là sản phẩm được dùng cho tất cả giống chó mèo vừa và nhỏ.
+
+Lợi ích chính
+Bát ăn cho chó mèo bằng cao su SAWYER PET Silicone Bowl với chất liệu nhựa silic tổng hợp không độc hại, độ bền cao và an toàn với vật nuôi
+Bát ăn cho chó mèo đa năng di động tiện dụng, có thể đem đi xa hoặc đặt ở bất cứ vị trí nào và có thể treo cả trên tường
+Sử dụng bát để đựng thức ăn hoặc nước cho thú cưng',
+                'SoLuong' => 100,
+                'HinhAnh' => 'bat-an-cho-cho-meo-bang-cao-su-sawyer-pet-silicone-bowl-400x400.jpg',
                 'LuotXem' => 0,
                 'LuotBan' => 0,
                 'ThoiGian' => now(),
