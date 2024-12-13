@@ -1308,7 +1308,7 @@ h6 {
 
 .header-center .menu-extra,
 .header-style-1 .menu-extra {
-	right: 15px;
+	right: 5px;
 }
 
 #mainnav>ul {
@@ -1413,8 +1413,7 @@ h6 {
 	width: 26px;
 	height: 26px;
 	top: 50%;
-	right: 0;
-	margin: 0px 20px 0px 0px;
+	left: 15px;
 	background-color: transparent;
 	cursor: pointer;
 	-webkit-transform: translateY(-50%);

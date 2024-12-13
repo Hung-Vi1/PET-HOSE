@@ -197,102 +197,105 @@ const LichSuMua = () => {
       {orders.length === 0 ? (
         <p>Chưa có đơn hàng nào.</p>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="text-center align-middle">STT</th>
-              <th className="text-center align-middle">Số Lượng</th>
-              <th className="text-center align-middle">Trạng Thái</th>
-              <th className="text-center align-middle">PTTT</th>
-              <th className="text-center align-middle">Ngày Đặt</th>
-              <th className="text-center align-middle">Tổng Tiền</th>
-              <th className="text-center align-middle">Xem Chi Tiết</th>
-              <th className="text-center align-middle">In Đơn Hàng</th>
-              <th className="text-center align-middle">Hủy Đơn Hàng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => {
-              const orderStatus =
-                order.trang_thai === "da_thanh_toan"
-                  ? "Đã thanh toán"
-                  : order.trang_thai === "cho_xac_nhan"
-                    ? "Chờ xác nhận"
-                    : order.trang_thai === "da_xac_nhan"
-                      ? "Đã xác nhận"
-                      : order.trang_thai === "hoan_thanh"
-                        ? "Hoàn thành"
-                        : order.trang_thai === "dang_van_chuyen"
-                          ? "Đang vận chuyển"
-                          : order.trang_thai === "huy"
-                            ? "Hủy"
-                            : order.trang_thai;
-
-              const rowStyle =
-                order.trang_thai === "da_thanh_toan"
-                  ? { backgroundColor: "#28a745", color: "white" }
-                  : order.trang_thai === "cho_xac_nhan"
-                    ? { backgroundColor: "#ffc107", color: "black" }
-                    : order.trang_thai === "da_xac_nhan"
-                      ? { backgroundColor: "blue", color: "white" }
-                      : order.trang_thai === "dang_van_chuyen"
-                        ? { backgroundColor: "#e2da14", color: "white" }
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th className="text-center align-middle">STT</th>
+                <th className="text-center align-middle">Số Lượng</th>
+                <th className="text-center align-middle">Trạng Thái</th>
+                <th className="text-center align-middle">PTTT</th>
+                <th className="text-center align-middle">Ngày Đặt</th>
+                <th className="text-center align-middle">Tổng Tiền</th>
+                <th className="text-center align-middle">Xem Chi Tiết</th>
+                <th className="text-center align-middle">In Đơn Hàng</th>
+                <th className="text-center align-middle">Hủy Đơn Hàng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => {
+                const orderStatus =
+                  order.trang_thai === "da_thanh_toan"
+                    ? "Đã thanh toán"
+                    : order.trang_thai === "cho_xac_nhan"
+                      ? "Chờ xác nhận"
+                      : order.trang_thai === "da_xac_nhan"
+                        ? "Đã xác nhận"
                         : order.trang_thai === "hoan_thanh"
-                          ? { backgroundColor: "#28a745", color: "yellow" }
-                          : order.trang_thai === "huy"
-                            ? { backgroundColor: "red", color: "black" }
-                            : {};
+                          ? "Hoàn thành"
+                          : order.trang_thai === "dang_van_chuyen"
+                            ? "Đang vận chuyển"
+                            : order.trang_thai === "huy"
+                              ? "Hủy"
+                              : order.trang_thai;
 
-              return (
-                <tr key={order.ma_don_hang}>
-                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{index + 1}</td>
-                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.so_luong}</td>
-                  <td className="text-center" style={{ ...rowStyle, verticalAlign: 'middle' }}>
-                    {orderStatus}
-                  </td>
-                  <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.phuong_thuc_tt}</td>
-                  <td className="text-center" style={{ verticalAlign: 'middle' }}>
-                    {new Date(order.ngay_dat).toLocaleDateString("vi-VN")}
-                  </td>
-                  <td className="text-center text-danger fw-bold" style={{ verticalAlign: 'middle' }}>
-                    {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                      minimumFractionDigits: 0,
-                    }).format(order.tong_tien)}
-                  </td>
-                  <td className="text-center">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}
-                    >
-                      Chi Tiết
-                    </button>
-                  </td>
-                  <td className="text-center text-primary">
-                    <strong onClick={() => handlePrintOrder(order)}>
-                      <i className="bi bi-printer"></i> In đơn
-                    </strong>
-                  </td>
-                  <td className="text-center" >
-                    {order.trang_thai === "cho_xac_nhan" && (
+                const rowStyle =
+                  order.trang_thai === "da_thanh_toan"
+                    ? { backgroundColor: "#28a745", color: "white" }
+                    : order.trang_thai === "cho_xac_nhan"
+                      ? { backgroundColor: "#ffc107", color: "black" }
+                      : order.trang_thai === "da_xac_nhan"
+                        ? { backgroundColor: "blue", color: "white" }
+                        : order.trang_thai === "dang_van_chuyen"
+                          ? { backgroundColor: "#e2da14", color: "white" }
+                          : order.trang_thai === "hoan_thanh"
+                            ? { backgroundColor: "#28a745", color: "yellow" }
+                            : order.trang_thai === "huy"
+                              ? { backgroundColor: "red", color: "black" }
+                              : {};
+
+                return (
+                  <tr key={order.ma_don_hang}>
+                    <td className="text-center" style={{ verticalAlign: 'middle' }}>{index + 1}</td>
+                    <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.so_luong}</td>
+                    <td className="text-center" style={{ ...rowStyle, verticalAlign: 'middle' }}>
+                      {orderStatus}
+                    </td>
+                    <td className="text-center" style={{ verticalAlign: 'middle' }}>{order.phuong_thuc_tt}</td>
+                    <td className="text-center" style={{ verticalAlign: 'middle' }}>
+                      {new Date(order.ngay_dat).toLocaleDateString("vi-VN")}
+                    </td>
+                    <td className="text-center text-danger fw-bold" style={{ verticalAlign: 'middle' }}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                        minimumFractionDigits: 0,
+                      }).format(order.tong_tien)}
+                    </td>
+                    <td className="text-center">
                       <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleCancelOrder(order.ma_don_hang)}
+                        className="btn btn-primary btn-sm"
+                        onClick={() => navigate(`/donhang/${order.ma_don_hang}`)}
                       >
-                        <i class="fa-solid fa-ban"></i> Hủy Đơn
+                        Chi Tiết
                       </button>
-                    )}
-                    {order.trang_thai !== "cho_xac_nhan" && (
-                      // <p>Không thể hủy</p>
-                      <span className="text-muted">Không thể hủy</span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+                    <td className="text-center text-primary">
+                      <strong onClick={() => handlePrintOrder(order)}>
+                        <i className="bi bi-printer"></i> In đơn
+                      </strong>
+                    </td>
+                    <td className="text-center" >
+                      {order.trang_thai === "cho_xac_nhan" && (
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleCancelOrder(order.ma_don_hang)}
+                        >
+                          <i class="fa-solid fa-ban"></i> Hủy Đơn
+                        </button>
+                      )}
+                      {order.trang_thai !== "cho_xac_nhan" && (
+                        // <p>Không thể hủy</p>
+                        <span className="text-muted">Không thể hủy</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
       )}
     </div>
   );

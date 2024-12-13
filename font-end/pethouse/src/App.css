@@ -376,6 +376,7 @@ button.ghost:hover {
     z-index: 100;
     /* Đảm bảo menu con nằm trên các phần tử khác */
     padding: 10px 0; /* Padding trên và dưới */
+    top: 75px;
 }
 
 .box-login:hover .submenu {

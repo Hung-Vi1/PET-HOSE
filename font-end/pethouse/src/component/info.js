@@ -18,7 +18,7 @@ const Info = () => {
   return (
     <div className="container  my-5 d-flex justify-content-center">
       <br />
-      <div className="card col-6 p-0">
+      <div className="card col-10 p-0">
         <div className="card-header text-center" style={{backgroundColor:"#f4b915", color:"white"}}><h3>Thông Tin Cá Nhân</h3></div>
         <div className="card-body" style={{backgroundColor:"#F7F0DD"}}>
           <h7 className="card-title">
