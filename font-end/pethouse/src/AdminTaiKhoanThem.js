@@ -15,6 +15,8 @@ function AdminTaiKhoanThem() {
   
   const navigate = useNavigate();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +32,7 @@ function AdminTaiKhoanThem() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/store", {
+      const response = await fetch(`${apiUrl}/api/users/store`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +64,7 @@ function AdminTaiKhoanThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
               alt="Logo"
             />

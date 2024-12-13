@@ -19,9 +19,11 @@ function AdminDVSua() {
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy thông tin dịch vụ hiện tại
   useEffect(() => {
-    fetch(`http://localhost:8000/api/services/${maDichVu}`)
+    fetch(`${apiUrl}/api/services/${maDichVu}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải thông tin dịch vụ");
@@ -42,7 +44,7 @@ function AdminDVSua() {
 
           // Cập nhật preview hình ảnh
           if (service.hinh_anh) {
-            setImagePreview(`http://localhost:8000/image/product/${service.hinh_anh}`); // Đường dẫn đến hình ảnh
+            setImagePreview(`${apiUrl}/image/product/${service.hinh_anh}`); // Đường dẫn đến hình ảnh
           }
         }
       })
@@ -66,7 +68,7 @@ function AdminDVSua() {
     formData.append("TrangThai", TrangThai);
     if (HinhAnh) formData.append("HinhAnh", HinhAnh); // Gửi hình ảnh nếu có
 
-    fetch(`http://127.0.0.1:8000/api/services/update/${maDichVu}`, {
+    fetch(`${apiUrl}/api/services/update/${maDichVu}`, {
       method: "POST", // Sử dụng phương thức PUT
       body: formData,
     })
@@ -79,7 +81,7 @@ function AdminDVSua() {
       .then((data) => {
         if (data.status === "success") {
           alert("Cập nhật thành công!");
-          setImagePreview(`http://localhost:8000/${data.Hinh}`);
+          setImagePreview(`${apiUrl}/${data.Hinh}`);
           navigate("/admindichvuchamsoc");
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
@@ -102,7 +104,7 @@ function AdminDVSua() {
           >
             <Link to={"/"}>
               <img
-                src={`http://localhost:8000/image/Nen_trong_suot.png`}
+                src={`${apiUrl}/image/Nen_trong_suot.png`}
                 className="d-block w-75 mx-auto"
                 alt="Logo"
               />

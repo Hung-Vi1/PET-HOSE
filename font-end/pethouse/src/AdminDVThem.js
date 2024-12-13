@@ -16,6 +16,8 @@ function AdminDVThem() {
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -27,7 +29,7 @@ function AdminDVThem() {
     formData.append("HinhAnh", hinh_anh);
     formData.append("MaDanhMuc", maDanhMuc);
 
-    fetch("http://localhost:8000/api/services/store", {
+    fetch(`${apiUrl}/api/services/store`, {
       method: "POST",
       body: formData,
     })
@@ -49,7 +51,7 @@ function AdminDVThem() {
           setMoTa("");
           setHinhAnh(null);
           setMaDanhMuc(1); // Reset về mặc định
-          setImagePreview(`http://localhost:8000/${data.Hinh}`);
+          setImagePreview(`${apiUrl}/${data.Hinh}`);
           navigate("/admindichvuchamsoc"); // Chuyển hướng về trang danh sách dịch vụ
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
@@ -71,7 +73,7 @@ function AdminDVThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
               alt="Logo"
             />

@@ -15,6 +15,8 @@ function AdminDonHangSua() {
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate(); // Khởi tạo useNavigate
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Dữ liệu sản phẩm trong đơn hàng
   const [sanPhamDetails, setSanPhamDetails] = useState([]);
 
@@ -27,7 +29,7 @@ function AdminDonHangSua() {
 
   // Lấy thông tin chi tiết đơn hàng
   useEffect(() => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`)
+    fetch(`${apiUrl}/api/orderDetails/${ma_don_hang}`)
       .then((res) => {
         if (!res.ok) throw new Error("Không thể lấy thông tin đơn hàng");
         return res.json();
@@ -66,7 +68,7 @@ function AdminDonHangSua() {
 
     console.log("Dữ liệu gửi lên:", JSON.stringify(updatedOrder, null, 2)); // Kiểm tra dữ liệu gửi lên
 
-    fetch(`http://localhost:8000/api/orders/${ma_don_hang}`, {
+    fetch(`${apiUrl}/api/orders/${ma_don_hang}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +108,7 @@ function AdminDonHangSua() {
     });
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/orderDetailServices/${ma_don_hang}`);
+        const response = await fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`);
         if (!response.ok) {
             throw new Error(`Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`);
         }
@@ -235,7 +237,7 @@ function AdminDonHangSua() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
               alt="Logo"
             />

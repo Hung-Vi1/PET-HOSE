@@ -17,6 +17,8 @@ function AdminMGGThem() {
   const [usage_limit, setUsageLimit] = useState(0);
   const [error, setError] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -30,7 +32,7 @@ function AdminMGGThem() {
     };
 
     // Gửi yêu cầu thêm mã giảm giá
-    fetch("http://localhost:8000/api/coupons/store", {
+    fetch(`${apiUrl}/api/coupons/store`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,9 +64,9 @@ function AdminMGGThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

@@ -9,9 +9,11 @@ function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
   const { user } = useAuth(); 
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách danh mục
   useEffect(() => {
-    fetch("http://localhost:8000/api/category")
+    fetch(`${apiUrl}/api/category`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -38,9 +40,9 @@ function AdminDanhMuc() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 
@@ -201,9 +203,10 @@ function AdminDanhMuc() {
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
   const setSelectedCategory = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCategoryById = (ma_danh_muc) => {
-    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+    fetch(`${apiUrl}/api/category/${ma_danh_muc}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin danh mục:", data);
@@ -216,13 +219,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
 
   const xoaDanhMuc = (ma_danh_muc) => {
     if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
-      fetch(`http://localhost:8000/api/category/destroy/${ma_danh_muc}`, {
+      fetch(`${apiUrl}/api/category/destroy/${ma_danh_muc}`, {
         method: "DELETE",
       })
         .then((res) => {
           if (res.status === 204) {
             alert("Danh mục đã được xóa thành công");
-            return fetch("http://localhost:8000/api/category");
+            return fetch(`${apiUrl}/api/category`);
           } else {
             throw new Error("Lỗi khi xóa danh mục");
           }

@@ -11,9 +11,11 @@ function AdminDanhMucSua() {
   const [loai, setLoai] = useState("0"); // Trạng thái cho loại
   const [error, setError] = useState(null); // Trạng thái cho lỗi
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy thông tin danh mục theo mã danh mục
   useEffect(() => {
-    fetch(`http://localhost:8000/api/category/${ma_danh_muc}`)
+    fetch(`${apiUrl}/api/category/${ma_danh_muc}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể lấy thông tin danh mục");
@@ -45,7 +47,7 @@ function AdminDanhMucSua() {
       loai: loai,
     };
 
-    fetch(`http://localhost:8000/api/category/update/${ma_danh_muc}`, {
+    fetch(`${apiUrl}/api/category/update/${ma_danh_muc}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -76,9 +78,9 @@ function AdminDanhMucSua() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

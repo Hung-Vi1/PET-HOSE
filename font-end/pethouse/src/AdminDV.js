@@ -8,9 +8,11 @@ function AdminDichVu() {
   const [listDV, setListDV] = useState([]);
   const { user } = useAuth();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Fetch danh sách dịch vụ từ API
   useEffect(() => {
-    fetch("http://localhost:8000/api/services")
+    fetch(`${apiUrl}/api/services`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -34,9 +36,9 @@ function AdminDichVu() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 
@@ -231,10 +233,11 @@ function Pagination({ listDV, pageSize, setListDV }) {
 
 function ServiceRow({ service, index, setListDV }) {
   const { ma_dich_vu, ten_dich_vu, hinh_anh, tenDM, gia, trang_thai } = service;
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDelete = () => {
     if (window.confirm("Bạn có chắc chắn muốn xóa dịch vụ này không?")) {
-      fetch(`http://127.0.0.1:8000/api/services/destroy/${ma_dich_vu}`, {
+      fetch(`${apiUrl}/api/services/destroy/${ma_dich_vu}`, {
         method: "DELETE",
       })
         .then((response) => {
@@ -264,7 +267,7 @@ function ServiceRow({ service, index, setListDV }) {
       <td className="text-capitalize align-middle">{ten_dich_vu}</td>
       <td className="text-center">
         <img
-          src={`http://localhost:8000/image/product/${hinh_anh}`}
+          src={`${apiUrl}/image/product/${hinh_anh}`}
           alt="Service"
           style={{ width: "100px" }}
         />

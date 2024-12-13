@@ -29,16 +29,13 @@ function TinTuc() {
   }, []);
 
   const truncateContent = (content, limit) => {
-    if (content.length > limit) {
-      return content.substring(0, limit) + "...";
-    }
-    return content;
+    return content.length > limit ? content.substring(0, limit) + "..." : content;
   };
 
-  // Calculate total pages
+  // Tính tổng số trang
   const totalPages = Math.ceil(tintuc.length / articlesPerPage);
 
-  // Get current articles
+  // Lấy bài viết hiện tại
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = tintuc.slice(indexOfFirstArticle, indexOfLastArticle);
@@ -79,13 +76,13 @@ function TinTuc() {
                         <article className="post clearfix">
                           <div className="featured-post">
                             <img
-                              src={`image/News/${article.Hinh}`}
+                              src={`${apiUrl}/image/News/${article.Hinh}`}
                               alt={article.tieu_de}
                               className="img-fluid"
                               style={{
                                 objectFit: 'cover',
-                                width: '100%', // Chiều rộng ảnh ảnh căn giữa và giới hạn chiều rộng của nó
-                                height: '200px', // Giới hạn chiều cao của hình ảnh
+                                width: '100%',
+                                height: '200px',
                               }}
                             />
                           </div>
@@ -145,7 +142,6 @@ function TinTuc() {
           </div>
         </div>
       </section>
-
 
       <section className="flat-row mail-chimp">
         <div className="container">

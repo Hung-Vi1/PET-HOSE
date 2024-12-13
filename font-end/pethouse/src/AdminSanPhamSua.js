@@ -18,9 +18,11 @@ function AdminSanPhamSua() {
   const [danhMuc, setDanhMuc] = useState([]);
   const [trangThai, setTrangThai] = useState(0); // Mặc định là Hiện (1)
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     // Lấy thông tin sản phẩm hiện tại
-    fetch(`http://localhost:8000/api/products/${ma_san_pham}`)
+    fetch(`${apiUrl}/api/products/${ma_san_pham}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -33,7 +35,7 @@ function AdminSanPhamSua() {
           setGiamGia(sp.giam_gia);
           setHinhAnh(sp.hinh_anh);
           setTrangThai(sp.trang_thai);
-          setImagePreview(`http://localhost:8000/image/product/${sp.hinh_anh}`);
+          setImagePreview(`${apiUrl}/image/product/${sp.hinh_anh}`);
         } else {
           setError(data.message);
         }
@@ -43,7 +45,7 @@ function AdminSanPhamSua() {
 
   useEffect(() => {
     // Lấy danh sách danh mục
-    fetch("http://localhost:8000/api/category")
+    fetch(`${apiUrl}/api/category`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -92,7 +94,7 @@ function AdminSanPhamSua() {
       formData.append("HinhAnh", hinhAnh); // Gửi file ảnh
     }
 
-    fetch(`http://localhost:8000/api/products/update/${ma_san_pham}`, {
+    fetch(`${apiUrl}/api/products/update/${ma_san_pham}`, {
       method: "POST",
       body: formData,
     })
@@ -117,9 +119,9 @@ function AdminSanPhamSua() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

@@ -13,9 +13,11 @@ function AdminDonHang() {
   const [list_dh, ganDH] = useState([]);
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/orders")
+    fetch(`${apiUrl}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -47,9 +49,9 @@ function AdminDonHang() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 
@@ -214,9 +216,10 @@ function AdminDonHang() {
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
   const setSelectedOrder = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchOrderById = (ma_tai_khoan) => {
-    fetch(`http://localhost:8000/api/orderDetails/${ma_tai_khoan}`)
+    fetch(`${apiUrl}/api/orderDetails/${ma_tai_khoan}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin sản phẩm:", data);

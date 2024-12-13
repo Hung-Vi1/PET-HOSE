@@ -9,9 +9,11 @@ function AdminLienHe() {
   const [list_lh, ganLH] = useState([]);
   const { user } = useAuth(); 
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách dịch vụ chăm sóc thay vì danh mục
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/contacts") // Đổi endpoint ở đây
+    fetch(`${apiUrl}/api/contacts`) // Đổi endpoint ở đây
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -38,9 +40,9 @@ function AdminLienHe() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 

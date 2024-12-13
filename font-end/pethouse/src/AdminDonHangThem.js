@@ -16,9 +16,11 @@ function AdminDonHangThem() {
   const [successMessage, setSuccessMessage] = useState("");
   const { user, isLoggedIn } = useAuth();
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   // Lấy danh sách tài khoản
   useEffect(() => {
-    fetch("http://localhost:8000/api/users")
+    fetch(`${apiUrl}/api/users`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải danh sách tài khoản");
@@ -35,7 +37,7 @@ function AdminDonHangThem() {
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/products")
+    fetch(`${apiUrl}/api/products`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải danh sách sản phẩm");
@@ -129,7 +131,7 @@ function AdminDonHangThem() {
       TrangThai: "cho_xac_nhan", // Trạng thái mặc định
     };
 
-    fetch("http://localhost:8000/api/orders", {
+    fetch(`${apiUrl}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -179,9 +181,9 @@ function AdminDonHangThem() {
         >
           <Link to={"/"}>
             <img
-              src={`http://localhost:8000/image/Nen_trong_suot.png`}
+              src={`${apiUrl}/image/Nen_trong_suot.png`}
               className="d-block w-75 mx-auto"
-              alt={`http://localhost:8000/image/Nen_trong_suot.png`}
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
           </Link>
 
@@ -467,8 +469,8 @@ function AdminDonHangThem() {
                             </td>
                             <td style={{ width: "8%" }}>
                               <img
-                                src={`http://localhost:8000/image/product/${product.hinh_anh}`}
-                                alt={`http://localhost:8000/image/product/${product.hinh_anh}`}
+                                src={`${apiUrl}/image/product/${product.hinh_anh}`}
+                                alt={`${apiUrl}/image/product/${product.hinh_anh}`}
                               />
                             </td>
                             <td className="align-middle">
