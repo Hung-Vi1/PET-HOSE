@@ -102,41 +102,64 @@ function AdminDonHangSua() {
 
   const handlePrintOrder = async () => {
     const currentDate = new Date().toLocaleDateString("vi-VN", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
 
     try {
-        const response = await fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`);
-        if (!response.ok) {
-            throw new Error(`Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`);
-        }
+      const response = await fetch(
+        `${apiUrl}/api/orderDetailServices/${ma_don_hang}`
+      );
+      if (!response.ok) {
+        throw new Error(
+          `Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`
+        );
+      }
 
-        const result = await response.json();
-        if (result.status !== 'success' || !Array.isArray(result.data) || result.data.length === 0) {
-            alert("Không có chi tiết đơn hàng. Vui lòng kiểm tra lại.");
-            return;
-        }
+      const result = await response.json();
+      if (
+        result.status !== "success" ||
+        !Array.isArray(result.data) ||
+        result.data.length === 0
+      ) {
+        alert("Không có chi tiết đơn hàng. Vui lòng kiểm tra lại.");
+        return;
+      }
 
-        const chiTietDonHang = result.data.map((ct, index) => {
-            const totalProductPrice = ct.DonGia * ct.SoLuong;
-            return `
+      const chiTietDonHang = result.data
+        .map((ct, index) => {
+          const totalProductPrice = ct.DonGia * ct.SoLuong;
+          return `
           <tr>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${index + 1}</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SanPham.TenSP}</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SoLuong}</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat("vi-VN").format(ct.DonGia)}</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat("vi-VN").format(totalProductPrice)}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
+              index + 1
+            }</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
+              ct.SanPham.TenSP
+            }</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
+              ct.SoLuong
+            }</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat(
+              "vi-VN"
+            ).format(ct.DonGia)}</td>
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat(
+              "vi-VN"
+            ).format(totalProductPrice)}</td>
           </tr>
         `;
-        }).join("");
+        })
+        .join("");
 
-        const totalBeforeDiscount = result.data.reduce((total, ct) => total + ct.DonGia * ct.SoLuong, 0);
-        const discount = 0; // Cập nhật giá trị giảm giá nếu có
-        const totalAfterDiscount = totalBeforeDiscount - discount;
+      const totalBeforeDiscount = result.data.reduce(
+        (total, ct) => total + ct.DonGia * ct.SoLuong,
+        0
+      );
+      const discount = 0; // Cập nhật giá trị giảm giá nếu có
+      const totalAfterDiscount = totalBeforeDiscount - discount;
 
-        const printContent = `
+      const printContent = `
         <html>
           <head>
             <title>Hóa đơn ${ma_don_hang}</title>
@@ -170,9 +193,30 @@ function AdminDonHangSua() {
                 <tbody>${chiTietDonHang}</tbody>
               </table>
               <div class="total" style="margin-top: 20px; font-weight: bold;">
-                <p><span>Tổng trước giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(totalBeforeDiscount)}</span></p>
-                <p><span>Giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(discount)}</span></p>
-                <p><span class="font-weight-bold">Tổng thanh toán:</span><span class="right" style="float: right; color: red;">${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0 }).format(totalAfterDiscount)}</span></p>
+                <p><span>Tổng trước giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
+                  "vi-VN",
+                  {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0,
+                  }
+                ).format(totalBeforeDiscount)}</span></p>
+                <p><span>Giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
+                  "vi-VN",
+                  {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0,
+                  }
+                ).format(discount)}</span></p>
+                <p><span class="font-weight-bold">Tổng thanh toán:</span><span class="right" style="float: right; color: red;">${new Intl.NumberFormat(
+                  "vi-VN",
+                  {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0,
+                  }
+                ).format(totalAfterDiscount)}</span></p>
               </div>
             </div>
             <script>
@@ -193,21 +237,20 @@ function AdminDonHangSua() {
         </html>
       `;
 
-        const printWindow = window.open("", "_blank");
-        if (printWindow) {
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-        }
+      const printWindow = window.open("", "_blank");
+      if (printWindow) {
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+      }
     } catch (error) {
-        console.error("Lỗi khi in đơn hàng:", error);
-        alert("Đã xảy ra lỗi khi in đơn hàng.");
+      console.error("Lỗi khi in đơn hàng:", error);
+      alert("Đã xảy ra lỗi khi in đơn hàng.");
     }
-};
+  };
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
-
 
   // Xóa dấu
   const removeDiacritics = (str) => {
@@ -249,8 +292,9 @@ function AdminDonHangSua() {
                 to={`/admin${removeDiacritics(item)
                   .replace(/\s+/g, "")
                   .toLowerCase()}`}
-                className={`list-group-item list-group-item-action my-0 rounded-0 ${item === "Đơn hàng" ? "active" : ""
-                  }`}
+                className={`list-group-item list-group-item-action my-0 rounded-0 ${
+                  item === "Đơn hàng" ? "active" : ""
+                }`}
               >
                 <h5 className="mb-0 py-1">{item}</h5>
               </Link>
@@ -321,11 +365,7 @@ function AdminDonHangSua() {
 
           <div className="container mt-3 mb-5">
             <div className="d-flex justify-content-between align-items-center">
-
-
               <div className="d-flex align-items-center">
-
-
                 <div className="col-md-auto">
                   <Link
                     to={"/admindonhang"}
@@ -337,10 +377,6 @@ function AdminDonHangSua() {
                 <div className="col-md-auto">
                   <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
                 </div>
-
-
-
-
               </div>
               <div className="d-flex align-center">
                 <div className="col-md-auto px-3 text-primary">
@@ -349,8 +385,6 @@ function AdminDonHangSua() {
                   </strong>
                 </div>
               </div>
-
-
             </div>
 
             <form onSubmit={handleSubmit}>

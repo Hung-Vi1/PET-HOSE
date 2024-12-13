@@ -32,7 +32,7 @@ function AdminDonHang() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
-  }, []);
+  });
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -180,6 +180,7 @@ function AdminDonHang() {
               </div>
             </div>
           </nav>
+
           <div className="container">
             <Link
               to={"/admindonhangthem"}
@@ -266,7 +267,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>
                 <Link
                   onClick={() => fetchOrderById(dh.ma_don_hang)}
-                  to={`/admindonhangsua/${dh.ma_don_hang}`}
+                  to={`/admindonhangchitiet/${dh.ma_don_hang}`}
                   className="text-primary"
                 >
                   #{dh.ma_don_hang}
