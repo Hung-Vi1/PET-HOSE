@@ -8,10 +8,11 @@ function ChiTietSanPham() {
   const [category, setCategory] = useState(null); // State for storing categories
   const [relatedProducts, setRelatedProducts] = useState([]); // State for related products
   const [quantity, setQuantity] = useState(1); // State for the quantity of the product
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     // Lấy dữ liệu sản phẩm
-    fetch(`http://localhost:8000/api/products/${id}`)
+    fetch(`${apiUrl}/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -27,7 +28,7 @@ function ChiTietSanPham() {
       });
 
     // Lấy danh mục sản phẩm
-    fetch("http://localhost:8000/api/category")
+    fetch(`${apiUrl}/api/category`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
@@ -39,12 +40,12 @@ function ChiTietSanPham() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu danh mục:", error);
       });
-  }, [id]);
+  }, [id,apiUrl]);
 
   useEffect(() => {
     if (sp?.ma_danh_muc) {
       // Lấy các sản phẩm liên quan (cùng danh mục)
-      fetch(`http://localhost:8000/api/products?category=${sp.ma_danh_muc}`)
+      fetch(`${apiUrl}/api/products?category=${sp.ma_danh_muc}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") {
@@ -61,7 +62,7 @@ function ChiTietSanPham() {
           console.error("Lỗi khi lấy sản phẩm liên quan:", error);
         });
     }
-  }, [sp]);
+  }, [sp,apiUrl]);
 
   // Hàm thêm sản phẩm vào giỏ hàng
   const addToCart = () => {
@@ -110,7 +111,7 @@ function ChiTietSanPham() {
 
 
   // Tìm tên danh mục từ mã danh mục
-  const categoryName = category ? category.find(c => c.ma_danh_muc === sp?.ma_danh_muc)?.ten_danh_muc : "Không có danh mục";
+  const categoryName = sp?.tenDM || "Không có danh mục";
 
   return (
     <>

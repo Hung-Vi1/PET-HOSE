@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ThanhToan() {
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [cart, setCart] = useState([]);
   const [userData, setUserData] = useState({
     name: "",
@@ -69,7 +71,7 @@ function ThanhToan() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/coupons/validate", {
+      const response = await fetch(`${apiUrl}/api/coupons/validate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +138,7 @@ function ThanhToan() {
     try {
       if (formData.paymentMethod === "cod") {
         // Process normal order with COD
-        const response = await fetch("http://127.0.0.1:8000/api/orders", {
+        const response = await fetch(`${apiUrl}/api/orders`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -158,7 +160,7 @@ function ThanhToan() {
         }
       } else if (formData.paymentMethod === "vnpay") {
         // Call VNPAY API if the payment method is VNPAY
-        const response = await fetch("http://127.0.0.1:8000/api/Store/VnPay", {
+        const response = await fetch(`${apiUrl}/api/Store/VnPay`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -181,7 +183,7 @@ function ThanhToan() {
         }
 
       } else if (formData.paymentMethod === "momo") {
-        const response = await fetch("http://127.0.0.1:8000/api/Store/MOMO", {
+        const response = await fetch(`${apiUrl}/api/Store/MOMO`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -7,6 +7,7 @@ const UpdatePassword = () => {
   const { id } = useParams();
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const [formData, setFormData] = useState({
     OldPassword: "",
@@ -44,7 +45,7 @@ const UpdatePassword = () => {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/users/doiMatKhau/${id}`, {
+    fetch(`${apiUrl}/api/users/doiMatKhau/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

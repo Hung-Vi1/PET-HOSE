@@ -5,11 +5,12 @@ function TinTuc() {
   const [tintuc, setTinTuc] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const articlesPerPage = 12; // Number of articles per page
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/News");
+        const response = await fetch(`${apiUrl}/api/News`);
         const data = await response.json();
 
         if (Array.isArray(data.data)) {

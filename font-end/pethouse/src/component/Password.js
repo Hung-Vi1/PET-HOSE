@@ -5,6 +5,7 @@ import * as Yup from "yup";
 const Password = () => {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const formik = useFormik({
     initialValues: {
@@ -17,7 +18,7 @@ const Password = () => {
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await fetch("http://localhost:8000/api/guiemail", {
+        const response = await fetch(`${apiUrl}/api/guiemail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

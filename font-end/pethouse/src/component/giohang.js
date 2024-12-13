@@ -28,19 +28,24 @@ function GioHang() {
     }
     setCart(updatedCart);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện
   };
-
+  
   const handleRemoveProduct = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện
   };
+   
 
   const calculateTotalPrice = (price, quantity) => price * quantity;
 
   const calculateCartTotal = () => {
     return cart.reduce((total, item) => total + item.gia * item.quantity, 0);
   };
+
+  
 
   return (
     <section className="cart-page py-5">

@@ -8,6 +8,7 @@ const Lichsudichvu = () => {
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
   const [error, setError] = useState(null); // Trạng thái lỗi
   const navigate = useNavigate(); // Hook điều hướng
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -18,7 +19,7 @@ const Lichsudichvu = () => {
       }
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/orderServices/${user.Mataikhoan}`, {
+        const response = await fetch(`${apiUrl}/api/orderServices/${user.Mataikhoan}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ const Lichsudichvu = () => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/donhang/trangthai/${maDonHang}`, {
+      const response = await fetch(`${apiUrl}/api/donhang/trangthai/${maDonHang}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
