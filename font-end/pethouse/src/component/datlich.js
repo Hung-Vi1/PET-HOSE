@@ -37,7 +37,7 @@ function DatLich() {
 
   useEffect(() => {
     // Lấy danh sách dịch vụ từ API
-    fetch("http://127.0.0.1:8000/api/services")
+    fetch(`http://127.0.0.1:8000/api/services`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -101,7 +101,7 @@ function DatLich() {
     };
 
     // Gửi dữ liệu lên API
-    fetch("http://127.0.0.1:8000/api/orderServices", {
+    fetch(`http://127.0.0.1:8000/api/orderServices`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

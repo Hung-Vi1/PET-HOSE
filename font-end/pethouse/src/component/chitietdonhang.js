@@ -6,11 +6,12 @@ const ChiTietDonHang = () => {
   const [orderDetails, setOrderDetails] = useState([]); // Lưu danh sách chi tiết đơn hàng
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
   const [error, setError] = useState(null); // Trạng thái lỗi
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/orderDetails/${MaDH}`, {
+        const response = await fetch(`${apiUrl}/api/orderDetails/${MaDH}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

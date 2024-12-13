@@ -7,11 +7,12 @@ const ChiTietTinTuc = () => {
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/News/${id}`);
+        const response = await fetch(`${apiUrl}/api/News/${id}`);
         if (!response.ok) {
           throw new Error("Không thể lấy bài viết.");
         }
@@ -31,7 +32,7 @@ const ChiTietTinTuc = () => {
 
     const fetchRelatedArticles = async (categoryId) => {
       try {
-        const response = await fetch(`http://localhost:8000/api/News?ma_danh_muc_bv=${categoryId}`);
+        const response = await fetch(`${apiUrl}/api/News?ma_danh_muc_bv=${categoryId}`);
         if (!response.ok) {
           throw new Error("Không thể lấy bài viết liên quan.");
         }
@@ -96,7 +97,7 @@ const ChiTietTinTuc = () => {
                   </div>
                   <div className="featured-post ">
                   
-                    <img src={`http://localhost:8000/image/News/${article.Hinh}`} salt="bài viết" />
+                    <img src={`${apiUrl}/image/News/${article.Hinh}`} salt="bài viết" />
                   </div>
                   <div className="entry-post">
                     
@@ -124,7 +125,7 @@ const ChiTietTinTuc = () => {
                     <li key={related.bai_viet}>
                       <a href={`/chitiettintuc/${related.bai_viet}`}>
                         <img
-                          src={`http://localhost:8000/image/News/${related.Hinh}`}
+                          src={`${apiUrl}/image/News/${related.Hinh}`}
                           alt={related.tieu_de}
                           style={{ width: '100%', height: 'auto', marginBottom: '5px' }}
                         />
