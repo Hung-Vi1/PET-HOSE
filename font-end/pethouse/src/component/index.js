@@ -347,11 +347,9 @@ function Index() {
             <div className="col-md-12">
               <div className="flat-animation-block">
                 <div className="title-section width-before-17 bg-before-white margin-bottom-14">
-                  <h2 className="title font-size-40 line-height-76">
-                    Ưu đãi hấp dẫn khi mua sản phẩm
-                  </h2>
+                  
                   <div className="sub-title fs-1">
-                    <span className="fs-3 text-light fw-bold">Sản phẩm chính hãng của Pet houe</span>
+                    
                   </div>
                 </div>
                 <div className="elm-btn text-center">

@@ -62,15 +62,16 @@ function Header() {
 
   return (
     <>
-      <div id="logo" className="logo float-left">
+      <div className="mobile-button float-left" onClick={toggleMenu}>
+        <span />
+      </div>
+      <div id="logo" className="logo">
         <Link to="/" title="logo">
           <img src="/image/Nen_trong_suot.png" alt="Logo" width={107} height={24} />
         </Link>
       </div>
 
-      <div className="mobile-button" onClick={toggleMenu}>
-        <span />
-      </div>
+
 
       <ul className="menu-extra menu">
         <li className="box-search">
@@ -95,12 +96,16 @@ function Header() {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <span className="m-2">
-                {typeof user === "string" ? user.slice(0, 6) : user?.Hovaten || "Người dùng"}
+              <span className="m-2 d-flex align-items-center">
+                <i className="fa-solid fa-user d-sm-none"></i>
+                <span className="d-none d-sm-inline ms-2">
+                  {typeof user === "string" ? user.slice(0, 6) : user?.Hovaten || "Người dùng"}
+                </span>
+                <i className="fa-solid fa-caret-down ms-2"></i>
               </span>
 
               {isDropdownOpen && (
-                <ul className="submenu px-2">
+                <ul className="submenu">
                   {user && hasPermission(1) && (
                     <>
                       <li className="m-0">
@@ -116,9 +121,7 @@ function Header() {
                     <Link className="text-nowrap" to="/lichsumua">Lịch sử mua hàng</Link>
                   </li>
                   <li>
-                    <Link className="text-nowrap" to="/lichsuDV">
-                      Lịch sử dịch vụ
-                    </Link>
+                    <Link className="text-nowrap" to="/lichsuDV">Lịch sử dịch vụ</Link>
                   </li>
                   <li>
                     <a
@@ -133,9 +136,12 @@ function Header() {
               )}
             </div>
           ) : (
-            <Link className="icon_login" to="/login" />
+            <Link className="icon_login" to="/login">
+              <i className="fa-solid fa-right-to-bracket"></i>
+            </Link>
           )}
         </li>
+
         <li className="box-cart nav-top-cart-wrapper">
           <Link className="icon_cart nav-cart-trigger active" to="/giohang">
             <span>{cart.length}</span>
@@ -155,18 +161,23 @@ function Header() {
             <li className={location.pathname === "/" ? "active" : ""}>
               <Link to="/">Trang chủ</Link>
             </li>
+            <i class="fa-solid fa-paw" style={{color:"#f4b915"}}></i>
             <li className={location.pathname === "/sanpham" ? "active" : ""}>
               <Link to="/sanpham">Sản phẩm</Link>
             </li>
+            <i class="fa-solid fa-paw"style={{color:"#f4b915"}}></i>
             <li className={location.pathname === "/datlich" ? "active" : ""}>
               <Link to="/datlich">Dịch vụ</Link>
             </li>
+            <i class="fa-solid fa-paw"style={{color:"#f4b915"}}></i>
             <li className={location.pathname === "/tintuc" ? "active" : ""}>
-              <Link to="/tintuc">Tin thú cưng</Link>
+              <Link to="/tintuc">Tin tức</Link>
             </li>
+            <i class="fa-solid fa-paw"style={{color:"#f4b915"}}></i>
             <li className={location.pathname === "/lienhe" ? "active" : ""}>
               <Link to="/lienhe">Liên hệ</Link>
             </li>
+
           </ul>
         </nav>
       </div>
