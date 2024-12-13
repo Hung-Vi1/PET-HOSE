@@ -24,7 +24,7 @@ const LichSuMua = () => {
   // Hàm lấy dữ liệu đơn hàng từ API
   const fetchOrders = async () => {
     if (!user || !user.Mataikhoan) {
-      setError("Không tìm thấy thông tin tài khoản.");
+      setError("Bạn cần phải đăng nhập để xem lịch sử mua hàng.");
       setLoading(false);
       return;
     }
@@ -34,7 +34,7 @@ const LichSuMua = () => {
         `${apiUrl}/api/orders/${user.Mataikhoan}`
       );
       if (!response.ok) {
-        throw new Error("Không thể tải đơn hàng. Vui lòng thử lại.");
+        throw new Error("Chưa có đơn hàng nào trong lịch sử mua.");
       }
 
       const data = await response.json();
@@ -189,8 +189,8 @@ const LichSuMua = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div>Đang tải thông tin vui lòng đợi...</div>;
+  if (error) return <div>Thông báo: {error}</div>;
 
   return (
     <div className="container mt-3">
