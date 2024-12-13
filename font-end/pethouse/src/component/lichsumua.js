@@ -19,6 +19,7 @@ const LichSuMua = () => {
       fetchOrders();
     }
   }, [user]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Hàm lấy dữ liệu đơn hàng từ API
   const fetchOrders = async () => {
@@ -30,7 +31,7 @@ const LichSuMua = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/orders/${user.Mataikhoan}`
+        `${apiUrl}/api/orders/${user.Mataikhoan}`
       );
       if (!response.ok) {
         throw new Error("Không thể tải đơn hàng. Vui lòng thử lại.");
@@ -58,7 +59,7 @@ const LichSuMua = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/donhang/trangthai/${orderId}`,
+        `${apiUrl}/api/donhang/trangthai/${orderId}`,
         {
           method: "PUT",
           headers: {
@@ -92,7 +93,7 @@ const LichSuMua = () => {
     });
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/orderDetails/${order.ma_don_hang}`);
+      const response = await fetch(`${apiUrl}/api/orderDetails/${order.ma_don_hang}`);
       if (!response.ok) {
         throw new Error(`Lỗi khi gọi API chi tiết đơn hàng: ${response.statusText}`);
       }

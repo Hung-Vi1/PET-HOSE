@@ -56,6 +56,8 @@ function Header() {
     setIsDropdownOpen(false);
   };
 
+  
+
   const truncateProductName = (name, maxLength = 20) => {
     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
   };

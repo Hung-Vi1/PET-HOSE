@@ -5,10 +5,11 @@ function TimKiem() {
   const [SanPham, DsSanPham] = useState([]); // Dữ liệu sản phẩm từ API
   const [TimKiem, setTimKiem] = useState(""); // Từ khóa tìm kiếm
   const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Lấy danh sách sản phẩm mặc định khi tải trang
   useEffect(() => {
-    fetch("http://localhost:8000/api/products")
+    fetch(`${apiUrl}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -52,7 +53,7 @@ function TimKiem() {
   const handleSearch = (e) => {
     if (e.key === "Enter" && TimKiem.trim() !== "") {
       setLoading(true); // Bắt đầu tải
-      fetch("http://127.0.0.1:8000/api/products/search", {
+      fetch(`${apiUrl}/api/products/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

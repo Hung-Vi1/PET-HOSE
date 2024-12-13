@@ -4,6 +4,8 @@ import ReactPaginate from "react-paginate";
 import "../App.css";
 
 function SanPham() {
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [list_sp, ganSP] = useState([]);
   const [filteredSP, setFilteredSP] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -21,7 +23,7 @@ function SanPham() {
 
   // Fetch danh sách sản phẩm
   useEffect(() => {
-    fetch("http://localhost:8000/api/products")
+    fetch(`${apiUrl}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -40,7 +42,7 @@ function SanPham() {
 
   // Fetch danh sách danh mục
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/category")
+    fetch(`${apiUrl}/api/category`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -93,7 +95,7 @@ function SanPham() {
     if (maDanhMuc === "all") {
       setFilteredSP(list_sp);
     } else {
-      fetch(`http://127.0.0.1:8000/api/products/sanPhamTheoDM/${maDanhMuc}`)
+      fetch(`${apiUrl}/api/products/sanPhamTheoDM/${maDanhMuc}`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data.data)) {
@@ -243,7 +245,7 @@ function SanPham() {
                               <div className="product-thumb clearfix">
                                 <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                                   <img
-                                    src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
+                                    src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                                     className="card-img-top mx-auto w-75 pb-3"
                                     alt={sp.ten_san_pham}
                                   />

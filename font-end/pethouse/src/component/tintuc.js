@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 function TinTuc() {
   const [tintuc, setTinTuc] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 9; // Số lượng bài viết trên mỗi trang
+  const articlesPerPage = 12; // Number of articles per page
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/News");
+        const response = await fetch(`${apiUrl}/api/News`);
         const data = await response.json();
 
         if (Array.isArray(data.data)) {
@@ -75,7 +76,7 @@ function TinTuc() {
                         <article className="post clearfix">
                           <div className="featured-post">
                             <img
-                              src={`http://localhost:8000/image/News/${article.Hinh}`}
+                              src={`${apiUrl}/image/News/${article.Hinh}`}
                               alt={article.tieu_de}
                               className="img-fluid"
                               style={{

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function LienHe() {
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     useEffect(() => {
         // Khởi tạo bản đồ Google
         const initializeMap = () => {
@@ -51,7 +53,7 @@ function LienHe() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8000/api/contacts/store', {
+            const response = await fetch(`${apiUrl}/api/contacts/store`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
