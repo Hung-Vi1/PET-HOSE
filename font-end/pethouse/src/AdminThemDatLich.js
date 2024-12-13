@@ -99,6 +99,21 @@ function AdminThemDatLich() {
         });
     };
 
+    // Handle date change
+    const handleDateChange = (e) => {
+        const newDate = e.target.value;
+        // Check if there's already a time value and append it to the new date
+        const currentTime = deliveryDate ? deliveryDate.split('T')[1] : '07:00'; // Default time
+        setDeliveryDate(newDate + 'T' + currentTime + ':00');
+    };
+
+    // Handle time change
+    const handleTimeChange = (e) => {
+        const currentDate = deliveryDate ? deliveryDate.split('T')[0] : ''; // Get current date if available
+        const newTime = e.target.value;
+        setDeliveryDate(currentDate + 'T' + newTime + ':00');
+    };
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -116,65 +131,34 @@ function AdminThemDatLich() {
                         />
                     </Link>
                     <div className="list-group list-group-item-primary">
-                        <Link
-                            to={"/admin"}
-                            className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
-                            aria-current="true"
-                        >
+                        <Link to={"/admin"} className="list-group-item list-group-item-action mt-2 mb-0 rounded-0" aria-current="true">
                             <h5 className="mb-0 py-1">Tổng quan</h5>
                         </Link>
-                        <Link
-                            to={"/adminsanpham"}
-                            className="list-group-item list-group-item-action my-0  rounded-0"
-                        >
+                        <Link to={"/adminsanpham"} className="list-group-item list-group-item-action my-0  rounded-0">
                             <h5 className="mb-0 py-1">Sản phẩm</h5>
                         </Link>
-                        <Link
-                            to={"/admindichvuchamsoc"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/admindichvuchamsoc"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
                         </Link>
-                        <Link
-                            to={"/admindanhmuc"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/admindanhmuc"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Danh mục</h5>
                         </Link>
-                        <Link
-                            to={"/admintaikhoan"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/admintaikhoan"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Tài khoản</h5>
                         </Link>
-                        <Link
-                            to={"/admindonhang"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/admindonhang"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Đơn hàng</h5>
                         </Link>
-                        <Link
-                            to={"/admindatlich"}
-                            className="list-group-item list-group-item-action my-0 rounded-0 active"
-                        >
+                        <Link to={"/admindatlich"} className="list-group-item list-group-item-action my-0 rounded-0 active">
                             <h5 className="mb-0 py-1">Đặt lịch</h5>
                         </Link>
-                        <Link
-                            to={"/Admin_BV"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/Admin_BV"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Tin tức</h5>
                         </Link>
-                        <Link
-                            to={"/adminlienhe"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/adminlienhe"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Liên hệ</h5>
                         </Link>
-                        <Link
-                            to={"/adminmagiamgia"}
-                            className="list-group-item list-group-item-action my-0 rounded-0"
-                        >
+                        <Link to={"/adminmagiamgia"} className="list-group-item list-group-item-action my-0 rounded-0">
                             <h5 className="mb-0 py-1">Mã giảm giá</h5>
                         </Link>
                     </div>
@@ -184,12 +168,7 @@ function AdminThemDatLich() {
                 <div className="col-md p-0">
                     <nav className="navbar navbar-expand-lg bg-primary p-0" data-bs-theme="dark">
                         <div className="container-fluid">
-                            <button
-                                className="btn btn-outline-light me-3"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#openMenu"
-                            >
+                            <button className="btn btn-outline-light me-3" type="button" data-bs-toggle="collapse" data-bs-target="#openMenu">
                                 <i className="bi bi-list"></i>
                             </button>
                             <a className="navbar-brand" href="/#">
@@ -197,12 +176,7 @@ function AdminThemDatLich() {
                             </a>
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item dropdown">
-                                    <a
-                                        className="nav-link dropdown-toggle"
-                                        href="/#"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                    >
+                                    <a className="nav-link dropdown-toggle" href="/#" role="button" data-bs-toggle="dropdown">
                                         Xin chào, {user.Hovaten || "Không có tên"}
                                     </a>
                                 </li>
@@ -210,10 +184,10 @@ function AdminThemDatLich() {
                         </div>
                     </nav>
 
-                    <div className="p-4 ">
+                    <div className="p-4">
                         <h2>Thêm đơn đặt lịch</h2>
                         <form onSubmit={handleSubmit} className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                            <div className="mb-3 " >
+                            <div className="mb-3">
                                 <label className="form-label">Chọn tài khoản</label>
                                 <select
                                     className="form-select"
@@ -240,10 +214,7 @@ function AdminThemDatLich() {
                                                 id={`service-${service.ma_dich_vu}`}
                                                 onChange={() => handleServiceSelection(service)}
                                             />
-                                            <label
-                                                className="form-check-label"
-                                                htmlFor={`service-${service.ma_dich_vu}`}
-                                            >
+                                            <label className="form-check-label" htmlFor={`service-${service.ma_dich_vu}`}>
                                                 {service.ten_dich_vu} ({service.gia} VND)
                                             </label>
                                         </div>
@@ -266,18 +237,16 @@ function AdminThemDatLich() {
                                     <input
                                         type="date"
                                         className="form-control"
-                                        value={deliveryDate.split('T')[0]} // Chỉ lấy phần ngày
-                                        onChange={(e) => setDeliveryDate(e.target.value + 'T' + deliveryDate.split('T')[1].substring(0, 5))}
+                                        value={deliveryDate.split('T')[0] || ""} // Chỉ lấy phần ngày nếu có
+                                        onChange={handleDateChange}
                                     />
                                     <select
                                         className="form-control ms-2"
-                                        value={deliveryDate.split('T')[1] ? deliveryDate.split('T')[1].substring(0, 5) : '07:00'} // Mặc định là 7:00 sáng
-                                        onChange={(e) => setDeliveryDate(deliveryDate.split('T')[0] + 'T' + e.target.value + ':00')}
+                                        value={deliveryDate.split('T')[1] ? deliveryDate.split('T')[1].substring(0, 5) : '07:00'}
+                                        onChange={handleTimeChange}
                                     >
-                                        {/* Các lựa chọn từ 7:00 sáng đến 18:00 tối, bỏ 12:00 trưa */}
                                         {Array.from({ length: 12 }, (_, index) => {
                                             const hour = 7 + index;
-                                            // Bỏ qua 12:00
                                             if (hour === 12) return null;
                                             return (
                                                 <option key={hour} value={`${hour.toString().padStart(2, '0')}:00`}>
@@ -288,10 +257,6 @@ function AdminThemDatLich() {
                                     </select>
                                 </div>
                             </div>
-
-
-
-
 
                             <button type="submit" className="btn btn-primary">
                                 Thêm đơn
