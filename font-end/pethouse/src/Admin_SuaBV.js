@@ -232,7 +232,7 @@ function Admin_Suabv() {
             {error && <p className="text-danger">{error}</p>}
             <form onSubmit={handleSubmit}>
               <div className="d-flex flex-wrap">
-                <div className="col-md-8 px-0">
+                <div className="col-md-12 px-0">
                   <div className="border border-dark rounded-3 my-3 p-2">
                     <h5 className="mb-2 py-1">Thông tin tin tức</h5>
                     <div className="mb-3">

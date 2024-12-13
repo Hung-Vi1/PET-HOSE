@@ -78,57 +78,70 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Đổi Mật Khẩu</h2>
-      {notification.message && (
-        <div
-          className={`alert ${
-            notification.type === "success" ? "alert-success" : "alert-danger"
-          }`}
-          role="alert"
-        >
-          {notification.message}
+    <div className="container my-5">
+      <div className="card" style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <div className="card-header text-center" style={{backgroundColor:"#f4b915", color:"white"}}><h4>Đổi Mật Khẩu</h4></div>
+        <div className="card-body" style={{backgroundColor:"#F7F0DD"}}>
+
+
+          {notification.message && (
+            <div
+              className={`alert ${notification.type === "warning " ? "alert-warning " : "alert-warning "
+                }`}
+              role="alert"
+            >
+              {notification.message}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Mật khẩu cũ</label>
+              <input
+                type="password"
+                name="OldPassword"
+                className="form-control"
+                value={formData.OldPassword}
+                placeholder="Nhập mật khẩu cũ"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Mật khẩu mới</label>
+              <input
+                type="password"
+                name="Matkhau"
+                className="form-control"
+                value={formData.Matkhau}
+                placeholder="Nhập mật khẩu mới"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Xác nhận mật khẩu</label>
+              <input
+                type="password"
+                name="ConfirmPassword"
+                className="form-control"
+                value={formData.ConfirmPassword}
+                placeholder="Nhập lại xác nhận mật khẩu đã nhập"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-warning text-light"> 
+              Đổi Mật Khẩu
+            </button>
+          </form>
         </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Mật khẩu cũ</label>
-          <input
-            type="password"
-            name="OldPassword"
-            className="form-control"
-            value={formData.OldPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Mật khẩu mới</label>
-          <input
-            type="password"
-            name="Matkhau"
-            className="form-control"
-            value={formData.Matkhau}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Xác nhận mật khẩu</label>
-          <input
-            type="password"
-            name="ConfirmPassword"
-            className="form-control"
-            value={formData.ConfirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Đổi Mật Khẩu
-        </button>
-      </form>
+      </div>
     </div>
+
   );
 };
 

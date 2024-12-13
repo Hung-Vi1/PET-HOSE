@@ -6,8 +6,8 @@ import { useAuth } from "./contexts/AuthContext";
 // import { format } from "date-fns";
 // import { vi } from "date-fns/locale";
 // In hóa đơn
-import Invoice from "./Invoice";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+// import Invoice from "./Invoice";
+// import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function AdminDonHangChiTiet() {
   const { ma_don_hang } = useParams();
@@ -15,11 +15,10 @@ function AdminDonHangChiTiet() {
   const [hoTen, setHoTen] = useState("");
   const [soDienThoai, setSoDienThoai] = useState("");
   const [diaChi, setDiaChi] = useState("");
-  const [pttt, setPttt] = useState("");
+  const [trangThai, setTrangThai] = useState("");
+  const [PTTT, setPTTT] = useState("");
   const [ghiChu, setGhiChu] = useState("");
   const [sanPhamDetails, setSanPhamDetails] = useState([]);
-
-
 
   const calculateTotal = () => {
     return sanPhamDetails.reduce((total, detail) => {
@@ -33,13 +32,12 @@ function AdminDonHangChiTiet() {
   // Lấy thông tin đơn hàng theo mã đơn hàng
   useEffect(() => {
     fetch(`http://localhost:8000/api/orderDetails/${ma_don_hang}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((res) => {
-
         if (!res.ok) {
           throw new Error("Không thể lấy thông tin đơn hàng");
         }
@@ -52,13 +50,11 @@ function AdminDonHangChiTiet() {
           setHoTen(dh.Ten);
           setSoDienThoai(dh.SDT);
           setDiaChi(dh.DiaChi);
-          setPttt(dh.PTTT);
+          setTrangThai(dh.TrangThai);
+          setPTTT(dh.PTTT);
           setGhiChu(dh.GhiChu);
           setSanPhamDetails(data.data); // Lưu tất cả chi tiết sản phẩm
-
-        }
-
-        else {
+        } else {
           throw new Error(data.message);
         }
       })
@@ -227,6 +223,7 @@ function AdminDonHangChiTiet() {
               <div className="col-md-auto">
                 <h1 className="mb-0">#{ma_don_hang}</h1>
               </div>
+              
               <div className="col-md-auto ms-auto px-3">
                 <Link
                   className="text-success"
@@ -242,17 +239,13 @@ function AdminDonHangChiTiet() {
                   <i className="bi bi-printer"></i> In đơn
                 </strong>
               </div>
-              <div className="col-md-auto ps-3 pe-2 text-danger">
-                <strong>
-                  <i className="bi bi-x-circle"></i> Hủy đơn
-                </strong>
-              </div>
+              
             </div>
             <p className="col-md-12 m-0">{ngayDat}</p>
 
             <form>
               <div className="d-flex flex-wrap">
-                <div className="col-md-8 px-0">
+                <div className="col-md-12 px-0">
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                       <h5 className="mb-2 py-1">Thông tin giao hàng</h5>
@@ -266,6 +259,7 @@ function AdminDonHangChiTiet() {
                             value={hoTen}
                             onChange={(e) => setHoTen(e.target.value)}
                             required
+                            readOnly
                           />
                         </div>
 
@@ -277,6 +271,7 @@ function AdminDonHangChiTiet() {
                             value={soDienThoai}
                             onChange={(e) => setSoDienThoai(e.target.value)}
                             required
+                            readOnly
                           />
                         </div>
                       </div>
@@ -288,7 +283,8 @@ function AdminDonHangChiTiet() {
                           value={diaChi}
                           onChange={(e) => setDiaChi(e.target.value)}
                           required
-                        ></input>
+                          readOnly
+                        />
                       </div>
                     </div>
                   </div>
@@ -296,41 +292,9 @@ function AdminDonHangChiTiet() {
 
                 <div className="col-md px-0">
                   <div className="d-flex flex-wrap">
-                    <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
+                    
 
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                        // value={trang_thai}
-                        // onChange={(e) =>
-                        //   setTrangThai(Number(e.target.value))
-                        // }
-                        >
-                          <option value="0">Chờ xác nhận</option>
-                          <option value="1">Đang xử lý</option>
-                          <option value="1">Đã xử lý</option>
-                          <option value="1">Đã hủy</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="col-md border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Phương thức thanh toán</h5>
-
-                      <div>
-                        <select
-                          type="number"
-                          className="form-select"
-                          value={pttt}
-                          onChange={(e) => setPttt(e.target.value)}
-                        >
-                          <option value="0">Thanh toán khi nhận hàng</option>
-                          <option value="1">Thanh toán chuyển khoản</option>
-                        </select>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -360,20 +324,31 @@ function AdminDonHangChiTiet() {
                             <img
                               src={`../image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
-                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                              style={{
+                                width: "100px",
+                                height: "100px",
+                                objectFit: "cover",
+                              }}
                             />
                           </td>
                           <td>{detail.SanPham.TenSP}</td>
                           <td className="text-center">{detail.SoLuong}</td>
                           <td className="text-end">
-                            {detail.DonGia.toLocaleString()} VND
+                            {parseInt(detail.DonGia).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
                           </td>
                           <td className="text-end">
-                            {(detail.SoLuong * detail.DonGia).toLocaleString()} VND
+                            {parseInt(
+                              detail.SoLuong * detail.DonGia
+                            ).toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
                           </td>
                         </tr>
                       ))}
-
                     </tbody>
 
                     <tfoot>
@@ -385,12 +360,13 @@ function AdminDonHangChiTiet() {
                               className="form-control h-50"
                               value={ghiChu}
                               onChange={(e) => setGhiChu(e.target.value)}
+                              readOnly
                             ></textarea>
                           </div>
                         </td>
                         <td className="text-end fw-bold">Tổng hóa đơn</td>
                         <td className="text-end fw-bold">
-                          {calculateTotal().toLocaleString("vi-VN", {
+                          {parseInt(calculateTotal()).toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                           })}

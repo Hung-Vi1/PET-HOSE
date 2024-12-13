@@ -70,64 +70,93 @@ const UpdateInfo = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Cập Nhật Thông Tin Tài Khoản</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Tên tài khoản</label>
-          <input
-            type="text"
-            name="Hovaten"
-            className="form-control"
-            value={userInfo.Hovaten}
-            onChange={handleChange}
-          />
+
+
+    <div className="container my-5">
+
+
+
+
+      <div className="card mx-5">
+        <div className="card-header text-center" style={{backgroundColor:"#f4b915", color:"white"}}>
+          <h2>Cập Nhật Thông Tin Tài Khoản</h2>
         </div>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            name="Email"
-            className="form-control"
-            value={userInfo.Email}onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Số điện thoại</label>
-            <input
-              type="text"
-              name="SDT"
-              className="form-control"
-              value={userInfo.SDT}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Địa chỉ</label>
-            <input
-              type="text"
-              name="DiaChi"
-              className="form-control"
-              value={userInfo.DiaChi}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Thú Cưng</label>
-            <input
-              type="text"
-              name="ThuCung"
-              className="form-control"
-              value={userInfo.ThuCung}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Cập Nhật
-          </button>
-        </form>
+        <div className="card-body px-5" >
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              {/* Nhóm 1: Thông tin cơ bản - Cột 1 */}
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Tên tài khoản</label>
+                  <input
+                    type="text"
+                    name="Hovaten"
+                    className="form-control"
+                    value={userInfo.Hovaten}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    name="Email"
+                    className="form-control"
+                    value={userInfo.Email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Số điện thoại</label>
+                  <input
+                    type="text"
+                    name="SDT"
+                    className="form-control"
+                    value={userInfo.SDT}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              {/* Nhóm 2: Thông tin thêm - Cột 2 */}
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Địa chỉ</label>
+                  <input
+                    type="text"
+                    name="DiaChi"
+                    className="form-control"
+                    value={userInfo.DiaChi}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Thú Cưng</label>
+                  <input
+                    type="text"
+                    name="ThuCung"
+                    className="form-control"
+                    value={userInfo.ThuCung}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-warning text-light">
+              Cập Nhật
+            </button>
+          </form>
+
+        </div>
       </div>
-    );
-  };
-  
-  export default UpdateInfo;
+
+
+
+
+
+    </div>
+  );
+};
+
+export default UpdateInfo;

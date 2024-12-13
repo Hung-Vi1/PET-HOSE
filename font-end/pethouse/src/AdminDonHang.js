@@ -263,7 +263,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>
                 <Link
                   onClick={() => fetchOrderById(dh.ma_don_hang)}
-                  to={`/admindonhangchitiet/${dh.ma_don_hang}`}
+                  to={`/admindonhangsua/${dh.ma_don_hang}`}
                   className="text-primary"
                 >
                   #{dh.ma_don_hang}

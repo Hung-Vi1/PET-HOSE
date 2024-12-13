@@ -50,8 +50,8 @@ const Password = () => {
           <div className="col-md-4 text-center m-5">
 
             <div class="card text-center">
-              <div class="card-header">
-                <h1 className="">Quên Mật Khẩu</h1>
+              <div class="card-header" style={{backgroundColor:"#f4b915", color:"white"}}>
+                <h3 className="">Quên Mật Khẩu</h3>
               </div>
               <div class="card-body">
               {isEmailSent ? (
@@ -59,16 +59,16 @@ const Password = () => {
             ) : (
               <form onSubmit={formik.handleSubmit}>
                 <input
-                  className="mb-3"
+                  className="mb-1 rounded-4"
                   type="email"
-                  placeholder="Nhập email của bạn"
+                  placeholder="  Nhập email của bạn"
                   {...formik.getFieldProps("email")}
                   required
                 />
                 {formik.touched.email && formik.errors.email && (
                   <div className="text-danger">{formik.errors.email}</div>
                 )}
-                <button type="submit" disabled={formik.isSubmitting}>
+                <button type="submit" className="rounded-4 mt-3" disabled={formik.isSubmitting}>
                   {formik.isSubmitting ? "Đang gửi..." : "Gửi Email"}
                 </button>
                 {errorMessage && <p className="text-danger">{errorMessage}</p>}
