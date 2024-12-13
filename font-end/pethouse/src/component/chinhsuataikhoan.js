@@ -8,6 +8,7 @@ const UpdateInfo = () => {
   const { id } = useParams(); // Lấy id (Mataikhoan) từ URL
   const { user, isLoggedIn, setUser } = useAuth(); // Lấy dữ liệu người dùng và setUser từ AuthContext
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const [userInfo, setUserInfo] = useState({
     Hovaten: "",
@@ -47,7 +48,7 @@ const UpdateInfo = () => {
     e.preventDefault();
 
     // Gửi yêu cầu PUT để cập nhật thông tin người dùng
-    fetch(`http://127.0.0.1:8000/api/users/${id}`, {
+    fetch(`${apiUrl}/api/users/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

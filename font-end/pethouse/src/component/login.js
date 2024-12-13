@@ -9,6 +9,7 @@ const LoginSignupForm = () => {
   const navigate = useNavigate();
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login và setIsLoggedIn từ AuthContext
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // Formik cho Đăng Ký
   const signupFormik = useFormik({
@@ -40,7 +41,7 @@ const LoginSignupForm = () => {
     }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/dangki", {
+        const response = await fetch(`${apiUrl}/api/dangki`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +86,7 @@ const LoginSignupForm = () => {
     },
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/dangnhap", {
+        const response = await fetch(`${apiUrl}/api/dangnhap`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

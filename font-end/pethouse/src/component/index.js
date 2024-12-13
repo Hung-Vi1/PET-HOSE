@@ -10,6 +10,8 @@ function Index() {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const addToCart = (product) => {
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
     const existingProductIndex = cart.findIndex(
@@ -43,7 +45,7 @@ function Index() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/products");
+        const response = await fetch(`${apiUrl}/api/products`);
         const data = await response.json();
         ListNewProduct(data.data || []);
       } catch (error) {
@@ -59,7 +61,7 @@ function Index() {
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/News");
+        const response = await fetch(`${apiUrl}/api/News`);
         const data = await response.json();
 
         if (Array.isArray(data.data)) {
@@ -99,7 +101,7 @@ function Index() {
   const fetchProductsByCategory = async (categoryId, setter) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/products/sanPhamTheoDM/${categoryId}`
+        `${apiUrl}/api/products/sanPhamTheoDM/${categoryId}`
       );
       const data = await response.json();
       if (data && data.data) {
@@ -114,7 +116,7 @@ function Index() {
     // Gọi API cho tất cả danh mục
     fetchProductsByCategory(4, setDogProducts); // Chó
     fetchProductsByCategory(25, setCatProducts); // Mèo
-    fetch(`http://127.0.0.1:8000/api/products`)
+    fetch(`${apiUrl}/api/products`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.data) {
@@ -302,7 +304,7 @@ function Index() {
                           className="product-link"
                         >
                           <img
-                            src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
+                            src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                             alt={sp.ten_san_pham}
                           />
                         </Link>
@@ -412,7 +414,7 @@ function Index() {
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                       <div className="product-thumb clearfix">
                         <img
-                          src={`http://localhost:8000/image/product/${sp.hinh_anh}`}
+                          src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
                         <span className="new">Mới</span>
