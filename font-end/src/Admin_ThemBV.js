@@ -213,6 +213,7 @@ function Admin_Thembv() {
               </div>
             </div>
           </nav>
+
           <div className="container mt-3 mb-5">
             <div className="d-flex">
               <Link
@@ -221,7 +222,7 @@ function Admin_Thembv() {
               >
                 <i className="bi bi-arrow-left"></i>
               </Link>
-              <h1 className="mb-0">Thêm Tin Tức</h1>
+              <h1 className="mb-0">Thêm Bài Viết</h1>
               {error && <p className="text-danger">{error}</p>}
             </div>
 
@@ -230,9 +231,9 @@ function Admin_Thembv() {
                 <div className="col-md-8 px-0">
                   <div className="d-flex flex-wrap me-3">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Thông tin tin tức</h5>
+                      <h5 className="mb-2 py-1">Thông tin bài viết</h5>
                       <div className="mb-3">
-                        <label className="form-label">Tên Tin Tức</label>
+                        <label className="form-label">Tên bài viết</label>
                         <input
                           type="text"
                           className="form-control"
@@ -268,7 +269,7 @@ function Admin_Thembv() {
                 <div className="col-md px-0">
                   <div className="d-flex flex-wrap">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Ảnh tin tức</h5>
+                      <h5 className="mb-2 py-1">Ảnh bài viết</h5>
 
                       <div className="text-center">
                         <div className="d-flex justify-content-center py-2">
@@ -289,11 +290,10 @@ function Admin_Thembv() {
                           <div className="mt-3">
                             <img
                               src={imagePreview}
-                              alt="Preview"
+                              alt={imagePreview}
                               style={{
-                                width: "100%",
-                                height: "250px",
-                                borderRadius: "5px",
+                                maxWidth: "100%",
+                                marginBottom: "10px",
                               }}
                             />
                           </div>
@@ -302,10 +302,10 @@ function Admin_Thembv() {
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Thông tin</h5>
+                      <h5 className="mb-2 py-1">Thông tin khác</h5>
 
                       <div className="mb-3">
-                        <label className="form-label">Danh mục</label>
+                        <label className="form-label">Danh mục bài viết</label>
                         <select
                           className="form-select"
                           value={ma_danh_muc_bv}
@@ -327,10 +327,13 @@ function Admin_Thembv() {
                       </div>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-outline-success ">
-                    Thêm bài viết
-                  </button>
                 </div>
+              </div>
+
+              <div className="d-flex justify-content-end">
+                <button type="submit" className="btn btn-outline-success ">
+                  Thêm bài viết
+                </button>
               </div>
             </form>
           </div>
