@@ -270,7 +270,7 @@ class MomoApiController extends Controller
                 }
             
 
-                return redirect("$frontendUrl/sanpham");
+                return redirect("$frontendUrl");
             } else {
                 return redirect("$frontendUrl");
             }

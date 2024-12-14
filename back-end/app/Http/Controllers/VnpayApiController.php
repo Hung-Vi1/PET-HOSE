@@ -305,7 +305,7 @@ class VnpayApiController extends Controller
             ]);
 
 
-            return redirect("$frontendUrl/sanpham");
+            return redirect("$frontendUrl");
         } else {
             $MaDH = $inputData['vnp_TxnRef'];
             // Tìm đơn hàng theo ID
@@ -317,7 +317,7 @@ class VnpayApiController extends Controller
             // Xóa đơn hàng
             $order->delete();
             
-            return redirect("$frontendUrl/giohang");
+            return redirect("$frontendUrl");
         }
     }
 }
