@@ -4,11 +4,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext"; // Nhập AuthContext
 import "../App.css";
+import CryptoJS from "crypto-js";
 
 const LoginSignupForm = () => {
   const navigate = useNavigate();
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const { login, setIsLoggedIn } = useAuth(); // Lấy hàm login và setIsLoggedIn từ AuthContext
+  const secretKey = "vOhUNGvI"; // Khóa bí mật dùng để mã hóa
   const apiUrl = process.env.REACT_APP_API_URL;
 
   // Formik cho Đăng Ký
@@ -116,7 +118,13 @@ const LoginSignupForm = () => {
             Email: userData.Email || null,
           };
 
-          sessionStorage.setItem("user", JSON.stringify(userInfo));
+          // Mã hóa dữ liệu trước khi lưu vào sessionStorage
+          const encryptedData = CryptoJS.AES.encrypt(
+            JSON.stringify(userInfo),
+            secretKey
+          ).toString();
+
+          sessionStorage.setItem("user", encryptedData);
 
 
           // Gọi hàm login và cập nhật trạng thái đăng nhập
