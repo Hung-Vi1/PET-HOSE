@@ -1,20 +1,27 @@
+import { Link } from "react-router-dom"
 function Footer() {
     return (
         <div className="row bg-footer">
             <div className="col-sm-6 col-md-3">
                 <div className="widget widget-link">
                     <ul>
-                        <li>
+                        {/* <li>
                             <a href="#">Về chúng tôi</a>
+                        </li> */}
+                        <li>
+                            <Link to="/sanpham">Sản phẩm</Link>
+                        </li>
+                        {/* <li>
+                            <Link href="blog-list.html">Sản phẩm cho mèo</Link>
+                        </li> */}
+                        <li>
+                            <Link to="/datlich">Dịch vụ chăm sóc</Link>
                         </li>
                         <li>
-                            <a href="#">Sản phẩm cho chó</a>
+                            <Link to="/lienhe">Liên hệ</Link>
                         </li>
                         <li>
-                            <a href="blog-list.html">Sản phẩm cho mèo</a>
-                        </li>
-                        <li>
-                            <a href="contact.html">Dịch vụ chăm sóc</a>
+                            <Link to="/tintuc">Tin tức</Link>
                         </li>
                     </ul>
                 </div>
@@ -25,16 +32,16 @@ function Footer() {
                 <div className="widget widget-link link-login">
                     <ul>
                         <li>
-                            <a href="#">Đăng nhập/ Đăng ký</a>
+                            <Link to="/">Trang chủ</Link>
                         </li>
                         <li>
-                            <a href="#">Your Cart</a>
+                            <Link to="/login">Đăng nhập/ Đăng ký</Link>
                         </li>
                         <li>
-                            <a href="#">Wishlist items</a>
+                            <Link to="/giohang">Giỏ hàng</Link>
                         </li>
                         <li>
-                            <a href="#">Your checkout</a>
+                            <Link to="/timkiem">Tìm kiếm</Link>
                         </li>
                     </ul>
                 </div>
@@ -45,17 +52,15 @@ function Footer() {
                 <div className="widget widget-link link-faq">
                     <ul>
                         <li>
-                            <a href="faqs.html">FAQs</a>
+                            <Link to="/info">Tài khoản</Link>
                         </li>
                         <li>
-                            <a href="#">Term of service</a>
+                            <Link to="/lichsumua">Lịch sử mua hàng</Link>
                         </li>
                         <li>
-                            <a href="#">Privacy Policy</a>
+                            <Link to="/lichsuDV">Lịch sử dùng dịch vụ</Link>
                         </li>
-                        <li>
-                            <a href="#">Returns</a>
-                        </li>
+                        
                     </ul>
                 </div>
                 {/* /.widget */}
@@ -64,14 +69,14 @@ function Footer() {
             <div className="col-sm-6 col-md-3">
                 <div className="widget widget-brand">
                     <div className="logo logo-footer">
-                        <a href="index.html">
+                        <Link to="/">
                             <img src="/image/Nen_trong_suot.png" alt="image" width={107} height={24} />
-                        </a>
+                        </Link>
                     </div>
                     <ul className="flat-contact">
                         <li className="address">Tô ký, phường Trung Mỹ Tây, quận 12, TP.HCM</li>
                         <li className="phone">0962491715</li>
-                        <li className="email">pethose@gmail.com</li>
+                        <li className="email">pethouse@gmail.com</li>
                     </ul>
                     {/* /.flat-contact */}
                 </div>

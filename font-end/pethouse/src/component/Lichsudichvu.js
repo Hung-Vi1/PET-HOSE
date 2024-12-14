@@ -13,7 +13,7 @@ const Lichsudichvu = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       if (!user || !user.Mataikhoan) {
-        setError('Không tìm thấy thông tin tài khoản.');
+        setError('Vui lòng đăng nhập để xem dịch vụ.');
         setLoading(false);
         return;
       }
@@ -27,7 +27,7 @@ const Lichsudichvu = () => {
         });
 
         if (!response.ok) {
-          throw new Error('Không thể tải dịch vụ. Vui lòng thử lại.');
+          throw new Error('Chưa có lịch sử dùng dịch vụ.');
         }
 
         const data = await response.json();
@@ -45,7 +45,7 @@ const Lichsudichvu = () => {
     };
 
     fetchOrders(); // Gọi hàm lấy danh sách dịch vụ khi component mount
-  }, [user]); // Chạy lại nếu thông tin user thay đổi
+  }, [user, apiUrl]); // Chạy lại nếu thông tin user thay đổi
 
   // Xử lý hủy dịch vụ
   const handleCancelOrder = async (maDonHang) => {
@@ -84,18 +84,20 @@ const Lichsudichvu = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Hiển thị khi đang tải
+    return <div>Đang tải thông tin vui lòng đợi...</div>; // Hiển thị khi đang tải
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Hiển thị lỗi nếu có
+    return <div>{error}</div>; // Hiển thị lỗi nếu có
   }
 
   return (
     <div className="container mt-3">
       <h2>Lịch sử dịch vụ đã sử dụng</h2>
-      {orders.length === 0 ? (
-        <p>Chưa có dịch vụ nào.</p> // Nếu không có dịch vụ
+      {user && orders.length === 0 ? (
+        <p>Bạn chưa sử dụng dịch vụ nào.</p> // Thông báo khi chưa có dịch vụ
+      ) : !user ? (
+        <p>Vui lòng đăng nhập để xem dịch vụ.</p> // Thông báo khi chưa đăng nhập
       ) : (
         <table className="table">
           <thead>
@@ -156,7 +158,6 @@ const Lichsudichvu = () => {
                       day: "numeric",
                       hour: "2-digit",
                       minute: "2-digit",
-                      
                     })}
                   </td>
 
@@ -174,7 +175,7 @@ const Lichsudichvu = () => {
                         className="btn btn-danger btn-sm"
                         onClick={() => handleCancelOrder(order.ma_don_hang)}
                       >
-                        <i class="fa-solid fa-ban"></i> Hủy Dịch Vụ
+                        <i className="fa-solid fa-ban"></i> Hủy Dịch Vụ
                       </button>
                     ) : (
                       <span className="text-muted">Không thể hủy</span>

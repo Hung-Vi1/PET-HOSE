@@ -292,7 +292,7 @@ function Index() {
           <div className="row">
             <div className="col-md-12">
               <div className="title-section margin-bottom-52">
-                <h2 className="title">Sản Phẩm Mới</h2>
+                <h2 className="title">Sản Phẩm Nổi Bật</h2>
               </div>
               <div className="product-content product-fourcolumn clearfix">
                 <ul className="product style2 clearfix">

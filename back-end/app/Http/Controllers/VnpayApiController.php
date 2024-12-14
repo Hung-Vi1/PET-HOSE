@@ -77,9 +77,9 @@ class VnpayApiController extends Controller
     {
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-
+        $backendUrl = env('APP_URL');
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/api/vnpay/callback";
+        $vnp_Returnurl = "$backendUrl/api/vnpay/callback";
         $vnp_TmnCode = "WRPOFVZJ"; // Mã website tại VNPAY
         $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC"; // Thay bằng mã bí mật của bạn
 
@@ -247,6 +247,7 @@ class VnpayApiController extends Controller
     {
         $vnp_HashSecret = "UI3TQRXZD5YVALKJDIQFBF2VMS9V57VC"; // Mã bí mật
         $inputData = $request->all();
+        $frontendUrl = env('FRONTEND_URL');
 
         // Kiểm tra giá trị của dữ liệu nhận được
         Log::info('Input data:', $inputData);
@@ -304,7 +305,7 @@ class VnpayApiController extends Controller
             ]);
 
 
-            return redirect('http://localhost:3000/sanpham');
+            return redirect("$frontendUrl/sanpham");
         } else {
             $MaDH = $inputData['vnp_TxnRef'];
             // Tìm đơn hàng theo ID
@@ -316,7 +317,7 @@ class VnpayApiController extends Controller
             // Xóa đơn hàng
             $order->delete();
             
-            return redirect('http://localhost:3000/giohang');
+            return redirect("$frontendUrl/giohang");
         }
     }
 }

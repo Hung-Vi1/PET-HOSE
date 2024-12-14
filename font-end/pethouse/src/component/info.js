@@ -10,7 +10,7 @@ const Info = () => {
   if (!isLoggedIn || !user) {
     return (
       <div className="container">
-        <p>Người dùng chưa đăng nhập.</p>
+        <p>Bạn cần phải đăng nhập để xem thông tin tài khoản.</p>
       </div>
     );
   }

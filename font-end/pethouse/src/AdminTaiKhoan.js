@@ -193,8 +193,8 @@ function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
           <td className="text-center">{usr.so_dien_thoai}</td>
           <td>{usr.email}</td>
           <td className="text-center">
-            <span className={`badge ${usr.quyen === 1 ? "text-bg-danger" : "text-bg-success"}`}>
-              {usr.quyen === 1 ? "Quản trị viên" : "Người dùng"}
+            <span className={`badge ${usr.quyen == 1 ? "text-bg-danger" : "text-bg-success"}`}>
+              {usr.quyen == 1 ? "Quản trị viên" : "Người dùng"}
             </span>
           </td>
           <td className="text-center">

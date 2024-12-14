@@ -100,6 +100,8 @@ class MomoApiController extends Controller
      */
     public function MOMO(Request $request)
     {
+        
+        $backendUrl = env('APP_URL');
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
         $partnercode = 'MOMOBKUN20180529';
         $accesskey = 'klm05TvNBzhg7h7j';
@@ -109,8 +111,8 @@ class MomoApiController extends Controller
         $orderInFo = "Thanh toán qua MoMo";
         // $amount = "10000";
         // $orderId = time() . "";
-        $RedirectUrl = "http://127.0.0.1:8000/api/momo/callback";
-        $IpnUrl = "http://127.0.0.1:8000/api/momo/callback";
+        $RedirectUrl = "$backendUrl/api/momo/callback";
+        $IpnUrl = "$backendUrl/api/momo/callback";
         // Validate dữ liệu đầu vào
         $validatedData = $request->validate([
             'Mataikhoan' => 'required|integer|exists:users,Mataikhoan',
@@ -213,7 +215,7 @@ class MomoApiController extends Controller
     public function handleMOMOCallback(Request $request)
     {
         $inputData = $request->all();
-
+        $frontendUrl = env('FRONTEND_URL');
         try {
             // Lấy dữ liệu từ extraData
             $validatedData = json_decode($inputData['extraData'], true);
@@ -268,9 +270,9 @@ class MomoApiController extends Controller
                 }
             
 
-                return redirect('http://localhost:3000/sanpham');
+                return redirect("$frontendUrl/sanpham");
             } else {
-                return redirect('http://localhost:3000');
+                return redirect("$frontendUrl");
             }
         } catch (\Exception $e) {
             return response()->json([
