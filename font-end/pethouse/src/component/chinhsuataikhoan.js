@@ -1,31 +1,31 @@
-// src/pages/UpdateInfo.js
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 const UpdateInfo = () => {
-  const { id } = useParams(); // Lấy id (Mataikhoan) từ URL
-  const { user, isLoggedIn, setUser } = useAuth(); // Lấy dữ liệu người dùng và setUser từ AuthContext
+  const { id } = useParams(); // Lấy id từ URL
+  const { user, isLoggedIn, setUser } = useAuth(); // Lấy dữ liệu người dùng từ AuthContext
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const secretKey = "vOhUNGvI"; // Khóa mã hóa
 
   const [userInfo, setUserInfo] = useState({
     Hovaten: "",
     Email: "",
     SDT: "",
     DiaChi: "",
-    ThuCung: "", // Thêm trường ThuCung nếu cần
+    ThuCung: "",
   });
 
+  // Lấy thông tin người dùng từ AuthContext khi component render
   useEffect(() => {
-    // Kiểm tra nếu người dùng chưa đăng nhập hoặc mã tài khoản không hợp lệ
     if (!isLoggedIn || id !== String(user?.Mataikhoan)) {
       alert("Mã tài khoản không hợp lệ hoặc người dùng chưa đăng nhập.");
-      return;
+      return navigate("/login");
     }
 
-    // Cập nhật thông tin người dùng vào form khi người dùng đã đăng nhập
     if (user) {
       setUserInfo({
         Hovaten: user.Hovaten || "",
@@ -35,8 +35,9 @@ const UpdateInfo = () => {
         ThuCung: user.ThuCung || "",
       });
     }
-  }, [id, user, isLoggedIn]);
+  }, [id, user, isLoggedIn, navigate]);
 
+  // Xử lý thay đổi dữ liệu trong form
   const handleChange = (e) => {
     setUserInfo({
       ...userInfo,
@@ -44,23 +45,31 @@ const UpdateInfo = () => {
     });
   };
 
+  // Gửi yêu cầu cập nhật thông tin
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Gửi yêu cầu PUT để cập nhật thông tin người dùng
     fetch(`${apiUrl}/api/users/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userInfo), // Gửi toàn bộ thông tin đã thay đổi
+      body: JSON.stringify(userInfo),
     })
       .then((response) => response.json())
       .then((data) => {
-        // Cập nhật thông tin người dùng vào AuthContext và sessionStorage
         const updatedUser = data.user;
-        setUser(updatedUser); // Cập nhật trong AuthContext
-        sessionStorage.setItem("user", JSON.stringify(updatedUser)); // Lưu lại vào sessionStorage
+
+        // Mã hóa dữ liệu trước khi lưu vào sessionStorage
+        const encryptedData = CryptoJS.AES.encrypt(
+          JSON.stringify(updatedUser),
+          secretKey
+        ).toString();
+
+        // Cập nhật thông tin người dùng trong AuthContext và sessionStorage
+        setUser(updatedUser);
+        sessionStorage.setItem("user", encryptedData);
+
         alert("Cập nhật thông tin thành công!");
         navigate("/info");
       })
@@ -71,21 +80,14 @@ const UpdateInfo = () => {
   };
 
   return (
-
-
     <div className="container my-5">
-
-
-
-
       <div className="card mx-5">
-        <div className="card-header text-center" style={{backgroundColor:"#f4b915", color:"white"}}>
+        <div className="card-header text-center" style={{ backgroundColor: "#f4b915", color: "white" }}>
           <h2>Cập Nhật Thông Tin Tài Khoản</h2>
         </div>
-        <div className="card-body px-5" >
+        <div className="card-body px-5">
           <form onSubmit={handleSubmit}>
             <div className="row">
-              {/* Nhóm 1: Thông tin cơ bản - Cột 1 */}
               <div className="col-md-6">
                 <div className="form-group">
                   <label>Tên tài khoản</label>
@@ -118,8 +120,6 @@ const UpdateInfo = () => {
                   />
                 </div>
               </div>
-
-              {/* Nhóm 2: Thông tin thêm - Cột 2 */}
               <div className="col-md-6">
                 <div className="form-group">
                   <label>Địa chỉ</label>
@@ -143,19 +143,12 @@ const UpdateInfo = () => {
                 </div>
               </div>
             </div>
-
             <button type="submit" className="btn btn-warning text-light">
               Cập Nhật
             </button>
           </form>
-
         </div>
       </div>
-
-
-
-
-
     </div>
   );
 };

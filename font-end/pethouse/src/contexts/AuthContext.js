@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+
 import CryptoJS from "crypto-js";
 // Tạo AuthContext
 const AuthContext = createContext();
@@ -8,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Trạng thái lưu thông tin người dùng
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
   const [error, setError] = useState(null); // Trạng thái lỗi
-
+ 
   // Kiểm tra thông tin người dùng trong sessionStorage khi component render
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -18,8 +19,9 @@ export const AuthProvider = ({ children }) => {
         const bytes = CryptoJS.AES.decrypt(storedUser, secretKey);
         const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
-        console.log("Dữ liệu giải mã:", decryptedData);
+        
         setUser(decryptedData); // Cập nhật state với thông tin người dùng
+
         setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
       } catch (error) {
         console.error("Giải mã thất bại:", error);

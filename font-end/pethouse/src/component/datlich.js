@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import CryptoJS from "crypto-js";
 function DatLich() {
   const [services, setServices] = useState([]);
+  const secretKey = "vOhUNGvI";
   const [userData, setUserData] = useState({
     name: "",
     phone: "",
@@ -22,13 +23,15 @@ function DatLich() {
   useEffect(() => {
     const user = sessionStorage.getItem("user");
     if (user) {
-      const parsedUser = JSON.parse(user);
+      const bytes = CryptoJS.AES.decrypt(user, secretKey);
+      const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      // const parsedUser = JSON.parse(user);
       setUserData({
-        name: parsedUser.Hovaten,
-        phone: parsedUser.SDT,
-        address: parsedUser.DiaChi,
-        email: parsedUser.Email,
-        Mataikhoan: parsedUser.Mataikhoan || "",
+        name: decryptedData.Hovaten,
+        phone: decryptedData.SDT,
+        address: decryptedData.DiaChi,
+        email: decryptedData.Email,
+        Mataikhoan: decryptedData.Mataikhoan || "",
         dateTime: "",
         selectedService: "", // Dịch vụ mặc định chưa chọn
         notes: "", // Ghi chú mặc định
@@ -62,7 +65,7 @@ function DatLich() {
     setUserData({ ...userData, [name]: value });
   };
 
-  
+
   const formatDateTime = (selectedDate, selectedTime) => {
     if (!selectedDate || !selectedTime) {
       console.error("Ngày hoặc giờ không hợp lệ:", selectedDate, selectedTime);
@@ -75,10 +78,10 @@ function DatLich() {
     const hour = String(formattedDate.getHours()).padStart(2, "0");
     const minute = String(formattedDate.getMinutes()).padStart(2, "0");
     const second = String(formattedDate.getSeconds()).padStart(2, "0");
-  
+
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -209,7 +212,7 @@ function DatLich() {
               </div>
             </div>
             <div className="col-md-4">
-            <div className="form-group">
+              <div className="form-group">
                 <label htmlFor="notes">Ghi chú:</label>
                 <textarea
                   className="form-control"
