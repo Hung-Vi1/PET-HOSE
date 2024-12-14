@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 
 function ThanhToan() {
   const apiUrl = process.env.REACT_APP_API_URL;
-
   const [cart, setCart] = useState([]);
   const [userData, setUserData] = useState({
     name: "",
@@ -19,6 +19,7 @@ function ThanhToan() {
   const [discount, setDiscount] = useState(0); // Giá trị giảm giá
   const [couponError, setCouponError] = useState(""); // Lỗi mã giảm giá
   const navigate = useNavigate();
+  const secretKey = "vOhUNGvI"; // Khóa bí mật giống với lúc mã hóa
 
   useEffect(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -26,13 +27,19 @@ function ThanhToan() {
 
     const user = sessionStorage.getItem("user");
     if (user) {
-      const parsedUser = JSON.parse(user);
-      setUserData({
-        name: parsedUser.Hovaten,
-        phone: parsedUser.SDT,
-        address: parsedUser.DiaChi,
-        Mataikhoan: parsedUser.Mataikhoan || "",
-      });
+      try {
+        const bytes = CryptoJS.AES.decrypt(user, secretKey);
+        const decryptedUser = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        setUserData({
+          name: decryptedUser.Hovaten,
+          phone: decryptedUser.SDT,
+          address: decryptedUser.DiaChi,
+          Mataikhoan: decryptedUser.Mataikhoan || "",
+        });
+      } catch (error) {
+        console.error("Giải mã người dùng thất bại:", error);
+        alert("Thông tin người dùng không hợp lệ, vui lòng đăng nhập lại.");
+      }
     }
   }, []);
 
