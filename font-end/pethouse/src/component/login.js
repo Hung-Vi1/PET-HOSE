@@ -117,7 +117,7 @@ const LoginSignupForm = () => {
           };
 
           sessionStorage.setItem("user", JSON.stringify(userInfo));
-          console.log("Thông tin người dùng được lưu vào sessionStorage:", userInfo);
+
 
           // Gọi hàm login và cập nhật trạng thái đăng nhập
           login(userData);  // Gọi hàm login trong AuthContext

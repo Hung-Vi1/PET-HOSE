@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
       sessionStorage.setItem("user", JSON.stringify(userData)); // Lưu vào sessionStorage
-      console.log("Thông tin người dùng:", userData);
-      console.log("Thông tin trong sessionStorage:", sessionStorage.getItem("user"));
     } catch (error) {
       setError("Đăng nhập không thành công");
       console.error("Lỗi đăng nhập:", error);
@@ -38,7 +36,6 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setIsLoggedIn(false);
     sessionStorage.removeItem("user"); // Xóa thông tin người dùng khỏi sessionStorage
-    console.log("Người dùng đã đăng xuất");
   };
 
   // Kiểm tra quyền của người dùng

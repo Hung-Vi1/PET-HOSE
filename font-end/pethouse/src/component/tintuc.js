@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function TinTuc() {
   const [tintuc, setTinTuc] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const articlesPerPage = 12; // Number of articles per page
   const apiUrl = process.env.REACT_APP_API_URL;
 
