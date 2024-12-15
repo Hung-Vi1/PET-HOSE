@@ -250,7 +250,7 @@ function ThanhToan() {
                 <tr key={index}>
                   <td style={{ textAlign: "center" }}>
                     <img
-                      src={`image/product/${item.hinh_anh}`}
+                      src={`${apiUrl}/image/product/${item.hinh_anh}`}
                       alt={item.ten_san_pham}
                       style={{ width: "100px", height: "auto" }}
                     />

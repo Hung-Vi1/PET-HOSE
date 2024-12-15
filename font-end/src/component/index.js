@@ -456,7 +456,7 @@ function Index() {
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                       <div className="product-thumb clearfix">
                         <img
-                          src={`image/product/${sp.hinh_anh}`}
+                          src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
                         <span className="new">Mới</span>
@@ -498,7 +498,7 @@ function Index() {
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
                       <div className="product-thumb clearfix">
                         <img
-                          src={`image/product/${sp.hinh_anh}`}
+                          src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
                         <span className="new">Mới</span>
@@ -620,7 +620,7 @@ function Index() {
                         <article className="post clearfix">
                           <div className="featured-post">
                             <img
-                              src={`image/News/${article.Hinh}`}
+                              src={`${apiUrl}/image/News/${article.Hinh}`}
                               alt={article.tieu_de}
                               className="img-fluid"
                               style={{

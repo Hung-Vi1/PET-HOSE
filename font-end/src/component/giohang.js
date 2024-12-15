@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function GioHang() {
   const [cart, setCart] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
   // Kiểm tra kích thước màn hình
   useEffect(() => {
     const handleResize = () => {
@@ -69,7 +70,7 @@ function GioHang() {
                     <hr />
                     <div className="d-flex align-items-center mb-3 ">
                       <img
-                        src={`image/product/${item.hinh_anh}`}
+                        src={`${apiUrl}/image/product/${item.hinh_anh}`}
                         alt={item.ten_san_pham}
                         className="img-fluid rounded border border-warning"
                         style={{
@@ -163,7 +164,7 @@ function GioHang() {
                     </td>
                     <td className="text-center align-middle">
                       <img
-                        src={`image/product/${item.hinh_anh}`}
+                        src={`${apiUrl}/image/product/${item.hinh_anh}`}
                         alt={item.ten_san_pham}
                         className="img-fluid rounded"
                         style={{

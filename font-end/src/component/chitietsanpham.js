@@ -139,7 +139,7 @@ function ChiTietSanPham() {
           <div className="row">
             <div className="col-md-6 text-center border border-warning border-2 rounded">
               <img
-                src={`../image/product/${sp?.hinh_anh}`}
+                src={`${apiUrl}/image/product/${sp?.hinh_anh}`}
                 className="card-img-top pt-5"
                 alt={sp?.ten_san_pham}
                 style={{ width: "75%" }}
@@ -209,7 +209,7 @@ function ChiTietSanPham() {
                         <div className="product-thumb clearfix">
                           <Link to={"/chitietsanpham/" + sp.ma_san_pham}>
                             <img
-                              src={`../image/product/${sp.hinh_anh}`}
+                              src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                               className="card-img-top mx-auto"
                               alt={sp.ten_san_pham}
                               style={{ width: "75%" }}
