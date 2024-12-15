@@ -26,7 +26,6 @@ import ResetPassword from "./component/ResetPassword";
 import UpdateInfo from "./component/chinhsuataikhoan";
 import UpdatePassword from "./component/doimatkhau";
 
-
 /* Admin */
 import AdminTrangChu from "./AdminTrangChu";
 import AdminTaiKhoan from "./AdminTaiKhoan";
@@ -45,7 +44,7 @@ import AdminDonHangChiTiet from "./AdminDonHangChiTiet";
 import AdminDonHangThem from "./AdminDonHangThem";
 import Admin_bv from "./Admin_BV";
 import Admin_Suabv from "./Admin_SuaBV";
-import Admin_Thembv from "./Admin_ThemBV"
+import Admin_Thembv from "./Admin_ThemBV";
 import AdminDatLich from "./AdminDatLich";
 import AdminDichVu from "./AdminDV";
 import AdminLienHe from "./AdminLienHe";
@@ -524,7 +523,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -571,7 +573,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -605,7 +610,10 @@ function App() {
             element={
               <div>
                 <div id="site-header-wrap">
-                  <header id="header" className="header header-container clearfix">
+                  <header
+                    id="header"
+                    className="header header-container clearfix"
+                  >
                     <div className="container clearfix" id="site-header-inner">
                       <Header />
                     </div>
@@ -639,8 +647,6 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminTaiKhoanThem />} />}
           />
-
-
 
           <Route
             path="/admintaikhoansua/:ma_tai_khoan"
@@ -762,7 +768,6 @@ function App() {
             element={<BaoVeRoute element={<AdminDatLichSua />} />}
           />
 
-
           <Route
             path="/admindonhangthem"
             exact
@@ -774,9 +779,21 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           />
-          <Route path="/Admin_BV" exact element={<BaoVeRoute element={<Admin_bv />} />} />
-          <Route path="/Admin_Suabv/:id" exact element={<BaoVeRoute element={<Admin_Suabv />} />} />
-          <Route path="/Admin_Thembv" exact element={<BaoVeRoute element={<Admin_Thembv />} />} />
+          <Route
+            path="/Admin_BV"
+            exact
+            element={<BaoVeRoute element={<Admin_bv />} />}
+          />
+          <Route
+            path="/Admin_Suabv/:id"
+            exact
+            element={<BaoVeRoute element={<Admin_Suabv />} />}
+          />
+          <Route
+            path="/Admin_Thembv"
+            exact
+            element={<BaoVeRoute element={<Admin_Thembv />} />}
+          />
 
           {/* <Route
             path="/Admin_ThemBV"
@@ -786,7 +803,6 @@ function App() {
             exact
             element={<BaoVeRoute element={<AdminDatLich />} />}
           /> */}
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>
