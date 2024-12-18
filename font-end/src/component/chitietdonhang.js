@@ -78,7 +78,7 @@ const ChiTietDonHang = () => {
                   <td className="align-middle">{detail.SanPham.TenSP}</td>
                   <td className="text-center align-middle">
                     <img
-                      src={`../image/product/${detail.SanPham.HinhAnh}`}
+                      src={`${apiUrl}/image/product/${detail.SanPham.HinhAnh}`}
                       alt={detail.SanPham.TenSP}
                       style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                     />

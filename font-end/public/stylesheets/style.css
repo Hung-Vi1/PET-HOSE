@@ -1552,20 +1552,21 @@ h6 {
 	cursor: pointer;
 	padding: 0;
 	position: relative;
-	border-top: 1px solid #333;
+	border-top: 3px solid white;
+	background-color: #f4b915;
 }
 
 #mainnav-mobi ul li a {
 	display: inline-block;
 	text-transform: uppercase;
-	font-weight: 400;
+	font-weight: 900;
 	line-height: 48px;
 	color: #fff;
 	padding: 0 20px;
 }
 
 #mainnav-mobi ul li a:hover {
-	color: #f4b915;
+	color: black;
 }
 
 #mainnav-mobi ul.submenu>li>a {

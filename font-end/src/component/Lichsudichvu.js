@@ -93,13 +93,14 @@ const Lichsudichvu = () => {
 
   return (
     <div className="container mt-3">
-      <h2>Lịch sử dịch vụ đã sử dụng</h2>
-      {user && orders.length === 0 ? (
-        <p>Bạn chưa sử dụng dịch vụ nào.</p> // Thông báo khi chưa có dịch vụ
-      ) : !user ? (
-        <p>Vui lòng đăng nhập để xem dịch vụ.</p> // Thông báo khi chưa đăng nhập
-      ) : (
-        <table className="table">
+    <h2>Lịch sử dịch vụ đã sử dụng</h2>
+    {user && orders.length === 0 ? (
+      <p>Bạn chưa sử dụng dịch vụ nào.</p>
+    ) : !user ? (
+      <p>Vui lòng đăng nhập để xem dịch vụ.</p>
+    ) : (
+      <div className="table-responsive">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th className="text-center align-middle">STT</th>
@@ -127,7 +128,7 @@ const Lichsudichvu = () => {
                           : order.trang_thai === "huy"
                             ? "Hủy"
                             : order.trang_thai;
-
+  
               const rowStyle =
                 order.trang_thai === "da_thanh_toan"
                   ? { backgroundColor: "#28a745", color: "white" }
@@ -142,15 +143,23 @@ const Lichsudichvu = () => {
                           : order.trang_thai === "huy"
                             ? { backgroundColor: "red", color: "black" }
                             : {};
-
+  
               return (
                 <tr key={order.ma_don_hang}>
                   <td className="text-center align-middle">{index + 1}</td>
                   <td className="text-center align-middle">{order.ma_don_hang}</td>
                   <td className="text-center align-middle">
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.tong_tien)}
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(order.tong_tien)}
                   </td>
-                  <td className="text-center align-middle" style={{ ...rowStyle, verticalAlign: 'middle' }}>{orderStatus}</td>
+                  <td
+                    className="text-center align-middle"
+                    style={{ ...rowStyle, verticalAlign: "middle" }}
+                  >
+                    {orderStatus}
+                  </td>
                   <td className="text-center align-middle">
                     {new Date(order.ngay_su_dung).toLocaleString("vi-VN", {
                       year: "numeric",
@@ -160,7 +169,7 @@ const Lichsudichvu = () => {
                       minute: "2-digit",
                     })}
                   </td>
-
+  
                   <td className="text-center align-middle">
                     <button
                       className="btn btn-outline-success btn-sm"
@@ -186,8 +195,10 @@ const Lichsudichvu = () => {
             })}
           </tbody>
         </table>
-      )}
-    </div>
+      </div>
+    )}
+  </div>
+  
   );
 };
 

@@ -308,7 +308,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </Link>
-                        <span className="new">Mới</span>
+                        {/* <span className="new">Mới</span> */}
                       </div>
 
                       <div className="product-info text-center clearfix">
@@ -417,7 +417,7 @@ function Index() {
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        <span className="new">Mới</span>
+                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -459,7 +459,7 @@ function Index() {
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        <span className="new">Mới</span>
+                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -501,7 +501,7 @@ function Index() {
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        <span className="new">Mới</span>
+                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">

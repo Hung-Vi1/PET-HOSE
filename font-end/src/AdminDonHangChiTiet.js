@@ -324,7 +324,7 @@ function AdminDonHangChiTiet() {
                           <td className="text-center">{index + 1}</td>
                           <td style={{ width: "6%" }}>
                             <img
-                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              src={`${apiUrl}/image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
                               style={{
                                 width: "100px",

@@ -149,7 +149,7 @@ function ChiTietSanPham() {
               <div className="product-detail">
                 <div className="inner">
                   <div className="content-detail">
-                    <h2 className="product-title">{sp?.ten_san_pham}</h2>
+                    <h2 className="product-title my-3">{sp?.ten_san_pham}</h2>
                     <div className="product-categories">
                       <span className="fs-6">Danh mục: </span>
                       <a href="/#">{categoryName}</a>
@@ -167,7 +167,7 @@ function ChiTietSanPham() {
                     </div>
                     <hr></hr>
                     <div className="product-quantity">
-                      <h5 className="float-start my-2">Số lượng:   </h5>
+                      <h5 className="float-start my-2 mx-3">Số lượng:   </h5>
                       <div className="quantity">
 
                         <span className="dec quantity-button" onClick={decreaseQuantity}>-</span>
@@ -181,7 +181,7 @@ function ChiTietSanPham() {
                       </div>
                       
                       <div class="d-grid mt-5">
-                        <button type="button" class="btn btn-warning btn-block" onClick={addToCart}>Thêm vào giỏ hàng</button>
+                        <button type="button" class="btn btn-warning btn-block fw-bold" onClick={addToCart}>Thêm vào giỏ hàng</button>
                       </div>
                     </div>
 
@@ -200,7 +200,7 @@ function ChiTietSanPham() {
             <div className="row">
               <div className="col-md-12">
                 <div className="title-section margin-bottom-55">
-                  <h2 className="title">Sản phẩm liên quan</h2>
+                  <h2 className="title pb-10">Sản phẩm liên quan</h2>
                 </div>
                 <div className="product-content product-fourcolumn clearfix">
                   <ul className="product style2">
