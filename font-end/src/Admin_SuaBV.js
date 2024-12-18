@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function Admin_Suabv() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -83,6 +85,9 @@ function Admin_Suabv() {
     // Gửi dữ liệu đến API
     fetch(`${apiUrl}/api/News/${id}`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     })
       .then((res) => {

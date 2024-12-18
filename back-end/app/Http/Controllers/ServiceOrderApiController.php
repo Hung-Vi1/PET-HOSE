@@ -34,6 +34,10 @@ use Carbon\Carbon;
  */
 class ServiceOrderApiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+    }
     /**
      * @OA\Get(
      *     path="/api/orderServices",

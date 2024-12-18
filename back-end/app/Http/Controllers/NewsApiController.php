@@ -26,44 +26,11 @@ use Illuminate\Support\Facades\DB;
  */
 class NewsApiController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/News",
-     *     tags={"BaiViet"},
-     *     summary="Lấy danh sách  bài viết",
-     *     description="Trả về danh sách tất cả các  bài viết.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Dữ liệu được lấy thành công",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="Dữ liệu được lấy thành công"),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/NewsResource"))
-     *         )
-     *     ),
-     *     @OA\Response(response=500, description="Lỗi server")
-     * )
-     */
-    public function index()
+
+    public function __construct()
     {
-        // GET
-        try {
-            $News = BaiViet::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Dữ liệu được lấy thành công',
-                'data' => NewsResource::collection($News)
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => $e->getMessage(),
-                'data' => null
-            ], 500);
-        }
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
     }
-
-
 
     /**
      * @OA\Post(
@@ -105,103 +72,53 @@ class NewsApiController extends Controller
      */
 
     public function store(Request $request)
-{
-    try {
-        // Validate dữ liệu
-        $validatedData = $request->validate([
-            'Mataikhoan' => 'required|exists:users,Mataikhoan',
-            'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV',
-            'TieuDe' => 'required|string',
-            'Hinh' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'NoiDung' => 'required|string',
-            'ChiTiet' => 'required|string',
-        ], [
-            // Các thông báo lỗi
-        ]);
-
-        // Đường dẫn lưu hình ảnh
-        $path = public_path('image/News');
-
-        // Kiểm tra và tạo thư mục nếu không tồn tại
-        if (!file_exists($path)) {
-            mkdir($path, 0755, true); // Tạo thư mục nếu chưa tồn tại
-        }
-
-
-// Lưu hình ảnh
-if ($request->file('Hinh')) {
-    $imageName = time() . '.' . $request->file('Hinh')->getClientOriginalExtension();
-    $path = public_path('image/News'); // Đường dẫn đến thư mục lưu
-    $request->file('Hinh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
-}
-        // Tạo bài viết mới và lưu vào cơ sở dữ liệu
-        $news = BaiViet::create([
-            'Mataikhoan' => $validatedData['Mataikhoan'],
-            'MaDMBV' => $validatedData['MaDMBV'],
-            'TieuDe' => $validatedData['TieuDe'],
-            'Hinh' => $imageName, // Lưu đường dẫn tương đối
-            'NoiDung' => $validatedData['NoiDung'],
-            'ChiTiet' => $validatedData['ChiTiet'],
-            'LuotXem' => $validatedData['LuotXem'] ?? 0,
-            'BinhLuan' => $validatedData['BinhLuan'] ?? 0,
-            'TrangThai' => $validatedData['TrangThai'] ?? 1,
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Thêm thành công',
-            'data' => new NewsResource($news)
-        ], 201);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'fail',
-            'message' => $e->getMessage(),
-            'data' => null
-        ], 400);
-    }
-}
-
-
-
-
-    /**
-     * @OA\Get(
-     *     path="/api/News/{id}",
-     *     tags={"BaiViet"},
-     *     summary="Lấy thông tin chi tiết bài viết",
-     *     description="Trả về thông tin chi tiết của một bài viết cụ thể.",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         description="ID của bài viết cần lấy thông tin",
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lấy dữ liệu thành công",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="status", type="string", example="success"),
-     *             @OA\Property(property="message", type="string", example="Lấy dữ liệu thành công"),
-     *             @OA\Property(property="data", ref="#/components/schemas/NewsResource")
-     *         )
-     *     ),
-     *     @OA\Response(response=400, description="Lỗi khi lấy dữ liệu"),
-     *     @OA\Response(response=404, description="Danh mục không tìm thấy")
-     * )
-     */
-    public function show($id)
     {
-        //GET
         try {
-            $news = BaiViet::findOrFail($id);
-            // Tăng lượt xem lên 1
-            $news->increment('LuotXem');
+            // Validate dữ liệu
+            $validatedData = $request->validate([
+                'Mataikhoan' => 'required|exists:users,Mataikhoan',
+                'MaDMBV' => 'required|exists:dm_baiviet,MaDMBV',
+                'TieuDe' => 'required|string',
+                'Hinh' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'NoiDung' => 'required|string',
+                'ChiTiet' => 'required|string',
+            ], [
+                // Các thông báo lỗi
+            ]);
+
+            // Đường dẫn lưu hình ảnh
+            $path = public_path('image/News');
+
+            // Kiểm tra và tạo thư mục nếu không tồn tại
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true); // Tạo thư mục nếu chưa tồn tại
+            }
+
+
+            // Lưu hình ảnh
+            if ($request->file('Hinh')) {
+                $imageName = time() . '.' . $request->file('Hinh')->getClientOriginalExtension();
+                $path = public_path('image/News'); // Đường dẫn đến thư mục lưu
+                $request->file('Hinh')->move($path, $imageName); // Di chuyển hình ảnh vào thư mục
+            }
+            // Tạo bài viết mới và lưu vào cơ sở dữ liệu
+            $news = BaiViet::create([
+                'Mataikhoan' => $validatedData['Mataikhoan'],
+                'MaDMBV' => $validatedData['MaDMBV'],
+                'TieuDe' => $validatedData['TieuDe'],
+                'Hinh' => $imageName, // Lưu đường dẫn tương đối
+                'NoiDung' => $validatedData['NoiDung'],
+                'ChiTiet' => $validatedData['ChiTiet'],
+                'LuotXem' => $validatedData['LuotXem'] ?? 0,
+                'BinhLuan' => $validatedData['BinhLuan'] ?? 0,
+                'TrangThai' => $validatedData['TrangThai'] ?? 1,
+            ]);
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'Lấy dữ liệu thành công',
+                'message' => 'Thêm thành công',
                 'data' => new NewsResource($news)
-            ], 200);
+            ], 201);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'fail',
@@ -210,6 +127,11 @@ if ($request->file('Hinh')) {
             ], 400);
         }
     }
+
+
+
+
+
 
 
 
@@ -303,7 +225,7 @@ if ($request->file('Hinh')) {
 
             if ($request->hasFile('Hinh')) {
                 $path = public_path('image/News');
-                
+
                 // Xóa hình ảnh cũ
                 if ($news->Hinh) {
                     $oldFilePath = $path . '/' . $news->Hinh;
@@ -311,7 +233,7 @@ if ($request->file('Hinh')) {
                         unlink($oldFilePath); // Xóa hình cũ
                     }
                 }
-            
+
                 // Lưu hình ảnh mới
                 $imageName = time() . '.' . $request->file('Hinh')->getClientOriginalExtension();
                 $request->file('Hinh')->move($path, $imageName);

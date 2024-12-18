@@ -24,7 +24,10 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+    }
     /**
      * @OA\Get(
      *     path="/api/users",

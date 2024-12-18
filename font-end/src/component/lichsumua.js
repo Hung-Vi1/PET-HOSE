@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Sử dụng để điều hướng
 import { useAuth } from "../contexts/AuthContext"; // Lấy thông tin người dùng từ AuthContext
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const LichSuMua = () => {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +32,14 @@ const LichSuMua = () => {
     }
 
     try {
-      const response = await fetch(
-        `${apiUrl}/api/orders/${user.Mataikhoan}`
+      const response = await fetch(`${apiUrl}/api/orders/${user.Mataikhoan}`,
+        {
+          method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Sử dụng token có sẵn trong header
+          },
+        }
       );
       if (!response.ok) {
         throw new Error("Chưa có đơn hàng nào trong lịch sử mua.");
@@ -64,6 +72,7 @@ const LichSuMua = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             TrangThai: "huy", // Chỉ gửi trạng thái "huy"

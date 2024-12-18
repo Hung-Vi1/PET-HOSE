@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const ChiTietDV = () => {
+  const token = getDecodedToken();
   const { MaDH } = useParams(); // Lấy mã đơn hàng từ URL
   const [orderDetails, setOrderDetails] = useState([]); // Lưu danh sách chi tiết đơn hàng
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
@@ -16,6 +18,7 @@ const ChiTietDV = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         });
 

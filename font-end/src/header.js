@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "./contexts/AuthContext";
+import axios from "axios";
+import CryptoJS from "crypto-js";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const location = useLocation(); // Lấy thông tin đường dẫn hiện tại
@@ -9,6 +12,9 @@ function Header() {
   const [cart, setCart] = useState([]);
   const { user, hasPermission, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate(); // Khởi tạo navigate
+  const secretKey = "vOhUNGvI"; // Khóa bí mật dùng để mã hóa
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,13 +56,86 @@ function Header() {
     sessionStorage.clear();
   };
 
-  const handleLogout = () => {
-    clearAllStorage();
-    logout();
-    setIsDropdownOpen(false);
+  const handleLogout = async () => {
+
+
+
+
+    // Lấy token đã mã hóa từ sessionStorage
+    let encryptedToken = sessionStorage.getItem("token");
+    if (!encryptedToken) {
+      alert("Không tìm thấy Access Token. Vui lòng đăng nhập lại!");
+      // Xóa token và thông tin người dùng khỏi sessionStorage
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      logout(); // Xóa thông tin người dùng khỏi AuthContext
+      navigate("/login");
+      return;
+    }
+
+    let token;
+
+    try {
+      // Giải mã token
+      const decryptedToken = CryptoJS.AES.decrypt(encryptedToken, secretKey);
+      token = decryptedToken.toString(CryptoJS.enc.Utf8); // Giải mã token thành chuỗi
+
+      if (!token) {
+        throw new Error("Token không hợp lệ");
+      }
+    } catch (error) {
+      console.error("Lỗi giải mã token:", error);
+      alert("Token không hợp lệ hoặc đã bị hỏng!");
+      // Xóa token và thông tin người dùng khỏi sessionStorage
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      logout(); // Xóa thông tin người dùng khỏi AuthContext
+      navigate("/login");
+      return;
+    }
+    // Loại bỏ dấu ngoặc kép nếu có
+    const cleanToken = token.replace(/^"|"$/g, "");
+
+
+
+
+    try {
+      const response = await fetch(`${apiUrl}/api/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${cleanToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+
+        throw new Error(errorData.message || "Đăng xuất thất bại");
+
+      }
+
+      alert("Đăng xuất thành công!");
+
+      // Xóa token và thông tin người dùng khỏi sessionStorage
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      logout(); // Xóa thông tin người dùng khỏi AuthContext
+      navigate("/login"); // Chuyển hướng đến trang đăng nhập
+    } catch (error) {
+      // Xóa token và thông tin người dùng khỏi sessionStorage
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
+      logout(); // Xóa thông tin người dùng khỏi AuthContext
+      navigate("/login"); // Chuyển hướng đến trang đăng nhập
+      console.error("Đăng xuất thất bại:", error);
+      alert(`Đăng xuất thất bại: ${error.message}`);
+    }
   };
 
-  
+
+
+
 
   const truncateProductName = (name, maxLength = 20) => {
     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;

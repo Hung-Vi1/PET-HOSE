@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import "./App.css";
 import { useAuth } from "./contexts/AuthContext";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 // Định dạng ngày giờ
 // import { format } from "date-fns";
 // import { vi } from "date-fns/locale";
@@ -10,6 +11,7 @@ import { useAuth } from "./contexts/AuthContext";
 // import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function AdminDonHangChiTiet() {
+  const token = getDecodedToken();
   const { ma_don_hang } = useParams();
   const [ngayDat, setNgayDat] = useState("");
   const [hoTen, setHoTen] = useState("");
@@ -37,6 +39,7 @@ function AdminDonHangChiTiet() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -324,7 +327,7 @@ function AdminDonHangChiTiet() {
                           <td className="text-center">{index + 1}</td>
                           <td style={{ width: "6%" }}>
                             <img
-                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              src={`${apiUrl}/image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
                               style={{
                                 width: "100px",

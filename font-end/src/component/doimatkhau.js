@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const UpdatePassword = () => {
+  const token = getDecodedToken();
   const { id } = useParams();
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ const UpdatePassword = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         OldPassword: formData.OldPassword,

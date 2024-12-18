@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
@@ -218,9 +219,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
   };
 
   const xoaDanhMuc = (ma_danh_muc) => {
+    const token = getDecodedToken();
     if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
       fetch(`${apiUrl}/api/category/destroy/${ma_danh_muc}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
         .then((res) => {
           if (res.status === 204) {

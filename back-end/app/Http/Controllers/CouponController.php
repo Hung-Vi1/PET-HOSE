@@ -25,6 +25,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class CouponController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+    }
+
     /**
      * @OA\Post(
      *     path="/api/coupons/validate",

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 function ThanhToan() {
   const apiUrl = process.env.REACT_APP_API_URL;
+  const token = getDecodedToken();
   const [cart, setCart] = useState([]);
   const [userData, setUserData] = useState({
     name: "",
@@ -82,6 +84,7 @@ function ThanhToan() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ code: formData.couponCode }),
       });
@@ -149,6 +152,7 @@ function ThanhToan() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(orderData),
         });
@@ -171,6 +175,7 @@ function ThanhToan() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(orderData),
         });
@@ -194,6 +199,7 @@ function ThanhToan() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(orderData),
         });

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import { getDecodedToken } from "../utils/token"; // Import hàm
+
 function DatLich() {
+  const token = getDecodedToken();
   const [services, setServices] = useState([]);
   const secretKey = "vOhUNGvI";
   const [userData, setUserData] = useState({
@@ -109,6 +112,7 @@ function DatLich() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(orderData), // Gửi dữ liệu dưới dạng JSON
     })

@@ -8,8 +8,10 @@ import { Navigate } from "react-router-dom";
 // Định dạng ngày giờ
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDonHang() {
+  const token = getDecodedToken();
   const [list_dh, ganDH] = useState([]);
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
 
@@ -17,22 +19,31 @@ function AdminDonHang() {
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch(`${apiUrl}/api/orders`)
+    fetch(
+      `${apiUrl}/api/orders`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
-          ganDH(data.data); // Nếu có mảng sản phẩm trong data
+          ganDH(data.data); // Nếu có mảng đơn hàng
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
           ganDH([]); // Khởi tạo giá trị mặc định
         }
       })
       .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        console.error("Lỗi khi lấy dữ liệu đơn hàng:", error);
       });
-  });
+  }, [apiUrl, token]); // Thêm dependency array
+
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập

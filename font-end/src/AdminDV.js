@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDichVu() {
   const [listDV, setListDV] = useState([]);
@@ -236,9 +237,13 @@ function ServiceRow({ service, index, setListDV }) {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDelete = () => {
+    const token = getDecodedToken();
     if (window.confirm("Bạn có chắc chắn muốn xóa dịch vụ này không?")) {
       fetch(`${apiUrl}/api/services/destroy/${ma_dich_vu}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
         .then((response) => {
           if (response.ok) {

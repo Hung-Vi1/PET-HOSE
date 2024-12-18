@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminTaiKhoanThem() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const [hovaten, setHovaten] = useState("");
   const [sdt, setSdt] = useState("");
@@ -35,8 +37,8 @@ function AdminTaiKhoanThem() {
       const response = await fetch(`${apiUrl}/api/users/store`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${user.token}`,  // Nếu cần token xác thực
+          "Content-Type": "application/json", // Bắt buộc để server nhận JSON
+          Authorization: `Bearer ${token}`, // Không cần Content-Type khi dùng FormData
         },
         body: JSON.stringify(userData),
       });

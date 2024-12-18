@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const UpdateInfo = () => {
+  const token = getDecodedToken();
   const { id } = useParams(); // Lấy id từ URL
   const { user, isLoggedIn, setUser } = useAuth(); // Lấy dữ liệu người dùng từ AuthContext
   const navigate = useNavigate();
@@ -53,6 +55,7 @@ const UpdateInfo = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(userInfo),
     })

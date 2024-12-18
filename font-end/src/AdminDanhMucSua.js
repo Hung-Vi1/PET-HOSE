@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDanhMucSua() {
+  const token = getDecodedToken();
   const { user} = useAuth(); 
   const { ma_danh_muc } = useParams();
   const [tenDM, setTenDM] = useState(""); // Trạng thái cho Tên Danh Mục
@@ -51,6 +53,7 @@ function AdminDanhMucSua() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedCategory),
     })

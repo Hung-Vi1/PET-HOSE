@@ -8,8 +8,10 @@ import { Navigate } from "react-router-dom";
 // Định dạng ngày giờ
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDatLich() {
+  const token = getDecodedToken();
   const [list_dhdv, ganDHDV] = useState([]);
 
   const { isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
@@ -18,7 +20,15 @@ function AdminDatLich() {
   const apiUrl = process.env.REACT_APP_API_URL;
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch(`${apiUrl}/api/orderServices`)
+    fetch(`${apiUrl}/api/orderServices`,
+      {
+        method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
@@ -219,11 +229,20 @@ function AdminDatLich() {
 }
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
+  const token = getDecodedToken();
   const setSelectedOrderServices = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchOrderById = (ma_tai_khoan) => {
-    fetch(`${apiUrl}/api/orderServices/${ma_tai_khoan}`)
+    fetch(`${apiUrl}/api/orderServices/${ma_tai_khoan}`,
+      {
+        method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log("Thông tin đơn hàng dịch vụ:", data);

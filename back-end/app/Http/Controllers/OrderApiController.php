@@ -45,6 +45,10 @@ use App\Models\vnpay; // Thay YourModel bằng tên thực của model
 
 class OrderApiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+    }
 
 
     /**
@@ -161,6 +165,25 @@ class OrderApiController extends Controller
                 'status' => 'success',
                 'message' => 'Lấy dữ liệu thành công',
                 'data' => OrderResource::collection($order)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
+
+    public function AllOrderDetail()
+    {
+        // GET
+        try {
+            $ordersDetail = ChiTietDonHang::all();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => OrderDetailResource::collection($ordersDetail)
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

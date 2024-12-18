@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import "./App.css";
 import { useAuth } from "./contexts/AuthContext";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDatLichSua() {
+    const token = getDecodedToken();
     const { ma_don_hang } = useParams();
     const [ngayDat, setNgayDat] = useState("");
     const [hoTen, setHoTen] = useState("");
@@ -29,11 +31,12 @@ function AdminDatLichSua() {
     // Lấy thông tin đơn hàng theo mã đơn hàng
     useEffect(() => {
         fetch(`${apiUrl}/api/orderDetailServices/${ma_don_hang}`, {
-            method: 'GET',
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
             headers: {
-                'Content-Type': 'application/json',
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
-        })
+          })
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Không thể lấy thông tin đơn hàng");
@@ -91,6 +94,7 @@ function AdminDatLichSua() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(updatedOrder),
         })

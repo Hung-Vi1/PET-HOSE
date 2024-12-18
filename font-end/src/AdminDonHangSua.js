@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, Navigate, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDonHangSua() {
+  const token = getDecodedToken();
   const { ma_don_hang } = useParams();
   const [orderDetails, setOrderDetails] = useState(null);
   const [hoTen, setHoTen] = useState("");
@@ -29,7 +31,15 @@ function AdminDonHangSua() {
 
   // Lấy thông tin chi tiết đơn hàng
   useEffect(() => {
-    fetch(`${apiUrl}/api/orderDetails/${ma_don_hang}`)
+    fetch(`${apiUrl}/api/orderDetails/${ma_don_hang}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Không thể lấy thông tin đơn hàng");
         return res.json();
@@ -72,6 +82,7 @@ function AdminDonHangSua() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedOrder),
     })
@@ -132,14 +143,11 @@ function AdminDonHangSua() {
           const totalProductPrice = ct.DonGia * ct.SoLuong;
           return `
           <tr>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              index + 1
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${index + 1
             }</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              ct.SanPham.TenSP
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SanPham.TenSP
             }</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              ct.SoLuong
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SoLuong
             }</td>
             <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat(
               "vi-VN"
@@ -194,29 +202,29 @@ function AdminDonHangSua() {
               </table>
               <div class="total" style="margin-top: 20px; font-weight: bold;">
                 <p><span>Tổng trước giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(totalBeforeDiscount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(totalBeforeDiscount)}</span></p>
                 <p><span>Giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(discount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(discount)}</span></p>
                 <p><span class="font-weight-bold">Tổng thanh toán:</span><span class="right" style="float: right; color: red;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(totalAfterDiscount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(totalAfterDiscount)}</span></p>
               </div>
             </div>
             <script>
@@ -292,9 +300,8 @@ function AdminDonHangSua() {
                 to={`/admin${removeDiacritics(item)
                   .replace(/\s+/g, "")
                   .toLowerCase()}`}
-                className={`list-group-item list-group-item-action my-0 rounded-0 ${
-                  item === "Đơn hàng" ? "active" : ""
-                }`}
+                className={`list-group-item list-group-item-action my-0 rounded-0 ${item === "Đơn hàng" ? "active" : ""
+                  }`}
               >
                 <h5 className="mb-0 py-1">{item}</h5>
               </Link>
@@ -498,7 +505,7 @@ function AdminDonHangSua() {
                           <td className="text-center">{index + 1}</td>
                           <td style={{ width: "8%" }}>
                             <img
-                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              src={`${apiUrl}/image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
                             />
                           </td>

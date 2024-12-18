@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDVSua() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const { maDichVu } = useParams(); // Lấy mã dịch vụ từ URL
   const navigate = useNavigate();
@@ -70,6 +72,9 @@ function AdminDVSua() {
 
     fetch(`${apiUrl}/api/services/update/${maDichVu}`, {
       method: "POST", // Sử dụng phương thức PUT
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     })
       .then((res) => {

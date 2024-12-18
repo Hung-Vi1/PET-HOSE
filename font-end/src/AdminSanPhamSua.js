@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminSanPhamSua() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const { ma_san_pham } = useParams();
   const [tenSanPham, setTenSanPham] = useState("");
@@ -96,6 +98,9 @@ function AdminSanPhamSua() {
 
     fetch(`${apiUrl}/api/products/update/${ma_san_pham}`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // Không cần Content-Type khi dùng FormData
+      },
       body: formData,
     })
       .then((res) => res.json())

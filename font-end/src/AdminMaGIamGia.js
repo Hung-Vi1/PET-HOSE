@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminMaGiamGia() {
+  const token = getDecodedToken();
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [listDiscounts, setListDiscounts] = useState([]); // Danh sách mã giảm giá
 
@@ -14,7 +16,15 @@ function AdminMaGiamGia() {
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/coupons`);
+        const response = await fetch(`${apiUrl}/api/coupons`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         setListDiscounts(data.data || []); // Gán dữ liệu vào state
       } catch (error) {
@@ -32,6 +42,9 @@ function AdminMaGiamGia() {
         // Gọi API xóa mã giảm giá với ma_giam_gia
         const response = await fetch(`${apiUrl}/api/coupons/destroy/${ma_giam_gia}`, {
           method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (response.ok) {
@@ -54,7 +67,7 @@ function AdminMaGiamGia() {
   }
 
   return (
-<div className="container-fluid">
+    <div className="container-fluid">
       <div className="row">
         <div
           id="openMenu"
@@ -195,8 +208,8 @@ function AdminMaGiamGia() {
             </div>
           </nav>
           <div className="container">
-            
-          <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
+
+            <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
             <h2 className="my-3">Danh sách mã giảm giá</h2>
 
             <table className="table align-middle">
@@ -241,7 +254,7 @@ function AdminMaGiamGia() {
                 ))}
               </tbody>
             </table>
-            
+
           </div>
         </div>
       </div>

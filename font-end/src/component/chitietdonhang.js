@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const ChiTietDonHang = () => {
+  const token = getDecodedToken();
   const { MaDH } = useParams(); // Lấy mã đơn hàng từ URL
   const [orderDetails, setOrderDetails] = useState([]); // Lưu danh sách chi tiết đơn hàng
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
@@ -15,6 +17,7 @@ const ChiTietDonHang = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         });
 

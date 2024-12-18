@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminMGGThem() {
+  const token = getDecodedToken();
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -36,6 +38,7 @@ function AdminMGGThem() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(couponData),
     })

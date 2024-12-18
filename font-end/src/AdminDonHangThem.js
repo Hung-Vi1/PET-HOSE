@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import Select from "react-select";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDonHangThem() {
+  const token = getDecodedToken();
   const [accounts, setAccounts] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState("");
@@ -20,7 +22,12 @@ function AdminDonHangThem() {
 
   // Lấy danh sách tài khoản
   useEffect(() => {
-    fetch(`${apiUrl}/api/users`)
+    fetch(`${apiUrl}/api/users`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải danh sách tài khoản");
@@ -135,6 +142,7 @@ function AdminDonHangThem() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(orderData),
     })

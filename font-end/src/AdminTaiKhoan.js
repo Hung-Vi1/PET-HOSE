@@ -3,8 +3,10 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminTaiKhoan() {
+    const token = getDecodedToken();
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [list_tk, ganTK] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -12,7 +14,15 @@ function AdminTaiKhoan() {
   useEffect(() => {
     const danhsachuser = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/users`);
+        const response = await fetch(`${apiUrl}/api/users`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         ganTK(data.data || []);
       } catch (error) {
@@ -159,12 +169,16 @@ function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
 
   // Hàm xóa tài khoản
   const handleDelete = async (ma_tai_khoan) => {
+    const token = getDecodedToken();
     if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
       try {
         const response = await fetch(
           `${apiUrl}/api/users/${ma_tai_khoan}`,
           {
             method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 

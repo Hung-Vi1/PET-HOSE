@@ -83,12 +83,12 @@ const LoginSignupForm = () => {
   // Formik cho Đăng Nhập
   const loginFormik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      Email: "",
+      Matkhau: "",
     },
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        const response = await fetch(`${apiUrl}/api/dangnhap`, {
+        const response = await fetch(`${apiUrl}/api/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -107,6 +107,8 @@ const LoginSignupForm = () => {
 
         const data = await response.json(); // Lấy dữ liệu từ phản hồi
         const userData = data.user; // Truy cập vào đối tượng user
+        const token = data.access_token; // Token từ API trả về
+
 
         // Kiểm tra dữ liệu người dùng và lưu vào sessionStorage
         if (userData) {
@@ -123,8 +125,15 @@ const LoginSignupForm = () => {
             JSON.stringify(userInfo),
             secretKey
           ).toString();
+          // console.log(token);
+          // Mã hóa dữ liệu trước khi lưu vào sessionStorage
+          const tokenData = CryptoJS.AES.encrypt(
+            JSON.stringify(token),
+            secretKey
+          ).toString();
 
           sessionStorage.setItem("user", encryptedData);
+          sessionStorage.setItem("token", tokenData);
 
 
           // Gọi hàm login và cập nhật trạng thái đăng nhập

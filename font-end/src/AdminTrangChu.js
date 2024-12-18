@@ -4,18 +4,22 @@ import { useAuth } from "./contexts/AuthContext";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 // Đăng ký các thành phần cần thiết cho Chart.js
 Chart.register(...registerables);
 
 function AdminTrangChu() {
-  const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
+  const { user, isLoggedIn } = useAuth();
+  const token = getDecodedToken();// Lấy trạng thái đăng nhập
   const [productsCount, setProductsCount] = useState(0); // Số lượng sản phẩm
   const [ordersCount, setOrdersCount] = useState(0); // Số lượng đơn hàng
   const [usersCount, setUsersCount] = useState(0); // Số lượng người dùng
   const [orderServicesCount, setOrderServicesCount] = useState(0); // Số lượng dịch vụ đặt
 
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const [topProducts, setTopProducts] = useState([]);
 
   // Hàm tính toán số lượng đơn hàng theo trạng thái
   const calculateOrderStatusData = (orders) => {
@@ -48,7 +52,15 @@ function AdminTrangChu() {
     const fetchData = async () => {
       try {
         // Gọi API để lấy số lượng sản phẩm
-        const productsResponse = await fetch(`${apiUrl}/api/products`);
+        const productsResponse = await fetch(`${apiUrl}/api/products`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const productsData = await productsResponse.json();
         setProductsCount(productsData.data.length); // Set số lượng sản phẩm
         console.log("Đếm:", productsData.data.length);  // Kiểm tra phản hồi API
@@ -57,12 +69,28 @@ function AdminTrangChu() {
 
 
         // Gọi API để lấy số lượng người dùng
-        const usersResponse = await fetch(`${apiUrl}/api/users`);
+        const usersResponse = await fetch(`${apiUrl}/api/users`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const usersData = await usersResponse.json();
         setUsersCount(usersData.data.length);
 
         // Gọi API để lấy số lượng dịch vụ đặt
-        const orderServicesResponse = await fetch(`${apiUrl}/api/orderServices`);
+        const orderServicesResponse = await fetch(`${apiUrl}/api/orderServices`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const orderServicesData = await orderServicesResponse.json();
         setOrderServicesCount(orderServicesData.data.length);
 
@@ -72,7 +100,15 @@ function AdminTrangChu() {
       }
       try {
         // Gọi API đơn hàng
-        const ordersResponse = await fetch(`${apiUrl}/api/order`);
+        const ordersResponse = await fetch(`${apiUrl}/api/order`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const ordersData = await ordersResponse.json();
         setOrdersCount(ordersData.data.length);
 
@@ -99,13 +135,47 @@ function AdminTrangChu() {
         const statusData = calculateOrderStatusData(ordersData.data);
         setOrderStatusData(statusData);
 
+
+        const response = await fetch(`${apiUrl}/api/AllOrderDetail`,
+          {
+            method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data);  // Kiểm tra dữ liệu nhận được
+
+        // Tính toán số lượng bán ra của mỗi sản phẩm
+        const productSales = {};
+
+        data.forEach(orderDetail => {
+          const productName = orderDetail.SanPham.TenSP;
+          const quantity = orderDetail.SoLuong;
+
+          if (!productSales[productName]) {
+            productSales[productName] = 0;
+          }
+          productSales[productName] += quantity;
+        });
+
+        // Chuyển object thành array và sắp xếp theo số lượng bán ra
+        const sortedProducts = Object.entries(productSales)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count);
+
+        // Lấy ra top 10 sản phẩm bán chạy nhất
+        const top10Products = sortedProducts.slice(0, 10);
+        setTopProducts(top10Products);
+
+
         setIsLoading(false); // Dữ liệu đã tải xong
       } catch (error) {
         console.error("Lỗi khi gọi API đơn hàng:", error);
       }
     };
-
-
     fetchData();
   }, []);
 
@@ -319,6 +389,41 @@ function AdminTrangChu() {
   };
 
 
+  // Dữ liệu cho biểu đồ
+  const chartData = {
+    labels: topProducts.map(product => product.name),
+    datasets: [
+      {
+        label: 'Số lượng bán ra',
+        data: topProducts.map(product => product.count),
+        backgroundColor: '#3e95cd',
+      },
+    ],
+  };
+
+  // Tùy chọn cho biểu đồ
+  const chartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Sản phẩm',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Số lượng',
+        },
+        beginAtZero: true,
+      },
+    },
+    title: {
+      display: true,
+      text: 'Top 10 sản phẩm bán chạy nhất',
+    },
+  };
 
 
 
@@ -564,8 +669,12 @@ function AdminTrangChu() {
               </div>
               <div className="col-md-12"></div>
             </div>
-
           </div>
+
+          {/* <div>
+            <h2>Top 10 Sản phẩm bán chạy nhất</h2>
+            <Bar data={chartData} options={chartOptions} />
+          </div> */}
         </div>
       </div>
     </div>

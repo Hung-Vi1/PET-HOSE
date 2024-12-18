@@ -21,60 +21,80 @@ use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\AuthController;
 // Auth::routes(['reset' => true]);
 
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/dangnhap', [UserController::class, 'dangnhap']);
-Route::post('/dangki', [UserController::class, 'dangki']);
-Route::post('/guiemail', [UserController::class, 'GuiEmail']);
-Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
 
-Route::post('/users/store', [UserController::class, 'store']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::put('/users/doiMatKhau/{Mataikhoan}', [UserController::class, 'doiMatKhau']);
-
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
-
-use App\Http\Controllers\CategoryApiController;
-Route::get('/category', [CategoryApiController::class, 'index']);
-Route::get('/category/{MaDanhMuc}', [CategoryApiController::class, 'show']);
-Route::post('/category/store', [CategoryApiController::class, 'store']);
-Route::put('/category/update/{MaDanhMuc}', [CategoryApiController::class, 'update']);
-Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'destroy']);
-
-
-use App\Http\Controllers\ProductApiController;
-
-Route::get('/products', [ProductApiController::class, 'index']);
-Route::post('/products/store', [ProductApiController::class, 'store']);
-Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
-Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
-Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
-Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
-Route::post('/products/update/{MaSP}', [ProductApiController::class, 'update']);
-
-Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
-
-use App\Http\Controllers\ServiceApiController;
-
-Route::get('/services', [ServiceApiController::class, 'index']);
-Route::post('/services/store', [ServiceApiController::class, 'store']);
-Route::get('/services/{MaSP}', [ServiceApiController::class, 'show']);
-Route::post('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
-Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy']);
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login',[AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('me', [AuthController::class, 'me']);
+});
 
 use App\Http\Controllers\OrderApiController;
 // Route để lấy danh sách đơn hàng
 Route::get('/orders', [OrderApiController::class, 'index']);
 Route::get('/order', [OrderApiController::class, 'indexs']);
 Route::get('/orders/{Mataikhoan}', [OrderApiController::class, 'orders']);
+Route::get('/AllOrderDetail', [OrderApiController::class, 'AllOrderDetail']);
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orderDetails/{MaDH}', [OrderApiController::class, 'show']);
 Route::put('/orders/{MaDH}', [OrderApiController::class, 'update']);
 Route::put('/donhang/trangthai/{MaDH}', [OrderApiController::class, 'TrangThai']);
 Route::delete('/orders/{MaDH}', [OrderApiController::class, 'destroy']);
 Route::post('/order/VnPay', [OrderApiController::class, 'vnpay_payment']);
+
+
+
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/dangki', [UserController::class, 'dangki']);
+Route::post('/guiemail', [UserController::class, 'GuiEmail']);
+Route::post('/ResetPassword', [UserController::class, 'resetPassword']);
+Route::post('/users/store', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::put('/users/doiMatKhau/{Mataikhoan}', [UserController::class, 'doiMatKhau']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+Route::get('/users/show/{Mataikhoan}', [UserController::class, 'show']);
+
+use App\Http\Controllers\GetCategoryApiController;
+Route::get('/category', [GetCategoryApiController::class, 'index']);
+Route::get('/category/{MaDanhMuc}', [GetCategoryApiController::class, 'show']);
+
+use App\Http\Controllers\CategoryApiController;
+Route::post('/category/store', [CategoryApiController::class, 'store']);
+Route::put('/category/update/{MaDanhMuc}', [CategoryApiController::class, 'update']);
+Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'destroy']);
+
+
+
+use App\Http\Controllers\getProductApiController;
+Route::get('/products', [getProductApiController::class, 'index']);
+Route::get('/products/{MaSP}', [getProductApiController::class, 'show']);
+Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [getProductApiController::class, 'sanPhamTheoDM']);
+Route::get('/products/locSanPhamTheoGia', [getProductApiController::class, 'locSanPhamTheoGia']);
+
+use App\Http\Controllers\ProductApiController;
+Route::post('/products/store', [ProductApiController::class, 'store']);
+Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
+Route::post('/products/update/{MaSP}', [ProductApiController::class, 'update']);
+Route::delete('/products/destroy/{MaSP}', [ProductApiController::class, 'destroy']);
+
+
+
+use App\Http\Controllers\getServiceApiController;
+Route::get('/services', [getServiceApiController::class, 'index']);
+Route::get('/services/{MaSP}', [getServiceApiController::class, 'show']);
+
+use App\Http\Controllers\ServiceApiController;
+Route::post('/services/store', [ServiceApiController::class, 'store']);
+Route::post('/services/update/{MaSP}', [ServiceApiController::class, 'update']);
+Route::delete('/services/destroy/{MaSP}', [ServiceApiController::class, 'destroy']);
+
+
 
 use App\Http\Controllers\ServiceOrderApiController;
 Route::get('/orderServices', [ServiceOrderApiController::class, 'index']);
@@ -83,24 +103,26 @@ Route::post('/orderServices', [ServiceOrderApiController::class, 'store']);
 Route::get('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'show']);
 Route::delete('/orderDetailServices/{MaDH}', [ServiceOrderApiController::class, 'destroy']);
 
-use App\Http\Controllers\CatagoryNewsApiController;
+use App\Http\Controllers\GetCatagoryNewsApiController;
+Route::get('/catagorysNews', [GetCatagoryNewsApiController::class, 'index']);
+Route::get('/catagorysNews/{MaDMBV}', [GetCatagoryNewsApiController::class, 'show']);
 
-Route::get('/catagorysNews', [CatagoryNewsApiController::class, 'index']);
+use App\Http\Controllers\CatagoryNewsApiController;
 Route::post('/catagorysNews/store', [CatagoryNewsApiController::class, 'store']);
-Route::get('/catagorysNews/{MaDMBV}', [CatagoryNewsApiController::class, 'show']);
 Route::put('/catagorysNews/update/{MaDMBV}', [CatagoryNewsApiController::class, 'update']);
 Route::delete('/catagorysNews/destroy/{MaDMBV}', [CatagoryNewsApiController::class, 'destroy']);
 
-use App\Http\Controllers\NewsApiController;
 
-Route::get('/News', [NewsApiController::class, 'index']);
-Route::get('/News/{id}', [NewsApiController::class, 'show']);
+use App\Http\Controllers\GetNewsApiController;
+Route::get('/News', [GetNewsApiController::class, 'index']);
+Route::get('/News/{id}', [GetNewsApiController::class, 'show']);
+
+use App\Http\Controllers\NewsApiController;
 Route::post('/News/store', [NewsApiController::class, 'store']);
 Route::post('/News/{id}', [NewsApiController::class, 'update']);
 Route::delete('/News/{id}', [NewsApiController::class, 'destroy']);
 
 use App\Http\Controllers\ContactApiController;
-
 Route::get('/contacts', [ContactApiController::class, 'index']);
 Route::get('/contacts/{MaLienHe}', [ContactApiController::class, 'show']);
 Route::post('/contacts/store', [ContactApiController::class, 'store']);

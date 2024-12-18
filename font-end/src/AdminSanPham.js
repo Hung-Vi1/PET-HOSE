@@ -4,6 +4,7 @@ import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminSanPham() {
   const { user } = useAuth();
@@ -225,10 +226,14 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
 
   const xoaSanPham = (maSP) => {
     const apiUrl = process.env.REACT_APP_API_URL;
+    const token = getDecodedToken();
     // Hiển thị thông báo xác nhận
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
       fetch(`${apiUrl}/api/products/destroy/${maSP}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`, // Không cần Content-Type khi dùng FormData
+        },
       })
         .then((res) => {
           if (res.ok) {

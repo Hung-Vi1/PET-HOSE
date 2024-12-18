@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminThemDatLich() {
+    const token = getDecodedToken();
     const { user } = useAuth();
     const navigate = useNavigate();
 
@@ -21,7 +23,15 @@ function AdminThemDatLich() {
     // Fetch users and services on component mount
     useEffect(() => {
         // Fetch users
-        fetch(`${apiUrl}/api/users`)
+        fetch(`${apiUrl}/api/users`,
+            {
+                method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === "success" && Array.isArray(data.data)) {
@@ -70,7 +80,8 @@ function AdminThemDatLich() {
             const response = await fetch(`${apiUrl}/api/orderServices`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(payload),
             });

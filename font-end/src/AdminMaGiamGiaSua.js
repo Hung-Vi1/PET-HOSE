@@ -3,8 +3,10 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminMGGSua() {
+  const token = getDecodedToken();
   const { maGiamGia } = useParams(); // Lấy mã giảm giá từ URL
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -23,7 +25,14 @@ function AdminMGGSua() {
 
   // Lấy thông tin mã giảm giá hiện tại
   useEffect(() => {
-    fetch(`${apiUrl}/api/coupons/${maGiamGia}`) // Gọi API lấy chi tiết mã giảm giá
+    fetch(`${apiUrl}/api/coupons/${maGiamGia}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ) // Gọi API lấy chi tiết mã giảm giá
       .then((res) => {
         if (!res.ok) {
           throw new Error("Không thể tải thông tin mã giảm giá");
@@ -47,7 +56,14 @@ function AdminMGGSua() {
       .catch(() => setError("Lỗi khi tải thông tin mã giảm giá"));
 
     // Lấy danh sách mã giảm giá đã tồn tại
-    fetch(`${apiUrl}/api/coupons`)
+    fetch(`${apiUrl}/api/coupons`,
+      {
+        method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success" && data.data) {
@@ -82,6 +98,7 @@ function AdminMGGSua() {
       method: "PUT", // Sử dụng phương thức PUT để cập nhật
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     })

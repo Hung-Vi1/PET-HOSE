@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import ReactPaginate from "react-paginate";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function Admin_bv() {
   const { user } = useAuth();
@@ -210,6 +211,7 @@ function Admin_bv() {
 }
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
+  const token = getDecodedToken();
   const [ganBV] = useState([]);
   const setSelectedProduct = useState(null);
 
@@ -231,6 +233,9 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
     if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
       fetch(`${apiUrl}/api/News/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
         .then((res) => {
           if (res.ok) {

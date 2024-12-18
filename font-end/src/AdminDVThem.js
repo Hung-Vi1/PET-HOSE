@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminDVThem() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -31,6 +33,9 @@ function AdminDVThem() {
 
     fetch(`${apiUrl}/api/services/store`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     })
       .then((res) => {

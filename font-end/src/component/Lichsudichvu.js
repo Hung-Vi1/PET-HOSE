@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Sử dụng để điều hướng
 import { useAuth } from '../contexts/AuthContext'; // Lấy thông tin người dùng từ AuthContext
+import { getDecodedToken } from "../utils/token"; // Import hàm
 
 const Lichsudichvu = () => {
+  const token = getDecodedToken();
   const { user } = useAuth(); // Lấy thông tin người dùng (bao gồm MaTaiKhoan)
   const [orders, setOrders] = useState([]); // Lưu trữ danh sách đơn hàng
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
@@ -23,6 +25,7 @@ const Lichsudichvu = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -58,6 +61,7 @@ const Lichsudichvu = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           TrangThai: 'huy', // Chỉ gửi trạng thái "huy"

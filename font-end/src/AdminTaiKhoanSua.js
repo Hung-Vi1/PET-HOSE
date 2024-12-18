@@ -3,8 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Link } from "react-router-dom";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminTaiKhoanSua() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const { ma_tai_khoan } = useParams(); // Nhận ma_tai_khoan từ URL
   const navigate = useNavigate();
@@ -22,7 +24,15 @@ function AdminTaiKhoanSua() {
 
   useEffect(() => {
     // Lấy thông tin tài khoản từ API khi component mount
-    fetch(`${apiUrl}/api/users/show/${ma_tai_khoan}`)
+    fetch(`${apiUrl}/api/users/show/${ma_tai_khoan}`,
+      {
+        method: "GET", // Hoặc "POST" tùy theo yêu cầu API của bạn
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
@@ -60,7 +70,8 @@ function AdminTaiKhoanSua() {
     fetch(`${apiUrl}/api/users/${ma_tai_khoan}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", // Bắt buộc để server nhận JSON
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedAccount),
     })

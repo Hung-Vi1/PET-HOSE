@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import "./App.css";
+import { getDecodedToken } from "./utils/token"; // Import hàm
 
 function AdminSanPhamThem() {
+  const token = getDecodedToken();
   const { user } = useAuth();
   const navigate = useNavigate(); // Khởi tạo useNavigate
 
@@ -67,6 +69,9 @@ function AdminSanPhamThem() {
 
     fetch(`${apiUrl}/api/products/store`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, // Không cần Content-Type khi dùng FormData
+      },
       body: formData,
     })
       .then((res) => {
