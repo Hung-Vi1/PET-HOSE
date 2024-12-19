@@ -55,7 +55,7 @@ function SanPham() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu danh mục:", error);
       });
-  }, []);
+  });
 
   const [cart, setCart] = useState(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -89,6 +89,7 @@ function SanPham() {
 
     alert("Đã thêm vào giỏ hàng");
   };
+
   // Lọc sản phẩm theo danh mục
   const filterByCategory = (maDanhMuc) => {
     setActiveCategory(maDanhMuc); // Đặt danh mục active
@@ -234,48 +235,55 @@ function SanPham() {
                     </div>
                   )}
 
-                  {filteredSP.length === 0 ? (
-                    <p>Danh mục này hiện chưa có sản phẩm.</p>
+                  {filteredSP.filter((sp) => sp.trang_thai === "1").length ===
+                  0 ? (
+                    <p>
+                      Danh mục này hiện chưa có sản phẩm nào có thể hiển thị.
+                    </p>
                   ) : (
                     <>
                       <div className="product-content product-fourcolumn clearfix">
                         <ul className="product style2">
-                          {spTrong1Trang.map((sp, i) => (
-                            <li className="product-item" key={i}>
-                              <div className="product-thumb clearfix">
-                                <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                                  <img
-                                    src={`${apiUrl}/image/product/${sp.hinh_anh}`}
-                                    className="card-img-top mx-auto w-75 pb-3"
-                                    alt={sp.ten_san_pham}
-                                  />
-                                </Link>
-                              </div>
-                              <div className="product-info clearfix">
-                                <span className="product-title">
-                                  {sp.ten_san_pham}
-                                </span>
-                                <div className="price">
-                                  <ins>
-                                    <span className="amount fs-6 fw-bold">
-                                      {parseInt(sp.gia).toLocaleString(
-                                        "vi-VN",
-                                        {
-                                          style: "currency",
-                                          currency: "VND",
-                                        }
-                                      )}
-                                    </span>
-                                  </ins>
+                          {spTrong1Trang
+                            .filter((sp) => sp.trang_thai === "1") // Chỉ hiển thị sản phẩm có trạng thái là 1
+                            .map((sp, i) => (
+                              <li className="product-item" key={i}>
+                                <div className="product-thumb clearfix">
+                                  <Link
+                                    to={`/chitietsanpham/${sp.ma_san_pham}`}
+                                  >
+                                    <img
+                                      src={`${apiUrl}/image/product/${sp.hinh_anh}`}
+                                      className="card-img-top mx-auto w-75 pb-3"
+                                      alt={sp.ten_san_pham}
+                                    />
+                                  </Link>
                                 </div>
-                              </div>
-                              <div className="add-to-cart text-center">
-                                <Link onClick={() => addToCart(sp)}>
-                                  THÊM VÀO GIỎ HÀNG
-                                </Link>
-                              </div>
-                            </li>
-                          ))}
+                                <div className="product-info clearfix">
+                                  <span className="product-title">
+                                    {sp.ten_san_pham}
+                                  </span>
+                                  <div className="price">
+                                    <ins>
+                                      <span className="amount fs-6 fw-bold">
+                                        {parseInt(sp.gia).toLocaleString(
+                                          "vi-VN",
+                                          {
+                                            style: "currency",
+                                            currency: "VND",
+                                          }
+                                        )}
+                                      </span>
+                                    </ins>
+                                  </div>
+                                </div>
+                                <div className="add-to-cart text-center">
+                                  <Link onClick={() => addToCart(sp)}>
+                                    THÊM VÀO GIỎ HÀNG
+                                  </Link>
+                                </div>
+                              </li>
+                            ))}
                         </ul>
                       </div>
 
@@ -297,7 +305,7 @@ function SanPham() {
           </section>
         </div>
       </div>
-    </> 
+    </>
   );
 }
 
