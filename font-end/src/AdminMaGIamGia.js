@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./App.css";
 
 function AdminMaGiamGia() {
@@ -30,13 +30,20 @@ function AdminMaGiamGia() {
     if (window.confirm("Bạn chắc chắn muốn xóa mã giảm giá này?")) {
       try {
         // Gọi API xóa mã giảm giá với ma_giam_gia
-        const response = await fetch(`${apiUrl}/api/coupons/destroy/${ma_giam_gia}`, {
-          method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
-        });
+        const response = await fetch(
+          `${apiUrl}/api/coupons/destroy/${ma_giam_gia}`,
+          {
+            method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
+          }
+        );
 
         if (response.ok) {
           // Cập nhật lại danh sách mã giảm giá sau khi xóa
-          setListDiscounts(listDiscounts.filter((discount) => discount.ma_giam_gia !== ma_giam_gia));
+          setListDiscounts(
+            listDiscounts.filter(
+              (discount) => discount.ma_giam_gia !== ma_giam_gia
+            )
+          );
           alert("Mã giảm giá đã được xóa.");
         } else {
           alert("Xóa mã giảm giá thất bại.");
@@ -54,89 +61,99 @@ function AdminMaGiamGia() {
   }
 
   return (
-<div className="container-fluid">
+    <div className="container-fluid admin">
       <div className="row">
         <div
           id="openMenu"
-          className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
+          className="col-md-2 p-0 collapse collapse-horizontal show menu-admin-doc"
           style={{ minHeight: "100vh" }}
         >
-          <Link to={"/"}>
+          <NavLink to={"/"}>
             <img
               src={`${apiUrl}/image/Nen_trong_suot.png`}
-              className="d-block w-75 mx-auto"
+              className="d-block w-75 mx-auto mt-2"
               alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
-          </Link>
+          </NavLink>
 
-          <div className="list-group list-group-item-primary">
-            <Link
+          <div className="list-group text-center">
+            <NavLink
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+              className="list-group-item list-group-item-action mt-0 mb-0 rounded-5 border-0"
+              activeClassName="active"
               aria-current="true"
             >
-              <h5 className="mb-0 py-1">Tổng quan</h5>
-            </Link>
-            <Link
+              <h5 className="mb-0">Tổng quan</h5>
+            </NavLink>
+            <NavLink
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Danh mục</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Liên hệ</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
-            </Link>
+            </NavLink>
           </div>
         </div>
 
         <div className="col-md p-0">
           <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
+            className="navbar navbar-expand-lg p-0 menu-admin-ngang"
             data-bs-theme="dark"
           >
             <div className="container-fluid">
@@ -160,7 +177,7 @@ function AdminMaGiamGia() {
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
-                      className="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle text-white"
                       href="/#"
                       role="button"
                       data-bs-toggle="dropdown"
@@ -194,9 +211,11 @@ function AdminMaGiamGia() {
               </div>
             </div>
           </nav>
+
           <div className="container">
-            
-          <Link to={"/adminmggThem"} className="btn btn-success float-end">Thêm mã giảm giá</Link>
+            <Link to={"/adminmggThem"} className="btn btn-success float-end">
+              Thêm mã giảm giá
+            </Link>
             <h2 className="my-3">Danh sách mã giảm giá</h2>
 
             <table className="table align-middle">
@@ -207,7 +226,9 @@ function AdminMaGiamGia() {
                   <th className="fw-bold">Loại</th>
                   <th className="fw-bold text-center">Code</th>
                   <th className="fw-bold text-center">Giảm</th>
-                  <th className="fw-bold text-center">Mức tiêu thụ để áp dụng</th>
+                  <th className="fw-bold text-center">
+                    Mức tiêu thụ để áp dụng
+                  </th>
                   <th className="fw-bold text-center">Số lượng</th>
                   <th className="fw-bold text-center">Hành động</th>
                 </tr>
@@ -221,13 +242,23 @@ function AdminMaGiamGia() {
                     <td className="text-center">{discount.code}</td>
                     <td className="text-center">
                       {discount.loai_giam === "fixed"
-                        ? `${parseInt(discount.phan_tram).toLocaleString("vi-VN")} VNĐ`
+                        ? `${parseInt(discount.phan_tram).toLocaleString(
+                            "vi-VN"
+                          )} VNĐ`
                         : `${parseFloat(discount.phan_tram)}%`}
                     </td>
-                    <td className="text-center">{parseInt(discount.so_tien_nho_nhat).toLocaleString("vi-VN")} VNĐ</td>
+                    <td className="text-center">
+                      {parseInt(discount.so_tien_nho_nhat).toLocaleString(
+                        "vi-VN"
+                      )}{" "}
+                      VNĐ
+                    </td>
                     <td className="text-center">{discount.so_luong}</td>
                     <td className="text-center">
-                      <Link to={`/adminmgmsua/${discount.ma_giam_gia}`} className="btn btn-outline-warning m-1">
+                      <Link
+                        to={`/adminmgmsua/${discount.ma_giam_gia}`}
+                        className="btn btn-outline-warning m-1"
+                      >
                         <i className="bi bi-pencil-square"></i>
                       </Link>
                       <button
@@ -241,16 +272,10 @@ function AdminMaGiamGia() {
                 ))}
               </tbody>
             </table>
-            
           </div>
         </div>
       </div>
     </div>
-
-
-
-
-
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import { NavLink } from "react-router-dom";
 import "./App.css";
 
 function Admin_Suabv() {
@@ -105,88 +106,99 @@ function Admin_Suabv() {
   };
 
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid admin">
       <div className="row">
         <div
           id="openMenu"
-          className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
+          className="col-md-2 p-0 collapse collapse-horizontal show menu-admin-doc"
           style={{ minHeight: "100vh" }}
         >
-          <Link to={"/"}>
+          <NavLink to={"/"}>
             <img
               src={`${apiUrl}/image/Nen_trong_suot.png`}
-              className="d-block w-75 mx-auto"
-              alt="Logo"
+              className="d-block w-75 mx-auto mt-2"
+              alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
-          </Link>
-          <div className="list-group list-group-item-primary">
-            <Link
+          </NavLink>
+
+          <div className="list-group text-center">
+            <NavLink
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0"
+              className="list-group-item list-group-item-action mt-0 mb-0 rounded-5 border-0"
+              activeClassName="active"
               aria-current="true"
             >
-              <h5 className="mb-0 py-1">Tổng quan</h5>
-            </Link>
-            <Link
+              <h5 className="mb-0">Tổng quan</h5>
+            </NavLink>
+            <NavLink
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Danh mục</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0 active"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0 active"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Liên hệ</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
-            </Link>
+            </NavLink>
           </div>
         </div>
 
         <div className="col-md p-0">
           <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
+            className="navbar navbar-expand-lg p-0 menu-admin-ngang"
             data-bs-theme="dark"
           >
             <div className="container-fluid">
@@ -210,7 +222,7 @@ function Admin_Suabv() {
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
-                      className="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle text-white"
                       href="/#"
                       role="button"
                       data-bs-toggle="dropdown"
