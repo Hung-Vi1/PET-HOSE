@@ -202,7 +202,9 @@ function DatLich() {
                   onChange={handleInputChange}
                 >
                   <option value="">Chọn dịch vụ</option>
-                  {services.map((service) => (
+                  {services
+                  .filter((services) => services.trang_thai ==="1")
+                  .map((service) => (
                     <option key={service.ma_dich_vu} value={service.ma_dich_vu}>
                       {service.ten_dich_vu} - {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(service.gia)}
 

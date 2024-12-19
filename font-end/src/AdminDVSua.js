@@ -271,17 +271,18 @@ function AdminDVSua() {
                             </select>
                           </div>
 
-                          <div className="col-md">
-                            <label className="form-label">Trạng thái</label>
+                          <div className="mb-3">
+                            <label htmlFor="TrangThai" className="form-label">
+                              Trạng thái
+                            </label>
                             <select
                               className="form-select"
+                              id="TrangThai"
                               value={TrangThai}
-                              onChange={(e) =>
-                                setTrangThai(Number(e.target.value))
-                              }
+                              onChange={(e) => setTrangThai(Number(e.target.value))}
                             >
                               <option value={1}>Hiện</option>
-                              <option value={2}>Ẩn</option>
+                              <option value={0}>Ẩn</option>
                             </select>
                           </div>
                         </div>
