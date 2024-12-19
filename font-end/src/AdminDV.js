@@ -24,12 +24,12 @@ function AdminDichVu() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu dịch vụ:", error);
       });
-  }, []);
+  });
 
   return (
     <div className="container-fluid">
       <div className="row">
-      <div
+        <div
           id="openMenu"
           className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
           style={{ minHeight: "100vh" }}
@@ -107,7 +107,7 @@ function AdminDichVu() {
           </div>
         </div>
         <div className="col-md p-0">
-        <nav
+          <nav
             className="navbar navbar-expand-lg bg-primary p-0"
             data-bs-theme="dark"
           >
@@ -166,6 +166,7 @@ function AdminDichVu() {
               </div>
             </div>
           </nav>
+
           <div className="container">
             <Link to="/admindvthem" className="btn btn-success float-end">
               Thêm dịch vụ
@@ -184,7 +185,11 @@ function AdminDichVu() {
                 </tr>
               </thead>
               <tbody>
-                <Pagination listDV={listDV} pageSize={10} setListDV={setListDV} />
+                <Pagination
+                  listDV={listDV}
+                  pageSize={10}
+                  setListDV={setListDV}
+                />
               </tbody>
             </table>
           </div>
@@ -193,12 +198,6 @@ function AdminDichVu() {
     </div>
   );
 }
-
-
-
-
-
-
 
 function Pagination({ listDV, pageSize, setListDV }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -213,7 +212,12 @@ function Pagination({ listDV, pageSize, setListDV }) {
   return (
     <>
       {currentPageData.map((dv, index) => (
-        <ServiceRow key={dv.ma_dich_vu} index={index} service={dv} setListDV={setListDV} />
+        <ServiceRow
+          key={dv.ma_dich_vu}
+          index={index}
+          service={dv}
+          setListDV={setListDV}
+        />
       ))}
       <tr>
         <td colSpan="7">
@@ -243,7 +247,9 @@ function ServiceRow({ service, index, setListDV }) {
         .then((response) => {
           if (response.ok) {
             alert("Xóa dịch vụ thành công!");
-            setListDV((prevListDV) => prevListDV.filter((dv) => dv.ma_dich_vu !== ma_dich_vu));
+            setListDV((prevListDV) =>
+              prevListDV.filter((dv) => dv.ma_dich_vu !== ma_dich_vu)
+            );
           } else {
             alert("Xóa dịch vụ thất bại!");
           }
@@ -255,11 +261,12 @@ function ServiceRow({ service, index, setListDV }) {
     }
   };
 
-  const statusBadge = trang_thai === "1" ? (
-    <span className="badge rounded-pill text-bg-success">Hiện</span>
-  ) : (
-    <span className="badge rounded-pill text-bg-danger">Ẩn</span>
-  );
+  const statusBadge =
+    trang_thai === "1" ? (
+      <span className="badge rounded-pill text-bg-success">Hiện</span>
+    ) : (
+      <span className="badge rounded-pill text-bg-danger">Ẩn</span>
+    );
 
   return (
     <tr>
@@ -287,10 +294,7 @@ function ServiceRow({ service, index, setListDV }) {
         >
           <i className="bi bi-pencil-square"></i>
         </Link>
-        <button
-          onClick={handleDelete}
-          className="btn btn-outline-danger m-1"
-        >
+        <button onClick={handleDelete} className="btn btn-outline-danger m-1">
           <i className="bi bi-trash"></i>
         </button>
       </td>

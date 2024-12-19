@@ -41,22 +41,22 @@ function Index() {
     alert("Đã thêm vào giỏ hàng");
   };
 
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${apiUrl}/api/products`);
         const data = await response.json();
-        ListNewProduct(data.data || []);
+        // Lọc sản phẩm có trạng thái là "1"
+        const filteredProducts =
+          data.data?.filter((sp) => sp.trang_thai === "1") || [];
+        ListNewProduct(filteredProducts);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);
       }
     };
 
     fetchProducts();
-  }, []);
-
-
+  }, [apiUrl]); // Thêm apiUrl vào dependency array để tránh cảnh báo
 
   useEffect(() => {
     const fetchTinTuc = async () => {
@@ -64,8 +64,12 @@ function Index() {
         const response = await fetch(`${apiUrl}/api/News`);
         const data = await response.json();
 
+        // Lọc tin tức có trạng thái là "1"
         if (Array.isArray(data.data)) {
-          setTinTuc(data.data);
+          const filteredNews = data.data.filter(
+            (article) => article.trang_thai === "1"
+          );
+          setTinTuc(filteredNews);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
           setTinTuc([]);
@@ -97,7 +101,7 @@ function Index() {
       .map(({ sort, ...item }) => item);
   };
 
-  // Hàm gọi API
+  // Hàm gọi API để lấy sản phẩm theo danh mục
   const fetchProductsByCategory = async (categoryId, setter) => {
     try {
       const response = await fetch(
@@ -105,22 +109,28 @@ function Index() {
       );
       const data = await response.json();
       if (data && data.data) {
-        setter(data.data);
+        // Lọc sản phẩm có trạng thái là "1"
+        const filteredProducts = data.data.filter(
+          (sp) => sp.trang_thai === "1"
+        );
+        setter(filteredProducts);
       }
     } catch (error) {
       console.error(`Lỗi khi tải sản phẩm danh mục ${categoryId}:`, error);
     }
   };
 
+  // useEffect để gọi API cho tất cả danh mục
   useEffect(() => {
-    // Gọi API cho tất cả danh mục
     fetchProductsByCategory(4, setDogProducts); // Chó
     fetchProductsByCategory(25, setCatProducts); // Mèo
     fetch(`${apiUrl}/api/products`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.data) {
-          const shuffledProducts = shuffleArray(data.data); // Xáo trộn sản phẩm
+          const shuffledProducts = shuffleArray(
+            data.data.filter((sp) => sp.trang_thai === "1")
+          ); // Xáo trộn sản phẩm có trạng thái là "1"
           setAllProducts(shuffledProducts);
         }
       })
@@ -298,7 +308,7 @@ function Index() {
                 <ul className="product style2 clearfix">
                   {NewProduct.slice(0, 4).map((sp, i) => (
                     <li className="product-item" key={i}>
-                      <div className="product-thumb clearfix">
+                      <div className="product-thumb clearfix mb-3">
                         <Link
                           to={`/chitietsanpham/${sp.ma_san_pham}`}
                           className="product-link"
@@ -308,9 +318,7 @@ function Index() {
                             alt={sp.ten_san_pham}
                           />
                         </Link>
-                        {/* <span className="new">Mới</span> */}
                       </div>
-
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
                           {sp.ten_san_pham}
@@ -349,10 +357,7 @@ function Index() {
             <div className="col-md-12">
               <div className="flat-animation-block">
                 <div className="title-section width-before-17 bg-before-white margin-bottom-14">
-                  
-                  <div className="sub-title fs-1">
-                    
-                  </div>
+                  <div className="sub-title fs-1"></div>
                 </div>
                 <div className="elm-btn text-center">
                   <Link
@@ -412,12 +417,11 @@ function Index() {
                 {allProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                      <div className="product-thumb clearfix">
+                      <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -454,12 +458,11 @@ function Index() {
                 {dogProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                      <div className="product-thumb clearfix">
+                      <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -496,12 +499,11 @@ function Index() {
                 {catProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
                     <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
-                      <div className="product-thumb clearfix">
+                      <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                           alt={sp.ten_san_pham}
                         />
-                        {/* <span className="new">Mới</span> */}
                       </div>
                       <div className="product-info text-center clearfix">
                         <span className="product-title box-title">
@@ -624,9 +626,9 @@ function Index() {
                               alt={article.tieu_de}
                               className="img-fluid"
                               style={{
-                                objectFit: 'cover',
-                                width: '100%', // Giới hạn chiều rộng của hình ảnh
-                                height: '200px', // Giới hạn chiều cao của hình ảnh
+                                objectFit: "cover",
+                                width: "100%", // Giới hạn chiều rộng của hình ảnh
+                                height: "200px", // Giới hạn chiều cao của hình ảnh
                               }}
                             />
                           </div>
@@ -641,7 +643,9 @@ function Index() {
                             <div className="entry-post">
                               <p>{truncateContent(article.noi_dung, 100)}</p>
                               <div className="more-link">
-                                <Link to={`/chitiettintuc/${article.bai_viet}`}>Đọc thêm</Link>
+                                <Link to={`/chitiettintuc/${article.bai_viet}`}>
+                                  Đọc thêm
+                                </Link>
                               </div>
                             </div>
                           </div>
@@ -657,7 +661,6 @@ function Index() {
           </div>
         </div>
       </section>
-
 
       <section className="flat-row mail-chimp">
         <div className="container">
