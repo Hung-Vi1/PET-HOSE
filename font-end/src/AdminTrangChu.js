@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { NavLink } from "react-router-dom";
 import "./App.css";
 
 // Đăng ký các thành phần cần thiết cho Chart.js
@@ -36,9 +37,10 @@ function AdminTrangChu() {
   };
 
   // State cho dữ liệu biểu đồ
-  const [orderStatusData, setOrderStatusData] = useState({ labels: [], data: [] });
-
-
+  const [orderStatusData, setOrderStatusData] = useState({
+    labels: [],
+    data: [],
+  });
 
   const [orders, setOrders] = useState([]);
   const [revenueData, setRevenueData] = useState([]);
@@ -51,10 +53,7 @@ function AdminTrangChu() {
         const productsResponse = await fetch(`${apiUrl}/api/products`);
         const productsData = await productsResponse.json();
         setProductsCount(productsData.data.length); // Set số lượng sản phẩm
-        console.log("Đếm:", productsData.data.length);  // Kiểm tra phản hồi API
-
-
-
+        console.log("Đếm:", productsData.data.length); // Kiểm tra phản hồi API
 
         // Gọi API để lấy số lượng người dùng
         const usersResponse = await fetch(`${apiUrl}/api/users`);
@@ -62,7 +61,9 @@ function AdminTrangChu() {
         setUsersCount(usersData.data.length);
 
         // Gọi API để lấy số lượng dịch vụ đặt
-        const orderServicesResponse = await fetch(`${apiUrl}/api/orderServices`);
+        const orderServicesResponse = await fetch(
+          `${apiUrl}/api/orderServices`
+        );
         const orderServicesData = await orderServicesResponse.json();
         setOrderServicesCount(orderServicesData.data.length);
 
@@ -76,7 +77,7 @@ function AdminTrangChu() {
         const ordersData = await ordersResponse.json();
         setOrdersCount(ordersData.data.length);
 
-        console.log("Dữ liệu đơn hàng:", ordersData);  // Kiểm tra dữ liệu API
+        console.log("Dữ liệu đơn hàng:", ordersData); // Kiểm tra dữ liệu API
         setOrders(ordersData.data); // Giả sử API trả về trường `data` chứa danh sách đơn hàng
 
         // Tính toán doanh thu từ `tong_tien` trong mỗi đơn hàng
@@ -92,7 +93,9 @@ function AdminTrangChu() {
         setQuarterRevenueData(quarterlyRevenue);
 
         // Tính toán doanh thu theo phương thức thanh toán
-        const paymentMethodRevenue = calculatePaymentMethodRevenue(ordersData.data);
+        const paymentMethodRevenue = calculatePaymentMethodRevenue(
+          ordersData.data
+        );
         setPaymentMethodData(paymentMethodRevenue);
 
         // Tính toán dữ liệu trạng thái đơn hàng
@@ -105,14 +108,13 @@ function AdminTrangChu() {
       }
     };
 
-
     fetchData();
   }, []);
 
   // Hàm tính doanh thu từ `tong_tien` trong các đơn hàng
   const calculateRevenue = (orders) => {
-    const labels = orders.map(order => `Đơn hàng ${order.ma_don_hang}`);
-    const data = orders.map(order => parseFloat(order.tong_tien));
+    const labels = orders.map((order) => `Đơn hàng ${order.ma_don_hang}`);
+    const data = orders.map((order) => parseFloat(order.tong_tien));
 
     return { labels, data };
   };
@@ -121,7 +123,7 @@ function AdminTrangChu() {
   const calculateQuarterlyRevenue = (orders) => {
     const quarterlyRevenue = [0, 0, 0, 0]; // Quý 1, Quý 2, Quý 3, Quý 4
 
-    orders.forEach(order => {
+    orders.forEach((order) => {
       const orderDate = new Date(order.ngay_dat); // Ngày đặt hàng
       const month = orderDate.getMonth() + 1; // Lấy tháng (tháng 0-11, cộng thêm 1 để lấy tháng 1-12)
       const revenue = parseFloat(order.tong_tien);
@@ -209,12 +211,6 @@ function AdminTrangChu() {
     },
   };
 
-
-
-
-
-
-
   const calculatePaymentMethodRevenue = (orders) => {
     const revenueByPaymentMethod = {};
 
@@ -244,13 +240,23 @@ function AdminTrangChu() {
     datasets: [
       {
         data: paymentMethodData.data,
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"]
-
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#FF5733",
+        ],
+        hoverBackgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#FF5733",
+        ],
       },
     ],
   };
-
 
   // Tùy chọn cho biểu đồ tròn
   const pieOptions = {
@@ -289,8 +295,20 @@ function AdminTrangChu() {
     datasets: [
       {
         data: orderStatusData.data,
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"], // Tùy chỉnh màu sắc
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#FF5733"],
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#FF5733",
+        ], // Tùy chỉnh màu sắc
+        hoverBackgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#FF5733",
+        ],
       },
     ],
   };
@@ -318,99 +336,105 @@ function AdminTrangChu() {
     },
   };
 
-
-
-
-
-
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
     return <Navigate to="/login" />;
   }
 
   return (
-    <div className="container-fluid admintrangchu">
+    <div className="container-fluid admin">
       <div className="row">
         <div
           id="openMenu"
-          className="col-md-2 p-0 bg-primary collapse collapse-horizontal show"
+          className="col-md-2 p-0 collapse collapse-horizontal show menu-admin-doc"
           style={{ minHeight: "100vh" }}
         >
-          <Link to={"/"}>
+          <NavLink to={"/"}>
             <img
               src={`${apiUrl}/image/Nen_trong_suot.png`}
-              className="d-block w-75 mx-auto"
+              className="d-block w-75 mx-auto mt-2"
               alt={`${apiUrl}/image/Nen_trong_suot.png`}
             />
-          </Link>
+          </NavLink>
 
-          <div className="list-group list-group-item-primary">
-            <Link
+          <div className="list-group text-center">
+            <NavLink
               to={"/admin"}
-              className="list-group-item list-group-item-action mt-2 mb-0 rounded-0 active"
+              className="list-group-item list-group-item-action mt-0 mb-0 rounded-5 border-0"
+              activeClassName="active"
               aria-current="true"
             >
-              <h5 className="mb-0 py-1">Tổng quan</h5>
-            </Link>
-            <Link
+              <h5 className="mb-0">Tổng quan</h5>
+            </NavLink>
+            <NavLink
               to={"/adminsanpham"}
-              className="list-group-item list-group-item-action my-0  rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Sản phẩm</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindichvuchamsoc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Dịch vụ chăm sóc</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindanhmuc"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Danh mục</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admintaikhoan"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tài khoản</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindonhang"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đơn hàng</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/admindatlich"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Đặt lịch</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/Admin_BV"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Tin tức</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminlienhe"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Liên hệ</h5>
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/adminmagiamgia"}
-              className="list-group-item list-group-item-action my-0 rounded-0"
+              className="list-group-item list-group-item-action my-0 rounded-5 border-0"
+              activeClassName="active"
             >
               <h5 className="mb-0 py-1">Mã giảm giá</h5>
-            </Link>
+            </NavLink>
           </div>
         </div>
+
         <div className="col-md p-0">
           <nav
-            className="navbar navbar-expand-lg bg-primary p-0"
+            className="navbar navbar-expand-lg p-0 menu-admin-ngang"
             data-bs-theme="dark"
           >
             <div className="container-fluid">
@@ -434,7 +458,7 @@ function AdminTrangChu() {
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item dropdown">
                     <a
-                      className="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle text-white"
                       href="/#"
                       role="button"
                       data-bs-toggle="dropdown"
@@ -468,6 +492,7 @@ function AdminTrangChu() {
               </div>
             </div>
           </nav>
+
           <div className="container">
             <h2 className="my-3">Tổng quan</h2>
 
@@ -477,7 +502,9 @@ function AdminTrangChu() {
                 <div className="card border-primary mb-3">
                   <div className="card-body text-primary">
                     <h5 className="card-title text-center fw-bold">Sản phẩm</h5>
-                    <p className="card-text fs-1 text-center">{productsCount}</p>
+                    <p className="card-text fs-1 text-center">
+                      {productsCount}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -503,20 +530,19 @@ function AdminTrangChu() {
               <div className="col-md-3">
                 <div className="card border-danger mb-3">
                   <div className="card-body text-danger">
-                    <h5 className="card-title text-center fw-bold">Tổng doanh thu</h5>
+                    <h5 className="card-title text-center fw-bold">
+                      Tổng doanh thu
+                    </h5>
                     <p className="card-text fs-1 text-center">
                       {new Intl.NumberFormat({
-                        style: 'currency',
-                        currency: 'VND'
+                        style: "currency",
+                        currency: "VND",
                       }).format(calculateTotalRevenue(orders))}
                     </p>
-
                   </div>
                 </div>
               </div>
             </div>
-
-
 
             <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
               <div className="d-flex flex-wrap border border-dark rounded-3 my-3 p-2">
@@ -534,16 +560,21 @@ function AdminTrangChu() {
                     style={{ height: "100%" }}
                   >
                     {/* Biểu đồ cột doanh thu theo quý */}
-                    <Bar data={quarterlyBarData} options={quarterlyBarOptions} />
+                    <Bar
+                      data={quarterlyBarData}
+                      options={quarterlyBarOptions}
+                    />
                   </div>
                 </div>
 
-                <div className="row col-md-12 border-bottom py-2" style={{ height: "70%" }}>
+                <div
+                  className="row col-md-12 border-bottom py-2"
+                  style={{ height: "70%" }}
+                >
                   <div
                     className="col-md-6 d-flex align-items-center justify-content-center"
                     style={{ height: "80%" }}
                   >
-
                     {/* Biểu đồ cột doanh thu từ các đơn hàng */}
 
                     <Pie data={pieData} options={pieOptions} />
@@ -554,7 +585,10 @@ function AdminTrangChu() {
                     style={{ height: "80%" }}
                   >
                     {/* Biểu đồ cột doanh thu theo quý */}
-                    <Pie data={orderStatusPieData} options={orderStatusPieOptions} />
+                    <Pie
+                      data={orderStatusPieData}
+                      options={orderStatusPieOptions}
+                    />
                   </div>
                 </div>
               </div>
@@ -564,7 +598,6 @@ function AdminTrangChu() {
               </div>
               <div className="col-md-12"></div>
             </div>
-
           </div>
         </div>
       </div>
