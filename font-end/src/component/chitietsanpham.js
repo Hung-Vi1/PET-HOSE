@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 function ChiTietSanPham() {
   let { id } = useParams();
-
+  window.scrollTo(0, 0); // Cuộn lên đầu trang
   const [sp, ganSP] = useState(null);
   const [category, setCategory] = useState(null); // State for storing categories
   const [relatedProducts, setRelatedProducts] = useState([]); // State for related products
@@ -40,7 +40,7 @@ function ChiTietSanPham() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu danh mục:", error);
       });
-  }, [id,apiUrl]);
+  }, [id, apiUrl]);
 
   useEffect(() => {
     if (sp?.ma_danh_muc) {
@@ -62,7 +62,7 @@ function ChiTietSanPham() {
           console.error("Lỗi khi lấy sản phẩm liên quan:", error);
         });
     }
-  }, [sp,apiUrl]);
+  }, [sp, apiUrl]);
 
   // Hàm thêm sản phẩm vào giỏ hàng
   const addToCart = () => {
@@ -179,7 +179,7 @@ function ChiTietSanPham() {
                         />
                         <span className="inc quantity-button" onClick={increaseQuantity}>+</span>
                       </div>
-                      
+
                       <div class="d-grid mt-5">
                         <button type="button" class="btn btn-warning btn-block fw-bold" onClick={addToCart}>Thêm vào giỏ hàng</button>
                       </div>

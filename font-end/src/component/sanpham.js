@@ -131,6 +131,12 @@ function SanPham() {
     setCurrentPage(event.selected);
   };
 
+  const saveProductToSession = (productId) => {
+    // Lưu mã sản phẩm vào sessionStorage
+    sessionStorage.setItem("productId", productId);
+    console.log("Đã lưu mã sản phẩm vào session:", productId);
+  };
+
   return (
     <>
       <div className="header_sticky header-style-2 has-menu-extra">
@@ -251,6 +257,7 @@ function SanPham() {
                                 <div className="product-thumb clearfix">
                                   <Link
                                     to={`/chitietsanpham/${sp.ma_san_pham}`}
+                                    onClick={() => saveProductToSession(sp.ma_danh_muc)} // Lưu mã sản phẩm vào session khi nhấn
                                   >
                                     <img
                                       src={`${apiUrl}/image/product/${sp.hinh_anh}`}

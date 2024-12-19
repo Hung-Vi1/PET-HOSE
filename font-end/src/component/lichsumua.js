@@ -25,7 +25,7 @@ const LichSuMua = () => {
   const fetchOrders = async () => {
     if (!user || !user.Mataikhoan) {
       setError("Bạn cần phải đăng nhập để xem lịch sử mua hàng.");
-      setLoading(false);
+      navigate("/login");
       return;
     }
 

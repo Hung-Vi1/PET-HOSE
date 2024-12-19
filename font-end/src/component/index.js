@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";  // Import useLocation
 import "../App.css";
 
 function Index() {
@@ -43,20 +43,40 @@ function Index() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/api/products`);
-        const data = await response.json();
-        // Lọc sản phẩm có trạng thái là "1"
-        const filteredProducts =
-          data.data?.filter((sp) => sp.trang_thai === "1") || [];
-        ListNewProduct(filteredProducts);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+      const productId = sessionStorage.getItem("productId");
+      if (productId) {
+        try {
+          const response = await fetch(`${apiUrl}/api/products/sanPhamTheoDM/${productId}`);
+          const data = await response.json();
+          // Lọc sản phẩm có trạng thái là "1"
+          const filteredProducts =
+            data.data?.filter((sp) => sp.trang_thai === "1") || [];
+          ListNewProduct(filteredProducts);
+        } catch (error) {
+          console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+        }
+      }else {
+        try {
+          const response = await fetch(`${apiUrl}/api/products`);
+          const data = await response.json();
+          // Lọc sản phẩm có trạng thái là "1"
+          const filteredProducts =
+            data.data?.filter((sp) => sp.trang_thai === "1") || [];
+          ListNewProduct(filteredProducts);
+        } catch (error) {
+          console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+        }
       }
+      
     };
-
     fetchProducts();
   }, [apiUrl]); // Thêm apiUrl vào dependency array để tránh cảnh báo
+
+  
+
+
+  
+
 
   useEffect(() => {
     const fetchTinTuc = async () => {
@@ -136,6 +156,16 @@ function Index() {
       })
       .catch((error) => console.error("Lỗi khi tải sản phẩm tất cả:", error));
   }, []);
+
+
+
+  const saveProductToSession = (productId) => {
+    // Lưu mã sản phẩm vào sessionStorage
+    sessionStorage.setItem("productId", productId);
+    console.log("Đã lưu mã sản phẩm vào session:", productId);
+  };
+
+
 
   return (
     <>
@@ -297,8 +327,8 @@ function Index() {
         </div>
       </section>
 
-      <section class="flat-row row-product-new">
-        <div class="container">
+      <section className="flat-row row-product-new">
+        <div className="container">
           <div className="row">
             <div className="col-md-12">
               <div className="title-section margin-bottom-52">
@@ -312,6 +342,7 @@ function Index() {
                         <Link
                           to={`/chitietsanpham/${sp.ma_san_pham}`}
                           className="product-link"
+                          onClick={() => saveProductToSession(sp.ma_danh_muc)} // Lưu mã sản phẩm vào session khi nhấn
                         >
                           <img
                             src={`${apiUrl}/image/product/${sp.hinh_anh}`}
@@ -335,9 +366,9 @@ function Index() {
                         </div>
                       </div>
                       <div className="add-to-cart text-center">
-                        <Link onClick={() => addToCart(sp)}>
+                        <button onClick={() => addToCart(sp)}>
                           THÊM VÀO GIỎ HÀNG
-                        </Link>
+                        </button>
                       </div>
                       <a href="/" className="like">
                         <i className="fa fa-heart-o" />
@@ -350,6 +381,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       <section class="flat-row row-animation-box bg-section row-1">
         <div class="container">
@@ -416,7 +448,9 @@ function Index() {
               <ul className="product style2 isotope-product clearfix">
                 {allProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
-                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}
+                    onClick={() => saveProductToSession(sp.ma_danh_muc)} // Lưu mã sản phẩm vào session khi nhấn
+                    >
                       <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}

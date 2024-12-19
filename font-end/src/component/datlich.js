@@ -84,6 +84,11 @@ function DatLich() {
 
 
   const handleSubmit = (e) => {
+    if (!userData.Mataikhoan) {
+      alert("Vui đăng nhập để đặt dịch vụ.");
+      navigate("/login");
+      return;
+    }
     e.preventDefault();
     // Ghép ngày và giờ thành định dạng chuẩn
     console.log("Ngày được chọn:", userData.selectedDate);

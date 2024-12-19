@@ -120,7 +120,8 @@ function ThanhToan() {
 
   const handleSubmit = async () => {
     if (!userData.Mataikhoan || !userData.name || !userData.phone || !userData.address) {
-      alert("Vui lòng điền đầy đủ thông tin.");
+      alert("Vui đăng nhập để mua hàng.");
+      navigate("/login");
       return;
     }
 
