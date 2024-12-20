@@ -19,7 +19,7 @@ function AdminDonHang() {
     fetch(`${apiUrl}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        // console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
           ganDH(data.data); // Nếu có mảng sản phẩm trong data
