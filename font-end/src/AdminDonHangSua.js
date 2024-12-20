@@ -249,6 +249,91 @@ function AdminDonHangSua() {
     }
   };
 
+  // Thay đổi trạng thái đơn hàng khi bấm vào nút chuyển trạng thái
+  const handleChangeStatus = () => {
+    let newStatus = trangThai;
+
+    switch (trangThai) {
+      case "cho_xac_nhan":
+        newStatus = "da_xac_nhan";
+        break;
+      case "da_xac_nhan":
+        newStatus = "dang_van_chuyen";
+        break;
+      case "dang_van_chuyen":
+        newStatus = "hoan_thanh";
+        break;
+      default:
+        return; // Không làm gì nếu trạng thái không phù hợp
+    }
+
+    const updatedOrder = {
+      ...orderDetails,
+      TrangThai: newStatus, // Cập nhật trạng thái mới
+    };
+
+    fetch(`${apiUrl}/api/orders/${ma_don_hang}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedOrder),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Cập nhật trạng thái đơn hàng thất bại");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Trạng thái đơn hàng đã được cập nhật!");
+          setTrangThai(newStatus); // Cập nhật trạng thái trong state
+        } else {
+          alert("Cập nhật thất bại: " + (data.message || "Không rõ lý do"));
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating order status:", error);
+        alert("Đã xảy ra lỗi khi cập nhật trạng thái đơn hàng.");
+      });
+  };
+
+  // Hàm xử lý nút hủy đơn hàng
+  const handleCancelOrder = () => {
+    const updatedOrder = {
+      ...orderDetails,
+      TrangThai: "huy", // Cập nhật trạng thái thành "hủy"
+    };
+
+    fetch(`${apiUrl}/api/orders/${ma_don_hang}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedOrder),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Cập nhật trạng thái đơn hàng thất bại");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          alert("Đơn hàng đã được hủy!");
+          window.location.reload(); // Tải lại trang
+          navigate("/admindonhang"); // Chuyển hướng về trang danh sách đơn hàng
+        } else {
+          alert("Cập nhật thất bại: " + (data.message || "Không rõ lý do"));
+        }
+      })
+      .catch((error) => {
+        console.error("Error cancelling order:", error);
+        alert("Đã xảy ra lỗi khi hủy đơn hàng.");
+      });
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
@@ -420,6 +505,7 @@ function AdminDonHangSua() {
                   <h1 className="mb-0">Cập nhật đơn hàng #{ma_don_hang}</h1>
                 </div>
               </div>
+
               <div className="d-flex align-center">
                 <div className="col-md-auto px-3 text-primary">
                   <strong onClick={handlePrintOrder}>
@@ -475,19 +561,49 @@ function AdminDonHangSua() {
                 <div className="col-md px-0">
                   <div className="d-flex flex-wrap">
                     <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
-                      <h5 className="mb-2 py-1">Trạng thái đơn hàng</h5>
-                      <select
-                        className="form-select"
-                        value={trangThai}
-                        onChange={(e) => setTrangThai(e.target.value)}
-                      >
-                        <option value="cho_xac_nhan">Chờ xác nhận</option>
-                        <option value="da_xac_nhan">Đã xác nhận</option>
-                        <option value="dang_van_chuyen">Đang vận chuyển</option>
-                        <option value="da_thanh_toan">Đã thanh toán</option>
-                        <option value="hoan_thanh">Hoàn thành</option>
-                        <option value="huy">Hủy</option>
-                      </select>
+                      <h5 className="mb-2 py-1">
+                        Trạng thái đơn hàng: {trangThai}
+                      </h5>
+                      <div className="row mb-3">
+                        <div className="col-md-7">
+                          <select
+                            className="form-select"
+                            value={trangThai}
+                            onChange={(e) => setTrangThai(e.target.value)}
+                          >
+                            <option value="cho_xac_nhan">Chờ xác nhận</option>
+                            <option value="da_xac_nhan">Đã xác nhận</option>
+                            <option value="dang_van_chuyen">
+                              Đang vận chuyển
+                            </option>
+                            <option value="da_thanh_toan">Đã thanh toán</option>
+                            <option value="hoan_thanh">Hoàn thành</option>
+                            <option value="huy">Hủy</option>
+                          </select>
+                        </div>
+
+                        <div className="col-md-5">
+                          <button
+                            onClick={handleCancelOrder}
+                            className="btn btn-danger mt-2"
+                            disabled={trangThai === "hoan_thanh"} // Vô hiệu hóa nếu trạng thái là "hoàn thành"
+                          >
+                            Hủy đơn hàng
+                          </button>
+                        </div>
+
+                        <div className="col-md-5">
+                          <button
+                            onClick={handleChangeStatus}
+                            className="btn btn-success mt-2"
+                            disabled={
+                              trangThai === "hoan_thanh" // Vô hiệu hóa nếu trạng thái là "hoàn thành"
+                            }
+                          >
+                            Chuyển trạng thái
+                          </button>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">
@@ -510,14 +626,6 @@ function AdminDonHangSua() {
               <div className="d-flex flex-wrap">
                 <div className="col-md-12 border border-dark rounded-3 my-3 p-2">
                   <h5 className="mb-2 py-1">Chi tiết đơn hàng</h5>
-                  {/* <form className="d-flex mb-3" role="search">
-                    <input
-                      className="form-control me-2"
-                      type="search"
-                      placeholder="Nhập tên sản phẩm"
-                      aria-label="Search"
-                    />
-                  </form> */}
 
                   <table className="table table-borderless">
                     <thead>

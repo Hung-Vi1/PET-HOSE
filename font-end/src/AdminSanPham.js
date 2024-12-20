@@ -264,22 +264,21 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
         spTrongTrang.map((sp, i) => {
           return (
             <tr>
-              <td className="text-center">{fromIndex + i + 1}</td>
-              <td className="text-center">
+              <td className="text-center align-middle">{fromIndex + i + 1}</td>
+              <td className="text-center align-middle">
                 <img
                   src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                   alt={`image/product/${sp.hinh_anh}`}
                   style={{ width: "100px" }}
                 />
               </td>
-              <td>{sp.ten_san_pham}</td>
-              <td className="text-center">{sp.tenDM}</td>
-              <td className="text-center">{sp.ngay_tao}</td>
-              <td className="text-center">
+              <td className="text-capitalize align-middle">{sp.ten_san_pham}</td>
+              <td className="text-center text-nowrap align-middle">{sp.tenDM}</td>
+              <td className="text-center align-middle">{sp.ngay_tao}</td>
+              <td className="text-center align-middle">
                 {Number(sp.trang_thai) === 1 ? "Hiện" : "Ẩn"}
               </td>
-
-              <td className="text-center" style={{ width: "150px" }}>
+              <td className="text-center align-middle" style={{ width: "150px" }}>
                 <Link
                   onClick={() => fetchProductById(sp.ma_san_pham)}
                   to={`/adminsanphamsua/${sp.ma_san_pham}`}

@@ -246,20 +246,20 @@ function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
     <>
       {spTrongTrang.map((usr, i) => (
         <tr key={usr.ma_tai_khoan}>
-          <td className="text-center">{i + 1}</td>
-          <td>{usr.ten_tai_khoan}</td>
-          <td className="text-center">{usr.so_dien_thoai}</td>
-          <td>{usr.email}</td>
-          <td className="text-center">
+          <td className="text-center align-middle">{i + 1}</td>
+          <td className="align-middle">{usr.ten_tai_khoan}</td>
+          <td className="text-center align-middle">{usr.so_dien_thoai}</td>
+          <td className="align-middle align-middle">{usr.email}</td>
+          <td className="text-center align-middle">
             <span
               className={`badge ${
-                usr.quyen == 1 ? "text-bg-danger" : "text-bg-success"
+                usr.quyen === 1 ? "text-bg-danger" : "text-bg-success"
               }`}
             >
-              {usr.quyen == 1 ? "Quản trị viên" : "Người dùng"}
+              {usr.quyen === 1 ? "Quản trị viên" : "Người dùng"}
             </span>
           </td>
-          <td className="text-center">
+          <td className="text-center align-middle">
             <Link
               to={`/admintaikhoansua/${usr.ma_tai_khoan}`}
               className="btn btn-outline-warning m-1"
