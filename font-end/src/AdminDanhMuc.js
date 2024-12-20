@@ -290,11 +290,11 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
 
         return (
           <tr key={dm.ma_danh_muc}>
-            <td className="text-center">{fromIndex + i + 1}</td>
-            <td>{dm.ten_danh_muc}</td>
-            <td className="text-center">{loaiDanhMuc}</td>
-            <td className="text-center">{dm.ngay_tao}</td>
-            <td className="text-center">
+            <td className="text-center align-middle">{fromIndex + i + 1}</td>
+            <td className="align-middle">{dm.ten_danh_muc}</td>
+            <td className="text-center align-middle">{loaiDanhMuc}</td>
+            <td className="text-center align-middle">{dm.ngay_tao}</td>
+            <td className="text-center align-middle">
               <Link
                 onClick={() => fetchCategoryById(dm.ma_danh_muc)}
                 to={`/admindanhmucsua/${dm.ma_danh_muc}`}

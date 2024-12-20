@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import { NavLink } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import "./App.css";
 
 function AdminMaGiamGia() {
@@ -24,36 +25,6 @@ function AdminMaGiamGia() {
 
     fetchDiscounts();
   }, []);
-
-  // Hàm xóa mã giảm giá
-  const handleDelete = async (ma_giam_gia) => {
-    if (window.confirm("Bạn chắc chắn muốn xóa mã giảm giá này?")) {
-      try {
-        // Gọi API xóa mã giảm giá với ma_giam_gia
-        const response = await fetch(
-          `${apiUrl}/api/coupons/destroy/${ma_giam_gia}`,
-          {
-            method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
-          }
-        );
-
-        if (response.ok) {
-          // Cập nhật lại danh sách mã giảm giá sau khi xóa
-          setListDiscounts(
-            listDiscounts.filter(
-              (discount) => discount.ma_giam_gia !== ma_giam_gia
-            )
-          );
-          alert("Mã giảm giá đã được xóa.");
-        } else {
-          alert("Xóa mã giảm giá thất bại.");
-        }
-      } catch (error) {
-        console.error("Lỗi khi xóa mã giảm giá:", error);
-        alert("Có lỗi xảy ra khi xóa mã giảm giá.");
-      }
-    }
-  };
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -218,7 +189,7 @@ function AdminMaGiamGia() {
             </Link>
             <h2 className="my-3">Danh sách mã giảm giá</h2>
 
-            <table className="table align-middle">
+            <table className="table align-middle table-borderless">
               <thead>
                 <tr>
                   <th className="fw-bold text-center">STT</th>
@@ -234,42 +205,7 @@ function AdminMaGiamGia() {
                 </tr>
               </thead>
               <tbody>
-                {listDiscounts.map((discount, i) => (
-                  <tr key={discount.ma_giam_gia}>
-                    <td className="text-center">{i + 1}</td>
-                    <td>{discount.ma_giam_gia}</td>
-                    <td>{discount.loai_giam}</td>
-                    <td className="text-center">{discount.code}</td>
-                    <td className="text-center">
-                      {discount.loai_giam === "fixed"
-                        ? `${parseInt(discount.phan_tram).toLocaleString(
-                            "vi-VN"
-                          )} VNĐ`
-                        : `${parseFloat(discount.phan_tram)}%`}
-                    </td>
-                    <td className="text-center">
-                      {parseInt(discount.so_tien_nho_nhat).toLocaleString(
-                        "vi-VN"
-                      )}{" "}
-                      VNĐ
-                    </td>
-                    <td className="text-center">{discount.so_luong}</td>
-                    <td className="text-center">
-                      <Link
-                        to={`/adminmgmsua/${discount.ma_giam_gia}`}
-                        className="btn btn-outline-warning m-1"
-                      >
-                        <i className="bi bi-pencil-square"></i>
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(discount.ma_giam_gia)}
-                        className="btn btn-outline-danger m-1"
-                      >
-                        <i className="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                <PhanTrang list_Discounts={listDiscounts} pageSize={10} />
               </tbody>
             </table>
           </div>
@@ -278,5 +214,119 @@ function AdminMaGiamGia() {
     </div>
   );
 }
+
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
+  const [listDiscounts, setListDiscounts] = useState([]); // Danh sách mã giảm giá
+  const setSelectedDiscounts = useState(null);
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  const fetchDiscountsById = (ma_giam_gia) => {
+    fetch(`${apiUrl}/api/coupons/${ma_giam_gia}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Thông tin sản phẩm:", data);
+        setSelectedDiscounts(data);
+      })
+      .catch((error) => {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      });
+  };
+
+  // Hàm xóa mã giảm giá
+  const handleDelete = async (ma_giam_gia) => {
+    if (window.confirm("Bạn chắc chắn muốn xóa mã giảm giá này?")) {
+      try {
+        // Gọi API xóa mã giảm giá với ma_giam_gia
+        const response = await fetch(
+          `${apiUrl}/api/coupons/destroy/${ma_giam_gia}`,
+          {
+            method: "DELETE", // Phương thức DELETE để xóa mã giảm giá
+          }
+        );
+
+        if (response.ok) {
+          // Cập nhật lại danh sách mã giảm giá sau khi xóa
+          setListDiscounts(
+            listDiscounts.filter(
+              (discount) => discount.ma_giam_gia !== ma_giam_gia
+            )
+          );
+          alert("Mã giảm giá đã được xóa.");
+        } else {
+          alert("Xóa mã giảm giá thất bại.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi xóa mã giảm giá:", error);
+        alert("Có lỗi xảy ra khi xóa mã giảm giá.");
+      }
+    }
+  };
+
+  return (
+    <>
+      {spTrongTrang.map((discount, i) => (
+        <tr key={discount.ma_giam_gia}>
+          <td className="text-center align-middle">{i + 1}</td>
+          <td className="align-middle">{discount.ma_giam_gia}</td>
+          <td className="align-middle">{discount.loai_giam}</td>
+          <td className="text-center align-middle">{discount.code}</td>
+          <td className="text-center align-middle">
+            {discount.loai_giam === "fixed"
+              ? `${parseInt(discount.phan_tram).toLocaleString("vi-VN")} VNĐ`
+              : `${parseFloat(discount.phan_tram)}%`}
+          </td>
+          <td className="text-center align-middle">
+            {parseInt(discount.so_tien_nho_nhat).toLocaleString("vi-VN")} VNĐ
+          </td>
+          <td className="text-center align-middle">{discount.so_luong}</td>
+          <td className="text-center align-middle">
+            <Link
+              onClick={() => fetchDiscountsById(discount.ma_giam_gia)}
+              to={`/adminmgmsua/${discount.ma_giam_gia}`}
+              className="btn btn-outline-warning m-1"
+            >
+              <i className="bi bi-pencil-square"></i>
+            </Link>
+            <button
+              onClick={() => handleDelete(discount.ma_giam_gia)}
+              className="btn btn-outline-danger m-1"
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
+} //HienSPTrongMotTrang
+
+function PhanTrang({ list_Discounts, pageSize }) {
+  const [fromIndex, setfromIndex] = useState(0);
+  const toIndex = fromIndex + pageSize;
+  const spTrong1Trang = list_Discounts.slice(fromIndex, toIndex);
+  const tongSoTrang = Math.ceil(list_Discounts.length / pageSize);
+  const chuyenTrang = (event) => {
+    const newIndex = (event.selected * pageSize) % list_Discounts.length;
+    setfromIndex(newIndex);
+  };
+  return (
+    <>
+      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
+      <tr>
+        <td colspan="8">
+          <ReactPaginate
+            nextLabel=">"
+            previousLabel="<"
+            pageCount={tongSoTrang}
+            pageRangeDisplayed={5}
+            onPageChange={chuyenTrang}
+            className="thanhphantrang"
+          />
+        </td>
+      </tr>
+    </>
+  );
+} //PhanTrang
 
 export default AdminMaGiamGia;

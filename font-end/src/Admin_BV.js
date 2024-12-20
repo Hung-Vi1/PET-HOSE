@@ -261,39 +261,51 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
 
   return (
     <>
-      {spTrongTrang.map((item, index) => (
-        <tr key={item.bai_viet}>
-          <td className="text-center">{fromIndex + index + 1}</td>
-          <td className="text-center" style={{ width: "10%" }}>
-            <img
-              src={`${apiUrl}/image/News/${item.Hinh}`}
-              alt={`${apiUrl}/image/News/${item.Hinh}`}
-            />
-          </td>
-          <td>{item.tieu_de}</td>
-          <td className="text-center">{item.ma_danh_muc_bv}</td>
-          <td className="text-center">{item.ngay_tao}</td>
-          <td className="text-center">{item.luot_xem}</td>
-          <td className="text-center">
-            {item.trang_thai === "1" ? "Hiện " : "Ẩn"}
-          </td>
-          <td className="text-center text-nowrap">
-            <Link
-              onClick={() => fetchNewsById(item.bai_viet)}
-              to={`/Admin_SuaBV/${item.bai_viet}`}
-              className="btn btn-outline-warning m-1"
-            >
-              <i className="bi bi-pencil-square"></i>
-            </Link>
-            <button
-              onClick={() => xoaBaiViet(item.bai_viet)}
-              className="btn btn-outline-danger m-1"
-            >
-              <i className="bi bi-trash"></i>
-            </button>
-          </td>
-        </tr>
-      ))}
+      {spTrongTrang.map((item, index) => {
+        let MaDanhMucBaiViet;
+
+        if (item.ma_danh_muc_bv === 1) {
+          MaDanhMucBaiViet = "Chó cảnh";
+        } else {
+          MaDanhMucBaiViet = "Mèo cảnh";
+        }
+
+        return (
+          <tr key={item.bai_viet}>
+            <td className="text-center align-middle">
+              {fromIndex + index + 1}
+            </td>
+            <td className="text-center align-middle" style={{ width: "10%" }}>
+              <img
+                src={`${apiUrl}/image/News/${item.Hinh}`}
+                alt={`${apiUrl}/image/News/${item.Hinh}`}
+              />
+            </td>
+            <td className="align-middle align-middle">{item.tieu_de}</td>
+            <td className="text-center align-middle">{MaDanhMucBaiViet}</td>
+            <td className="text-center align-middle">{item.ngay_tao}</td>
+            <td className="text-center align-middle">{item.luot_xem}</td>
+            <td className="text-center align-middle">
+              {item.trang_thai === "1" ? "Hiện " : "Ẩn"}
+            </td>
+            <td className="text-center text-nowrap align-middle">
+              <Link
+                onClick={() => fetchNewsById(item.bai_viet)}
+                to={`/Admin_SuaBV/${item.bai_viet}`}
+                className="btn btn-outline-warning m-1"
+              >
+                <i className="bi bi-pencil-square"></i>
+              </Link>
+              <button
+                onClick={() => xoaBaiViet(item.bai_viet)}
+                className="btn btn-outline-danger m-1"
+              >
+                <i className="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        );
+      })}
     </>
   );
 } //HienSPTrongMotTrang
