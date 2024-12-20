@@ -133,14 +133,11 @@ function AdminDonHangSua() {
           const totalProductPrice = ct.DonGia * ct.SoLuong;
           return `
           <tr>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              index + 1
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${index + 1
             }</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              ct.SanPham.TenSP
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SanPham.TenSP
             }</td>
-            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${
-              ct.SoLuong
+            <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${ct.SoLuong
             }</td>
             <td style="text-align: center; padding: 10px; border-top: 1px solid #ddd;">${new Intl.NumberFormat(
               "vi-VN"
@@ -195,29 +192,29 @@ function AdminDonHangSua() {
               </table>
               <div class="total" style="margin-top: 20px; font-weight: bold;">
                 <p><span>Tổng trước giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(totalBeforeDiscount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(totalBeforeDiscount)}</span></p>
                 <p><span>Giảm giá:</span><span class="right" style="float: right;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(discount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(discount)}</span></p>
                 <p><span class="font-weight-bold">Tổng thanh toán:</span><span class="right" style="float: right; color: red;">${new Intl.NumberFormat(
-                  "vi-VN",
-                  {
-                    style: "currency",
-                    currency: "VND",
-                    minimumFractionDigits: 0,
-                  }
-                ).format(totalAfterDiscount)}</span></p>
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+        }
+      ).format(totalAfterDiscount)}</span></p>
               </div>
             </div>
             <script>
@@ -303,8 +300,9 @@ function AdminDonHangSua() {
   const handleCancelOrder = () => {
     const updatedOrder = {
       ...orderDetails,
-      TrangThai: "huy", // Cập nhật trạng thái thành "hủy"
+      TrangThai: "huy", // Cập nhật trạng thái mới
     };
+
 
     fetch(`${apiUrl}/api/orders/${ma_don_hang}`, {
       method: "PUT",
@@ -322,8 +320,7 @@ function AdminDonHangSua() {
       .then((data) => {
         if (data.status === "success") {
           alert("Đơn hàng đã được hủy!");
-          window.location.reload(); // Tải lại trang
-          navigate("/admindonhang"); // Chuyển hướng về trang danh sách đơn hàng
+          setTrangThai("huy"); // Cập nhật trạng thái trong state
         } else {
           alert("Cập nhật thất bại: " + (data.message || "Không rõ lý do"));
         }
@@ -565,45 +562,27 @@ function AdminDonHangSua() {
                         Trạng thái đơn hàng: {trangThai}
                       </h5>
                       <div className="row mb-3">
-                        <div className="col-md-7">
-                          <select
-                            className="form-select"
-                            value={trangThai}
-                            onChange={(e) => setTrangThai(e.target.value)}
-                          >
-                            <option value="cho_xac_nhan">Chờ xác nhận</option>
-                            <option value="da_xac_nhan">Đã xác nhận</option>
-                            <option value="dang_van_chuyen">
-                              Đang vận chuyển
-                            </option>
-                            <option value="da_thanh_toan">Đã thanh toán</option>
-                            <option value="hoan_thanh">Hoàn thành</option>
-                            <option value="huy">Hủy</option>
-                          </select>
-                        </div>
-
-                        <div className="col-md-5">
-                          <button
-                            onClick={handleCancelOrder}
-                            className="btn btn-danger mt-2"
-                            disabled={trangThai === "hoan_thanh"} // Vô hiệu hóa nếu trạng thái là "hoàn thành"
-                          >
-                            Hủy đơn hàng
-                          </button>
-                        </div>
-
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                           <button
                             onClick={handleChangeStatus}
                             className="btn btn-success mt-2"
-                            disabled={
-                              trangThai === "hoan_thanh" // Vô hiệu hóa nếu trạng thái là "hoàn thành"
-                            }
+                            disabled={trangThai === "hoan_thanh" || trangThai === "huy"} // Vô hiệu hóa nếu trạng thái là "hoàn thành" hoặc "hủy"
                           >
                             Chuyển trạng thái
                           </button>
                         </div>
+
+                        <div className="col-md-6">
+                          <button
+                            onClick={handleCancelOrder}
+                            className="btn btn-danger mt-2"
+                            disabled={trangThai === "hoan_thanh" || trangThai === "huy"} // Vô hiệu hóa nếu trạng thái là "hoàn thành" hoặc "hủy"
+                          >
+                            Hủy đơn hàng
+                          </button>
+                        </div>
                       </div>
+
                     </div>
 
                     <div className="col-md border border-dark rounded-3 my-3 p-2">

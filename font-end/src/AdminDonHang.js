@@ -14,13 +14,11 @@ function AdminDonHang() {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // Lấy danh sách sản phẩm
   useEffect(() => {
     fetch(`${apiUrl}/api/orders`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
           ganDH(data.data); // Nếu có mảng sản phẩm trong data
         } else {
@@ -31,7 +29,9 @@ function AdminDonHang() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
-  });
+    return;
+  }, []); // Mảng phụ thuộc rỗng, chỉ gọi API một lần khi component mount
+  
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -278,7 +278,7 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
               <td>
                 <Link
                   onClick={() => fetchOrderById(dh.ma_don_hang)}
-                  to={`/admindonhangchitiet/${dh.ma_don_hang}`}
+                  to={`/admindonhangsua/${dh.ma_don_hang}`}
                   className="text-primary"
                 >
                   #{dh.ma_don_hang}
