@@ -8,6 +8,8 @@ import "./App.css";
 
 function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
+  // list_dm: Đây là biến state lưu danh sách danh mục sản phẩm (ban đầu là mảng rỗng [])
+  // ganDM: Là hàm để cập nhật giá trị của list_dm
   const { user } = useAuth();
 
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -16,8 +18,9 @@ function AdminDanhMuc() {
   useEffect(() => {
     fetch(`${apiUrl}/api/category`)
       .then((res) => res.json())
+      // Chuyển đổi phản hồi của API (ở dạng JSON) thành object JavaScript bằng phương thức .json()
       .then((data) => {
-        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
+        // console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
         // Kiểm tra xem data có thuộc tính data không
         if (Array.isArray(data.data)) {
           ganDM(data.data); // Nếu có mảng sản phẩm trong data
@@ -29,7 +32,7 @@ function AdminDanhMuc() {
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
-  }, []);
+  });
 
   return (
     <div className="container-fluid admin">
@@ -283,10 +286,6 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
             loaiDanhMuc = "Khác"; // Hoặc xử lý cho các trường hợp khác
             break;
         }
-
-        console.log(
-          `Danh mục: ${dm.ten_danh_muc}, parent_id: ${parentId}, loại: ${loaiDanhMuc}`
-        ); // Kiểm tra thông tin
 
         return (
           <tr key={dm.ma_danh_muc}>

@@ -20,7 +20,7 @@ function AdminTrangChu() {
 
   // Hàm tính toán số lượng đơn hàng theo trạng thái
   const calculateOrderStatusData = (orders) => {
-    const statusCounts = {};
+    const statusCounts = {}; // Đếm số lượng đơn hàng theo từng trạng thái
 
     orders.forEach((order) => {
       const status = order.trang_thai; // Giả sử API trả về trường 'trang_thai'
@@ -38,14 +38,16 @@ function AdminTrangChu() {
 
   // State cho dữ liệu biểu đồ
   const [orderStatusData, setOrderStatusData] = useState({
+    // Lưu dữ liệu trạng thái của các đơn hàng để vẽ biểu đồ tròn
     labels: [],
     data: [],
   });
 
-  const [orders, setOrders] = useState([]);
-  const [revenueData, setRevenueData] = useState([]);
-  const [quarterRevenueData, setQuarterRevenueData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [orders, setOrders] = useState([]); // Lưu danh sách đơn hàng từ API
+  const [revenueData, setRevenueData] = useState([]); // Lưu dữ liệu doanh thu từ từng đơn hàng để hiển thị biểu đồ
+  const [quarterRevenueData, setQuarterRevenueData] = useState([]); // Lưu dữ liệu doanh thu theo từng quý
+  const [isLoading, setIsLoading] = useState(true); // Xác định trạng thái tải dữ liệu từ API (đang tải hay đã hoàn tất)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,14 +79,14 @@ function AdminTrangChu() {
         const ordersData = await ordersResponse.json();
         setOrdersCount(ordersData.data.length);
 
-        console.log("Dữ liệu đơn hàng:", ordersData); // Kiểm tra dữ liệu API
+        // console.log("Dữ liệu đơn hàng:", ordersData); // Kiểm tra dữ liệu API
         setOrders(ordersData.data); // Giả sử API trả về trường `data` chứa danh sách đơn hàng
 
         // Tính toán doanh thu từ `tong_tien` trong mỗi đơn hàng
         const revenue = calculateRevenue(ordersData.data);
         setRevenueData(revenue);
 
-        // Ví dụ sử dụng hàm tính tổng
+        // Hàm tính tổng doanh thu
         const totalRevenue = calculateTotalRevenue(ordersData.data);
         console.log("Tổng tiền các đơn hàng:", totalRevenue);
 
@@ -112,6 +114,7 @@ function AdminTrangChu() {
   }, []);
 
   // Hàm tính doanh thu từ `tong_tien` trong các đơn hàng
+  // Tạo một dataset chứa tên từng đơn hàng và doanh thu tương ứng để hiển thị trong biểu đồ
   const calculateRevenue = (orders) => {
     const labels = orders.map((order) => `Đơn hàng ${order.ma_don_hang}`);
     const data = orders.map((order) => parseFloat(order.tong_tien));
@@ -120,10 +123,12 @@ function AdminTrangChu() {
   };
 
   // Hàm tính doanh thu theo quý
+  //  Phân loại doanh thu theo từng quý và trả về dataset
   const calculateQuarterlyRevenue = (orders) => {
     const quarterlyRevenue = [0, 0, 0, 0]; // Quý 1, Quý 2, Quý 3, Quý 4
 
     orders.forEach((order) => {
+      // Lặp qua các phần tử của mãng order
       const orderDate = new Date(order.ngay_dat); // Ngày đặt hàng
       const month = orderDate.getMonth() + 1; // Lấy tháng (tháng 0-11, cộng thêm 1 để lấy tháng 1-12)
       const revenue = parseFloat(order.tong_tien);
@@ -211,6 +216,7 @@ function AdminTrangChu() {
     },
   };
 
+  // Tính doanh thu theo phương thức thanh toán, gom nhóm doanh thu theo từng phương thức thanh toán
   const calculatePaymentMethodRevenue = (orders) => {
     const revenueByPaymentMethod = {};
 
@@ -231,10 +237,12 @@ function AdminTrangChu() {
   };
 
   const [paymentMethodData, setPaymentMethodData] = useState({
+    // Lưu dữ liệu doanh thu phân loại theo phương thức thanh toán
     labels: [],
     data: [],
   });
 
+  // Hiển thị doanh thu theo phương thức thanh toán
   const pieData = {
     labels: paymentMethodData.labels,
     datasets: [
@@ -282,6 +290,7 @@ function AdminTrangChu() {
     },
   };
 
+  // Tính tổng tất cả giá trị tong_tien của các đơn hàng
   const calculateTotalRevenue = (orders) => {
     return orders.reduce((total, order) => {
       // Cộng dồn tổng tiền của mỗi đơn hàng
@@ -336,6 +345,7 @@ function AdminTrangChu() {
     },
   };
 
+  // Kiểm tra trạng thái đăng nhập
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
     return <Navigate to="/login" />;
