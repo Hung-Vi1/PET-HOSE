@@ -648,7 +648,7 @@ function AdminDonHangSua() {
                           <td className="text-center">{index + 1}</td>
                           <td style={{ width: "8%" }}>
                             <img
-                              src={`../image/product/${detail.SanPham.HinhAnh}`}
+                              src={`${apiUrl}/image/product/${detail.SanPham.HinhAnh}`}
                               alt={detail.SanPham.TenSP}
                             />
                           </td>
