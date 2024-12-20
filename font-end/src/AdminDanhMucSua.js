@@ -7,37 +7,48 @@ import "./App.css";
 function AdminDanhMucSua() {
   const { user } = useAuth();
   const { ma_danh_muc } = useParams();
-  const [tenDM, setTenDM] = useState(""); // Trạng thái cho Tên Danh Mục
-  const [parentId, setParentId] = useState(null); // Trạng thái cho parent_id
-  const [loai, setLoai] = useState("0"); // Trạng thái cho loại
-  const [error, setError] = useState(null); // Trạng thái cho lỗi
+  const [tenDM, setTenDM] = useState("");
+  const [parentId, setParentId] = useState("");
+  const [loai, setLoai] = useState("0");
+  const [error, setError] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  // Hàm fetch với cơ chế retry
+  const fetchWithRetry = async (
+    url,
+    options = {},
+    retries = 3,
+    delay = 1000
+  ) => {
+    for (let i = 0; i < retries; i++) {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response.json(); // Trả về dữ liệu nếu thành công
+      } else if (response.status !== 429 || i === retries - 1) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      await new Promise((res) => setTimeout(res, delay)); // Đợi trước khi thử lại
+    }
+  };
+
   // Lấy thông tin danh mục theo mã danh mục
   useEffect(() => {
-    fetch(`${apiUrl}/api/category/${ma_danh_muc}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Không thể lấy thông tin danh mục");
-        }
-        return res.json();
-      })
+    fetchWithRetry(`${apiUrl}/api/category/${ma_danh_muc}`)
       .then((data) => {
-        // Kiểm tra trạng thái và lấy dữ liệu
         if (data.status === "success") {
-          const dm = data.data; // Lấy dữ liệu danh mục
-          setTenDM(dm.ten_danh_muc); // Hiển thị tên danh mục trong ô input
-          setParentId(dm.parent_id);
+          const dm = data.data;
+          setTenDM(dm.ten_danh_muc);
+          setParentId(dm.parent_id || "");
           setLoai(dm.loai);
         } else {
-          throw new Error(data.message); // Thông báo lỗi nếu không thành công
+          throw new Error(data.message);
         }
       })
       .catch((error) => {
         setError(error.message);
       });
-  }, [ma_danh_muc]);
+  }, [ma_danh_muc, apiUrl]);
 
   // Xử lý gửi form
   const handleSubmit = (e) => {
@@ -48,19 +59,13 @@ function AdminDanhMucSua() {
       loai: loai,
     };
 
-    fetch(`${apiUrl}/api/category/update/${ma_danh_muc}`, {
+    fetchWithRetry(`${apiUrl}/api/category/update/${ma_danh_muc}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedCategory),
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Lỗi khi cập nhật danh mục");
-        }
-        return res.json();
-      })
       .then(() => {
         alert("Cập nhật thành công!");
       })
@@ -247,7 +252,7 @@ function AdminDanhMucSua() {
                       type="text"
                       className="form-control"
                       id="tenDM"
-                      value={tenDM} // Giá trị hiển thị trong ô input
+                      value={tenDM}
                       onChange={(e) => setTenDM(e.target.value)}
                       required
                     />
@@ -303,10 +308,3 @@ function AdminDanhMucSua() {
 }
 
 export default AdminDanhMucSua;
-
-// return (
-
-// );
-// }
-
-// export default AdminDanhMucSua;

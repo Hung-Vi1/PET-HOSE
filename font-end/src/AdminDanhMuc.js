@@ -6,6 +6,22 @@ import ReactPaginate from "react-paginate";
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
+// Hàm fetch với cơ chế retry
+const fetchWithRetry = async (url, options = {}, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const text = await response.text(); // Đọc dữ liệu dưới dạng text
+      return text ? JSON.parse(text) : {}; // Phân tích JSON nếu có dữ liệu
+    } else if (response.status === 429) {
+      await new Promise((res) => setTimeout(res, delay));
+    } else {
+      throw new Error(`Error: ${response.status}`);
+    }
+  }
+  throw new Error("Max retries exceeded");
+};
+
 function AdminDanhMuc() {
   const [list_dm, ganDM] = useState([]);
   // list_dm: Đây là biến state lưu danh sách danh mục sản phẩm (ban đầu là mảng rỗng [])
@@ -16,23 +32,22 @@ function AdminDanhMuc() {
 
   // Lấy danh sách danh mục
   useEffect(() => {
-    fetch(`${apiUrl}/api/category`)
-      .then((res) => res.json())
-      // Chuyển đổi phản hồi của API (ở dạng JSON) thành object JavaScript bằng phương thức .json()
-      .then((data) => {
-        // console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
+    const fetchCategories = async () => {
+      try {
+        const data = await fetchWithRetry(`${apiUrl}/api/category`);
         if (Array.isArray(data.data)) {
-          ganDM(data.data); // Nếu có mảng sản phẩm trong data
+          ganDM(data.data);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganDM([]); // Khởi tạo giá trị mặc định
+          ganDM([]);
         }
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-      });
-  });
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu danh mục:", error);
+      }
+    };
+
+    fetchCategories();
+  }, [apiUrl]);
 
   return (
     <div className="container-fluid admin">
@@ -217,51 +232,39 @@ function AdminDanhMuc() {
 }
 
 function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
-  const setSelectedCategory = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const fetchCategoryById = (ma_danh_muc) => {
-    fetch(`${apiUrl}/api/category/${ma_danh_muc}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Thông tin danh mục:", data);
-        setSelectedCategory(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy thông tin danh mục:", error);
-      });
+  // Lấy thông tin chi tiết một danh mục theo ma_danh_muc
+  const fetchCategoryById = async (ma_danh_muc) => {
+    try {
+      const data = await fetchWithRetry(
+        `${apiUrl}/api/category/${ma_danh_muc}`
+      );
+      console.log("Thông tin danh mục:", data);
+      setSelectedCategory(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin danh mục:", error);
+    }
   };
 
-  const xoaDanhMuc = (ma_danh_muc) => {
+  const xoaDanhMuc = async (ma_danh_muc) => {
     if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
-      fetch(`${apiUrl}/api/category/destroy/${ma_danh_muc}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.status === 204) {
-            alert("Danh mục đã được xóa thành công");
-            return fetch(`${apiUrl}/api/category`);
-          } else {
-            throw new Error("Lỗi khi xóa danh mục");
+      try {
+        await fetchWithRetry(
+          `${apiUrl}/api/category/destroy/${ma_danh_muc}`,
+          {
+            method: "DELETE",
           }
-        })
-        .then((res) => {
-          if (res) {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          if (Array.isArray(data.data)) {
-            ganDM(data.data); // Sử dụng ganDM từ props
-          } else {
-            console.error("Dữ liệu không phải là mảng:", data);
-            ganDM([]); // Khởi tạo giá trị mặc định
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa danh mục:", error);
-          alert("Có lỗi xảy ra: " + error.message);
-        });
+        );
+        alert("Danh mục đã được xóa thành công");
+        const updatedData = await fetchWithRetry(`${apiUrl}/api/category`);
+        ganDM(updatedData.data);
+      } catch (error) {
+        console.error("Lỗi khi xóa danh mục:", error);
+        alert("Có lỗi xảy ra: " + error.message);
+      }
     }
   };
 
@@ -269,22 +272,13 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
     <>
       {spTrongTrang.map((dm, i) => {
         let loaiDanhMuc;
-        const parentId = parseInt(dm.parent_id, 10); // Chuyển đổi parent_id từ chuỗi sang số
 
-        // Kiểm tra giá trị parentId để xác định loại danh mục
-        switch (parentId) {
-          case 0:
-            loaiDanhMuc = "Thư mục cha";
-            break;
-          case 1:
-            loaiDanhMuc = "Thư mục cha -> Chó";
-            break;
-          case 2:
-            loaiDanhMuc = "Thư mục cha -> Mèo";
-            break;
-          default:
-            loaiDanhMuc = "Khác"; // Hoặc xử lý cho các trường hợp khác
-            break;
+        if (dm.parent_id === null) {
+          loaiDanhMuc = "Thư mục cha";
+        } else if (dm.parent_id === 1) {
+          loaiDanhMuc = "Thư mục cha -> Chó";
+        } else {
+          loaiDanhMuc = "Thư mục cha -> Mèo";
         }
 
         return (
@@ -316,14 +310,14 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
 }
 
 function PhanTrang({ listDM, pageSize, ganDM }) {
-  const [fromIndex, setfromIndex] = useState(0);
+  const [fromIndex, setFromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const spTrong1Trang = listDM.slice(fromIndex, toIndex);
   const tongSoTrang = Math.ceil(listDM.length / pageSize);
 
   const chuyenTrang = (event) => {
     const newIndex = (event.selected * pageSize) % listDM.length;
-    setfromIndex(newIndex);
+    setFromIndex(newIndex);
   };
 
   return (

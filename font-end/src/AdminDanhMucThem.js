@@ -8,34 +8,46 @@ function AdminDanhMucThem() {
   const { user } = useAuth();
   const navigate = useNavigate(); // Khởi tạo useNavigate
   const [tenDM, setTenDM] = useState(""); // Trạng thái cho Tên Danh Mục
-  const [parentId, setParentId] = useState(null); // Trạng thái cho parent_id
+  const [parentId, setParentId] = useState(""); // Trạng thái cho parent_id
   const [loai, setLoai] = useState("0"); // Trạng thái cho loại
   const [error, setError] = useState(null); // Trạng thái cho lỗi
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  // Hàm fetch với cơ chế retry
+  const fetchWithRetry = async (
+    url,
+    options = {},
+    retries = 3,
+    delay = 1000
+  ) => {
+    for (let i = 0; i < retries; i++) {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        return response.json(); // Trả về dữ liệu nếu thành công
+      } else if (response.status !== 429 || i === retries - 1) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      await new Promise((res) => setTimeout(res, delay)); // Đợi trước khi thử lại
+    }
+  };
+
   // Xử lý gửi form
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedCategory = {
+    const newCategory = {
       TenDM: tenDM,
       parent_id: parentId,
       loai: loai,
     };
 
-    fetch(`${apiUrl}/api/category/store`, {
+    fetchWithRetry(`${apiUrl}/api/category/store`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedCategory),
+      body: JSON.stringify(newCategory),
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Lỗi khi thêm danh mục");
-        }
-        return res.json();
-      })
       .then(() => {
         alert("Thêm danh mục thành công!");
         navigate("/admindanhmuc"); // Chuyển hướng về trang danh sách danh mục
@@ -223,7 +235,7 @@ function AdminDanhMucThem() {
                       type="text"
                       className="form-control"
                       id="tenDM"
-                      value={tenDM} // Giá trị hiển thị trong ô input
+                      value={tenDM}
                       onChange={(e) => setTenDM(e.target.value)}
                       required
                     />
@@ -237,9 +249,7 @@ function AdminDanhMucThem() {
                       className="form-select"
                       value={parentId || ""}
                       onChange={(e) =>
-                        setParentId(
-                          e.target.value === "" ? null : e.target.value
-                        )
+                        setParentId(e.target.value === "" ? "" : e.target.value)
                       }
                     >
                       <option value="">Không có</option>

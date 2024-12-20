@@ -6,6 +6,22 @@ import ReactPaginate from "react-paginate";
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
+// Hàm fetch với cơ chế retry
+const fetchWithRetry = async (url, options = {}, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const text = await response.text(); // Đọc dữ liệu dưới dạng text
+      return text ? JSON.parse(text) : {}; // Phân tích JSON nếu có dữ liệu
+    } else if (response.status === 429) {
+      await new Promise((res) => setTimeout(res, delay));
+    } else {
+      throw new Error(`Error: ${response.status}`);
+    }
+  }
+  throw new Error("Max retries exceeded");
+};
+
 function AdminSanPham() {
   const { user } = useAuth();
   const [list_sp, ganSP] = useState([]);
@@ -14,22 +30,20 @@ function AdminSanPham() {
 
   // Lấy danh sách sản phẩm
   useEffect(() => {
-    fetch(`${apiUrl}/api/products `)
-      .then((res) => res.json())
+    fetchWithRetry(`${apiUrl}/api/products`)
       .then((data) => {
-        console.log("Dữ liệu trả về:", data); // Kiểm tra dữ liệu
-        // Kiểm tra xem data có thuộc tính data không
+        console.log("Dữ liệu trả về:", data);
         if (Array.isArray(data.data)) {
-          ganSP(data.data); // Nếu có mảng sản phẩm trong data
+          ganSP(data.data);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
-          ganSP([]); // Khởi tạo giá trị mặc định
+          ganSP([]);
         }
       })
       .catch((error) => {
         console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
       });
-  }, []);
+  }, [apiUrl]);
 
   return (
     <div className="container-fluid admin">
@@ -207,7 +221,7 @@ function AdminSanPham() {
                 </tr>
               </thead>
               <tbody>
-                <PhanTrang listSP={list_sp} pageSize={10} />
+                <PhanTrang listSP={list_sp} pageSize={10} ganSP={ganSP} />
               </tbody>
             </table>
           </div>
@@ -217,104 +231,97 @@ function AdminSanPham() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, fromIndex }) {
-  const [ganSP] = useState([]);
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganSP }) {
   const setSelectedProduct = useState(null);
-
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const fetchProductById = (ma_san_pham) => {
-    fetch(`${apiUrl}/api/products/${ma_san_pham}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Thông tin sản phẩm:", data);
-        setSelectedProduct(data);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
-      });
+  const fetchProductById = async (ma_san_pham) => {
+    try {
+      const data = await fetchWithRetry(
+        `${apiUrl}/api/products/${ma_san_pham}`
+      );
+      console.log("Thông tin sản phẩm:", data);
+      setSelectedProduct(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+    }
   };
 
-  const xoaSanPham = (maSP) => {
-    const apiUrl = process.env.REACT_APP_API_URL;
-    // Hiển thị thông báo xác nhận
+  const xoaSanPham = async (maSP) => {
     if (window.confirm("Bạn có muốn xóa sản phẩm này?")) {
-      fetch(`${apiUrl}/api/products/destroy/${maSP}`, {
-        method: "DELETE",
-      })
-        .then((res) => {
-          if (res.ok) {
-            // Loại bỏ sản phẩm khỏi danh sách trong trạng thái list_sp
-            ganSP((prevSP) => prevSP.filter((sp) => sp.ma_san_pham !== maSP));
-            // Thêm một khoảng thời gian nhỏ để chắc chắn UI được render lại
-            setTimeout(() => {
-              console.log("Sản phẩm đã được xóa khỏi danh sách");
-            }, 100); // Thời gian có thể điều chỉnh
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi xóa sản phẩm:", error);
+      try {
+        await fetchWithRetry(`${apiUrl}/api/products/destroy/${maSP}`, {
+          method: "DELETE",
         });
+        alert("Sản phẩm đã được xóa thành công");
+        const updatedData = await fetchWithRetry(`${apiUrl}/api/products`);
+        ganSP(updatedData.data); // Gọi ganSP để cập nhật danh sách sản phẩm
+      } catch (error) {
+        console.error("Lỗi khi xóa sản phẩm:", error);
+        alert("Có lỗi xảy ra: " + error.message);
+      }
     }
   };
 
   return (
     <>
-      {
-        spTrongTrang.map((sp, i) => {
-          return (
-            <tr>
-              <td className="text-center align-middle">{fromIndex + i + 1}</td>
-              <td className="text-center align-middle">
-                <img
-                  src={`${apiUrl}/image/product/${sp.hinh_anh}`}
-                  alt={`image/product/${sp.hinh_anh}`}
-                  style={{ width: "100px" }}
-                />
-              </td>
-              <td className="text-capitalize align-middle">{sp.ten_san_pham}</td>
-              <td className="text-center text-nowrap align-middle">{sp.tenDM}</td>
-              <td className="text-center align-middle">{sp.ngay_tao}</td>
-              <td className="text-center align-middle">
-                {Number(sp.trang_thai) === 1 ? "Hiện" : "Ẩn"}
-              </td>
-              <td className="text-center align-middle" style={{ width: "150px" }}>
-                <Link
-                  onClick={() => fetchProductById(sp.ma_san_pham)}
-                  to={`/adminsanphamsua/${sp.ma_san_pham}`}
-                  className="btn btn-outline-warning m-1"
-                >
-                  <i className="bi bi-pencil-square"></i>
-                </Link>
-                <button
-                  onClick={() => xoaSanPham(sp.ma_san_pham)}
-                  className="btn btn-outline-danger m-1"
-                >
-                  <i className="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-          );
-        }) //map
-      }
+      {spTrongTrang.map((sp, i) => (
+        <tr key={sp.ma_san_pham}>
+          <td className="text-center align-middle">{fromIndex + i + 1}</td>
+          <td className="text-center align-middle">
+            <img
+              src={`${apiUrl}/image/product/${sp.hinh_anh}`}
+              alt={`image/product/${sp.hinh_anh}`}
+              style={{ width: "100px" }}
+            />
+          </td>
+          <td className="text-capitalize align-middle">{sp.ten_san_pham}</td>
+          <td className="text-center text-nowrap align-middle">{sp.tenDM}</td>
+          <td className="text-center align-middle">{sp.ngay_tao}</td>
+          <td className="text-center align-middle">
+            {Number(sp.trang_thai) === 1 ? "Hiện" : "Ẩn"}
+          </td>
+          <td className="text-center align-middle" style={{ width: "150px" }}>
+            <Link
+              onClick={() => fetchProductById(sp.ma_san_pham)}
+              to={`/adminsanphamsua/${sp.ma_san_pham}`}
+              className="btn btn-outline-warning m-1"
+            >
+              <i className="bi bi-pencil-square"></i>
+            </Link>
+            <button
+              onClick={() => xoaSanPham(sp.ma_san_pham)}
+              className="btn btn-outline-danger m-1"
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      ))}
     </>
   );
 } //HienSPTrongMotTrang
 
-function PhanTrang({ listSP, pageSize }) {
+function PhanTrang({ listSP, pageSize, ganSP }) {
   const [fromIndex, setfromIndex] = useState(0);
   const toIndex = fromIndex + pageSize;
   const spTrong1Trang = listSP.slice(fromIndex, toIndex);
   const tongSoTrang = Math.ceil(listSP.length / pageSize);
+
   const chuyenTrang = (event) => {
     const newIndex = (event.selected * pageSize) % listSP.length;
     setfromIndex(newIndex);
   };
+
   return (
     <>
-      <HienSPTrongMotTrang spTrongTrang={spTrong1Trang} fromIndex={fromIndex} />
+      <HienSPTrongMotTrang
+        spTrongTrang={spTrong1Trang}
+        fromIndex={fromIndex}
+        ganSP={ganSP} // Đảm bảo ganSP được truyền vào đây
+      />
       <tr>
-        <td colspan="7">
+        <td colSpan="7">
           <ReactPaginate
             nextLabel=">"
             previousLabel="<"
@@ -327,6 +334,6 @@ function PhanTrang({ listSP, pageSize }) {
       </tr>
     </>
   );
-} //PhanTrang
+}
 
 export default AdminSanPham;

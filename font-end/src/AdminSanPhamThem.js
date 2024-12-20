@@ -25,6 +25,7 @@ function AdminSanPhamThem() {
     new Date().toISOString().split("T")[0]
   ); // Ngày hiện tại
   const [danhMuc, setDanhMuc] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
 
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -94,6 +95,7 @@ function AdminSanPhamThem() {
           setTrangThai(1);
           setNgayTao(new Date().toISOString().split("T")[0]);
           setNgayCapNhat(new Date().toISOString().split("T")[0]);
+          setImagePreview(`${apiUrl}/${data.hinh_anh}`);
           navigate("/adminsanpham"); // Chuyển hướng về trang danh sách sản phẩm
         } else {
           throw new Error(data.message || "Có lỗi xảy ra");
@@ -317,6 +319,7 @@ function AdminSanPhamThem() {
                             value={so_luong}
                             onChange={(e) => setSoLuong(Number(e.target.value))}
                             required
+                            min={0}
                           />
                         </div>
                       </div>
@@ -397,10 +400,28 @@ function AdminSanPhamThem() {
                             type="file"
                             className="form-control"
                             accept="image/*"
-                            onChange={(e) => setHinhAnh(e.target.files[0])}
+                            onChange={(e) => {
+                              setHinhAnh(e.target.files[0]);
+                              setImagePreview(
+                                URL.createObjectURL(e.target.files[0])
+                              );
+                            }}
                             required
                           />
                         </div>
+                        {imagePreview && (
+                          <div className="mt-3">
+                            <img
+                              src={imagePreview}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "250px",
+                                borderRadius: "5px",
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -415,6 +436,7 @@ function AdminSanPhamThem() {
                           value={gia}
                           onChange={(e) => setGia(Number(e.target.value))}
                           required
+                          min={0}
                         />
                       </div>
                       <div className="mb-3">
@@ -424,6 +446,8 @@ function AdminSanPhamThem() {
                           className="form-control"
                           value={giam_gia}
                           onChange={(e) => setGiamGia(Number(e.target.value))}
+                          required
+                          min={0}
                         />
                       </div>
                     </div>
