@@ -260,6 +260,9 @@ function AdminDonHangSua() {
       case "da_xac_nhan":
         newStatus = "dang_van_chuyen";
         break;
+      case "da_thanh_toan":
+        newStatus = "dang_van_chuyen";
+        break;
       case "dang_van_chuyen":
         newStatus = "hoan_thanh";
         break;

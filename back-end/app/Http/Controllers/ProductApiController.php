@@ -77,6 +77,34 @@ class ProductApiController extends Controller
         }
     }
 
+    public function index4()
+    {
+        // GET
+        try {
+            // Truy vấn sản phẩm và quan hệ danh mục
+            $products = SanPham::with('danhMuc')
+                ->whereHas('danhMuc', function ($query) {
+                    $query->where('loai', '0');
+                })
+                ->where('Loai', '1')
+                ->paginate(perPage: 8); // Phân trang với 10 sản phẩm mỗi trang
+
+
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
+
 
 
     /**
@@ -153,9 +181,37 @@ class ProductApiController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function sanPhamTheoDM4($MaDanhMuc)
+    {
+        try {
+            // Kiểm tra nếu danh mục có parent_id khác null
+            $danhMuc = DanhMuc::where('MaDanhMuc', $MaDanhMuc)->whereNotNull('parent_id')->first();
+
+            // Nếu không tìm thấy danh mục hoặc không có parent_id
+            if (!$danhMuc) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Danh mục không tồn tại hoặc không có danh mục con',
+                    'data' => null
+                ], 404);
+            }
+
+            // Lấy danh sách sản phẩm theo mã danh mục từ cơ sở dữ liệu
+            $products = SanPham::where('MaDanhMuc', $MaDanhMuc)->where('Loai', '1')->paginate(perPage: 4);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dữ liệu được lấy thành công',
+                'data' => ProductResource::collection($products)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $e->getMessage(),
+                'data' => null
+            ], 500);
+        }
+    }
 
 
     /**

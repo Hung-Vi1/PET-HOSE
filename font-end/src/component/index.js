@@ -46,7 +46,7 @@ function Index() {
       const productId = sessionStorage.getItem("productId");
       if (productId) {
         try {
-          const response = await fetch(`${apiUrl}/api/products/sanPhamTheoDM/${productId}`);
+          const response = await fetch(`${apiUrl}/api/products4/sanPhamTheoDM/${productId}`);
           const data = await response.json();
           // Lọc sản phẩm có trạng thái là "1"
           const filteredProducts =
@@ -57,7 +57,7 @@ function Index() {
         }
       }else {
         try {
-          const response = await fetch(`${apiUrl}/api/products`);
+          const response = await fetch(`${apiUrl}/api/products4`);
           const data = await response.json();
           // Lọc sản phẩm có trạng thái là "1"
           const filteredProducts =
@@ -81,7 +81,7 @@ function Index() {
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/News`);
+        const response = await fetch(`${apiUrl}/api/News4`);
         const data = await response.json();
 
         // Lọc tin tức có trạng thái là "1"
@@ -125,7 +125,7 @@ function Index() {
   const fetchProductsByCategory = async (categoryId, setter) => {
     try {
       const response = await fetch(
-        `${apiUrl}/api/products/sanPhamTheoDM/${categoryId}`
+        `${apiUrl}/api/products4/sanPhamTheoDM/${categoryId}`
       );
       const data = await response.json();
       if (data && data.data) {
@@ -144,7 +144,7 @@ function Index() {
   useEffect(() => {
     fetchProductsByCategory(4, setDogProducts); // Chó
     fetchProductsByCategory(25, setCatProducts); // Mèo
-    fetch(`${apiUrl}/api/products`)
+    fetch(`${apiUrl}/api/products4`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.data) {
@@ -491,7 +491,9 @@ function Index() {
               <ul className="product style2 isotope-product clearfix">
                 {dogProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
-                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}
+                    onClick={() => saveProductToSession(sp.ma_danh_muc)}
+                    >
                       <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}
@@ -532,7 +534,9 @@ function Index() {
               <ul className="product style2 isotope-product clearfix">
                 {catProducts.slice(0, 8).map((sp, i) => (
                   <li className="product-item" key={i}>
-                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}>
+                    <Link to={`/chitietsanpham/${sp.ma_san_pham}`}
+                    onClick={() => saveProductToSession(sp.ma_danh_muc)}
+                    >
                       <div className="product-thumb clearfix mb-3">
                         <img
                           src={`${apiUrl}/image/product/${sp.hinh_anh}`}

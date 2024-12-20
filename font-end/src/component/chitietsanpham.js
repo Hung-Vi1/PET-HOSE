@@ -45,7 +45,7 @@ function ChiTietSanPham() {
   useEffect(() => {
     if (sp?.ma_danh_muc) {
       // Lấy các sản phẩm liên quan (cùng danh mục)
-      fetch(`${apiUrl}/api/products?category=${sp.ma_danh_muc}`)
+      fetch(`${apiUrl}/api/products4/sanPhamTheoDM/${sp.ma_danh_muc}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") {

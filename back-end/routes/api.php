@@ -47,10 +47,12 @@ Route::delete('/category/destroy/{MaDanhMuc}', [CategoryApiController::class, 'd
 use App\Http\Controllers\ProductApiController;
 
 Route::get('/products', [ProductApiController::class, 'index']);
+Route::get('/products4', [ProductApiController::class, 'index4']);
 Route::post('/products/store', [ProductApiController::class, 'store']);
 Route::post('/products/search', [ProductApiController::class, 'searchProduct']);
 Route::get('/products/{MaSP}', [ProductApiController::class, 'show']);
 Route::get('/products/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM']);
+Route::get('/products4/sanPhamTheoDM/{MaDanhMuc}', [ProductApiController::class, 'sanPhamTheoDM4']);
 Route::get('/products/locSanPhamTheoGia', [ProductApiController::class, 'locSanPhamTheoGia']);
 Route::post('/products/update/{MaSP}', [ProductApiController::class, 'update']);
 
@@ -94,6 +96,7 @@ Route::delete('/catagorysNews/destroy/{MaDMBV}', [CatagoryNewsApiController::cla
 use App\Http\Controllers\NewsApiController;
 
 Route::get('/News', [NewsApiController::class, 'index']);
+Route::get('/News4', [NewsApiController::class, 'index4']);
 Route::get('/News/{id}', [NewsApiController::class, 'show']);
 Route::post('/News/store', [NewsApiController::class, 'store']);
 Route::post('/News/{id}', [NewsApiController::class, 'update']);
