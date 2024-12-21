@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function TimKiem() {
-  const [SanPham, DsSanPham] = useState([]); // Dữ liệu sản phẩm từ API
-  const [TimKiem, setTimKiem] = useState(""); // Từ khóa tìm kiếm
-  const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
+  const [SanPham, DsSanPham] = useState([]); 
+  const [TimKiem, setTimKiem] = useState(""); 
+  const [loading, setLoading] = useState(false); 
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // Lấy danh sách sản phẩm mặc định khi tải trang
   useEffect(() => {
     fetch(`${apiUrl}/api/products`)
       .then((res) => res.json())
@@ -49,10 +48,9 @@ function TimKiem() {
     alert("Đã thêm vào giỏ hàng");
   };
 
-  // Tìm kiếm sản phẩm từ API khi nhấn Enter
   const handleSearch = (e) => {
     if (e.key === "Enter" && TimKiem.trim() !== "") {
-      setLoading(true); // Bắt đầu tải
+      setLoading(true); 
       fetch(`${apiUrl}/api/products/search`, {
         method: "POST",
         headers: {
@@ -63,7 +61,6 @@ function TimKiem() {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success" && Array.isArray(data.data)) {
-            // Chuyển đổi dữ liệu từ API thành đúng cấu trúc cho React
             const formattedData = data.data.map((sp) => ({
               ma_san_pham: sp.ma_san_pham,
               ten_san_pham: sp.ten_san_pham,
@@ -83,14 +80,13 @@ function TimKiem() {
           console.error("Lỗi khi tìm kiếm sản phẩm:", error);
           DsSanPham([]);
         })
-        .finally(() => setLoading(false)); // Kết thúc tải
+        .finally(() => setLoading(false)); 
     }
   };
 
   return (
     <section className="flat-row row-product-new">
       <div className="container">
-        {/* Thanh tìm kiếm */}
         <div className="row mb-4">
           <div className="col-md-12">
             <input
@@ -99,11 +95,10 @@ function TimKiem() {
               placeholder="Tìm kiếm sản phẩm..."
               value={TimKiem}
               onChange={(e) => setTimKiem(e.target.value)}
-              onKeyDown={handleSearch} // Gọi hàm xử lý khi nhấn phím
+              onKeyDown={handleSearch} 
             />
           </div>
         </div>
-        {/* Danh sách sản phẩm */}
         <div className="row">
           <div className="col-md-12">
             <div className="title-section margin-bottom-52">
@@ -154,7 +149,6 @@ function TimKiem() {
                       </a>
                     </li>
                   ))}
-                  {/* Hiển thị thông báo nếu không có sản phẩm nào */}
                   {SanPham.length === 0 && !loading && (
                     <p className="text-center mt-3">
                       Không tìm thấy sản phẩm nào!

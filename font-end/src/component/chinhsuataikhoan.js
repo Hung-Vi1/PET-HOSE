@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 
 const UpdateInfo = () => {
-  const { id } = useParams(); // Lấy id từ URL
-  const { user, isLoggedIn, setUser } = useAuth(); // Lấy dữ liệu người dùng từ AuthContext
+  const { id } = useParams(); 
+  const { user, isLoggedIn, setUser } = useAuth(); 
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
-  const secretKey = "vOhUNGvI"; // Khóa mã hóa
+  const secretKey = "vOhUNGvI"; 
 
   const [userInfo, setUserInfo] = useState({
     Hovaten: "",
@@ -19,7 +19,6 @@ const UpdateInfo = () => {
     ThuCung: "",
   });
 
-  // Lấy thông tin người dùng từ AuthContext khi component render
   useEffect(() => {
     if (!isLoggedIn || id !== String(user?.Mataikhoan)) {
       alert("Mã tài khoản không hợp lệ hoặc người dùng chưa đăng nhập.");
@@ -37,7 +36,6 @@ const UpdateInfo = () => {
     }
   }, [id, user, isLoggedIn, navigate]);
 
-  // Xử lý thay đổi dữ liệu trong form
   const handleChange = (e) => {
     setUserInfo({
       ...userInfo,
@@ -45,7 +43,6 @@ const UpdateInfo = () => {
     });
   };
 
-  // Gửi yêu cầu cập nhật thông tin
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -60,13 +57,11 @@ const UpdateInfo = () => {
       .then((data) => {
         const updatedUser = data.user;
 
-        // Mã hóa dữ liệu trước khi lưu vào sessionStorage
         const encryptedData = CryptoJS.AES.encrypt(
           JSON.stringify(updatedUser),
           secretKey
         ).toString();
 
-        // Cập nhật thông tin người dùng trong AuthContext và sessionStorage
         setUser(updatedUser);
         sessionStorage.setItem("user", encryptedData);
 

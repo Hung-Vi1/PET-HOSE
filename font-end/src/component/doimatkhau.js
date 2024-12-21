@@ -17,7 +17,7 @@ const UpdatePassword = () => {
 
   const [notification, setNotification] = useState({
     message: "",
-    type: "", // success hoặc error
+    type: "", 
   });
 
   useEffect(() => {

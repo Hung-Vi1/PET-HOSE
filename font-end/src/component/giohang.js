@@ -5,12 +5,11 @@ function GioHang() {
   const [cart, setCart] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
-  // Kiểm tra kích thước màn hình
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Mobile nếu màn hình nhỏ hơn 768px
+      setIsMobile(window.innerWidth < 768);
     };
-    handleResize(); // Gọi ngay lần đầu
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -29,14 +28,14 @@ function GioHang() {
     }
     setCart(updatedCart);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện
+    window.dispatchEvent(new Event("cartUpdated")); 
   };
   
   const handleRemoveProduct = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    window.dispatchEvent(new Event("cartUpdated")); // Phát sự kiện
+    window.dispatchEvent(new Event("cartUpdated"));
   };
    
 
@@ -55,7 +54,7 @@ function GioHang() {
         {cart.length === 0 ? (
           <p className="text-center">Giỏ hàng hiện đang trống.</p>
         ) : isMobile ? (
-          // Giao diện Card trên điện thoại
+          
           <div className="row">
             {cart.map((item, index) => (
               <div key={index} className="col-12 mb-3">
@@ -141,7 +140,7 @@ function GioHang() {
             </p>
           </div>
         ) : (
-          // Giao diện bảng trên máy tính
+          
           <div className="table-responsive">
             <table className="table table-hover align-middle">
               <thead className="thead-dark">

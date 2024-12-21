@@ -14,12 +14,12 @@ function ThanhToan() {
   const [formData, setFormData] = useState({
     note: "",
     paymentMethod: "cod",
-    couponCode: "", // Thêm mã giảm giá
+    couponCode: "",
   });
-  const [discount, setDiscount] = useState(0); // Giá trị giảm giá
-  const [couponError, setCouponError] = useState(""); // Lỗi mã giảm giá
+  const [discount, setDiscount] = useState(0); 
+  const [couponError, setCouponError] = useState(""); 
   const navigate = useNavigate();
-  const secretKey = "vOhUNGvI"; // Khóa bí mật giống với lúc mã hóa
+  const secretKey = "vOhUNGvI"; 
 
   useEffect(() => {
     const savedCart = sessionStorage.getItem("cart");
@@ -52,7 +52,7 @@ function ThanhToan() {
     const total = cart.reduce((sum, item) => {
       return sum + item.quantity * parseInt(item.gia);
     }, 0);
-    return total; // Tổng cộng sau khi trừ giảm giá
+    return total; 
   };
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -101,7 +101,7 @@ function ThanhToan() {
               : result.value;
 
           setDiscount(discountValue);
-          setCouponError(""); // Xóa lỗi nếu thành công
+          setCouponError(""); 
           alert(`Áp dụng mã giảm giá thành công: Giảm ${discountValue.toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
@@ -135,8 +135,8 @@ function ThanhToan() {
             : "MOMO",
 
       GhiChu: formData.note,
-      TongTien: calculateTotal(), // Tổng tiền sau khi trừ giảm giá
-      Discount: discount, // Giá trị giảm giá
+      TongTien: calculateTotal(), 
+      Discount: discount, 
       chi_tiet: cart.map((item) => ({
         MaSP: item.ma_san_pham,
         SoLuong: item.quantity,
@@ -145,7 +145,6 @@ function ThanhToan() {
 
     try {
       if (formData.paymentMethod === "cod") {
-        // Process normal order with COD
         const response = await fetch(`${apiUrl}/api/orders`, {
           method: "POST",
           headers: {
@@ -167,7 +166,6 @@ function ThanhToan() {
           alert("Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại.");
         }
       } else if (formData.paymentMethod === "vnpay") {
-        // Call VNPAY API if the payment method is VNPAY
         const response = await fetch(`${apiUrl}/api/Store/VnPay`, {
           method: "POST",
           headers: {
@@ -184,8 +182,7 @@ function ThanhToan() {
         if (response.ok && result.status === "success") {
           sessionStorage.removeItem("cart");
           setCart([]);
-          // Redirect to VNPAY payment page
-          window.location.href = result.url; // Điều hướng người dùng đến URL thanh toán của VNPAY
+          window.location.href = result.url; 
         } else {
           alert("Lỗi khi kết nối với VNPAY. Vui lòng thử lại.");
         }
@@ -208,9 +205,8 @@ function ThanhToan() {
           sessionStorage.removeItem("cart");
           setCart([]);
 
-          const payUrl = result.url?.payUrl; // Truy xuất payUrl từ đối tượng url
+          const payUrl = result.url?.payUrl; 
           if (payUrl) {
-            // Xóa giỏ hàng và điều hướng đến URL thanh toán của MoMo
             sessionStorage.removeItem("cart");
             const event = new Event("cartUpdated");
             window.dispatchEvent(event);
@@ -260,14 +256,14 @@ function ThanhToan() {
                   <td className="text-center align-middle">
                     <button
                       className="btn btn-sm btn-outline-primary"
-                      onClick={() => handleQuantityChange(index, Math.max(0, item.quantity - 1))} // Ensure quantity doesn't go below 0
+                      onClick={() => handleQuantityChange(index, Math.max(0, item.quantity - 1))}
                     >
                       -
                     </button>
                     <span className="mx-2">{item.quantity}</span>
                     <button
                       className="btn btn-sm btn-outline-primary"
-                      onClick={() => handleQuantityChange(index, Math.min(10, item.quantity + 1))} // Ensure quantity doesn't exceed 10
+                      onClick={() => handleQuantityChange(index, Math.min(10, item.quantity + 1))} 
                     >
                       +
                     </button>

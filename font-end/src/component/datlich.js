@@ -11,10 +11,10 @@ function DatLich() {
     address: "",
     email: "",
     Mataikhoan: "",
-    selectedDate: new Date().toISOString().split("T")[0], // Ngày mặc định là hôm nay
-    selectedTime: "07:00:00", // Giờ mặc định
-    selectedService: "", // Thêm thuộc tính selectedService
-    notes: "", // Ghi chú
+    selectedDate: new Date().toISOString().split("T")[0], 
+    selectedTime: "07:00:00", 
+    selectedService: "", 
+    notes: "",
   });
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -25,7 +25,6 @@ function DatLich() {
     if (user) {
       const bytes = CryptoJS.AES.decrypt(user, secretKey);
       const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      // const parsedUser = JSON.parse(user);
       setUserData({
         name: decryptedData.Hovaten,
         phone: decryptedData.SDT,
@@ -33,8 +32,8 @@ function DatLich() {
         email: decryptedData.Email,
         Mataikhoan: decryptedData.Mataikhoan || "",
         dateTime: "",
-        selectedService: "", // Dịch vụ mặc định chưa chọn
-        notes: "", // Ghi chú mặc định
+        selectedService: "", 
+        notes: "",
       });
     }
   }, []);
@@ -90,32 +89,30 @@ function DatLich() {
       return;
     }
     e.preventDefault();
-    // Ghép ngày và giờ thành định dạng chuẩn
     console.log("Ngày được chọn:", userData.selectedDate);
     console.log("Giờ được chọn:", userData.selectedTime);
 
     const dateTime = formatDateTime(userData.selectedDate, userData.selectedTime);
     console.log(dateTime);
-    // Xây dựng dữ liệu gửi lên API
+    
     const orderData = {
-      Mataikhoan: userData.Mataikhoan,  // Mã tài khoản từ userData
+      Mataikhoan: userData.Mataikhoan, 
       NgayGiao: dateTime,
-      GhiChu: userData.notes,            // Ghi chú (nếu có)
+      GhiChu: userData.notes,           
       chi_tiet: [
         {
-          MaSP: userData.selectedService, // Mã sản phẩm từ dịch vụ đã chọn
-          SoLuong: 1, // Số lượng sản phẩm
+          MaSP: userData.selectedService, 
+          SoLuong: 1, 
         },
       ],
     };
 
-    // Gửi dữ liệu lên API
     fetch(`${apiUrl}/api/orderServices`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(orderData), // Gửi dữ liệu dưới dạng JSON
+      body: JSON.stringify(orderData), 
     })
       .then((response) => {
         if (!response.ok) {
@@ -242,7 +239,7 @@ function DatLich() {
                   name="selectedDate"
                   value={userData.selectedDate}
                   onChange={handleInputChange}
-                  min={new Date().toISOString().split("T")[0]} // Ngày hiện tại
+                  min={new Date().toISOString().split("T")[0]} 
                   required
                 />
               </div>
@@ -259,7 +256,7 @@ function DatLich() {
                   required
                 >
                   {Array.from({ length: 12 }, (_, i) => {
-                    const hour = 7 + i; // Bắt đầu từ 7 giờ
+                    const hour = 7 + i; 
                     return (
                       <option key={hour} value={`${hour.toString().padStart(2, "0")}:00:00`}>
                         {hour.toString().padStart(2, "0")}:00

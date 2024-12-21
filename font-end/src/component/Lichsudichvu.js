@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Sử dụng để điều hướng
-import { useAuth } from '../contexts/AuthContext'; // Lấy thông tin người dùng từ AuthContext
+import { useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../contexts/AuthContext'; 
 
 const Lichsudichvu = () => {
-  const { user } = useAuth(); // Lấy thông tin người dùng (bao gồm MaTaiKhoan)
-  const [orders, setOrders] = useState([]); // Lưu trữ danh sách đơn hàng
-  const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
-  const [error, setError] = useState(null); // Trạng thái lỗi
-  const navigate = useNavigate(); // Hook điều hướng
+  const { user } = useAuth(); 
+  const [orders, setOrders] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); 
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -33,21 +33,20 @@ const Lichsudichvu = () => {
         const data = await response.json();
 
         if (data.status === 'success' && Array.isArray(data.data)) {
-          setOrders(data.data); // Lưu danh sách dịch vụ
+          setOrders(data.data); // L
         } else {
-          setOrders([]); // Không có dịch vụ nào
+          setOrders([]); 
         }
       } catch (error) {
-        setError(error.message); // Lưu thông báo lỗi
+        setError(error.message);
       } finally {
-        setLoading(false); // Kết thúc trạng thái loading
+        setLoading(false); 
       }
     };
 
-    fetchOrders(); // Gọi hàm lấy danh sách dịch vụ khi component mount
-  }, [user, apiUrl]); // Chạy lại nếu thông tin user thay đổi
+    fetchOrders(); 
+  }, [user, apiUrl]);
 
-  // Xử lý hủy dịch vụ
   const handleCancelOrder = async (maDonHang) => {
     if (!window.confirm("Bạn có chắc chắn muốn hủy dịch vụ này không?")) {
       return;
@@ -60,7 +59,7 @@ const Lichsudichvu = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          TrangThai: 'huy', // Chỉ gửi trạng thái "huy"
+          TrangThai: 'huy',
         }),
       });
 
@@ -70,7 +69,7 @@ const Lichsudichvu = () => {
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.ma_don_hang === maDonHang
-              ? { ...order, trang_thai: 'huy' } // Cập nhật trạng thái trong danh sách
+              ? { ...order, trang_thai: 'huy' } 
               : order
           )
         );
@@ -84,11 +83,11 @@ const Lichsudichvu = () => {
   };
 
   if (loading) {
-    return <div>Đang tải thông tin vui lòng đợi...</div>; // Hiển thị khi đang tải
+    return <div>Đang tải thông tin vui lòng đợi...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Hiển thị lỗi nếu có
+    return <div>{error}</div>; 
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";  // Import useLocation
+import { useLocation, Link } from "react-router-dom";  
 import "../App.css";
 
 function Index() {
@@ -13,7 +13,7 @@ function Index() {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const addToCart = (product) => {
-    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+
     const existingProductIndex = cart.findIndex(
       (item) => item.ma_san_pham === product.ma_san_pham
     );
@@ -21,21 +21,21 @@ function Index() {
     let updatedCart;
 
     if (existingProductIndex !== -1) {
-      // Nếu sản phẩm đã có, cập nhật số lượng
+    
       updatedCart = [...cart];
       updatedCart[existingProductIndex].quantity += 1;
     } else {
-      // Nếu sản phẩm chưa có, thêm mới vào giỏ
+  
       updatedCart = [...cart, { ...product, quantity: 1 }];
     }
 
-    // Cập nhật lại trạng thái giỏ hàng
+    
     setCart(updatedCart);
 
-    // Lưu giỏ hàng vào sessionStorage
+    
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
 
-    // Phát ra sự kiện để các component khác lắng nghe và cập nhật (bao gồm Header)
+  
     window.dispatchEvent(new Event("cartUpdated"));
 
     alert("Đã thêm vào giỏ hàng");
@@ -48,7 +48,7 @@ function Index() {
         try {
           const response = await fetch(`${apiUrl}/api/products4/sanPhamTheoDM/${productId}`);
           const data = await response.json();
-          // Lọc sản phẩm có trạng thái là "1"
+        
           const filteredProducts =
             data.data?.filter((sp) => sp.trang_thai === "1") || [];
           ListNewProduct(filteredProducts);
@@ -59,7 +59,7 @@ function Index() {
         try {
           const response = await fetch(`${apiUrl}/api/products4`);
           const data = await response.json();
-          // Lọc sản phẩm có trạng thái là "1"
+          
           const filteredProducts =
             data.data?.filter((sp) => sp.trang_thai === "1") || [];
           ListNewProduct(filteredProducts);
@@ -70,7 +70,7 @@ function Index() {
       
     };
     fetchProducts();
-  }, [apiUrl]); // Thêm apiUrl vào dependency array để tránh cảnh báo
+  }, [apiUrl]); 
 
   
 
@@ -84,7 +84,7 @@ function Index() {
         const response = await fetch(`${apiUrl}/api/News4`);
         const data = await response.json();
 
-        // Lọc tin tức có trạng thái là "1"
+      
         if (Array.isArray(data.data)) {
           const filteredNews = data.data.filter(
             (article) => article.trang_thai === "1"
@@ -110,9 +110,9 @@ function Index() {
     return content;
   };
 
-  const [allProducts, setAllProducts] = useState([]); // Sản phẩm tất cả
-  const [dogProducts, setDogProducts] = useState([]); // Sản phẩm cho chó
-  const [catProducts, setCatProducts] = useState([]); // Sản phẩm cho mèo
+  const [allProducts, setAllProducts] = useState([]); 
+  const [dogProducts, setDogProducts] = useState([]); 
+  const [catProducts, setCatProducts] = useState([]); 
 
   const shuffleArray = (array) => {
     return array
@@ -121,7 +121,7 @@ function Index() {
       .map(({ sort, ...item }) => item);
   };
 
-  // Hàm gọi API để lấy sản phẩm theo danh mục
+  
   const fetchProductsByCategory = async (categoryId, setter) => {
     try {
       const response = await fetch(
@@ -129,7 +129,7 @@ function Index() {
       );
       const data = await response.json();
       if (data && data.data) {
-        // Lọc sản phẩm có trạng thái là "1"
+        
         const filteredProducts = data.data.filter(
           (sp) => sp.trang_thai === "1"
         );
@@ -140,17 +140,17 @@ function Index() {
     }
   };
 
-  // useEffect để gọi API cho tất cả danh mục
+  
   useEffect(() => {
-    fetchProductsByCategory(4, setDogProducts); // Chó
-    fetchProductsByCategory(25, setCatProducts); // Mèo
+    fetchProductsByCategory(4, setDogProducts); 
+    fetchProductsByCategory(25, setCatProducts); 
     fetch(`${apiUrl}/api/products4`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.data) {
           const shuffledProducts = shuffleArray(
             data.data.filter((sp) => sp.trang_thai === "1")
-          ); // Xáo trộn sản phẩm có trạng thái là "1"
+          ); 
           setAllProducts(shuffledProducts);
         }
       })
@@ -160,7 +160,6 @@ function Index() {
 
 
   const saveProductToSession = (productId) => {
-    // Lưu mã sản phẩm vào sessionStorage
     sessionStorage.setItem("productId", productId);
     console.log("Đã lưu mã sản phẩm vào session:", productId);
   };
@@ -258,7 +257,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-4 */}
             <div className="col-sm-6 col-md-4">
               <div className="flat-image-box style-1 row2 data-effect clearfix">
                 <div className="item data-effect-item">
@@ -301,7 +299,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-4 */}
             <div className="col-sm-6 col-md-4">
               <div className="flat-image-box style-1 data-effect div-h20 clearfix">
                 <div className="item data-effect-item">
@@ -322,7 +319,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-4 */}
           </div>
         </div>
       </section>
@@ -439,9 +435,7 @@ function Index() {
             </a>
           </li>
         </ul>
-        {/* Nội dung các tab */}
         <div className="tab-content">
-          {/* Tab Tất cả */}
           <div className="tab-pane container active" id="home">
             <div className="divider h54" />
             <div className="product-content product-fourcolumn clearfix">
@@ -484,7 +478,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Tab Cho chó */}
           <div className="tab-pane container fade" id="menu1">
             <div className="divider h54" />
             <div className="product-content product-fourcolumn clearfix">
@@ -527,7 +520,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Tab Cho mèo */}
           <div className="tab-pane container fade" id="menu2">
             <div className="divider h54" />
             <div className="product-content product-fourcolumn clearfix">
@@ -592,7 +584,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-3 */}
             <div className="col-md-3">
               <div className="flat-icon-box icon-top style-1 clearfix text-center">
                 <div className="inner">
@@ -608,7 +599,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-3 */}
             <div className="col-md-3">
               <div className="flat-icon-box icon-top style-1 clearfix text-center">
                 <div className="inner">
@@ -624,7 +614,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-3 */}
             <div className="col-md-3">
               <div className="flat-icon-box icon-top style-1 clearfix text-center">
                 <div className="inner">
@@ -640,7 +629,6 @@ function Index() {
                 </div>
               </div>
             </div>
-            {/* /.col-md-3 */}
           </div>
         </div>
       </section>
@@ -665,8 +653,8 @@ function Index() {
                               className="img-fluid"
                               style={{
                                 objectFit: "cover",
-                                width: "100%", // Giới hạn chiều rộng của hình ảnh
-                                height: "200px", // Giới hạn chiều cao của hình ảnh
+                                width: "100%", 
+                                height: "200px", 
                               }}
                             />
                           </div>
@@ -756,9 +744,7 @@ function Index() {
                     </a>
                   </li>
                 </ul>
-                {/* /.flat-social */}
               </div>
-              {/* /.subscribe */}
             </div>
           </div>
         </div>

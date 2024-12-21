@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Sử dụng để điều hướng
-import { useAuth } from "../contexts/AuthContext"; // Lấy thông tin người dùng từ AuthContext
+import { useNavigate } from "react-router-dom"; 
+import { useAuth } from "../contexts/AuthContext"; 
 
 const LichSuMua = () => {
   const { user } = useAuth();
@@ -9,7 +9,6 @@ const LichSuMua = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Kiểm tra và tải dữ liệu đơn hàng từ LocalStorage hoặc API
   useEffect(() => {
     const savedOrders = localStorage.getItem("orders");
     if (savedOrders) {
@@ -21,7 +20,6 @@ const LichSuMua = () => {
   }, [user]);
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // Hàm lấy dữ liệu đơn hàng từ API
   const fetchOrders = async () => {
     if (!user || !user.Mataikhoan) {
       setError("Bạn cần phải đăng nhập để xem lịch sử mua hàng.");
@@ -39,8 +37,8 @@ const LichSuMua = () => {
 
       const data = await response.json();
       if (data.status === "success" && Array.isArray(data.data)) {
-        setOrders(data.data); // Chỉ lưu vào state mà không lưu vào localStorage
-        console.log("Dữ liệu đơn hàng đã được tải từ API:", data.data); // Kiểm tra dữ liệu tải về từ API
+        setOrders(data.data); 
+        console.log("Dữ liệu đơn hàng đã được tải từ API:", data.data); 
       } else {
         setOrders([]);
       }
@@ -51,7 +49,6 @@ const LichSuMua = () => {
     }
   };
 
-  // Hàm hủy đơn hàng
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
       return;
@@ -66,7 +63,7 @@ const LichSuMua = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            TrangThai: "huy", // Chỉ gửi trạng thái "huy"
+            TrangThai: "huy", 
           }),
         }
       );
@@ -74,7 +71,7 @@ const LichSuMua = () => {
       const data = await response.json();
       if (response.ok && data.status === "success") {
         alert("Đơn hàng đã được hủy thành công!");
-        fetchOrders(); // Tải lại đơn hàng sau khi hủy
+        fetchOrders(); 
       } else {
         throw new Error(data.message || "Có lỗi xảy ra khi hủy đơn hàng.");
       }
@@ -84,7 +81,7 @@ const LichSuMua = () => {
     }
   };
 
-  // Hàm in đơn hàng
+  
   const handlePrintOrder = async (order) => {
     const currentDate = new Date().toLocaleDateString("vi-VN", {
       year: "numeric",
