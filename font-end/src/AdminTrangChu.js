@@ -22,8 +22,33 @@ function AdminTrangChu() {
   const calculateOrderStatusData = (orders) => {
     const statusCounts = {}; // Đếm số lượng đơn hàng theo từng trạng thái
 
+    const statusColors = {
+      "Chờ xác nhận": "#ffbd07",
+      "Đã xác nhận": "#7f868c",
+      "Đang vận chuyển": "#07c6f2",
+      "Đã thanh toán": "#1371ff",
+      "Hoàn thành": "#1a8854",
+      Hủy: "#db3443",
+    };
+
     orders.forEach((order) => {
-      const status = order.trang_thai; // Giả sử API trả về trường 'trang_thai'
+      let status = order.trang_thai; // Giả sử API trả về trường 'trang_thai'
+
+      // Thay thế trạng thái với nhãn mong muốn
+      if (status === "cho_xac_nhan") {
+        status = "Chờ xác nhận";
+      } else if (status === "da_xac_nhan") {
+        status = "Đã xác nhận";
+      } else if (status === "dang_van_chuyen") {
+        status = "Đang vận chuyển";
+      } else if (status === "da_thanh_toan") {
+        status = "Đã thanh toán";
+      } else if (status === "hoan_thanh") {
+        status = "Hoàn thành";
+      } else {
+        status = "Hủy";
+      }
+
       if (!statusCounts[status]) {
         statusCounts[status] = 0;
       }
@@ -32,8 +57,11 @@ function AdminTrangChu() {
 
     const labels = Object.keys(statusCounts);
     const data = Object.values(statusCounts);
+    const backgroundColors = labels.map(
+      (label) => statusColors[label] || "#CCCCCC"
+    ); // Màu mặc định nếu không có quy định
 
-    return { labels, data };
+    return { labels, data, backgroundColors };
   };
 
   // State cho dữ liệu biểu đồ
@@ -304,20 +332,8 @@ function AdminTrangChu() {
     datasets: [
       {
         data: orderStatusData.data,
-        backgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#FF5733",
-        ], // Tùy chỉnh màu sắc
-        hoverBackgroundColor: [
-          "#FF6384",
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#FF5733",
-        ],
+        backgroundColor: orderStatusData.backgroundColors, // Sử dụng màu sắc đã định nghĩa
+        hoverBackgroundColor: orderStatusData.backgroundColors,
       },
     ],
   };

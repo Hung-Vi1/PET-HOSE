@@ -415,9 +415,8 @@ function AdminSanPhamThem() {
                               src={imagePreview}
                               alt="Preview"
                               style={{
-                                width: "100%",
-                                height: "250px",
-                                borderRadius: "5px",
+                                maxWidth: "100%",
+                                marginBottom: "10px",
                               }}
                             />
                           </div>

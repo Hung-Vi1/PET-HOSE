@@ -5,24 +5,56 @@ import ReactPaginate from "react-paginate";
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
+// Hàm fetch với cơ chế retry
+const fetchWithRetry = async (url, options = {}, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const text = await response.text(); // Đọc dữ liệu dưới dạng text
+      return text ? JSON.parse(text) : {}; // Phân tích JSON nếu có dữ liệu
+    } else if (response.status === 429) {
+      await new Promise((res) => setTimeout(res, delay));
+    } else {
+      throw new Error(`Error: ${response.status}`);
+    }
+  }
+  throw new Error("Max retries exceeded");
+};
+
 function AdminTaiKhoan() {
   const { user, isLoggedIn } = useAuth(); // Lấy trạng thái đăng nhập
   const [list_tk, ganTK] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
-  // Lấy danh sách tài khoản
+
+  const parseDate = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(year, month - 1, day); // month - 1 vì tháng bắt đầu từ 0
+  };
+
+  // Lấy danh sách danh mục
   useEffect(() => {
-    const danhsachuser = async () => {
+    const fetchCategories = async () => {
       try {
-        const response = await fetch(`${apiUrl}/api/users`);
-        const data = await response.json();
-        ganTK(data.data || []);
+        const data = await fetchWithRetry(`${apiUrl}/api/users`);
+        if (Array.isArray(data.data)) {
+          // Sắp xếp sản phẩm theo ngày tạo từ gần đến xa
+          const sortedProducts = data.data.sort((a, b) => {
+            const dateA = parseDate(a.ngay_tao);
+            const dateB = parseDate(b.ngay_tao);
+            return dateB - dateA; // Sắp xếp từ mới nhất đến cũ nhất
+          });
+          ganTK(sortedProducts);
+        } else {
+          console.error("Dữ liệu không phải là mảng:", data);
+          ganTK([]);
+        }
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách tài khoản:", error);
+        console.error("Lỗi khi lấy dữ liệu danh mục:", error);
       }
     };
 
-    danhsachuser();
-  }, []);
+    fetchCategories();
+  }, [apiUrl]);
 
   if (!isLoggedIn) {
     // Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập
@@ -212,32 +244,36 @@ function AdminTaiKhoan() {
   );
 }
 
-function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
+function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganTK }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  // Lấy thông tin chi tiết một tài khoản theo ma_tai_khoan
+  const fetchUserById = async (ma_tai_khoan) => {
+    try {
+      const data = await fetchWithRetry(
+        `${apiUrl}/api/users/show/${ma_tai_khoan}`
+      );
+      console.log("Thông tin danh mục:", data);
+      setSelectedUser(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin danh mục:", error);
+    }
+  };
+
   // Hàm xóa tài khoản
-  const handleDelete = async (ma_tai_khoan) => {
-    if (window.confirm("Bạn chắc chắn muốn xóa tài khoản này?")) {
+  const xoaTaiKhoan = async (ma_tai_khoan) => {
+    if (window.confirm("Bạn có muốn xóa tài khoản này?")) {
       try {
-        const response = await fetch(`${apiUrl}/api/users/${ma_tai_khoan}`, {
+        await fetchWithRetry(`${apiUrl}/api/users/${ma_tai_khoan}`, {
           method: "DELETE",
         });
-
-        if (response.ok) {
-          ganTK((prevList) =>
-            prevList.filter((usr) => usr.ma_tai_khoan !== ma_tai_khoan)
-          );
-          alert("Tài khoản đã được xóa.");
-        } else {
-          const errorData = await response.json();
-          alert(
-            `Xóa tài khoản thất bại: ${errorData.message || "Không rõ lỗi"}`
-          );
-        }
+        alert("Tài khoản đã được xóa thành công");
+        const updatedData = await fetchWithRetry(`${apiUrl}/api/users`);
+        ganTK(updatedData.data);
       } catch (error) {
         console.error("Lỗi khi xóa tài khoản:", error);
-        alert("Có lỗi xảy ra khi xóa tài khoản.");
+        alert("Có lỗi xảy ra: " + error.message);
       }
     }
   };
@@ -246,7 +282,7 @@ function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
     <>
       {spTrongTrang.map((usr, i) => (
         <tr key={usr.ma_tai_khoan}>
-          <td className="text-center align-middle">{i + 1}</td>
+          <td className="text-center align-middle">{fromIndex + i + 1}</td>
           <td className="align-middle">{usr.ten_tai_khoan}</td>
           <td className="text-center align-middle">{usr.so_dien_thoai}</td>
           <td className="align-middle align-middle">{usr.email}</td>
@@ -261,13 +297,14 @@ function HienSPTrongMotTrang({ spTrongTrang, ganTK }) {
           </td>
           <td className="text-center align-middle">
             <Link
+            onClick={() => fetchUserById(usr.ma_tai_khoan)}
               to={`/admintaikhoansua/${usr.ma_tai_khoan}`}
               className="btn btn-outline-warning m-1"
             >
               <i className="bi bi-pencil-square"></i>
             </Link>
             <button
-              onClick={() => handleDelete(usr.ma_tai_khoan)}
+              onClick={() => xoaTaiKhoan(usr.ma_tai_khoan)}
               className="btn btn-outline-danger m-1"
             >
               <i className="bi bi-trash"></i>
@@ -292,7 +329,11 @@ function PhanTrang({ listTK, pageSize, ganTK }) {
 
   return (
     <>
-      <HienSPTrongMotTrang spTrongTrang={dhTrong1Trang} ganTK={ganTK} />
+      <HienSPTrongMotTrang
+        spTrongTrang={dhTrong1Trang}
+        fromIndex={fromIndex}
+        ganTK={ganTK}
+      />
       <tr>
         <td colSpan="6">
           <ReactPaginate

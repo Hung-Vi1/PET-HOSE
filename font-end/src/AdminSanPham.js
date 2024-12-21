@@ -28,13 +28,24 @@ function AdminSanPham() {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  const parseDate = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(year, month - 1, day); // month - 1 vì tháng bắt đầu từ 0
+  };
+
   // Lấy danh sách sản phẩm
   useEffect(() => {
     fetchWithRetry(`${apiUrl}/api/products`)
       .then((data) => {
         console.log("Dữ liệu trả về:", data);
         if (Array.isArray(data.data)) {
-          ganSP(data.data);
+          // Sắp xếp sản phẩm theo ngày tạo từ gần đến xa
+          const sortedProducts = data.data.sort((a, b) => {
+            const dateA = parseDate(a.ngay_tao);
+            const dateB = parseDate(b.ngay_tao);
+            return dateB - dateA; // Sắp xếp từ mới nhất đến cũ nhất
+          });
+          ganSP(sortedProducts);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
           ganSP([]);

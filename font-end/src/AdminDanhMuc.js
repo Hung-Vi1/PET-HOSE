@@ -30,13 +30,24 @@ function AdminDanhMuc() {
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  const parseDate = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(year, month - 1, day); // month - 1 vì tháng bắt đầu từ 0
+  };
+
   // Lấy danh sách danh mục
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const data = await fetchWithRetry(`${apiUrl}/api/category`);
         if (Array.isArray(data.data)) {
-          ganDM(data.data);
+          // Sắp xếp sản phẩm theo ngày tạo từ gần đến xa
+          const sortedProducts = data.data.sort((a, b) => {
+            const dateA = parseDate(a.ngay_tao);
+            const dateB = parseDate(b.ngay_tao);
+            return dateB - dateA; // Sắp xếp từ mới nhất đến cũ nhất
+          });
+          ganDM(sortedProducts);
         } else {
           console.error("Dữ liệu không phải là mảng:", data);
           ganDM([]);
@@ -252,12 +263,9 @@ function HienSPTrongMotTrang({ spTrongTrang, fromIndex, ganDM }) {
   const xoaDanhMuc = async (ma_danh_muc) => {
     if (window.confirm("Bạn có muốn xóa danh mục sản phẩm này?")) {
       try {
-        await fetchWithRetry(
-          `${apiUrl}/api/category/destroy/${ma_danh_muc}`,
-          {
-            method: "DELETE",
-          }
-        );
+        await fetchWithRetry(`${apiUrl}/api/category/destroy/${ma_danh_muc}`, {
+          method: "DELETE",
+        });
         alert("Danh mục đã được xóa thành công");
         const updatedData = await fetchWithRetry(`${apiUrl}/api/category`);
         ganDM(updatedData.data);

@@ -252,8 +252,7 @@ function AdminDanhMucThem() {
                         setParentId(e.target.value === "" ? "" : e.target.value)
                       }
                     >
-                      <option value="">Không có</option>
-                      <option value="0">Thư Mục Cha</option>
+                      <option value="">Thư Mục Cha</option>
                       <option value="1">Thư Mục Cha - Chó</option>
                       <option value="2">Thư Mục Cha - Mèo</option>
                     </select>
