@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 import CryptoJS from "crypto-js";
-// Tạo AuthContext
+
 const AuthContext = createContext();
-const secretKey = "vOhUNGvI"; // Khóa bí mật giống với lúc mã hóa
+const secretKey = "vOhUNGvI"; 
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Trạng thái lưu thông tin người dùng
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Trạng thái đăng nhập
-  const [error, setError] = useState(null); // Trạng thái lỗi
+  const [user, setUser] = useState(null); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [error, setError] = useState(null);
  
   // Kiểm tra thông tin người dùng trong sessionStorage khi component render
   useEffect(() => {
@@ -20,13 +20,13 @@ export const AuthProvider = ({ children }) => {
         const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
         
-        setUser(decryptedData); // Cập nhật state với thông tin người dùng
+        setUser(decryptedData);
 
-        setIsLoggedIn(true); // Cập nhật trạng thái đăng nhập
+        setIsLoggedIn(true);
       } catch (error) {
         console.error("Giải mã thất bại:", error);
         setError("Dữ liệu không hợp lệ, vui lòng đăng nhập lại.");
-        sessionStorage.removeItem("user"); // Xóa dữ liệu lỗi
+        sessionStorage.removeItem("user"); 
       }
     }
   }, []);
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   // Hàm đăng nhập
   const login = (userData) => {
     try {
-      // Mã hóa dữ liệu trước khi lưu
+      
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify(userData),
         secretKey
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
       setUser(userData);
       setIsLoggedIn(true);
-      sessionStorage.setItem("user", encryptedData); // Lưu vào sessionStorage
+      sessionStorage.setItem("user", encryptedData);
     } catch (error) {
       setError("Đăng nhập không thành công.");
       console.error("Lỗi đăng nhập:", error);
@@ -53,12 +53,12 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setIsLoggedIn(false);
-    sessionStorage.removeItem("user"); // Xóa thông tin người dùng khỏi sessionStorage
+    sessionStorage.removeItem("user"); 
   };
 
   // Kiểm tra quyền của người dùng
   const hasPermission = (permission) => {
-    if (!user || !user.Quyen) return false; // Kiểm tra trường hợp thiếu dữ liệu
+    if (!user || !user.Quyen) return false; 
     return Number(user.Quyen) === permission;
   };
 
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        setUser,  // Cung cấp setUser
+        setUser,  
         login,
         logout,
         isLoggedIn,
@@ -81,7 +81,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Hook để sử dụng AuthContext trong các component khác
 export const useAuth = () => {
   return useContext(AuthContext);
 };

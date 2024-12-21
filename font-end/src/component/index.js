@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";  
+import {Link } from "react-router-dom";  
 import "../App.css";
 
 function Index() {
@@ -72,12 +72,6 @@ function Index() {
     fetchProducts();
   }, [apiUrl]); 
 
-  
-
-
-  
-
-
   useEffect(() => {
     const fetchTinTuc = async () => {
       try {
@@ -144,7 +138,7 @@ function Index() {
   useEffect(() => {
     fetchProductsByCategory(4, setDogProducts); 
     fetchProductsByCategory(25, setCatProducts); 
-    fetch(`${apiUrl}/api/products4`)
+    fetch(`${apiUrl}/api/products`)
       .then((response) => response.json())
       .then((data) => {
         if (data && data.data) {
@@ -244,12 +238,12 @@ function Index() {
                     <div className="thumb">
                       <img src="image/banner_new.webp" alt="hinh" />
                       <div className="elm-btn">
-                        <a
+                        <Link
                           href="#"
                           className="themesflat-button bg-white width-150"
                         >
                           Cho chó
-                        </a>
+                        </Link>
                       </div>
                       <div className="overlay-effect bg-color-1" />
                     </div>
@@ -267,12 +261,12 @@ function Index() {
                         alt="hinh"
                       />
                       <div className="elm-btn">
-                        <a
+                        <Link
                           href="#"
                           className="themesflat-button bg-white width-150"
                         >
                           Mua ngay
-                        </a>
+                        </Link>
                       </div>
                       <div className="overlay-effect bg-color-1" />
                     </div>
@@ -286,12 +280,12 @@ function Index() {
                         alt="hinh"
                       />
                       <div className="elm-btn">
-                        <a
+                        <Link
                           href="#"
                           className="themesflat-button bg-white width-150"
                         >
                           Mua ngay
-                        </a>
+                        </Link>
                       </div>
                       <div className="overlay-effect bg-color-1" />
                     </div>
@@ -306,12 +300,12 @@ function Index() {
                     <div className="thumb">
                       <img src="image/banner_goodprice.webp" alt="hinh" />
                       <div className="elm-btn">
-                        <a
+                        <Link
                           href="#"
                           className="themesflat-button bg-white width-150"
                         >
                           Cho mèo
-                        </a>
+                        </Link>
                       </div>
                       <div className="overlay-effect bg-color-1" />
                     </div>
