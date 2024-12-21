@@ -117,7 +117,7 @@ function TimKiem() {
                           className="product-link"
                         >
                           <img
-                            src={`image/product/${sp.hinh_anh}`}
+                            src={`${apiUrl}/image/product/${sp.hinh_anh}`}
                             alt={sp.ten_san_pham}
                           />
                         </Link>
