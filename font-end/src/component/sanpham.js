@@ -257,7 +257,9 @@ function SanPham() {
                                 <div className="product-thumb clearfix">
                                   <Link
                                     to={`/chitietsanpham/${sp.ma_san_pham}`}
-                                    onClick={() => saveProductToSession(sp.ma_danh_muc)} // Lưu mã sản phẩm vào session khi nhấn
+                                    onClick={() =>
+                                      saveProductToSession(sp.ma_danh_muc)
+                                    } // Lưu mã sản phẩm vào session khi nhấn
                                   >
                                     <img
                                       src={`${apiUrl}/image/product/${sp.hinh_anh}`}
